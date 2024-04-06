@@ -2,3 +2,5 @@ dist
 node_modules
 
 .env
+webpack.config.js
+custom.d.ts
