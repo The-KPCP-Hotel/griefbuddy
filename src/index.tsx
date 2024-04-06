@@ -8,4 +8,8 @@ document.body.innerHTML = '<div id="app">Hello!</div>';
 
 // Render your React component instead
 const root = createRoot(document.getElementById('app'));
-root.render(<App />);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+);
