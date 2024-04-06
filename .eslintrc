@@ -1,0 +1,9 @@
+{
+  "rules": {
+    "extends": [1, "airbnb",  "airbnb/hooks", "airbnb-typescript"],
+    "parserOptions": [1, {
+      "project": "./tsconfig.json"
+    }]
+  }
+
+}
