@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack -w",
-    "start": "npx ts-node server/index.ts"
+    "start": "npx ts-node-dev server/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +25,9 @@
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "prisma": "^5.12.1",
     "ts-loader": "^9.5.1",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.4",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
