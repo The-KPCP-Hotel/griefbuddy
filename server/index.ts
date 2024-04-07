@@ -3,6 +3,8 @@ import * as express from 'express';
 // import { Express, Request, Response } from 'express';
 import path = require('path');
 
+require('dotenv').config();
+
 const app = express();
 const port = 3000;
 
