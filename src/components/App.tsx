@@ -1,13 +1,18 @@
 import React = require('react');
+import { Routes, Route } from 'react-router-dom';
+import HomePage from './HomePage';
+
 
 function App() {
   return (
-    <div>
-      <h1>
-        Grief buddy
-      </h1>
-    </div>
+    <Routes>
+      <Route path="/"   element={<HomePage />}/>
+      <Route path="/"/>
+    </Routes>
+
+
   );
+
 }
 
 export default App;
