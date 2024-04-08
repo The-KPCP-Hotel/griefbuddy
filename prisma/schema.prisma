@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int              @id @default(autoincrement())
+  name          String
+  googleId      String           @unique
+  emConName     String?
+  emConNum      String?
+  events        User_Event[]
+  sender        Message[]        @relation("Sender")
+  recipient     Message[]        @relation("Recipient")
+  posts         Post[]
+  comments      Comment[]
+  buddy1        Buddy[]          @relation("Buddy1")
+  buddy2        Buddy[]          @relation("Buddy2")
+  friend1       Friend[]         @relation("Friend1")
+  friend2       Friend[]         @relation("Friend2")
+  requester     PendingRequest[] @relation("Requester")
+  requested     PendingRequest[] @relation("Requested")
+  notifications Notification[]
+}
+
+model Event {
+  id          Int          @id @default(autoincrement())
+  date        DateTime
+  address     String
+  title       String
+  description String
+  users       User_Event[]
+}
+
+model User_Event {
+  id      Int   @id @default(autoincrement())
+  event   Event @relation(fields: [eventId], references: [id])
+  eventId Int
+  user    User  @relation(fields: [userId], references: [id])
+  userId  Int
+}
+
+model Message {
+  id          Int  @id @default(autoincrement())
+  sender      User @relation("Sender", fields: [senderId], references: [id])
+  senderId    Int
+  recipient   User @relation("Recipient", fields: [recipientId], references: [id])
+  recipientId Int
+}
+
+model Post {
+  id       Int       @id @default(autoincrement())
+  user     User      @relation(fields: [userId], references: [id])
+  userId   Int
+  text     String
+  comments Comment[]
+}
+
+model Comment {
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
+  post   Post   @relation(fields: [postId], references: [id])
+  postId Int
+  text   String
+}
+
+model Resource {
+  id   Int    @id @default(autoincrement())
+  type String
+  url  String
+}
+
+model Buddy {
+  id        Int      @id @default(autoincrement())
+  buddy1    User     @relation("Buddy1", fields: [buddy1Id], references: [id])
+  buddy1Id  Int
+  buddy2    User     @relation("Buddy2", fields: [buddy2Id], references: [id])
+  buddy2Id  Int
+  createdAt DateTime @default(now())
+  expired   Boolean
+}
+
+model Friend {
+  id        Int  @id @default(autoincrement())
+  friend1   User @relation("Friend1", fields: [friend1Id], references: [id])
+  friend1Id Int
+  friend2   User @relation("Friend2", fields: [friend2Id], references: [id])
+  friend2Id Int
+}
+
+model PendingRequest {
+  id          Int  @id @default(autoincrement())
+  requester   User @relation("Requester", fields: [requesterId], references: [id])
+  requesterId Int
+  requested   User @relation("Requested", fields: [requestedId], references: [id])
+  requestedId Int
+}
+
+model Notification {
+  id           Int     @id @default(autoincrement())
+  user         User    @relation(fields: [userId], references: [id])
+  userId       Int
+  notification String
+  seen         Boolean
+}
