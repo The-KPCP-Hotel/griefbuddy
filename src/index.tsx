@@ -2,6 +2,7 @@
 import { createRoot } from 'react-dom/client';
 import React = require('react');
 import App from './components/App';
+import { BrowserRouter } from 'react-router-dom';
 
 // Clear the existing HTML content
 document.body.innerHTML = '<div id="app">Hello!</div>';
@@ -10,6 +11,8 @@ document.body.innerHTML = '<div id="app">Hello!</div>';
 const root = createRoot(document.getElementById('app'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
 );
