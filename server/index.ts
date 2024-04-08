@@ -30,14 +30,15 @@ app.use(passport.initialize());
 // allow passport to use "express-session".
 app.use(passport.session());
 
-app.use(express.static(path.resolve(__dirname, '../dist')));
+const CLIENT_PATH = path.resolve(__dirname, '../dist');
+app.use(express.static(CLIENT_PATH));
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3001/auth/google/callback',
+      callbackURL: 'http://localhost:3000/auth/google/callback',
       passReqToCallback: true,
     },
     // The "authUser" is a function that we will define later will contain
@@ -64,6 +65,33 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
+
+app.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['email', 'profile'] }),
+);
+
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+  }),
+);
+
+app.get(
+  '/',
+  (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    return res.redirect('/login');
+  },
+  (req, res) => {
+    // res.render('dashboard.ejs', { name: req.user.displayName });
+    res.sendFile(path.join(CLIENT_PATH, 'index.html'));
+  },
+);
 
 // original rendering before express.static
 // app.get('/', (req: Request, res: Response) => {
