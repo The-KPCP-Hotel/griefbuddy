@@ -38,7 +38,7 @@ app.get(
     if (req.isAuthenticated()) {
       return next();
     }
-    return res.redirect('/login');
+    return res.redirect('/');
   },
   (req, res) => {
     // res.render('dashboard.ejs', { name: req.user.displayName });
@@ -46,10 +46,14 @@ app.get(
   },
 );
 
-// original rendering before express.static
-// app.get('/', (req: Request, res: Response) => {
-//   res.send('Hello World!')
-// })
+app.get('/*', (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  return res.redirect('/');
+}, (req, res) => {
+  res.sendFile(path.join(CLIENT_PATH, 'index.html'));
+});
 
 app.listen(port, () => {
   console.log(

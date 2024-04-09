@@ -12,6 +12,7 @@ import Login from './Login';
 function App() {
   return (
     <div>
+      {/* if path is index, we don't want to show navbar */}
       <Navbar />
 
       <Routes>
