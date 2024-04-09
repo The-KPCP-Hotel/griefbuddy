@@ -1,5 +1,6 @@
 import React = require('react');
 import { Link } from 'react-router-dom';
+import Logout from './Logout';
 
 function Navbar() {
   return (
@@ -19,6 +20,9 @@ function Navbar() {
         </li>
         <li>
           <Link to="/resources">Resources</Link>
+        </li>
+        <li>
+          <Logout />
         </li>
       </ul>
     </div>

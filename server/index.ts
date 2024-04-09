@@ -34,6 +34,7 @@ app.use('/auth', authRouter);
 
 app.get(
   '/',
+  // this should be it's own func
   (req, res, next) => {
     if (req.isAuthenticated()) {
       return next();
@@ -46,14 +47,36 @@ app.get(
   },
 );
 
-app.get('/*', (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  return res.redirect('/');
-}, (req, res) => {
-  res.sendFile(path.join(CLIENT_PATH, 'index.html'));
+// app.get('/', (req, res) => {
+//   if (req.isAuthenticated()) {
+//     return res.redirect('/home');
+//   }
+//   return res.sendFile(path.join(CLIENT_PATH, 'index.html'));
+// });
+
+app.post('/logout', (req, res, next) => {
+  req.logOut((err) => {
+    if (err) {
+      return next(err);
+    }
+    return res.redirect('/');
+  });
 });
+
+app.get(
+  '/*',
+  // this should be it's own func
+  (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    return res.redirect('/');
+  },
+  (req, res) => {
+    res.sendFile(path.join(CLIENT_PATH, 'index.html'));
+    // res.redirect('/home');
+  },
+);
 
 app.listen(port, () => {
   console.log(
