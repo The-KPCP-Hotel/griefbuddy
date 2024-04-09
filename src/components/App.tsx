@@ -1,6 +1,6 @@
 import React = require('react');
 
-import { createContext, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import axios from 'axios';
 
@@ -14,41 +14,45 @@ import Events from './Events';
 import Resources from './Resources';
 import Login from './Login';
 
-const UserContext = createContext(null);
+// const UserContext = createContext(null);
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
   // let user;
-  const getUser = () => axios
-    .get('/user')
-    .then(({ data }: { data: object }) => {
-      console.log(data);
-      if (typeof data === 'object') {
-        // setUser(data);
-        // user = data;
-        setUser(user);
-        // useContext(data);
-      }
-      // console.log(user);
-    })
-    .catch();
+  // const getUser = () => axios
+  //   .get('/user')
+  //   .then(({ data }: { data: object }) => {
+  //     console.log(data);
+  //     if (typeof data === 'object') {
+  //       // setUser(data);
+  //       // user = data;
+  //       // const newUser = { ...data };
+  //       // setUser(newUser);
+  //       // useContext(data);
+  //     }
+  //     // console.log(user);
+  //   })
+  //   // .then(() => React.useContext(user))
+  //   .catch();
 
-  // useEffect(() => {
-  //   axios
-  //     .get('/user')
-  //     .then(({ data }: { data: object }) => {
-  //       console.log(data);
-  //       if (typeof data === 'object') {
-  //         const curUser = { ...data };
-  //         setUser(curUser);
-  //       }
-  //       // console.log(user);
-  //     })
-  //     .catch((err: Error) => console.error('failed setting user', err));
-  // }, [user]);
-  getUser();
+  useEffect(() => {
+    axios
+      .get('/user')
+      .then(({ data }: { data: object }) => {
+        console.log(data);
+        if (typeof data === 'object') {
+          const curUser = { ...data };
+          setUser(curUser);
+        }
+        // console.log(user);
+      })
+      .catch((err: Error) => console.error('failed setting user', err));
+  }, []);
+  // getUser();
+
   return (
-    <UserContext.Provider value={user}>
+    <>
+      {/* <UserContext.Provider value={user}> */}
       {/* if path is index, we don't want to show navbar */}
       <Navbar />
 
@@ -61,7 +65,9 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/resources" element={<Resources />} />
       </Routes>
-    </UserContext.Provider>
+      {/* </UserContext.Provider> */}
+    </>
+
   );
 }
 

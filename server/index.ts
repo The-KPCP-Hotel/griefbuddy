@@ -76,7 +76,7 @@ app.get(
   '/*',
   checkAuth,
   (req, res) => {
-    console.log('req.user', req.user);
+    // console.log('req.user', req.user);
     res.sendFile(path.join(CLIENT_PATH, 'index.html'));
     // res.redirect('/home');
   },
