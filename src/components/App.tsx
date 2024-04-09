@@ -1,5 +1,5 @@
 import React = require('react');
-import axios = require('axios');
+import axios, { AxiosResponse } from 'axios';
 
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './HomePage';
@@ -14,7 +14,7 @@ import Login from './Login';
 function App() {
   const getUser = () => {
     axios.get('/user')
-      .then((response: Response) => console.log(response))
+      .then((response: AxiosResponse) => console.log(response))
       .catch();
   };
 
