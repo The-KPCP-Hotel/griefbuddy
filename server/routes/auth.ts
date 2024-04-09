@@ -40,7 +40,7 @@ passport.use(
           name: displayName,
         },
       })
-        .then(() => done(null, profile))
+        .then((user: object) => done(null, user))
         .catch((err: Error) => {
           console.error('failed finding or creating user', err);
           return done(err, null);

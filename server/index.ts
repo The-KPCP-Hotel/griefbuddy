@@ -32,15 +32,20 @@ app.use(express.static(CLIENT_PATH));
 
 app.use('/auth', authRouter);
 
+const checkAuth = (
+  req: { isAuthenticated: Function },
+  res: { redirect: Function },
+  next: Function,
+) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  return res.redirect('/');
+};
+
 app.get(
   '/',
-  // this should be it's own func
-  (req, res, next) => {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    return res.redirect('/');
-  },
+  checkAuth,
   (req, res) => {
     // res.render('dashboard.ejs', { name: req.user.displayName });
     res.sendFile(path.join(CLIENT_PATH, 'index.html'));
@@ -65,14 +70,9 @@ app.post('/logout', (req, res, next) => {
 
 app.get(
   '/*',
-  // this should be it's own func
-  (req, res, next) => {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    return res.redirect('/');
-  },
+  checkAuth,
   (req, res) => {
+    console.log('req.user', req.user);
     res.sendFile(path.join(CLIENT_PATH, 'index.html'));
     // res.redirect('/home');
   },
