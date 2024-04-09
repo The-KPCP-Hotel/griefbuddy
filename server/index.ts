@@ -52,6 +52,10 @@ app.get(
   },
 );
 
+app.get('/user', checkAuth, (req, res) => {
+  res.send(req.user);
+});
+
 // app.get('/', (req, res) => {
 //   if (req.isAuthenticated()) {
 //     return res.redirect('/home');

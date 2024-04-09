@@ -1,4 +1,6 @@
 import React = require('react');
+import axios = require('axios');
+
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './HomePage';
 import Navbar from './Navbar';
@@ -10,6 +12,13 @@ import Resources from './Resources';
 import Login from './Login';
 
 function App() {
+  const getUser = () => {
+    axios.get('/user')
+      .then((response: Response) => console.log(response))
+      .catch();
+  };
+
+  getUser();
   return (
     <div>
       {/* if path is index, we don't want to show navbar */}
