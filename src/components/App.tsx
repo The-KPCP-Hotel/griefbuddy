@@ -1,5 +1,8 @@
 import React = require('react');
-import axios, { AxiosResponse } from 'axios';
+
+import { createContext, useState } from 'react';
+
+import axios from 'axios';
 
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './HomePage';
@@ -11,16 +14,41 @@ import Events from './Events';
 import Resources from './Resources';
 import Login from './Login';
 
-function App() {
-  const getUser = () => {
-    axios.get('/user')
-      .then((response: AxiosResponse) => console.log(response))
-      .catch();
-  };
+const UserContext = createContext(null);
 
+function App() {
+  const [user, setUser] = useState(null);
+  // let user;
+  const getUser = () => axios
+    .get('/user')
+    .then(({ data }: { data: object }) => {
+      console.log(data);
+      if (typeof data === 'object') {
+        // setUser(data);
+        // user = data;
+        setUser(user);
+        // useContext(data);
+      }
+      // console.log(user);
+    })
+    .catch();
+
+  // useEffect(() => {
+  //   axios
+  //     .get('/user')
+  //     .then(({ data }: { data: object }) => {
+  //       console.log(data);
+  //       if (typeof data === 'object') {
+  //         const curUser = { ...data };
+  //         setUser(curUser);
+  //       }
+  //       // console.log(user);
+  //     })
+  //     .catch((err: Error) => console.error('failed setting user', err));
+  // }, [user]);
   getUser();
   return (
-    <div>
+    <UserContext.Provider value={user}>
       {/* if path is index, we don't want to show navbar */}
       <Navbar />
 
@@ -33,7 +61,7 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/resources" element={<Resources />} />
       </Routes>
-    </div>
+    </UserContext.Provider>
   );
 }
 
