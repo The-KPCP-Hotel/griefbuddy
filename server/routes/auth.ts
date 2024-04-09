@@ -3,6 +3,9 @@ import passport = require('passport');
 const express = require('express');
 
 const router = express.Router();
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
@@ -22,9 +25,27 @@ passport.use(
       request: Request,
       accessToken: String,
       refreshToken: String,
-      profile: Object,
+      // profile: Object,
+      profile: { id: string; displayName: string },
       done: Function,
-    ) => done(null, profile),
+    ) => {
+      const { id, displayName } = profile;
+      prisma.User.upsert({
+        where: {
+          googleId: id,
+        },
+        update: {},
+        create: {
+          googleId: id,
+          name: displayName,
+        },
+      })
+        .then(() => done(null, profile))
+        .catch((err: Error) => {
+          console.error('failed finding or creating user', err);
+          return done(err, null);
+        });
+    },
   ),
 );
 
