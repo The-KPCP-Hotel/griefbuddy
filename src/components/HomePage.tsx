@@ -1,13 +1,11 @@
 import React = require('react');
 
 function HomePage() {
-
-
-    return (
-        <div>
-            <h1>HomePage</h1>
-        </div>
-    )
+  return (
+    <div>
+      <h1>HomePage</h1>
+    </div>
+  );
 }
 
-export default HomePage
+export default HomePage;
