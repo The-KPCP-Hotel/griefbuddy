@@ -3,9 +3,13 @@ import React = require('react');
 import { createContext, useContext, useState } from 'react';
 import axios from 'axios';
 
+type UserContextProviderProps = {
+  children: React.ReactNode
+};
+
 const UserContext = createContext({});
 
-export function UserProvider({ children }) {
+export function UserContextProvider({ children }: UserContextProviderProps) {
   const [user, setUser] = useState({});
 
   const login = () => {
@@ -33,4 +37,4 @@ export function UserProvider({ children }) {
   );
 }
 
-export const useUser = () => useContext(UserContext);
+export const useUser = () => useContext(UserContextProvider);

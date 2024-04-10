@@ -1,8 +1,8 @@
 import React = require('react');
 
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 
-import axios from 'axios';
+// import axios from 'axios';
 
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './HomePage';
@@ -15,7 +15,7 @@ import Resources from './Resources';
 import Login from './Login';
 
 // const UserContext = createContext(null);
-import { useUser } from '../context/UserContext';
+import { UserContextProvider } from '../context/UserContext';
 
 function App() {
   // const [user, setUser] = useState({});
@@ -35,16 +35,19 @@ function App() {
   // }, []);
   // getUser();
 
-  const { user, login, logout } = useUser();
+  // const { user, login, logout } = useUser();
 
   return (
-    <>
+    <UserContextProvider>
+      {/* <> */}
       {/* <UserContext.Provider value={user}> */}
+
       {/* if path is index, we don't want to show navbar */}
       <Navbar />
       <Routes>
         <Route index element={<Login />} />
-        <Route path="/home" element={<HomePage user={user} />} />
+        {/* <Route path="/home" element={<HomePage user={user} />} /> */}
+        <Route path="/home" element={<HomePage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/buddy" element={<BuddyChat />} />
         <Route path="/chatbot" element={<ChatBot />} />
@@ -52,8 +55,9 @@ function App() {
         <Route path="/resources" element={<Resources />} />
       </Routes>
       {/* </UserContext.Provider> */}
-    </>
 
+      {/* </> */}
+    </UserContextProvider>
   );
 }
 
