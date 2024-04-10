@@ -22,9 +22,10 @@ function Quote() {
   useEffect(() => {
     getQuote();
   }, []);
+
   return (
     <>
-      <h3>{`${quote.quote} -${quote.author}`}</h3>
+      {(quote.quote) ? <h3>{`${quote.quote} -${quote.author}`}</h3> : <div />}
       <button type="button" onClick={getQuote}>New Quote</button>
     </>
   );
