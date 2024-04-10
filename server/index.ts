@@ -4,6 +4,8 @@ import * as express from 'express';
 import path = require('path');
 import * as passport from 'passport';
 import * as session from 'express-session';
+import * as http from 'http';
+import { Server } from 'socket.io';
 
 require('dotenv').config();
 

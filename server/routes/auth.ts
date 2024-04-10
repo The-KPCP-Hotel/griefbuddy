@@ -19,8 +19,6 @@ passport.use(
       callbackURL: 'http://localhost:3000/auth/google/callback',
       passReqToCallback: true,
     },
-    // The "authUser" is a function that we will define later will contain
-    // the steps to authenticate a user, and will return the "authenticated user".
     (
       request: Request,
       accessToken: String,
@@ -71,7 +69,7 @@ router.get(
   '/google/callback',
   passport.authenticate('google', {
     successRedirect: '/home',
-    failureRedirect: '/login',
+    failureRedirect: '/',
   }),
 );
 
