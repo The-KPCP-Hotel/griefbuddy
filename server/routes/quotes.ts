@@ -13,7 +13,6 @@ function getQuote() {
 }
 
 router.get('/', (req: Request, res: { send: Function, sendStatus: Function }) => {
-  // type AxiosResponse = typeof AxiosResponse;
   getQuote()
     .then(({ data }: { data: [ { quote: String, author: String, category: String } ] }) => {
       res.send(data[0]);
