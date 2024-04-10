@@ -1,14 +1,13 @@
-import React = require("react");
-import { Link } from "react-router-dom";
+import React = require('react');
+import { Link } from 'react-router-dom';
 
 function Profile() {
-
-    return (
-        <div>
-            <Link to="/">Home</Link>
-            <h1>Profile</h1>
-        </div>
-    )
+  return (
+    <div>
+      <Link to="/home">Home</Link>
+      <h1>Profile</h1>
+    </div>
+  );
 }
 
-export default Profile
+export default Profile;

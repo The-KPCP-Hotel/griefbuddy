@@ -47,7 +47,6 @@ app.get(
   '/',
   checkAuth,
   (req, res) => {
-    // res.render('dashboard.ejs', { name: req.user.displayName });
     res.sendFile(path.join(CLIENT_PATH, 'index.html'));
   },
 );
@@ -55,13 +54,6 @@ app.get(
 app.get('/user', checkAuth, (req, res) => {
   res.send(req.user);
 });
-
-// app.get('/', (req, res) => {
-//   if (req.isAuthenticated()) {
-//     return res.redirect('/home');
-//   }
-//   return res.sendFile(path.join(CLIENT_PATH, 'index.html'));
-// });
 
 app.post('/logout', (req, res, next) => {
   req.logOut((err) => {
@@ -76,9 +68,7 @@ app.get(
   '/*',
   checkAuth,
   (req, res) => {
-    // console.log('req.user', req.user);
     res.sendFile(path.join(CLIENT_PATH, 'index.html'));
-    // res.redirect('/home');
   },
 );
 
