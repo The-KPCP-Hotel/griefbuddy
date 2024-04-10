@@ -33,6 +33,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
     "@prisma/client": "^5.12.1",
     "@types/react": "^18.2.74",
     "dotenv": "^16.4.5",

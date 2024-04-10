@@ -5,7 +5,7 @@ function Profile() {
 
     return (
         <div>
-            <Link to="/">Home</Link>
+            <Link to="/" style={{fontSize: "55px"}}>⌂</Link>
             <h1>Profile</h1>
         </div>
     )

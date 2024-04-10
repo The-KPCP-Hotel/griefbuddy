@@ -5,7 +5,7 @@ function ChatBot() {
 
     return (
         <div>
-            <Link to="/">Home</Link>
+            <Link to="/" style={{fontSize: "55px"}}>⌂</Link>
             <h1>Chat Bot</h1>
         </div>
     )

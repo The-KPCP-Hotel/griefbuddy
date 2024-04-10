@@ -5,7 +5,7 @@ function Resources() {
 
     return (
         <div>
-            <Link to="/">Home</Link>
+            <Link to="/" style={{fontSize: "55px"}}>⌂</Link>
             <h1>Resources</h1>
         </div>
     )
