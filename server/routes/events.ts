@@ -20,10 +20,27 @@ router.get('/', (req: Request, res: Response) => {
       // Use Cheerio to parse the HTML
       const $ = cheerio.load(response.data);
       // cannot send the cheerio variable
-      console.log($('.container'));
-      res.send('did it');
+      // console.log($('div.results-wrapper')['0'].children);
+      // const $results = $('div.results');
+      // console.log($results.html());
+      const $sharedItems = $('div.shared-items-container');
+      // console.log($sharedItems.html());
+      // console.log($('div.container'));
+      // console.log($('.container')['1']);
+      // console.log($('div.data-seo-event'));
+      // console.log($('div.shared-items').children());
+      // console.log($('li.dates'));
+      // console.log($('div.shared-items').find('li.dates'));
+      // console.log($('[data-type=event]').html());
+      // console.log($('div[data-type="event"]').html());
+
+      res.send($sharedItems.html());
+      // res.send($results.html());
     })
-    .catch();
+    .catch((err: Error) => {
+      console.error('failed events scraping', err);
+      res.sendStatus(500);
+    });
 });
 
 export = router;
