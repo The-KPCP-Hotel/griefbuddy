@@ -26,7 +26,7 @@ function HomePage() {
   return (
     <div>
       <h1>HomePage</h1>
-      <h2>{`Welcome ${user?.name}`}</h2>
+      <h2>{`Welcome ${user?.name.split(' ')[0]}`}</h2>
     </div>
   );
 }

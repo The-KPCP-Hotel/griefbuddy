@@ -10,6 +10,7 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 const authRouter = require('./routes/auth');
+const eventsRouter = require('./routes/events');
 
 app.use(express.json());
 
@@ -31,6 +32,7 @@ const CLIENT_PATH = path.resolve(__dirname, '../dist');
 app.use(express.static(CLIENT_PATH));
 
 app.use('/auth', authRouter);
+app.use('/events', eventsRouter);
 
 const checkAuth = (
   req: { isAuthenticated: Function },
