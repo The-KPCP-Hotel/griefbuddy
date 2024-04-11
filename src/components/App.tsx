@@ -7,12 +7,15 @@ import BuddyChat from './Buddy';
 import ChatBot from './ChatBot';
 import Events from './Events';
 import Resources from './Resources';
+import { Container, Box, ChakraProvider} from '@chakra-ui/react'
 
 function App() {
   return (
     <div>
+      <ChakraProvider>
+      <Container maxW="600vw" bg="blue.600" >
       <Navbar />
-      
+      </Container>
       <Routes>
         <Route path="/"   element={<HomePage />}/>
         <Route path="/profile" element={<Profile />}/>
@@ -21,6 +24,8 @@ function App() {
         <Route path="/events" element={<Events />}/>
         <Route path="/resources" element={<Resources />}/>
       </Routes>
+     
+      </ChakraProvider>
     </div>
 
   );

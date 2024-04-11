@@ -1,6 +1,6 @@
 import React = require("react");
 import { Link } from "react-router-dom";
-import { ChakraProvider, MenuItem } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { Menu, MenuButton, MenuList, MenuItem, UnorderedList } from '@chakra-ui/react'
 function Navbar() {
 
