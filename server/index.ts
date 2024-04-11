@@ -1,16 +1,22 @@
 // const express = require('express')
-import * as express from 'express';
-// import { Express, Request, Response } from 'express';
+import express, {
+  Express, Request, Response, NextFunction,
+} from 'express';
+// import { Express, Request, Response } from 'express'; || figured out how to use this successfully
 import path = require('path');
-import * as passport from 'passport';
-import * as session from 'express-session';
-import * as http from 'http';
-import { Server } from 'socket.io';
+import passport from 'passport';
+import session from 'express-session';
+import http from 'http';
+import { Server as SocketIOServer } from 'socket.io';
 
 require('dotenv').config();
 
-const app = express();
+const app: Express = express();
 const port = 3000;
+
+const server = http.createServer(app);
+const io = new SocketIOServer(server);
+
 const authRouter = require('./routes/auth');
 
 app.use(express.json());
@@ -26,7 +32,7 @@ app.use(
 // init passport on every route call.
 app.use(passport.initialize());
 
-// allow passport to use "express-session".
+// allow passport to use "express-session".`
 app.use(passport.session());
 
 const CLIENT_PATH = path.resolve(__dirname, '../dist');
@@ -35,9 +41,9 @@ app.use(express.static(CLIENT_PATH));
 app.use('/auth', authRouter);
 
 const checkAuth = (
-  req: { isAuthenticated: Function },
-  res: { redirect: Function },
-  next: Function,
+  req: Request,
+  res: Response,
+  next: NextFunction,
 ) => {
   if (req.isAuthenticated()) {
     return next();
@@ -45,13 +51,9 @@ const checkAuth = (
   return res.redirect('/');
 };
 
-app.get(
-  '/',
-  checkAuth,
-  (req, res) => {
-    res.sendFile(path.join(CLIENT_PATH, 'index.html'));
-  },
-);
+app.get('/', checkAuth, (req, res) => {
+  res.sendFile(path.join(CLIENT_PATH, 'index.html'));
+});
 
 app.get('/user', checkAuth, (req, res) => {
   res.send(req.user);
@@ -66,15 +68,19 @@ app.post('/logout', (req, res, next) => {
   });
 });
 
-app.get(
-  '/*',
-  checkAuth,
-  (req, res) => {
-    res.sendFile(path.join(CLIENT_PATH, 'index.html'));
-  },
-);
+app.get('/*', checkAuth, (req, res) => {
+  res.sendFile(path.join(CLIENT_PATH, 'index.html'));
+});
 
-app.listen(port, () => {
+io.on('connection', (socket) => {
+  console.log(`${socket.id} connected.`);
+
+  socket.on('disconnect', () => {
+    console.log(`${socket.id} disconnected.`);
+  });
+});
+
+server.listen(port, () => {
   console.log(
     `Example app listening on port ${port} \n http://localhost:${port}`,
   );
