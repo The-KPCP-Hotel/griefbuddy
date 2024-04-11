@@ -1,14 +1,15 @@
-// const express = require('express')
-import * as express from 'express';
-// import { Express, Request, Response } from 'express';
+import express, {
+  Express, Request, Response, NextFunction,
+} from 'express';
 import path = require('path');
-import * as passport from 'passport';
-import * as session from 'express-session';
+import passport from 'passport';
+import session from 'express-session';
 
 require('dotenv').config();
 
-const app = express();
+const app: Express = express();
 const port = 3000;
+
 const authRouter = require('./routes/auth');
 const eventsRouter = require('./routes/events');
 
@@ -35,9 +36,9 @@ app.use('/auth', authRouter);
 app.use('/events', eventsRouter);
 
 const checkAuth = (
-  req: { isAuthenticated: Function },
-  res: { redirect: Function },
-  next: Function,
+  req: Request,
+  res: Response,
+  next: NextFunction,
 ) => {
   if (req.isAuthenticated()) {
     return next();
