@@ -12,16 +12,42 @@ import puppeteer from 'puppeteer';
 const events = express.Router();
 
 events.get('/', async (req: Request, res: Response) => {
-  const browser = await puppeteer.connect({
-    browserURL: 'https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=40&startDate=04%2F11%2F2024&endDate=05%2F11%2F2024&sort=title',
-  });
+  const browser = await puppeteer.launch();
 
   const page = await browser.newPage();
 
-  await browser.disconnect();
+  await page.goto('https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=40&startDate=04%2F11%2F2024&endDate=05%2F11%2F2024&sort=title');
 
-  res.send(200);
+  await page.evaluate(() => {
+    const data = document.body.innerHTML;
+    console.log(data);
+  });
+
+  // page.on('request', (request) => {
+  //   console.log('request.url', request.url());
+  // });
+
+  await page.on('response', (response) => {
+    // contains events json
+    console.log('response.url', response.url());
+  });
+
+  await browser.close();
+  res.sendStatus(200);
 });
+
+// events.get('/', async (req: Request, res: Response) => {
+//   const browser = await puppeteer.connect({
+//     // Error: Failed to fetch browser webSocket URL from https://www.neworleans.com/json/version: HTTP Not Found
+//     browserURL: 'https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=40&startDate=04%2F11%2F2024&endDate=05%2F11%2F2024&sort=title',
+//   });
+
+//   const page = await browser.newPage();
+
+//   await browser.disconnect();
+
+//   res.send(200);
+// });
 
 // events.get('/', (req: Request, res: Response) => {
 //   axios
