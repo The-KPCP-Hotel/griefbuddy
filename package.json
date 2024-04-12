@@ -47,6 +47,7 @@
     "lodash": "^4.17.21",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
+    "puppeteer": "^22.6.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3"
