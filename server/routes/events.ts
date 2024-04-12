@@ -8,9 +8,9 @@ import axios, {
 
 import cheerio from 'cheerio';
 
-const router = express.Router();
+const events = express.Router();
 
-router.get('/', (req: Request, res: Response) => {
+events.get('/', (req: Request, res: Response) => {
   axios
     .get(
       // 'https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=40%2C34%2C123&startDate=04%2F10%2F2024&endDate=05%2F10%2F2024&sort=date',
@@ -58,4 +58,4 @@ router.get('/', (req: Request, res: Response) => {
     });
 });
 
-export = router;
+export = events;
