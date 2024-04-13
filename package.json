@@ -2,6 +2,9 @@
   "name": "griefbuddy",
   "version": "1.0.0",
   "description": "",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

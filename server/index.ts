@@ -75,8 +75,14 @@ app.get('/*', checkAuth, (req, res) => {
 io.on('connection', (socket) => {
   console.log(`${socket.id} connected.`);
 
+  socket.on('join_room', (room) => {
+    socket.join(room);
+    console.log(`${socket.id} joined room ${room}`);
+  });
+
   socket.on('message', (data) => {
-    io.emit('message', data);
+    // access socketID of sender
+    io.to(data.room).emit('receive_message', { text: data.text, sender: socket.id });
   });
 
   socket.on('disconnect', () => {

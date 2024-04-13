@@ -7,6 +7,7 @@ import { UserContext, AuthUser } from '../context/UserContext';
 function Buddy() {
   const userContext = useContext(UserContext);
   const { setUser, user } = userContext;
+  // const [buddies, setBuddies] = useState([]);
 
   const [buddiesOnline, setBuddiesOnline] = useState(0);
 
@@ -17,6 +18,7 @@ function Buddy() {
         if (typeof data === 'object') {
           const curUser = { ...data };
           setUser(curUser);
+          // setBuddies(curUser.buddies);
         }
       })
       .catch((err: Error) => console.error('failed setting user', err));
@@ -44,7 +46,7 @@ function Buddy() {
     <div>
       <Link to="/home">Home</Link>
       <h1>{`Hey ${user?.name.split(' ')[0]}✌️`}</h1>
-      <Link to="/buddychat">BuddyChat</Link>
+      <Link to="/buddychat">Buddy Chat</Link>
       {buddiesOnline === 0 ? (
         <div>
           <h4>No buddies online right now...🫤</h4>
@@ -58,13 +60,13 @@ function Buddy() {
       )}
       {/* might need path params? */}
       <div>
-        <Link to="/buddychat:weekly" className="btn btn-primary">
-          Bud R.
+        <Link to="/buddychat/:weekly" className="btn btn-primary">
+          Rob R.
         </Link>
       </div>
       <div>
         <Link
-          to="/buddychat:<identifier for chat with user and timmy t.>"
+          to="/buddychat/:timmy"
           className="btn btn-primary"
         >
           Timmy T.
@@ -72,7 +74,7 @@ function Buddy() {
       </div>
       <div>
         <Link
-          to="/buddychat:<identifier for chat with user and josuke c.>"
+          to="/buddychat/:jolyne"
           className="btn btn-primary"
         >
           Jolyne C.
