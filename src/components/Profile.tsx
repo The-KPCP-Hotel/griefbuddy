@@ -172,7 +172,7 @@ function Profile() {
                                 </Box>
                                 <Box>
                                     <Heading size='xs' textTransform='uppercase'>
-                                    Email Address
+                                    Secondary Email Address
                                     </Heading>
                                     
                                     <Input type='email' />

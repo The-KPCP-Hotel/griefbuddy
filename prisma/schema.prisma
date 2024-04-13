@@ -20,6 +20,10 @@ model User {
   googleId      String           @unique
   emConName     String?
   emConNum      String?
+  emConRelationship String?
+  preferredName String?
+  phoneNum String?
+  currMood String?
   events        User_Event[]
   sender        Message[]        @relation("Sender")
   recipient     Message[]        @relation("Recipient")
