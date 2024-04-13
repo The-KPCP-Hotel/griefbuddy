@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { ChakraProvider, Heading, Center } from '@chakra-ui/react';
+
 import EventListItem from './EventsComponents/EventListItem';
+import EventsCalendar from './EventsComponents/EventsCalendar';
 
 function Events() {
   const [events, setEvents] = useState([]);
@@ -13,7 +16,6 @@ function Events() {
       .then(({ data }) => {
         setEvents(data);
         const today = new Date().toISOString();
-        console.log(today);
         const curEvents = data.filter(
           (event: { date: String }) => event.date.slice(0, 10) === today.slice(0, 10),
         );
@@ -23,16 +25,19 @@ function Events() {
   }, []);
 
   return (
-    <div>
-      <Link to="/home">Home</Link>
-      <h1>Events Page</h1>
+    <ChakraProvider>
+      <Link to="/home" style={{ fontSize: '55px' }}>⌂</Link>
+      <Center>
+        <Heading size="3xl" color="blue.200">Events</Heading>
+      </Center>
       <ul>
         Today&apos;s Events
         {eventsToday.map((event) => (
           <EventListItem key={event.OgId} event={event} />
         ))}
       </ul>
-    </div>
+      <EventsCalendar events={events} />
+    </ChakraProvider>
   );
 }
 
