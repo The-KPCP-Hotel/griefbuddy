@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ChakraProvider, Heading, Center } from '@chakra-ui/react';
 
 import EventListItem from './EventsComponents/EventListItem';
-import EventsCalendar from './EventsComponents/EventsCalendar';
+import EventsBigCalendar from './EventsComponents/EventsCalendar';
 
 function Events() {
   const [events, setEvents] = useState([]);
@@ -36,7 +36,7 @@ function Events() {
           <EventListItem key={event.OgId} event={event} />
         ))}
       </ul>
-      <EventsCalendar events={events} />
+      <EventsBigCalendar events={events} />
     </ChakraProvider>
   );
 }
