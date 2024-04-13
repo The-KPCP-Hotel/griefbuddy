@@ -33,6 +33,7 @@ events.get('/new', async (req: Request, res: Response) => {
           title: String,
           location: String,
         }) => ({
+          // eslint-disable-next-line no-underscore-dangle
           OgId: event._id,
           url: event.linkUrl,
           media_raw: event.media_raw,
