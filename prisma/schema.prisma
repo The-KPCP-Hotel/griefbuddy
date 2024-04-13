@@ -36,6 +36,9 @@ model User {
 
 model Event {
   id          Int          @id @default(autoincrement())
+  OgId        String       @unique
+  url         String?
+  media_raw   Json?
   date        DateTime
   address     String
   title       String

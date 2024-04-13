@@ -1,16 +1,15 @@
-import express, {
-  Request, Response,
-} from 'express';
+import express, { Request, Response } from 'express';
 
 // import axios, { AxiosResponse } from 'axios';
 
-import puppeteer, {
-  HTTPResponse,
-} from 'puppeteer';
+import puppeteer, { HTTPResponse } from 'puppeteer';
 
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
 const events = express.Router();
 
-events.get('/', async (req: Request, res: Response) => {
+events.get('/new', async (req: Request, res: Response) => {
   const browser = await puppeteer.launch();
 
   const page = await browser.newPage();
@@ -25,10 +24,30 @@ events.get('/', async (req: Request, res: Response) => {
       response
         .json()
         .then(({ docs: { docs } }) => docs)
-        .then((eventsJSON) => {
-          // this previously needed to be in a setTimeout to not run prematurely
+        .then((eventsJSON) => eventsJSON.map((event: {
+          _id: String,
+          linkUrl: String,
+          media_raw: Object,
+          startDate: String,
+          address1: String,
+          title: String,
+          location: String,
+        }) => ({
+          OgId: event._id,
+          url: event.linkUrl,
+          media_raw: event.media_raw,
+          date: event.startDate,
+          address: (event.address1) ? event.address1 : 'N/A',
+          title: event.title,
+          description: event.location,
+        })))
+        .then((eventsMapped) => prisma.Event.createMany({
+          data: eventsMapped,
+          skipDuplicates: true,
+        }))
+        .then((prismaResponse) => {
+          res.send(prismaResponse);
           browser.close();
-          res.send(eventsJSON);
         })
         .catch((err) => {
           console.error('failed getting events json', err);
