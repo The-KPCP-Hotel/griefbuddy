@@ -1,11 +1,14 @@
 import React from 'react';
-import { Box, Heading, Text, Image, Center } from '@chakra-ui/react';
+import {
+  Box, Heading, Text, Image, Center,
+} from '@chakra-ui/react';
 
 function EventListItem({
   event,
 }: {
   event: { title: String; description: String; media_raw: any[] };
 }) {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { title, description, media_raw } = event;
   return (
     <Box boxSize="250px" borderRadius="med">

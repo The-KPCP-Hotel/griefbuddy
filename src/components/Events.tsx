@@ -40,12 +40,14 @@ function Events() {
       <Link to="/home" style={{ fontSize: '55px' }}>
         ⌂
       </Link>
-      <Center>
-        <Heading size="3xl" color="blue.200">
-          Events
-        </Heading>
-      </Center>
       <VStack divider={<StackDivider />} spacing="4">
+        <Box>
+          <Center>
+            <Heading size="3xl" color="blue.200">
+              Events
+            </Heading>
+          </Center>
+        </Box>
         <Box>
           <Card>
             <CardHeader>
