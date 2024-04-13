@@ -27,7 +27,10 @@ events.get('/new', async (req: Request, res: Response) => {
   const page = await browser.newPage();
 
   await page.goto(
-    'https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=40&startDate=04%2F11%2F2024&endDate=05%2F11%2F2024&sort=title',
+    // tried to add more categories but didn't do anything - is only getting 12...
+    'https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=102%2C36%2C44%2C31%2C40%2C38%2C34%2C123&startDate=04%2F11%2F2024&endDate=05%2F11%2F2024&sort=title',
+    // 'https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=42%2C36%2C44%2C31%2C40%2C123&startDate=04%2F11%2F2024&endDate=05%2F11%2F2024&sort=title',
+    // 'https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=40&startDate=04%2F11%2F2024&endDate=05%2F11%2F2024&sort=title',
   );
 
   function pageOnResponse(response: HTTPResponse): undefined {
