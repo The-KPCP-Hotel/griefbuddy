@@ -30,7 +30,7 @@ function Profile() {
     return(
             <div>
                 <ChakraProvider >
-                <Link to="/" style={{fontSize: "55px"}}>⌂</Link>
+                <Link to="/home" style={{fontSize: "55px"}}>⌂</Link>
                 <Center>
                     <Heading size='3xl' color={"blue.200"}>My Profile</Heading>
                 </Center>
@@ -219,4 +219,4 @@ function Profile() {
             )
 }
 
-export default Profile
+export default Profile;
