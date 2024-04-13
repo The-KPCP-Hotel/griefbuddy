@@ -24,6 +24,7 @@ model User {
   preferredName String?
   phoneNum String?
   currMood String?
+  myLocation String?
   events        User_Event[]
   sender        Message[]        @relation("Sender")
   recipient     Message[]        @relation("Recipient")
