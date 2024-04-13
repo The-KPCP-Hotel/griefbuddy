@@ -6,13 +6,13 @@ export type AuthUser = {
   id: number,
   name: string,
   googleId: string,
-  buddies: Buddy[];
+  // buddies: Buddy[];
 };
 
-export type Buddy = {
-  id: number;
-  name: string;
-};
+// export type Buddy = {
+//   id: number;
+//   name: string;
+// };
 
 type UserContextType = {
   user: AuthUser | null,
