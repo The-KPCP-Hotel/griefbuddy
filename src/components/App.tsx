@@ -14,11 +14,9 @@ import { UserContextProvider } from '../context/UserContext';
 import BuddyChat from './buddyChildren/BuddyChat';
 
 function App() {
-  const location = useLocation();
-
   return (
     <UserContextProvider>
-      {(location.pathname === '/') ? <div /> : <Navbar />}
+      {(useLocation().pathname === '/') ? <div /> : <Navbar />}
       <Routes>
         <Route index element={<Login />} />
         <Route path="/home" element={<HomePage />} />
