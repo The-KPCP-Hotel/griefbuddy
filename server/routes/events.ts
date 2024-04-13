@@ -9,6 +9,18 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const events = express.Router();
 
+events.get('/all', async (req: Request, res: Response) => {
+  prisma.Event.findMany()
+    .then((response: Response) => {
+      // console.log(response);
+      res.send(response);
+    })
+    .catch((err: Error) => {
+      console.error('failed finding responses', err);
+      res.sendStatus(500);
+    });
+});
+
 events.get('/new', async (req: Request, res: Response) => {
   const browser = await puppeteer.launch();
 
