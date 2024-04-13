@@ -78,5 +78,5 @@ events.get('/new', async (req: Request, res: Response) => {
   await page.on('response', pageOnResponse);
 });
 
-// have not yet been able to find the proper export solution
+// this was erroring but stopped?
 export = events;

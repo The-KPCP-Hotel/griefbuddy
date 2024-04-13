@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { ChakraProvider, Heading, Center } from '@chakra-ui/react';
+import {
+  ChakraProvider,
+  Heading,
+  Center,
+  Card,
+  CardHeader,
+  CardBody,
+  Stack,
+  StackDivider,
+  VStack,
+  Box,
+} from '@chakra-ui/react';
 
 import EventListItem from './EventsComponents/EventListItem';
 import EventsBigCalendar from './EventsComponents/EventsCalendar';
@@ -26,17 +37,37 @@ function Events() {
 
   return (
     <ChakraProvider>
-      <Link to="/home" style={{ fontSize: '55px' }}>⌂</Link>
+      <Link to="/home" style={{ fontSize: '55px' }}>
+        ⌂
+      </Link>
       <Center>
-        <Heading size="3xl" color="blue.200">Events</Heading>
+        <Heading size="3xl" color="blue.200">
+          Events
+        </Heading>
       </Center>
-      <ul>
-        Today&apos;s Events
-        {eventsToday.map((event) => (
-          <EventListItem key={event.OgId} event={event} />
-        ))}
-      </ul>
-      <EventsBigCalendar events={events} />
+      <VStack divider={<StackDivider />} spacing="4">
+        <Box>
+          <Card>
+            <CardHeader>
+              <Heading size="md">Today&apos;s Events</Heading>
+            </CardHeader>
+            <CardBody>
+              <Stack divider={<StackDivider />} spacing="4">
+                {eventsToday.map((event) => (
+                  <EventListItem key={event.OgId} event={event} />
+                ))}
+              </Stack>
+            </CardBody>
+          </Card>
+        </Box>
+        <Box>
+          <Card>
+            <Stack>
+              <EventsBigCalendar events={events} />
+            </Stack>
+          </Card>
+        </Box>
+      </VStack>
     </ChakraProvider>
   );
 }
