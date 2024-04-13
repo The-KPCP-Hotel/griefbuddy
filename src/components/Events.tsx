@@ -17,7 +17,7 @@ function Events() {
         setEvents(data);
         const today = new Date().toISOString();
         const curEvents = data.filter(
-          (event: { date: String }) => event.date.slice(0, 10) === today.slice(0, 10),
+          (event: { startDate: String }) => event.startDate.slice(0, 10) === today.slice(0, 10),
         );
         setEventsToday(curEvents);
       })
