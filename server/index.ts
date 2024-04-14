@@ -18,6 +18,7 @@ const server = http.createServer(app);
 const io = new SocketIOServer(server);
 
 const authRouter = require('./routes/auth');
+const quotesRouter = require('./routes/quotes');
 
 app.use(express.json());
 
@@ -39,6 +40,7 @@ const CLIENT_PATH = path.resolve(__dirname, '../dist');
 app.use(express.static(CLIENT_PATH));
 
 app.use('/auth', authRouter);
+app.use('/quotes', quotesRouter);
 
 const checkAuth = (
   req: Request,
