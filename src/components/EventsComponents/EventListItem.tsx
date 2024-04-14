@@ -9,8 +9,8 @@ function EventListItem({
 }: {
   event: { title: String; description: String; media_raw: any[], id: Number };
 }) {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   const {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     title, description, media_raw, id,
   } = event;
   return (

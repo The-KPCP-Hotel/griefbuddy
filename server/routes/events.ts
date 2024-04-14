@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express';
 
+import path = require('path');
+
 // import axios, { AxiosResponse } from 'axios';
 
 import puppeteer, { HTTPResponse } from 'puppeteer';
@@ -89,6 +91,13 @@ events.get('/event/:id', (req: Request, res: Response) => {
       console.error('failed finding event', err);
       res.sendStatus(500);
     });
+});
+
+const CLIENT_PATH = path.resolve(__dirname, '../../dist');
+
+// thought this would fix blank page on refresh - not quite
+events.get('/*', (req, res) => {
+  res.sendFile(path.join(CLIENT_PATH, 'index.html'));
 });
 
 // this was erroring but stopped?
