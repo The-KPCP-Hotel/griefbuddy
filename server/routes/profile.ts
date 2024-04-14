@@ -5,21 +5,28 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 
-router.get('/profile/user', (req: Request, res: Response) => {
-    let userr = prisma.User.findMany()
-    res.send(userr)
+router.get('/user', (req: Request, res: Response) => {
+    prisma.User.findMany()
+    .then((results: any) => {
+        res.send(results).status(200)
+    })
+    .catch((err: string) => {
+        console.error(err)
+        res.sendStatus(500)
+    })
 })
 
-router.patch('/profile/user', (req: Request, res: Response) => {
-    const { googleId, location, currMood } = req.body
-    res.send({
-        where: {
-            googleId: googleId
-        },
-        data: {
-            
-        }
+router.patch('/user', (req: Request, res: Response) => {
+    // const { googleId, location, currMood, friendName, friendNumber, friendRelationship, nickname } = req.body
+    prisma.User.update(req.body)
+    .then(() => {
+        res.sendStatus(200)
     })
+    .catch((err: string) => {
+        console.error(err)
+        res.sendStatus(500)
+    })
+    
 })
 
 

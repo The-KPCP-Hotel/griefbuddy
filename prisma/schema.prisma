@@ -22,7 +22,6 @@ model User {
   emConNum      String?
   emConRelationship String?
   preferredName String?
-  phoneNum String?
   currMood String?
   myLocation String?
   events        User_Event[]

@@ -1,5 +1,7 @@
 import React = require("react");
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { Container, 
     Box, 
     ChakraProvider, 
@@ -25,7 +27,43 @@ import { Container,
 
 function Profile() {
 
+    const [googId, setGoogId] = useState('')
+    const [userObj, setUserObj] = useState('')
+    const [friendName, setFriendName] = useState('Halle Bot')
+    const [friendNumber, setFriendNumber] = useState('504-XXX-XXXX')
+    const [friendRelationship, setFriendRelationship] = useState('Besties?')
+    const [nickname, setNickname] = useState('')
+    const [location, setLocation] = useState('Baton Rouge, LA')
+    const [myMood, setMood] = useState("I'm Feeling Great!")
+    const [age, setAge] = useState('18-99+')
 
+    function getUser() {
+        axios.get('/profile/user')
+        .then((results) => {
+            // console.log(results.data[0])
+            setUserObj(results.data[0])
+        })
+    }
+
+    function updateUser() {
+        axios.patch('/profile/user', {
+            where: {
+                googleId: userObj.name
+            },
+            data: {
+                emConName: friendName,
+                emConNum: friendNumber, 
+                emConRelationship: friendRelationship,
+                preferredName: nickname,
+                currMood: myMood,
+                myLocation: location
+            }
+        })
+    }
+
+    useEffect(() => {
+        getUser()
+    }, [])
 
     return(
             <div>
@@ -39,31 +77,25 @@ function Profile() {
                     templateRows='repeat(2, 1fr)'
                     templateColumns='repeat(5, 1fr)'
                     gap={4}
-                    h={"800px"}
+                    h={"1000px"}
                     marginBottom={"150px"}
                     padding={"40px"}
                     >
-                    <GridItem width={"300px"} colSpan={1} bg='blue.200'  h='616px' borderRadius={"15px"}>
+                    <GridItem width={"300px"} colSpan={1} bg='blue.200'  h='816px' borderRadius={"15px"}>
                         <Center padding={"25px"}>
                             <Avatar name="Kola Tioluwani" size="xl"  src="https://bit.ly/tioluwani-kolawole" />
                         </Center>
                         <Center>
-                            <h3>King Tut</h3>
+                            <h3>{userObj.name}</h3>
                         </Center>
                         <Center>
-                            <h5>CEO of Egypt</h5>
-                        </Center>
-                        <Center>
-                            <h5><b>I Live In:</b> Cairo, Egypt</h5>
+                            <h5><b>I Live In:</b>{location}</h5>
                         </Center>
                         <br />
                         <br />
-                        <Center>
-                            <h5>kingtut2024@gmail.com</h5>
-                        </Center>
                     </GridItem>
     
-                    <GridItem colSpan={4} bg='blue.200' h='616px' borderRadius={"15px"}>
+                    <GridItem colSpan={4} bg='blue.200' h='816px' borderRadius={"15px"}>
                     <Tabs isLazy>
                         <TabList paddingTop={"15px"}>
                             <Tab fontSize={"20px"}>About Me</Tab>
@@ -73,7 +105,7 @@ function Profile() {
                         <TabPanels>
                             {/* initially mounted */}
                             <TabPanel>
-                            <Card h={"510px"}>
+                            <Card h={"710px"} >
                             <CardHeader>
                                 <Heading size='md'>About Me</Heading>
                             </CardHeader>
@@ -85,15 +117,7 @@ function Profile() {
                                     Name
                                     </Heading>
                                     <Text pt='2' fontSize='sm'>
-                                    King Tut
-                                    </Text>
-                                </Box>
-                                <Box>
-                                    <Heading size='xs' textTransform='uppercase'>
-                                    Email
-                                    </Heading>
-                                    <Text pt='2' fontSize='sm'>
-                                    kingtut2024@gmail.com
+                                    {userObj.name}
                                     </Text>
                                 </Box>
                                 <Box>
@@ -101,7 +125,7 @@ function Profile() {
                                     Age
                                     </Heading>
                                     <Text pt='2' fontSize='sm'>
-                                    1235 years old
+                                    {age}
                                     </Text>
                                 </Box>
                                 <Box>
@@ -109,7 +133,7 @@ function Profile() {
                                     Current Mental State
                                     </Heading>
                                     <Text pt='2' fontSize='sm'>
-                                    Not so great...
+                                    {myMood}
                                     </Text>
                                 </Box>
                                 </Stack>
@@ -118,7 +142,7 @@ function Profile() {
                             </TabPanel>
                             {/* initially not mounted */}
                             <TabPanel>
-                            <Card h={"510px"}>
+                            <Card h={"710px"}>
                             <CardHeader>
                                 <Heading size='md'>Friend Contact</Heading>
                             </CardHeader>
@@ -130,7 +154,7 @@ function Profile() {
                                     Name
                                     </Heading>
                                     <Text pt='2' fontSize='sm'>
-                                    Halle Bot
+                                    {friendName}
                                     </Text>
                                 </Box>
                                 <Box>
@@ -138,7 +162,7 @@ function Profile() {
                                     Phone Number
                                     </Heading>
                                     <Text pt='2' fontSize='sm'>
-                                    225-888-8888
+                                    {friendNumber}
                                     </Text>
                                 </Box>
                                 <Box>
@@ -146,7 +170,7 @@ function Profile() {
                                     Relationship
                                     </Heading>
                                     <Text pt='2' fontSize='sm'>
-                                    Besties
+                                    {friendRelationship}
                                     </Text>
                                 </Box>
                                 </Stack>
@@ -155,7 +179,7 @@ function Profile() {
                             </TabPanel>
                             <TabPanel>
                             <FormControl>
-                            <Card h={"510px"}>
+                            <Card h={"710px"} style={{overflow: "scroll"}}>
                             <CardHeader>
                                 <Heading size='md'>Update Personal Settings</Heading>
                             </CardHeader>
@@ -172,15 +196,6 @@ function Profile() {
                                 </Box>
                                 <Box>
                                     <Heading size='xs' textTransform='uppercase'>
-                                    Secondary Email Address
-                                    </Heading>
-                                    
-                                    <Input type='email' />
-                                    <FormHelperText>We'll never share your email.</FormHelperText>
-                                
-                                </Box>
-                                <Box>
-                                    <Heading size='xs' textTransform='uppercase'>
                                     Phone Number
                                     </Heading>
                                     
@@ -189,7 +204,52 @@ function Profile() {
                                 </Box>
                                 <Box>
                                     <Heading size='xs' textTransform='uppercase'>
+                                    Age
+                                    </Heading>
+                                    
+                                    <Input type='text' />
+                                
+                                </Box>
+                                <Box>
+                                    <Heading size='xs' textTransform='uppercase'>
+                                    Where I Reside
+                                    </Heading>
+                                    
+                                    <Input type='text' />
+                                
+                                </Box>
+                                <Box>
+                                    <Heading size='xs' textTransform='uppercase'>
                                     How I'm Feeling
+                                    </Heading>
+                                    
+                                    <Input type='text' />
+                                    <Button
+                                        mt={4}
+                                        bg='blue.200'
+                                        type='submit'
+                                    >
+                                        Submit
+                                    </Button>
+                                </Box>
+                                <Heading size='md'>Update Friend Settings</Heading>
+                                <Box>
+                                    <Heading size='xs' textTransform='uppercase'>
+                                    Name
+                                    </Heading>
+                                    
+                                    <Input type='text' />
+                                </Box>
+                                <Box>
+                                    <Heading size='xs' textTransform='uppercase'>
+                                    Phone Number
+                                    </Heading>
+                                    
+                                    <Input type='text' />
+                                </Box>
+                                <Box>
+                                    <Heading size='xs' textTransform='uppercase'>
+                                    Your Relation
                                     </Heading>
                                     
                                     <Input type='text' />
