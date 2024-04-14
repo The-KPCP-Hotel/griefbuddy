@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link as ReactRouterLink, useParams } from 'react-router-dom';
 import {
   // stay new line
   Card,
@@ -8,7 +8,10 @@ import {
   ChakraProvider,
   CardBody,
   Text,
+  Link as ChakraLink,
 } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
+
 import axios from 'axios';
 
 function Event() {
@@ -21,6 +24,7 @@ function Event() {
     media_raw: any[];
     description: String;
     address: String;
+    url: string;
   };
 
   const [event, setEvent] = useState({} as EventType);
@@ -37,14 +41,18 @@ function Event() {
 
   return (
     <ChakraProvider>
-      <Link to="/home" style={{ fontSize: '55px' }}>
+      <ReactRouterLink to="/home" style={{ fontSize: '55px' }}>
         ⌂
-      </Link>
+      </ReactRouterLink>
       <Card>
         <CardHeader>{event.title}</CardHeader>
         <CardBody>
           <Text>{event.description}</Text>
           <Text>{event.address}</Text>
+          <ChakraLink href={event.url} isExternal>
+            Check out their site
+            <ExternalLinkIcon mx="2px" />
+          </ChakraLink>
           {event.media_raw ? (
             event.media_raw.map((url) => (
               <Image key={`${event.id}-${url.sortorder}`} src={url.mediaurl} />
