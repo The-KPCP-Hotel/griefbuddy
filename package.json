@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack -w",
-    "start": "npx ts-node-dev server/index.ts"
+    "start": "export npm=start && npx ts-node-dev server/index.ts",
+    "prod": "webpack && export npm=prod && npx ts-node server/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -62,6 +63,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
     "socket.io": "^4.7.5",
-    "socket.io-client": "^4.7.5"
+    "socket.io-client": "^4.7.5",
+    "ts-node": "^10.9.2"
   }
 }

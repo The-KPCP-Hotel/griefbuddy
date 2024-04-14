@@ -93,7 +93,8 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => {
+  const host = (process.env.npm === 'prod') ? '13.56.76.68' : 'localhost';
   console.log(
-    `Example app listening on port ${port} \n http://localhost:${port}`,
+    `Example app listening on port ${port} \n http://${host}:${port}`,
   );
 });

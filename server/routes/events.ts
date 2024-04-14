@@ -11,7 +11,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const events = express.Router();
 
-events.get('/all', async (req: Request, res: Response) => {
+events.get('/all', (req: Request, res: Response) => {
   prisma.Event.findMany()
     .then((response: Response) => {
       // console.log(response);
