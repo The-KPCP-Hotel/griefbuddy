@@ -22,13 +22,16 @@ function HomePage() {
           setUser(curUser);
         }
       })
+      // adding here because this response takes over a second
+      // could move to app, but didn't want lag on events page
+      .then(() => axios.get('/events/new'))
       .catch((err: Error) => console.error('failed setting user', err));
   }, [setUser]);
 
   return (
     <div>
       <h1>HomePage</h1>
-      <h2>{`Welcome ${user?.name}`}</h2>
+      <h2>{`Welcome ${user?.name.split(' ')[0]}`}</h2>
       <Quote />
     </div>
   );

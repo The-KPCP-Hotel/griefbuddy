@@ -1,8 +1,6 @@
-// const express = require('express')
 import express, {
   Express, Request, Response, NextFunction,
 } from 'express';
-// import { Express, Request, Response } from 'express'; || figured out how to use this successfully
 import path = require('path');
 import passport from 'passport';
 import session from 'express-session';
@@ -18,6 +16,7 @@ const server = http.createServer(app);
 const io = new SocketIOServer(server);
 
 const authRouter = require('./routes/auth');
+const eventsRouter = require('./routes/events');
 const quotesRouter = require('./routes/quotes');
 
 app.use(express.json());
@@ -40,6 +39,7 @@ const CLIENT_PATH = path.resolve(__dirname, '../dist');
 app.use(express.static(CLIENT_PATH));
 
 app.use('/auth', authRouter);
+app.use('/events', eventsRouter);
 app.use('/quotes', quotesRouter);
 
 const checkAuth = (
@@ -93,7 +93,8 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => {
+  const host = (process.env.npm === 'prod') ? '13.56.76.68' : 'localhost';
   console.log(
-    `Example app listening on port ${port} \n http://localhost:${port}`,
+    `Example app listening on port ${port} \n http://${host}:${port}`,
   );
 });
