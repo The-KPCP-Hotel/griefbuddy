@@ -38,7 +38,6 @@ function Event() {
       .then(({ data }) => {
         setEvent(data);
         const startDate = new Date(data.startDate);
-        // console.log(startDate);
         setStart(startDate.toLocaleString());
         const endDate = new Date(data.endDate);
         setEnd(endDate.toLocaleString());
