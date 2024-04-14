@@ -5,6 +5,8 @@ import axios from 'axios';
 import { useContext, useEffect } from 'react';
 import { UserContext, AuthUser } from '../context/UserContext';
 
+import Quote from './HomeComponents/Quote';
+
 function HomePage() {
   const userContext = useContext(UserContext);
 
@@ -30,6 +32,7 @@ function HomePage() {
     <div>
       <h1>HomePage</h1>
       <h2>{`Welcome ${user?.name.split(' ')[0]}`}</h2>
+      <Quote />
     </div>
   );
 }

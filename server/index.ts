@@ -17,6 +17,7 @@ const io = new SocketIOServer(server);
 
 const authRouter = require('./routes/auth');
 const eventsRouter = require('./routes/events');
+const quotesRouter = require('./routes/quotes');
 
 app.use(express.json());
 
@@ -39,6 +40,7 @@ app.use(express.static(CLIENT_PATH));
 
 app.use('/auth', authRouter);
 app.use('/events', eventsRouter);
+app.use('/quotes', quotesRouter);
 
 const checkAuth = (
   req: Request,
