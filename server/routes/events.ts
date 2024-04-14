@@ -78,5 +78,18 @@ events.get('/new', async (req: Request, res: Response) => {
   await page.on('response', pageOnResponse);
 });
 
+events.get('/event/:id', (req: Request, res: Response) => {
+  const { id } = req.params;
+  prisma.event.findUnique({ where: { id: Number(id) } })
+    .then((eventData: Response) => {
+      // console.log(eventData);
+      res.send(eventData);
+    })
+    .catch((err: Error) => {
+      console.error('failed finding event', err);
+      res.sendStatus(500);
+    });
+});
+
 // this was erroring but stopped?
 export = events;

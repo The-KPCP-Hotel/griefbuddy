@@ -28,11 +28,9 @@ function Events() {
       .then(({ data }) => {
         setEvents(data);
         const today = new Date().toISOString();
-        const curEvents = data.filter((event: { startDate: String }) => {
-          console.log(event.startDate.slice(0, 10), today.slice(0, 10));
-          return event.startDate.slice(0, 10) === today.slice(0, 10);
-        });
-        console.log(curEvents);
+        const curEvents = data.filter(
+          (event: { startDate: String }) => event.startDate.slice(0, 10) === today.slice(0, 10),
+        );
         setEventsToday(curEvents);
       })
       .catch();
