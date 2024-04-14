@@ -14,9 +14,13 @@ import { UserContextProvider } from '../context/UserContext';
 import BuddyChat from './buddyChildren/BuddyChat';
 
 function App() {
+  // refactored so i can also exclude my path as well for styling purposes
+  const location = useLocation();
+  const showNavbar = location.pathname !== '/' && location.pathname !== '/buddychat';
+
   return (
     <UserContextProvider>
-      {(useLocation().pathname === '/') ? <div /> : <Navbar />}
+      {showNavbar && <Navbar />}
       <Routes>
         <Route index element={<Login />} />
         <Route path="/home" element={<HomePage />} />

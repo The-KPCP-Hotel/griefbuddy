@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
+import { ChakraProvider } from '@chakra-ui/react';
 
 const socket = io('http://localhost:3000');
 
@@ -37,35 +38,55 @@ function BuddyChat() {
     };
   }, []);
 
-  // eslint with the help of ts helped with this structure
-  const getMessageColor = (message: { sender: string }) => (message.sender === socket.id ? 'blue' : 'lightgreen');
+  // eslint with the help of ts helped with this structure || another eslint error -> refactor
+  const getMessageColor = (message: { sender: string }) => {
+    if (message.sender === socket.id) {
+      return 'blue';
+    }
+    return 'lightgreen';
+  };
 
   return (
-    <div>
-      <Link to="/home">Home</Link>
-      <h1>Buddy Chat</h1>
-      <input
-        type="text"
-        placeholder="BuddyPair ID"
-        value={room}
-        onChange={(e) => setRoom(e.target.value)}
-      />
-      <button type="button" onClick={joinRoom}>Join Room</button>
+    <ChakraProvider>
       <div>
-        {messages.map((message) => (
-          // can use timestamps instead of Date
-          <div key={message.timestamp} style={{ color: getMessageColor(message) }}>
-            {message.text}
-          </div>
-        ))}
+        <li>
+          <Link to="/home">Home</Link>
+        </li>
+        <li>
+          <Link to="/buddy">Buddies</Link>
+        </li>
+        <h1>Buddy Chat</h1>
+        <input
+          type="text"
+          placeholder="BuddyPair ID"
+          value={room}
+          onChange={(e) => setRoom(e.target.value)}
+        />
+        <button type="button" onClick={joinRoom}>
+          Join Room
+        </button>
+        <div>
+          {messages.map((message) => (
+            // can use timestamps instead of Date
+            <div
+              key={message.timestamp}
+              style={{ color: getMessageColor(message) }}
+            >
+              {message.text}
+            </div>
+          ))}
+        </div>
+        <input
+          type="text"
+          placeholder="Type message..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button type="button" onClick={handleMessage}>
+          Send
+        </button>
       </div>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <button type="button" onClick={handleMessage}>Send</button>
-    </div>
+    </ChakraProvider>
   );
 }
 
