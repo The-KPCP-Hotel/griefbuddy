@@ -16,7 +16,7 @@ function EventListItem({
       <Center>
         <Heading size="sm">{title}</Heading>
       </Center>
-      {media_raw.length ? (
+      {(media_raw) ? (
         <Center><Image boxSize="200px" fit="contain" src={media_raw[0].mediaurl} /></Center>
       ) : (
         <div />

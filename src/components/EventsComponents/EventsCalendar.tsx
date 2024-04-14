@@ -5,12 +5,11 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = momentLocalizer(moment);
 
-const coloredDateCellWrapper = ({ children }) =>
-  cloneElement(Children.only(children), {
-    style: {
-      background: 'lightblue',
-    },
-  });
+const coloredDateCellWrapper = ({ children }: any) => cloneElement(Children.only(children), {
+  style: {
+    background: 'lightblue',
+  },
+});
 
 function EventsCalendar(props: { events: any[] }) {
   const { events } = props;

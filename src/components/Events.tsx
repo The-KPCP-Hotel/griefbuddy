@@ -12,6 +12,7 @@ import {
   StackDivider,
   VStack,
   Box,
+  SimpleGrid,
 } from '@chakra-ui/react';
 
 import EventListItem from './EventsComponents/EventListItem';
@@ -27,9 +28,11 @@ function Events() {
       .then(({ data }) => {
         setEvents(data);
         const today = new Date().toISOString();
-        const curEvents = data.filter(
-          (event: { startDate: String }) => event.startDate.slice(0, 10) === today.slice(0, 10),
-        );
+        const curEvents = data.filter((event: { startDate: String }) => {
+          console.log(event.startDate.slice(0, 10), today.slice(0, 10));
+          return event.startDate.slice(0, 10) === today.slice(0, 10);
+        });
+        console.log(curEvents);
         setEventsToday(curEvents);
       })
       .catch();
@@ -66,6 +69,22 @@ function Events() {
           <Card>
             <Stack>
               <EventsBigCalendar events={events} />
+            </Stack>
+          </Card>
+        </Box>
+        <Box>
+          <Card>
+            <Stack>
+              <CardHeader>
+                <Heading size="md">All Events</Heading>
+              </CardHeader>
+              <CardBody>
+                <SimpleGrid columns={4} spacing="4">
+                  {events.map((event) => (
+                    <EventListItem key={event.OgId} event={event} />
+                  ))}
+                </SimpleGrid>
+              </CardBody>
             </Stack>
           </Card>
         </Box>
