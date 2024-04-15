@@ -9,8 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "export npm=start && npx ts-node-dev server/index.ts",
-    "prod": "webpack && export npm=prod && npx ts-node server/index.ts"
+    "start": "npx ts-node-dev server/index.ts",
+    "prod": "webpack && npx ts-node server/index.ts"
   },
   "keywords": [],
   "author": "",
