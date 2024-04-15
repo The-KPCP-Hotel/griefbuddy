@@ -6,6 +6,9 @@ module.exports = {
   devtool: 'inline-source-map',
   mode: process.env.MODE || 'production',
   watch: process.env.MODE === 'development',
+  stats: {
+    errorDetails: true,
+  },
   module: {
     rules: [
       {
