@@ -6,6 +6,7 @@ const axios = require('axios');
 
 function getQuote() {
   const { NINJA_API_KEY } = process.env;
+  console.log(NINJA_API_KEY)
   const quoteUrl = 'https://api.api-ninjas.com/v1/quotes?category=death';
   return axios.get(quoteUrl, { headers: { 'X-Api-Key': NINJA_API_KEY, 'X-Requested-With': 'XMLHttpRequest' } })
     .then((response: Response) => response)

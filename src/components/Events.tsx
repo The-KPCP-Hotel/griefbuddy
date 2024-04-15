@@ -38,9 +38,6 @@ function Events() {
 
   return (
     <ChakraProvider>
-      <Link to="/home" style={{ fontSize: '55px' }}>
-        ⌂
-      </Link>
       <VStack divider={<StackDivider />} spacing="4">
         <Box>
           <Center>

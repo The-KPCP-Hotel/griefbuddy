@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext, AuthUser } from '../context/UserContext';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Heading, Center, Container } from '@chakra-ui/react';
 
 function Buddy() {
   const userContext = useContext(UserContext);
@@ -43,8 +45,11 @@ function Buddy() {
   }, []);
 
   return (
-    <div>
-      <Link to="/home">Home</Link>
+    <ChakraProvider>
+      <Center>
+            <Heading size='3xl' color={"blue.200"}>Buddy</Heading>
+      </Center>
+      <Container maxW="7xl">
       <h1>{`Hey ${user?.name.split(' ')[0]}✌️`}</h1>
       <Link to="/buddychat">Buddy Chat</Link>
       {buddiesOnline === 0 ? (
@@ -80,7 +85,8 @@ function Buddy() {
           Jolyne C.
         </Link>
       </div>
-    </div>
+      </Container>
+    </ChakraProvider>
   );
 }
 

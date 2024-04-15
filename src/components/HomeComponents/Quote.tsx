@@ -1,6 +1,7 @@
 import React = require('react');
 import { useEffect, useState } from 'react';
-
+import { ChakraProvider } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import axios from 'axios';
 
 function Quote() {
@@ -24,10 +25,10 @@ function Quote() {
   }, []);
 
   return (
-    <>
+    <ChakraProvider>
       {(quote.quote) ? <h3>{`${quote.quote} -${quote.author}`}</h3> : <div />}
-      <button type="button" onClick={getQuote}>New Quote</button>
-    </>
+      <Button type="button" onClick={getQuote}>New Quote</Button>
+    </ChakraProvider>
   );
 }
 

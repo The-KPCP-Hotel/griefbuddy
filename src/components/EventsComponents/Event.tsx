@@ -47,9 +47,6 @@ function Event() {
 
   return (
     <ChakraProvider>
-      <ReactRouterLink to="/home" style={{ fontSize: '55px' }}>
-        ⌂
-      </ReactRouterLink>
       <Card>
         <CardHeader>{event.title}</CardHeader>
         <CardBody>

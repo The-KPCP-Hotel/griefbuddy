@@ -16,6 +16,7 @@ const server = http.createServer(app);
 const io = new SocketIOServer(server);
 
 const authRouter = require('./routes/auth');
+const profileRouter = require('./routes/profile')
 const eventsRouter = require('./routes/events');
 const quotesRouter = require('./routes/quotes');
 
@@ -39,6 +40,7 @@ const CLIENT_PATH = path.resolve(__dirname, '../dist');
 app.use(express.static(CLIENT_PATH));
 
 app.use('/auth', authRouter);
+app.use('/profile', profileRouter);
 app.use('/events', eventsRouter);
 app.use('/quotes', quotesRouter);
 
