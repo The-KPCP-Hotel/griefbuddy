@@ -16,7 +16,7 @@ const server = http.createServer(app);
 const io = new SocketIOServer(server);
 
 const authRouter = require('./routes/auth');
-const profileRouter = require('./routes/profile')
+const profileRouter = require('./routes/profile');
 const eventsRouter = require('./routes/events');
 const quotesRouter = require('./routes/quotes');
 
