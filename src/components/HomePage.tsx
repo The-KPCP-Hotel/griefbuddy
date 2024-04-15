@@ -4,6 +4,9 @@ import axios from 'axios';
 
 import { useContext, useEffect } from 'react';
 import { UserContext, AuthUser } from '../context/UserContext';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Heading, Center, Container } from '@chakra-ui/react';
+import Quote from './HomeComponents/Quote';
 
 function HomePage() {
   const userContext = useContext(UserContext);
@@ -20,14 +23,23 @@ function HomePage() {
           setUser(curUser);
         }
       })
+      // adding here because this response takes over a second
+      // could move to app, but didn't want lag on events page
+      .then(() => axios.get('/events/new'))
       .catch((err: Error) => console.error('failed setting user', err));
   }, [setUser]);
 
   return (
-    <div>
-      <h1>HomePage</h1>
-      <h2>{`Welcome ${user?.name}`}</h2>
-    </div>
+    <ChakraProvider>
+      <Center>
+            <Heading size='3xl' color={"blue.200"}>HomePage</Heading>
+      </Center>
+      <Container maxW="7xl"  >
+
+      <h2>{`Welcome ${user?.name.split(' ')[0]}`}</h2>
+      <Quote />
+      </Container>
+    </ChakraProvider>
   );
 }
 

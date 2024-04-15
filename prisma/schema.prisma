@@ -42,8 +42,12 @@ model User {
 
 model Event {
   id          Int          @id @default(autoincrement())
-  date        DateTime
-  address     String
+  OgId        String       @unique
+  url         String?
+  media_raw   Json?
+  startDate   DateTime
+  endDate     DateTime?
+  address     String?
   title       String
   description String
   users       User_Event[]

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Event" ALTER COLUMN "address" DROP NOT NULL,
+ALTER COLUMN "endDate" DROP NOT NULL;

@@ -10,13 +10,14 @@ const prisma = new PrismaClient();
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
+const host = (process.env.npm === 'prod') ? '13.56.76.68' : 'localhost';
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/auth/google/callback',
+      callbackURL: `http://${host}:3000/auth/google/callback`,
       passReqToCallback: true,
     },
     (
