@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
-const host = (process.env.npm === 'prod') ? '13.56.76.68' : 'localhost';
+const host = (process.env.MODE === 'development') ? 'localhost' : 'ec2-13-56-76-68.us-west-1.compute.amazonaws.com';
 
 passport.use(
   new GoogleStrategy(
