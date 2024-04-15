@@ -1,9 +1,11 @@
 const path = require('path');
+require('dotenv').config();
 
 module.exports = {
   entry: './src/index.tsx',
   devtool: 'inline-source-map',
-  mode: 'development',
+  mode: process.env.MODE || 'production',
+  watch: process.env.MODE === 'development',
   module: {
     rules: [
       {

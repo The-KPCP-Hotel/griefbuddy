@@ -55,7 +55,7 @@ const checkAuth = (
   return res.redirect('/');
 };
 
-app.get('/', checkAuth, (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));
 });
 
@@ -70,10 +70,6 @@ app.post('/logout', (req, res, next) => {
     }
     return res.redirect('/');
   });
-});
-
-app.get('/*', checkAuth, (req, res) => {
-  res.sendFile(path.join(CLIENT_PATH, 'index.html'));
 });
 
 io.on('connection', (socket) => {
@@ -94,9 +90,13 @@ io.on('connection', (socket) => {
   });
 });
 
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(CLIENT_PATH, 'index.html'));
+});
+
 server.listen(port, () => {
-  const host = (process.env.npm === 'prod') ? '13.56.76.68' : 'localhost';
+  // const host = (process.env.npm === 'prod') ? '13.56.76.68' : 'localhost';
   console.log(
-    `Example app listening on port ${port} \n http://${host}:${port}`,
+    `Example app listening on port ${port} \n http://localhost:${port}`,
   );
 });
