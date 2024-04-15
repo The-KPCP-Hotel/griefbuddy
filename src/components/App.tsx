@@ -16,7 +16,7 @@ function App() {
   return (
     <UserContextProvider>
       <ChakraProvider>
-      <Container maxW="600vw" bg="blue.600" >
+      <Container maxW="7xl" bg="blue.200" marginTop={"25px"} marginBottom={"15px"} h={"250px"}>
       {(useLocation().pathname === '/') ? <div /> : <Navbar />}
 
       </Container>

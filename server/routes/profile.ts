@@ -18,7 +18,7 @@ router.get('/user', (req: Request, res: Response) => {
 
 router.patch('/user', (req: Request, res: Response) => {
     // const { googleId, location, currMood, friendName, friendNumber, friendRelationship, nickname } = req.body
-    prisma.User.update(req.body)
+    prisma.User.updateMany(req.body)
     .then(() => {
         res.sendStatus(200)
     })

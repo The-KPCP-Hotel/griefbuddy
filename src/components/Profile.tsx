@@ -36,6 +36,7 @@ function Profile() {
     const [location, setLocation] = useState('Baton Rouge, LA')
     const [myMood, setMood] = useState("I'm Feeling Great!")
     const [age, setAge] = useState('18-99+')
+    const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888')
 
     function getUser() {
         axios.get('/profile/user')
@@ -48,27 +49,56 @@ function Profile() {
     function updateUser() {
         axios.patch('/profile/user', {
             where: {
-                googleId: userObj.name
+                googleId: userObj.googleId
+            },
+            data: {
+                preferredName: nickname,
+                currMood: myMood,
+                myLocation: location,
+                agee: age,
+                myPhoneNumber: myPhoneNumber
+            }
+        })
+        .then(() => {
+            console.log('successful patch')
+        })
+        .catch((err: string) => {
+            console.error(err)
+        })
+    }
+
+    function updateFriend() {
+        axios.patch('/profile/user', {
+            where: {
+                googleId: userObj.googleId
             },
             data: {
                 emConName: friendName,
                 emConNum: friendNumber, 
                 emConRelationship: friendRelationship,
-                preferredName: nickname,
-                currMood: myMood,
-                myLocation: location
             }
+        })
+        .then(() => {
+            console.log('successful patch')
+        })
+        .catch((err: string) => {
+            console.error(err)
         })
     }
 
     useEffect(() => {
         getUser()
-    }, [])
+    }, [friendName])
+
+    useEffect(() => {
+        
+    }, [nickname])
+
 
     return(
             <div>
                 <ChakraProvider >
-                <Link to="/home" style={{fontSize: "55px"}}>⌂</Link>
+                {/* <Link to="/home" style={{fontSize: "55px"}}>⌂</Link> */}
                 <Center>
                     <Heading size='3xl' color={"blue.200"}>My Profile</Heading>
                 </Center>
@@ -89,7 +119,7 @@ function Profile() {
                             <h3>{userObj.name}</h3>
                         </Center>
                         <Center>
-                            <h5><b>I Live In:</b>{location}</h5>
+                            <h5><b>I Live In:</b>{userObj.myLocation}</h5>
                         </Center>
                         <br />
                         <br />
@@ -117,7 +147,15 @@ function Profile() {
                                     Name
                                     </Heading>
                                     <Text pt='2' fontSize='sm'>
-                                    {userObj.name}
+                                    {userObj.preferredName}
+                                    </Text>
+                                </Box>
+                                <Box>
+                                    <Heading size='xs' textTransform='uppercase'>
+                                    Phone Number
+                                    </Heading>
+                                    <Text pt='2' fontSize='sm'>
+                                    {userObj.myPhoneNumber}
                                     </Text>
                                 </Box>
                                 <Box>
@@ -125,7 +163,7 @@ function Profile() {
                                     Age
                                     </Heading>
                                     <Text pt='2' fontSize='sm'>
-                                    {age}
+                                    {userObj.agee}
                                     </Text>
                                 </Box>
                                 <Box>
@@ -133,7 +171,7 @@ function Profile() {
                                     Current Mental State
                                     </Heading>
                                     <Text pt='2' fontSize='sm'>
-                                    {myMood}
+                                    {userObj.currMood}
                                     </Text>
                                 </Box>
                                 </Stack>
@@ -154,7 +192,7 @@ function Profile() {
                                     Name
                                     </Heading>
                                     <Text pt='2' fontSize='sm'>
-                                    {friendName}
+                                    {userObj.emConName}
                                     </Text>
                                 </Box>
                                 <Box>
@@ -162,7 +200,7 @@ function Profile() {
                                     Phone Number
                                     </Heading>
                                     <Text pt='2' fontSize='sm'>
-                                    {friendNumber}
+                                    {userObj.emConNum}
                                     </Text>
                                 </Box>
                                 <Box>
@@ -170,7 +208,7 @@ function Profile() {
                                     Relationship
                                     </Heading>
                                     <Text pt='2' fontSize='sm'>
-                                    {friendRelationship}
+                                    {userObj.emConRelationship}
                                     </Text>
                                 </Box>
                                 </Stack>
@@ -187,11 +225,15 @@ function Profile() {
                             <CardBody>
                                 <Stack divider={<StackDivider />} spacing='4'>
                                 <Box>
+                                <h4 style={{color: "orange"}}>Must fill out all boxes</h4>
                                     <Heading size='xs' textTransform='uppercase'>
                                     Preferred Name
                                     </Heading>
                                     
-                                    <Input type='text' />
+                                    <Input type='text' onChange={(e) => {
+                                        let nicknamee = e.target.value
+                                        setNickname(nicknamee)
+                                    }}/>
                                 
                                 </Box>
                                 <Box>
@@ -199,7 +241,10 @@ function Profile() {
                                     Phone Number
                                     </Heading>
                                     
-                                    <Input type='text' />
+                                    <Input type='text' onChange={(e) => {
+                                        let num = e.target.value
+                                        updateMyPhoneNumber(num)
+                                    }}/>
                                 
                                 </Box>
                                 <Box>
@@ -207,7 +252,10 @@ function Profile() {
                                     Age
                                     </Heading>
                                     
-                                    <Input type='text' />
+                                    <Input type='text'onChange={(e) => {
+                                        let agee = e.target.value
+                                        setAge(agee)
+                                    }}/>
                                 
                                 </Box>
                                 <Box>
@@ -215,7 +263,10 @@ function Profile() {
                                     Where I Reside
                                     </Heading>
                                     
-                                    <Input type='text' />
+                                    <Input type='text' onChange={(e) => {
+                                        let locationn = e.target.value
+                                        setLocation(locationn)
+                                    }}/>
                                 
                                 </Box>
                                 <Box>
@@ -223,40 +274,59 @@ function Profile() {
                                     How I'm Feeling
                                     </Heading>
                                     
-                                    <Input type='text' />
+                                    <Input type='text' onChange={(e) => {
+                                        let moodd = e.target.value
+                                        setMood(moodd)
+                                    }}/>
                                     <Button
                                         mt={4}
                                         bg='blue.200'
-                                        type='submit'
+                                        onClick={() => {
+                                            updateUser()
+                                        }}
                                     >
                                         Submit
                                     </Button>
                                 </Box>
                                 <Heading size='md'>Update Friend Settings</Heading>
                                 <Box>
+                                <h4 style={{color: "orange"}}>Must fill out all boxes</h4>
+                                {' '}
                                     <Heading size='xs' textTransform='uppercase'>
                                     Name
                                     </Heading>
                                     
-                                    <Input type='text' />
+                                    <Input type='text' onChange={(e) => {
+                                        let friendnamee = e.target.value
+                                        setFriendName(friendnamee)
+                                    }}/>
                                 </Box>
                                 <Box>
                                     <Heading size='xs' textTransform='uppercase'>
                                     Phone Number
                                     </Heading>
                                     
-                                    <Input type='text' />
+                                    <Input type='text' onChange={(e) => {
+                                        let friendnum = e.target.value
+                                        setFriendNumber(friendnum)
+                                    }}/>
                                 </Box>
                                 <Box>
                                     <Heading size='xs' textTransform='uppercase'>
                                     Your Relation
                                     </Heading>
                                     
-                                    <Input type='text' />
+                                    <Input type='text' onChange={(e) => {
+                                        let relation = e.target.value
+                                        setFriendRelationship(relation)
+                                    }}/>
                                     <Button
                                         mt={4}
                                         bg='blue.200'
                                         type='submit'
+                                        onClick={() => {
+                                            updateFriend()
+                                        }}
                                     >
                                         Submit
                                     </Button>
