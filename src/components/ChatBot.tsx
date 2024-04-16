@@ -29,37 +29,34 @@ function ChatBot() {
     setMessage(value);
   };
 
-  const onSend = () => {
-    const newMessages = userMessages.slice();
-    newMessages.push(message);
-    addUserMessage(newMessages);
-    const aiMessage = { role: 'user', content: message };
-    // this if statement is because of strict mode added two initial messages
-    if (messages[2].role === 'assistant') {
-      addMessage((curMessages) => {
-        const allMessages = curMessages
-          .slice(0, 1)
-          .concat(curMessages.slice(2))
-          .concat([aiMessage]);
-        axios
-          .post('/chatbot', { messages: allMessages })
-          .then((response) => console.log(response))
-          .catch((err) => console.error('failed sending new message', err));
-        // return curMessages.slice(0, 1).concat(curMessages.slice(2)).concat([aiMessage]);
-        return [curMessages[0], curMessages[2], aiMessage];
-      });
-    } else {
-      addMessage((curMessages) => curMessages.concat([aiMessage]));
-    }
-    // addMessage()
-    setMessage('');
-    // this is sending before messages has been updated
+  type OpenaiMessageType = {
+    role: string;
+    content: string;
   };
 
-  // type OpenaiMessageType = {
-  //   role: string;
-  //   content: string;
-  // };
+  const onSend = () => {
+    // const newMessages = userMessages.slice();
+    // newMessages.push(message);
+    addUserMessage((curUserMessages) => curUserMessages.concat([message]));
+    const aiMessage = { role: 'user', content: message };
+
+    // allMessages is so we can post before messages is done updating
+    let allMessages: OpenaiMessageType[];
+    // this if statement is because of strict mode added two initial messages
+    if (messages[2].role === 'assistant') {
+      allMessages = [messages[0], messages[2], aiMessage];
+      addMessage(allMessages);
+    } else {
+      allMessages = messages.concat([aiMessage]);
+      addMessage(allMessages);
+    }
+    // addMessage()
+    axios
+      .post('/chatbot', { messages: allMessages })
+      .then((response) => console.log(response))
+      .catch((err) => console.error('failed sending new message', err));
+    setMessage('');
+  };
 
   // type OpenaiType = {
   //   index: Number;
