@@ -8,4 +8,9 @@ chatbot.get('/new', async (req: Request, res: Response) => {
   res.send(newChat);
 });
 
+chatbot.post('/', (req: Request, res: Response) => {
+  console.log(req.body);
+  res.send(req.body);
+});
+
 export = chatbot;

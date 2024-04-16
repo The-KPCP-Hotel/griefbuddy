@@ -16,9 +16,13 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 function ChatBot() {
   const [message, setMessage] = useState('');
 
-  const [messages, addMessage] = useState([] as string[]);
+  const [userMessages, addUserMessage] = useState([] as string[]);
 
   const [start, addStart] = useState('');
+
+  const [messages, addMessage] = useState([
+    { role: 'system', content: 'You are an inquisitive friend to users who are grieving.' },
+  ]);
 
   const onChange = (e: { target: { value: string } }) => {
     const { value } = e.target;
@@ -26,29 +30,50 @@ function ChatBot() {
   };
 
   const onSend = () => {
-    const newMessages = messages.slice();
+    const newMessages = userMessages.slice();
     newMessages.push(message);
-    addMessage(newMessages);
+    addUserMessage(newMessages);
+    const aiMessage = { role: 'user', content: message };
+    // this if statement is because of strict mode added two initial messages
+    if (messages[2].role === 'assistant') {
+      addMessage((curMessages) => {
+        const allMessages = curMessages
+          .slice(0, 1)
+          .concat(curMessages.slice(2))
+          .concat([aiMessage]);
+        axios
+          .post('/chatbot', { messages: allMessages })
+          .then((response) => console.log(response))
+          .catch((err) => console.error('failed sending new message', err));
+        // return curMessages.slice(0, 1).concat(curMessages.slice(2)).concat([aiMessage]);
+        return [curMessages[0], curMessages[2], aiMessage];
+      });
+    } else {
+      addMessage((curMessages) => curMessages.concat([aiMessage]));
+    }
+    // addMessage()
     setMessage('');
+    // this is sending before messages has been updated
   };
 
-  type OpenaiMessageType = {
-    role: string;
-    content: string;
-  };
+  // type OpenaiMessageType = {
+  //   role: string;
+  //   content: string;
+  // };
 
-  type OpenaiType = {
-    index: Number;
-    message: OpenaiMessageType;
-    finish_reason: string;
-  };
+  // type OpenaiType = {
+  //   index: Number;
+  //   message: OpenaiMessageType;
+  //   finish_reason: string;
+  // };
 
   useEffect(() => {
     axios
       .get('/chatbot/new')
       .then((response: AxiosResponse) => {
-        console.log(response);
         addStart(response.data.message.content);
+
+        addMessage((curMessages) => curMessages.concat(response.data.message));
       })
       .catch((err: AxiosError) => console.error('failed starting chat', err));
   }, []);
@@ -63,7 +88,7 @@ function ChatBot() {
       <Container>
         <Stack divider={<StackDivider />}>
           <Text>{start}</Text>
-          {messages.map((text) => (
+          {userMessages.map((text) => (
             <Text>{text}</Text>
           ))}
           <HStack>
