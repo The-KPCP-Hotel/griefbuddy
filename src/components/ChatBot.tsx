@@ -16,9 +16,9 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 function ChatBot() {
   const [message, setMessage] = useState('');
 
-  const [userMessages, addUserMessage] = useState([] as string[]);
+  // const [userMessages, addUserMessage] = useState([] as string[]);
 
-  const [start, addStart] = useState('');
+  // const [start, addStart] = useState('');
 
   const [messages, addMessage] = useState([
     { role: 'system', content: 'You are an inquisitive friend to users who are grieving.' },
@@ -37,7 +37,7 @@ function ChatBot() {
   const onSend = () => {
     // const newMessages = userMessages.slice();
     // newMessages.push(message);
-    addUserMessage((curUserMessages) => curUserMessages.concat([message]));
+    // addUserMessage((curUserMessages) => curUserMessages.concat([message]));
     const aiMessage = { role: 'user', content: message };
 
     // allMessages is so we can post before messages is done updating
@@ -53,7 +53,10 @@ function ChatBot() {
     // addMessage()
     axios
       .post('/chatbot', { messages: allMessages })
-      .then((response) => console.log(response))
+      .then((response) => {
+        console.log(response.data.message.content);
+        addMessage((curMessages) => curMessages.concat([response.data.message]));
+      })
       .catch((err) => console.error('failed sending new message', err));
     setMessage('');
   };
@@ -68,7 +71,7 @@ function ChatBot() {
     axios
       .get('/chatbot/new')
       .then((response: AxiosResponse) => {
-        addStart(response.data.message.content);
+        // addStart(response.data.message.content);
 
         addMessage((curMessages) => curMessages.concat(response.data.message));
       })
@@ -78,15 +81,16 @@ function ChatBot() {
   return (
     <ChakraProvider>
       <Center>
-        <Heading size="3xl" color="blue.200">
+        <Heading paddingBottom="15px" size="3xl" color="blue.200">
           Chat Bot
         </Heading>
       </Center>
       <Container>
         <Stack divider={<StackDivider />}>
-          <Text>{start}</Text>
-          {userMessages.map((text) => (
-            <Text>{text}</Text>
+          {messages.slice(1).map((text, index) => (
+            // when using db will replace with db index
+            // eslint-disable-next-line react/no-array-index-key
+            <Text key={`${text.role}-${index}`} color={text.role === 'assistant' ? 'purple' : 'default'}>{text.content}</Text>
           ))}
           <HStack>
             <Input onChange={onChange} value={message} />

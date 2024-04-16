@@ -1,7 +1,9 @@
 import OpenAI from 'openai';
 
+// unsure if this is necessary if also in chatbot router
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // This is the default and can be omitted
+  // This is the default and can be omitted - if you globally exported your api key
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 // type OpenaiMessageType = {

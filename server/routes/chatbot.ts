@@ -5,10 +5,9 @@ import main from '../helpers/openai-test';
 const chatbot = express.Router();
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // This is the default and can be omitted
+  // This is the default and can be omitted - if you globally exported your api key
+  apiKey: process.env.OPENAI_API_KEY,
 });
-
-// const messageStart = [{ role: 'system', content: 'You are an inquisitive friend to users who are grieving.' }];
 
 chatbot.get('/new', async (req: Request, res: Response) => {
   const newChat = await main();
@@ -17,6 +16,7 @@ chatbot.get('/new', async (req: Request, res: Response) => {
 
 chatbot.post('/', async (req: Request, res: Response) => {
   console.log(req.body);
+  // was trying to make main() dynamic bug was having issues with messages type
   const params: OpenAI.Chat.ChatCompletionCreateParams = {
     messages: req.body.messages,
     model: 'gpt-3.5-turbo',
