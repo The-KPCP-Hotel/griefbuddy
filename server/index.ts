@@ -6,6 +6,7 @@ import passport from 'passport';
 import session from 'express-session';
 import http from 'http';
 import { Server as SocketIOServer } from 'socket.io';
+import main from './helpers/openai-test';
 
 require('dotenv').config();
 
@@ -89,6 +90,8 @@ io.on('connection', (socket) => {
     console.log(`${socket.id} disconnected.`);
   });
 });
+
+main();
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));

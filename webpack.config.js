@@ -1,6 +1,7 @@
 const path = require('path');
 require('dotenv').config();
 
+console.log(__dirname);
 module.exports = {
   entry: './src/index.tsx',
   devtool: 'inline-source-map',
@@ -13,12 +14,23 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+            },
+          },
+        ],
+        exclude: [/node_modules/, /dist/, /migrations/],
       },
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
+        include: [
+          path.resolve(__dirname, "src"),
+          path.resolve(__dirname, "node_modules/react-big-calendar")
+        ],
       },
     ],
   },
