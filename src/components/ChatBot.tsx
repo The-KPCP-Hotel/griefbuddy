@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ChakraProvider,
   Heading,
@@ -11,11 +11,14 @@ import {
   Button,
   HStack,
 } from '@chakra-ui/react';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 function ChatBot() {
   const [message, setMessage] = useState('');
 
   const [messages, addMessage] = useState([] as string[]);
+
+  const [start, addStart] = useState('');
 
   const onChange = (e: { target: { value: string } }) => {
     const { value } = e.target;
@@ -29,6 +32,27 @@ function ChatBot() {
     setMessage('');
   };
 
+  type OpenaiMessageType = {
+    role: string;
+    content: string;
+  };
+
+  type OpenaiType = {
+    index: Number;
+    message: OpenaiMessageType;
+    finish_reason: string;
+  };
+
+  useEffect(() => {
+    axios
+      .get('/chatbot/new')
+      .then((response: AxiosResponse) => {
+        console.log(response);
+        addStart(response.data.message.content);
+      })
+      .catch((err: AxiosError) => console.error('failed starting chat', err));
+  }, []);
+
   return (
     <ChakraProvider>
       <Center>
@@ -38,6 +62,7 @@ function ChatBot() {
       </Center>
       <Container>
         <Stack divider={<StackDivider />}>
+          <Text>{start}</Text>
           {messages.map((text) => (
             <Text>{text}</Text>
           ))}

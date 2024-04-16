@@ -9,6 +9,7 @@ async function main() {
   });
 
   console.log(completion.choices[0]);
+  return completion.choices[0];
 }
 
 export default main;

@@ -6,7 +6,6 @@ import passport from 'passport';
 import session from 'express-session';
 import http from 'http';
 import { Server as SocketIOServer } from 'socket.io';
-import main from './helpers/openai-test';
 
 require('dotenv').config();
 
