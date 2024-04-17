@@ -1,7 +1,6 @@
 import React = require('react');
 import { useEffect, useState } from 'react';
-import { ChakraProvider } from '@chakra-ui/react';
-import { Button } from '@chakra-ui/react';
+import { ChakraProvider, Button } from '@chakra-ui/react';
 import axios from 'axios';
 
 function Quote() {

@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Link as ReactRouterLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   // stay new line
   Card,
-  CardHeader,
+  Center,
+  Heading,
   Image,
   ChakraProvider,
   CardBody,
   Text,
   Link as ChakraLink,
+  Container,
+  Box,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 
@@ -47,25 +50,33 @@ function Event() {
 
   return (
     <ChakraProvider>
-      <Card>
-        <CardHeader>{event.title}</CardHeader>
-        <CardBody>
-          <Text>{event.description}</Text>
-          <Text>{event.address}</Text>
-          <ChakraLink href={event.url} isExternal>
-            Check out their site
-            <ExternalLinkIcon mx="2px" />
-          </ChakraLink>
-          <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>
-          {event.media_raw ? (
-            event.media_raw.map((url) => (
-              <Image key={`${event.id}-${url.sortorder}`} src={url.mediaurl} />
-            ))
-          ) : (
-            <div />
-          )}
-        </CardBody>
-      </Card>
+      <Container maxW="7xl">
+        <Box padding="10px">
+          <Center>
+            <Heading size="3xl" color="blue.200">
+              {event.title}
+            </Heading>
+          </Center>
+        </Box>
+        <Card>
+          <CardBody>
+            <Text>{event.description}</Text>
+            <Text>{event.address}</Text>
+            <ChakraLink href={event.url} isExternal>
+              Check out their site
+              <ExternalLinkIcon mx="2px" />
+            </ChakraLink>
+            <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>
+            {event.media_raw ? (
+              event.media_raw.map((url) => (
+                <Image key={`${event.id}-${url.sortorder}`} src={url.mediaurl} />
+              ))
+            ) : (
+              <div />
+            )}
+          </CardBody>
+        </Card>
+      </Container>
     </ChakraProvider>
   );
 }

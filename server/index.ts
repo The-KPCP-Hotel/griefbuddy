@@ -19,6 +19,7 @@ const authRouter = require('./routes/auth');
 const profileRouter = require('./routes/profile');
 const eventsRouter = require('./routes/events');
 const quotesRouter = require('./routes/quotes');
+const chatbotRouter = require('./routes/chatbot');
 
 app.use(express.json());
 
@@ -43,6 +44,7 @@ app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
 app.use('/events', eventsRouter);
 app.use('/quotes', quotesRouter);
+app.use('/chatbot', chatbotRouter);
 
 const checkAuth = (
   req: Request,
@@ -89,6 +91,9 @@ io.on('connection', (socket) => {
     console.log(`${socket.id} disconnected.`);
   });
 });
+
+// calls openai - be careful not to make accessive calls
+// main();
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));
