@@ -9,10 +9,12 @@ import ChatBot from './ChatBot';
 import Events from './Events';
 import Event from './EventsComponents/Event';
 import Resources from './Resources';
+import Resource from './Resource';
 import { Container, Box, ChakraProvider} from '@chakra-ui/react'
 import Login from './Login';
 import { UserContextProvider } from '../context/UserContext';
 import BuddyChat from './buddyChildren/BuddyChat';
+import MeetupMap from './MeetupMap';
 
 function App() {
   return (
@@ -32,8 +34,10 @@ function App() {
         <Route path="/chatbot" element={<ChatBot />} />
         <Route path="/events" element={<Events />} />
         <Route path="/resources" element={<Resources />} />
+        <Route path="/resource" element={<Resource />} />
         <Route path="/buddychat" element={<BuddyChat />} />
         <Route path="/events/:id" element={<Event />} />
+        <Route path="/map" element={<MeetupMap />} />
       </Routes>
       </UserContextProvider>
       

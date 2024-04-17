@@ -2,6 +2,32 @@ import React = require("react");
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+// type UserType = {
+//     agee: String;
+//     googleId: String;
+//     name: String;
+//     preferredName: String;
+//     currMood: String;
+//     myLocation: String;
+//     myPhoneNumber: String;
+//     emConName: String;
+//     emConNum: String;
+//     emConRelationship: String;
+//   };
+type UserType = {
+    emConNum: String;
+    emConRelationship: String;
+    emConName: String;
+    currMood: String;
+    agee: String;
+    googleId: String;
+    name: String;
+    myLocation: String;
+    myPhoneNumber: String;
+    preferredName: String;
+  };
+
+  
 import { Container, 
     Box, 
     ChakraProvider, 
@@ -27,8 +53,8 @@ import { Container,
 
 function Profile() {
 
-    const [googId, setGoogId] = useState('')
-    const [userObj, setUserObj] = useState('')
+    const [googId, setGoogId] = useState('');
+    const [userObj, setUserObj] = useState({} as UserType);
     const [friendName, setFriendName] = useState('Halle Bot')
     const [friendNumber, setFriendNumber] = useState('504-XXX-XXXX')
     const [friendRelationship, setFriendRelationship] = useState('Besties?')
@@ -37,6 +63,8 @@ function Profile() {
     const [myMood, setMood] = useState("I'm Feeling Great!")
     const [age, setAge] = useState('18-99+')
     const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888')
+    const [isSubmitted, updateSubmit] = useState('false')
+    const [isSubmittedFriend, updateSubmitFriend] = useState('false')
 
     function getUser() {
         axios.get('/profile/user')
@@ -88,11 +116,13 @@ function Profile() {
 
     useEffect(() => {
         getUser()
-    }, [friendName])
-
+    }, [isSubmitted])
+    
     useEffect(() => {
-        
-    }, [nickname])
+        getUser()
+    }, [isSubmittedFriend])
+
+    
 
 
     return(
@@ -283,6 +313,7 @@ function Profile() {
                                         bg='blue.200'
                                         onClick={() => {
                                             updateUser()
+                                            updateSubmit('true')
                                         }}
                                     >
                                         Submit
@@ -307,7 +338,7 @@ function Profile() {
                                     </Heading>
                                     
                                     <Input type='text' onChange={(e) => {
-                                        let friendnum = e.target.value
+                                        const friendnum = e.target.value
                                         setFriendNumber(friendnum)
                                     }}/>
                                 </Box>
@@ -326,6 +357,7 @@ function Profile() {
                                         type='submit'
                                         onClick={() => {
                                             updateFriend()
+                                            updateSubmitFriend('true')
                                         }}
                                     >
                                         Submit

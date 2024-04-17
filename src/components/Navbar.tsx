@@ -19,10 +19,11 @@ function Navbar() {
                 </Center>
                 <MenuList >
                     <MenuItem><Link to="/profile">Profile</Link></MenuItem>
-                    <MenuItem><Link to="/buddy">Buddy</Link></MenuItem>
+                    <MenuItem><Link to="/buddychat">Buddy</Link></MenuItem>
                     <MenuItem><Link to="/chatbot">ChatBot</Link></MenuItem>
                     <MenuItem><Link to="/events">Local Happenings</Link></MenuItem>
                     <MenuItem><Link to="/resources">Resources</Link></MenuItem>
+                    <MenuItem><Link to="/map">MeetupMap</Link></MenuItem>
                     <MenuItem><Logout/></MenuItem>
                 
                 </MenuList>
