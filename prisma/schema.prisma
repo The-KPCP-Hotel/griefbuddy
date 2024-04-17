@@ -15,29 +15,30 @@ datasource db {
 }
 
 model User {
-  id            Int              @id @default(autoincrement())
-  name          String
-  googleId      String           @unique
-  emConName     String?
-  emConNum      String?
+  id                Int              @id @default(autoincrement())
+  name              String
+  googleId          String           @unique
+  emConName         String?
+  emConNum          String?
   emConRelationship String?
-  preferredName String?
-  currMood String?
-  myLocation String?
-  agee String?
-  myPhoneNumber String?
-  events        User_Event[]
-  sender        Message[]        @relation("Sender")
-  recipient     Message[]        @relation("Recipient")
-  posts         Post[]
-  comments      Comment[]
-  buddy1        Buddy[]          @relation("Buddy1")
-  buddy2        Buddy[]          @relation("Buddy2")
-  friend1       Friend[]         @relation("Friend1")
-  friend2       Friend[]         @relation("Friend2")
-  requester     PendingRequest[] @relation("Requester")
-  requested     PendingRequest[] @relation("Requested")
-  notifications Notification[]
+  preferredName     String?
+  currMood          String?
+  myLocation        String?
+  agee              String?
+  myPhoneNumber     String?
+  events            User_Event[]
+  sender            Message[]        @relation("Sender")
+  recipient         Message[]        @relation("Recipient")
+  botMessages       BotMessage[]
+  posts             Post[]
+  comments          Comment[]
+  buddy1            Buddy[]          @relation("Buddy1")
+  buddy2            Buddy[]          @relation("Buddy2")
+  friend1           Friend[]         @relation("Friend1")
+  friend2           Friend[]         @relation("Friend2")
+  requester         PendingRequest[] @relation("Requester")
+  requested         PendingRequest[] @relation("Requested")
+  notifications     Notification[]
 }
 
 model Event {
@@ -67,6 +68,14 @@ model Message {
   senderId    Int
   recipient   User @relation("Recipient", fields: [recipientId], references: [id])
   recipientId Int
+}
+
+model BotMessage {
+  id      Int    @id @default(autoincrement())
+  user    User   @relation(fields: [userId], references: [id])
+  userId  Int
+  role    String
+  content String
 }
 
 model Post {

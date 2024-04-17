@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   ChakraProvider,
   Heading,
@@ -12,8 +12,13 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { UserContext } from '../context/UserContext';
 
 function ChatBot() {
+  const userContext = useContext(UserContext);
+
+  const { id } = userContext.user;
+
   const [message, setMessage] = useState('');
 
   // const [userMessages, addUserMessage] = useState([] as string[]);
@@ -46,9 +51,16 @@ function ChatBot() {
     if (messages[2].role === 'assistant') {
       allMessages = [messages[0], messages[2], aiMessage];
       addMessage(allMessages);
+      axios
+        .post('/chatbot/db1', { userId: id, messages: allMessages })
+        .then((res) => console.log(res))
+        .catch((err) => console.error('failed posted initial messages to db', err));
     } else {
       allMessages = messages.concat([aiMessage]);
       addMessage(allMessages);
+      axios
+        .post('/chatbot/db', { message: aiMessage, userId: id })
+        .then((res) => console.log(res));
     }
     // addMessage()
     axios
@@ -56,6 +68,9 @@ function ChatBot() {
       .then((response) => {
         console.log(response.data.message.content);
         addMessage((curMessages) => curMessages.concat([response.data.message]));
+        axios
+          .post('/chatbot/db', { message: response.data.message, userId: id })
+          .then((res) => console.log(res));
       })
       .catch((err) => console.error('failed sending new message', err));
     setMessage('');
@@ -90,7 +105,12 @@ function ChatBot() {
           {messages.slice(1).map((text, index) => (
             // when using db will replace with db index
             // eslint-disable-next-line react/no-array-index-key
-            <Text key={`${text.role}-${index}`} color={text.role === 'assistant' ? 'purple' : 'default'}>{text.content}</Text>
+            <Text
+              key={`${text.role}-${index}`}
+              color={text.role === 'assistant' ? 'purple' : 'default'}
+            >
+              {text.content}
+            </Text>
           ))}
           <HStack>
             <Input onChange={onChange} value={message} />
