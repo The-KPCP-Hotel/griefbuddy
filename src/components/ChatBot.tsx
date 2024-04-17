@@ -24,10 +24,11 @@ function ChatBot() {
   // const [userMessages, addUserMessage] = useState([] as string[]);
 
   // const [start, addStart] = useState('');
-
-  const [messages, addMessage] = useState([
+  const startState = [
     { role: 'system', content: 'You are an inquisitive friend to users who are grieving.' },
-  ]);
+  ];
+
+  const [messages, addMessage] = useState(startState);
 
   const onChange = (e: { target: { value: string } }) => {
     const { value } = e.target;
@@ -83,6 +84,13 @@ function ChatBot() {
     setMessage('');
   };
 
+  const onDelete = () => {
+    axios.delete('/chatbot/convo', { data: { userId: id } })
+      .then(() => axios.get('/chatbot/new'))
+      .then(({ data }) => addMessage(startState.concat(data.message)))
+      .catch((err) => console.error('failed deleting convo', err));
+  };
+
   // type OpenaiType = {
   //   index: Number;
   //   message: OpenaiMessageType;
@@ -127,10 +135,10 @@ function ChatBot() {
       </Center>
       <Container>
         <Stack divider={<StackDivider />}>
+          <Button onClick={onDelete}>Delete Conversation</Button>
           {messages.slice(1).map((text, index) => (
-            // when using db will replace with db index
-            // eslint-disable-next-line react/no-array-index-key
             <Text
+            // eslint-disable-next-line react/no-array-index-key
               key={`${text.role}-${index}`}
               color={text.role === 'assistant' ? 'purple' : 'default'}
             >

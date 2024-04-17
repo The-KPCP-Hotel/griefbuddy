@@ -63,4 +63,17 @@ chatbot.get('/convo', (req: Request, res: Response) => {
     });
 });
 
+chatbot.delete('/convo', (req: Request, res: Response) => {
+  const { userId } = req.body;
+  prisma.BotMessage.deleteMany({ where: { userId } })
+    .then((response: Response) => {
+      console.log(response);
+      res.send(response);
+    })
+    .catch((err: Error) => {
+      console.error('failed deleting convo', err);
+      res.sendStatus(500);
+    });
+});
+
 export = chatbot;
