@@ -39,6 +39,13 @@ function ChatBot() {
     content: string;
   };
 
+  type DbMessageType = {
+    role: string;
+    content: string;
+    id: Number;
+    userId: Number;
+  };
+
   const onSend = () => {
     // const newMessages = userMessages.slice();
     // newMessages.push(message);
@@ -83,14 +90,32 @@ function ChatBot() {
   // };
 
   useEffect(() => {
-    axios
-      .get('/chatbot/new')
-      .then((response: AxiosResponse) => {
-        // addStart(response.data.message.content);
+    axios.get('/chatbot/convo')
+      .then(({ data }) => {
+        if (data.length) {
+          return addMessage(data.map((dbMessage: DbMessageType) => {
+            const { role, content } = dbMessage;
+            return { role, content };
+          }));
+        }
+        return axios
+          .get('/chatbot/new')
+          .then((response: AxiosResponse) => {
+            // addStart(response.data.message.content);
 
-        addMessage((curMessages) => curMessages.concat(response.data.message));
+            addMessage((curMessages) => curMessages.concat(response.data.message));
+          });
+        // .catch((err: AxiosError) => console.error('failed starting chat', err));
       })
-      .catch((err: AxiosError) => console.error('failed starting chat', err));
+      .catch((err: AxiosError) => console.error('failed finding chat', err));
+    // axios
+    //   .get('/chatbot/new')
+    //   .then((response: AxiosResponse) => {
+    //     // addStart(response.data.message.content);
+
+    //     addMessage((curMessages) => curMessages.concat(response.data.message));
+    //   })
+    //   .catch((err: AxiosError) => console.error('failed starting chat', err));
   }, []);
 
   return (

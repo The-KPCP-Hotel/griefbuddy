@@ -50,4 +50,17 @@ chatbot.post('/db', (req: Request, res: Response) => {
     .catch((err: Error) => console.error('failed bot db post', err));
 });
 
+chatbot.get('/convo', (req: Request, res: Response) => {
+  const { userId } = req.body;
+  prisma.BotMessage.findMany({ where: { userId } })
+    .then((response: Response) => {
+      console.log(response);
+      res.send(response);
+    })
+    .catch((err: Error) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
 export = chatbot;
