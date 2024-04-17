@@ -51,8 +51,9 @@ function ChatBot() {
     let allMessages: OpenaiMessageType[];
 
     // this if statement is because strict mode added two initial messages
-    if (messages[2].role === 'assistant') {
-      allMessages = [messages[0], messages[2], aiMessage];
+    if (messages.length === 2 || messages.length === 3) {
+      // allMessages = [messages[0], messages[2], aiMessage];
+      allMessages = messages.concat(aiMessage);
       addMessage(allMessages);
       axios
         .post('/chatbot/db1', { userId: id, messages: allMessages })
