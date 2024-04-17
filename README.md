@@ -12,6 +12,7 @@ GOOGLE_CLIENT_SECRET=(your google secret)
 DATABASE_URL="postgresql://<your computer username>:<your computer password>@localhost:<your psql port, likely 5432>/griefbuddy?schema=public"
 NINJA_API_KEY=(your ninja api key from https://api-ninjas.com/)
 MODE=development
+OPENAI_API_KEY='(your openai key)'
 ```
 
 **STARTUP**

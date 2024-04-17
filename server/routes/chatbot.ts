@@ -19,8 +19,6 @@ chatbot.get('/new', async (req: Request, res: Response) => {
 });
 
 chatbot.post('/', async (req: Request, res: Response) => {
-  console.log(req.body);
-  // was trying to make main() dynamic bug was having issues with messages type
   const params: OpenAI.Chat.ChatCompletionCreateParams = {
     messages: req.body.messages,
     model: 'gpt-3.5-turbo',
@@ -54,7 +52,6 @@ chatbot.get('/convo', (req: Request, res: Response) => {
   const { userId } = req.body;
   prisma.BotMessage.findMany({ where: { userId } })
     .then((response: Response) => {
-      console.log(response);
       res.send(response);
     })
     .catch((err: Error) => {
@@ -67,7 +64,6 @@ chatbot.delete('/convo', (req: Request, res: Response) => {
   const { userId } = req.body;
   prisma.BotMessage.deleteMany({ where: { userId } })
     .then((response: Response) => {
-      console.log(response);
       res.send(response);
     })
     .catch((err: Error) => {

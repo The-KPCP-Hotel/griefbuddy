@@ -6,32 +6,14 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// type OpenaiMessageType = {
-//   role: string;
-//   content: string;
-// };
-
+// tried to make this func dynamic but had issues with messages typing
 async function main() {
   const params: OpenAI.Chat.ChatCompletionCreateParams = {
     messages: [{ role: 'system', content: 'You are an inquisitive friend to users who are grieving.' }],
     model: 'gpt-3.5-turbo',
   };
   const chatCompletion: OpenAI.Chat.ChatCompletion = await openai.chat.completions.create(params);
-  console.log(chatCompletion.choices[0]);
   return chatCompletion.choices[0];
 }
 
 export default main;
-
-// // async function main(messages: OpenaiMessageType[]) {
-// async function main(messages: ChatCompletionMessageParam[]) {
-//   const completion = await openai.chat.completions.create({
-//     messages,
-//     model: 'gpt-3.5-turbo-1106',
-//   });
-
-//   console.log(completion.choices[0]);
-//   return completion.choices[0];
-// }
-
-// export default main;

@@ -21,9 +21,6 @@ function ChatBot() {
 
   const [message, setMessage] = useState('');
 
-  // const [userMessages, addUserMessage] = useState([] as string[]);
-
-  // const [start, addStart] = useState('');
   const startState = [
     { role: 'system', content: 'You are an inquisitive friend to users who are grieving.' },
   ];
@@ -48,82 +45,61 @@ function ChatBot() {
   };
 
   const onSend = () => {
-    // const newMessages = userMessages.slice();
-    // newMessages.push(message);
-    // addUserMessage((curUserMessages) => curUserMessages.concat([message]));
     const aiMessage = { role: 'user', content: message };
 
     // allMessages is so we can post before messages is done updating
     let allMessages: OpenaiMessageType[];
-    // this if statement is because of strict mode added two initial messages
+
+    // this if statement is because strict mode added two initial messages
     if (messages[2].role === 'assistant') {
       allMessages = [messages[0], messages[2], aiMessage];
       addMessage(allMessages);
       axios
         .post('/chatbot/db1', { userId: id, messages: allMessages })
-        .then((res) => console.log(res))
         .catch((err) => console.error('failed posted initial messages to db', err));
     } else {
       allMessages = messages.concat([aiMessage]);
       addMessage(allMessages);
-      axios
-        .post('/chatbot/db', { message: aiMessage, userId: id })
-        .then((res) => console.log(res));
+      axios.post('/chatbot/db', { message: aiMessage, userId: id }).catch((err) => console.error('failed posting new message', err));
     }
-    // addMessage()
+
     axios
       .post('/chatbot', { messages: allMessages })
       .then((response) => {
-        console.log(response.data.message.content);
         addMessage((curMessages) => curMessages.concat([response.data.message]));
-        axios
-          .post('/chatbot/db', { message: response.data.message, userId: id })
-          .then((res) => console.log(res));
+        axios.post('/chatbot/db', { message: response.data.message, userId: id });
       })
       .catch((err) => console.error('failed sending new message', err));
     setMessage('');
   };
 
   const onDelete = () => {
-    axios.delete('/chatbot/convo', { data: { userId: id } })
+    axios
+      .delete('/chatbot/convo', { data: { userId: id } })
       .then(() => axios.get('/chatbot/new'))
       .then(({ data }) => addMessage(startState.concat(data.message)))
       .catch((err) => console.error('failed deleting convo', err));
   };
 
-  // type OpenaiType = {
-  //   index: Number;
-  //   message: OpenaiMessageType;
-  //   finish_reason: string;
-  // };
-
   useEffect(() => {
-    axios.get('/chatbot/convo')
+    axios
+      .get('/chatbot/convo')
       .then(({ data }) => {
         if (data.length) {
-          return addMessage(data.map((dbMessage: DbMessageType) => {
-            const { role, content } = dbMessage;
-            return { role, content };
-          }));
+          return addMessage(
+            data.map((dbMessage: DbMessageType) => {
+              const { role, content } = dbMessage;
+              return { role, content };
+            }),
+          );
         }
-        return axios
-          .get('/chatbot/new')
-          .then((response: AxiosResponse) => {
-            // addStart(response.data.message.content);
-
-            addMessage((curMessages) => curMessages.concat(response.data.message));
-          });
-        // .catch((err: AxiosError) => console.error('failed starting chat', err));
+        return axios.get('/chatbot/new').then((response: AxiosResponse) => {
+          // strick mode causes two new messages to render
+          // - the first is deleted on the first user response
+          addMessage((curMessages) => curMessages.concat(response.data.message));
+        });
       })
       .catch((err: AxiosError) => console.error('failed finding chat', err));
-    // axios
-    //   .get('/chatbot/new')
-    //   .then((response: AxiosResponse) => {
-    //     // addStart(response.data.message.content);
-
-    //     addMessage((curMessages) => curMessages.concat(response.data.message));
-    //   })
-    //   .catch((err: AxiosError) => console.error('failed starting chat', err));
   }, []);
 
   return (
@@ -138,7 +114,7 @@ function ChatBot() {
           <Button onClick={onDelete}>Delete Conversation</Button>
           {messages.slice(1).map((text, index) => (
             <Text
-            // eslint-disable-next-line react/no-array-index-key
+              // eslint-disable-next-line react/no-array-index-key
               key={`${text.role}-${index}`}
               color={text.role === 'assistant' ? 'purple' : 'default'}
             >
