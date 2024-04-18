@@ -80,22 +80,7 @@ chatbot.post('/moderate', async (req: Request, res: Response) => {
     input: content,
   });
 
-  // should check if flagged - then trigger buddy sms and alert user
-  // if (moderation.results[0].flagged) {
-  //   axios.post('https://textbelt.com/text', {
-  //     phone: '+15043387079',
-  //     message: 'Your friend, Ky, could use a call',
-  //     key: process.env.TEXTBELT_API_KEY,
-  //     sender: 'Grief Buddy',
-  //   })
-  //     .then(() => res.send(true))
-  //     .catch((err: Error) => {
-  //       console.error('failed sending to friend contact', err);
-  //       res.status(500).send(true);
-  //     });
-  // } else {
   res.send(moderation.results[0].flagged);
-  // }
 });
 
 chatbot.post('/text', (req: Request, res: Response) => {
