@@ -125,3 +125,12 @@ model Notification {
   notification String
   seen         Boolean
 }
+
+model LocationRequest {
+  id           Int     @id @default(autoincrement())
+  sender       String?
+  recipient    String?
+  isAccepted   String?
+  haveArrived  String?
+  closeMeeting String?
+}
