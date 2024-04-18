@@ -72,7 +72,12 @@ function ChatBot() {
         axios.post('/chatbot/db', { message: response.data.message, userId: id });
       })
       .then(() => axios.post('/chatbot/moderate', { message: aiMessage }))
-      .then((response) => console.log('moderator was flagged?', response))
+      .then((response) => {
+        console.log('moderator was flagged?', response);
+        if (response.data && response.status === 200) {
+          // should let the user know a friend message was sent
+        }
+      })
       .catch((err) => console.error('failed sending new message', err));
     setMessage('');
   };
