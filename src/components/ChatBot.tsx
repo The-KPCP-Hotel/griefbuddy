@@ -10,14 +10,20 @@ import {
   Text,
   Button,
   HStack,
+  useToast,
 } from '@chakra-ui/react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { UserContext } from '../context/UserContext';
 
 function ChatBot() {
+  const toast = useToast();
+  // const toastIdRef = React.useRef();
+
   const userContext = useContext(UserContext);
 
-  const { id } = userContext.user;
+  const {
+    id, emConNum, emConName, name,
+  } = userContext.user;
 
   const [message, setMessage] = useState('');
 
@@ -72,10 +78,20 @@ function ChatBot() {
         axios.post('/chatbot/db', { message: response.data.message, userId: id });
       })
       .then(() => axios.post('/chatbot/moderate', { message: aiMessage }))
-      .then((response) => {
-        console.log('moderator was flagged?', response);
-        if (response.data && response.status === 200) {
+      .then(({ data }) => {
+        console.log('moderator was flagged?', data);
+        if (data && emConNum) {
           // should let the user know a friend message was sent
+          toast({ title: `Sending message to ${emConName}`, status: 'warning', isClosable: true });
+          axios.post('/chatbot/text', { name, phone: emConNum })
+            .then((response) => {
+              console.log(response);
+              toast({ title: `Sent message to ${emConName}`, status: 'success', isClosable: true });
+            })
+            .catch((err) => {
+              console.error('failed sending friend message', err);
+              toast({ title: `Failed sending message to ${emConName} at ${emConNum}`, status: 'error', isClosable: true });
+            });
         }
       })
       .catch((err) => console.error('failed sending new message', err));

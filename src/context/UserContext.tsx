@@ -6,6 +6,8 @@ export type AuthUser = {
   id: number,
   name: string,
   googleId: string,
+  emConNum: string,
+  emConName: string,
   // buddies: Buddy[];
 };
 
