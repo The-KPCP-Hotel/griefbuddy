@@ -72,4 +72,14 @@ chatbot.delete('/convo', (req: Request, res: Response) => {
     });
 });
 
+chatbot.post('/moderate', async (req: Request, res: Response) => {
+  const { content } = req.body.message;
+
+  const moderation: OpenAI.Moderations.ModerationCreateResponse = await openai.moderations.create({
+    input: content,
+  });
+
+  res.send(moderation.results[0].flagged);
+});
+
 export = chatbot;

@@ -51,6 +51,7 @@ function ChatBot() {
     let allMessages: OpenaiMessageType[];
 
     // this if statement is because strict mode added two initial messages
+    // also on first POST need to save the beginning of conversation
     if (messages.length === 2 || messages.length === 3) {
       // allMessages = [messages[0], messages[2], aiMessage];
       allMessages = messages.concat(aiMessage);
@@ -70,6 +71,8 @@ function ChatBot() {
         addMessage((curMessages) => curMessages.concat([response.data.message]));
         axios.post('/chatbot/db', { message: response.data.message, userId: id });
       })
+      .then(() => axios.post('/chatbot/moderate', { message: aiMessage }))
+      .then((response) => console.log('moderator was flagged?', response))
       .catch((err) => console.error('failed sending new message', err));
     setMessage('');
   };
