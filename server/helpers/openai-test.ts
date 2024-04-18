@@ -17,3 +17,12 @@ async function main() {
 }
 
 export default main;
+
+async function moderator() {
+  const moderation: OpenAI.Moderations.ModerationCreateResponse = await openai.moderations.create({ input: "I hate my dad's surgeon" });
+
+  console.log(moderation);
+  console.log(moderation.results[0].category_scores);
+  console.log(moderation.results[0].categories);
+}
+// moderator();
