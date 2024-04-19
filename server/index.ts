@@ -7,6 +7,10 @@ import session from 'express-session';
 import http from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
+
 require('dotenv').config();
 
 const app: Express = express();
@@ -61,7 +65,23 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));
 });
 
-app.get('/user', checkAuth, (req, res) => {
+// type User = {
+//   googleId: string,
+// };
+
+app.get('/user', checkAuth, (req: Request, res: Response) => {
+  console.log('from /user', req.user);
+  // const { user }: User = req;
+  // const { googleId } = user;
+
+  res.send(req.user);
+});
+
+app.get('/userById', (req, res) => {
+  prisma.User.findUnique({ where: req.user })
+    .then((response: Response) => console.log('from /userById', response))
+    .catch((err: Error) => console.error('failed finding user', err));
+
   res.send(req.user);
 });
 

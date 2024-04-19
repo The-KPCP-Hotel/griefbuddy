@@ -8,6 +8,12 @@ export type AuthUser = {
   googleId: string,
   emConNum: string,
   emConName: string,
+  emConRelationship: String,
+  currMood: String,
+  agee: String,
+  myLocation: String,
+  myPhoneNumber: String,
+  preferredName: String,
   // buddies: Buddy[];
 };
 

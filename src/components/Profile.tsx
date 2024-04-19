@@ -59,12 +59,13 @@ function Profile() {
   const [age, setAge] = useState('18-99+');
   const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888');
 
-  function getUser() {
-    axios.get('/profile/user').then((results) => {
-      // console.log(results.data[0])
-      setUserObj(results.data[0]);
-    });
-  }
+  // function getUser() {
+  //   axios.get('/user').then(({ data }) => {
+  //     // console.log(results.data[0])
+  //     console.log(data);
+  //     setUserObj(data);
+  //   });
+  // }
 
   function updateUser() {
     axios
@@ -80,8 +81,15 @@ function Profile() {
           myPhoneNumber,
         },
       })
-      .then(() => {
-        console.log('successful patch');
+      .then((response) => {
+        console.log('successful patch', response);
+        setUserObj(response.data);
+        // axios.get('/userById').then(({ data }) => {
+        //   // console.log(results.data[0])
+        //   console.log('get /user after patch', data);
+        //   const refreshObj = { ...data };
+        //   setUserObj(refreshObj);
+        // });
       })
       .catch((err: string) => {
         console.error(err);
@@ -100,8 +108,9 @@ function Profile() {
           emConRelationship: friendRelationship,
         },
       })
-      .then(() => {
-        console.log('successful patch');
+      .then((response) => {
+        console.log('successful patch', response);
+        setUserObj(response.data);
       })
       .catch((err: string) => {
         console.error(err);
@@ -109,11 +118,17 @@ function Profile() {
   }
 
   useEffect(() => {
-    getUser();
-  }, [friendName]);
+    // getUser();
+    axios.get('/userById').then(({ data }) => {
+      // console.log(results.data[0])
+      console.log('from /userById', data);
+      const refreshObj = { ...data };
+      setUserObj(refreshObj);
+    });
+  }, []);
 
   useEffect(() => {}, [nickname]);
-
+  // console.log(userObj);
   return (
     <div>
       <ChakraProvider>
@@ -137,12 +152,12 @@ function Profile() {
                 <Avatar name="Kola Tioluwani" size="xl" src="https://bit.ly/tioluwani-kolawole" />
               </Center>
               <Center>
-                <h3>{userObj.name}</h3>
+                {(userObj) ? <h3>{userObj.name}</h3> : <div />}
               </Center>
               <Center>
                 <h5>
                   <b>I Live In:</b>
-                  {userObj.myLocation}
+                  {(userObj) ? userObj.myLocation : ''}
                 </h5>
               </Center>
               <br />
@@ -171,7 +186,7 @@ function Profile() {
                               Name
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.preferredName}
+                              {(userObj) ? userObj.preferredName : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -179,7 +194,7 @@ function Profile() {
                               Phone Number
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.myPhoneNumber}
+                              {(userObj) ? userObj.myPhoneNumber : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -187,7 +202,7 @@ function Profile() {
                               Age
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.agee}
+                              {(userObj) ? userObj.agee : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -195,7 +210,7 @@ function Profile() {
                               Current Mental State
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.currMood}
+                              {(userObj) ? userObj.currMood : ''}
                             </Text>
                           </Box>
                         </Stack>
@@ -216,7 +231,7 @@ function Profile() {
                               Name
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.emConName}
+                              {(userObj) ? userObj.emConName : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -224,7 +239,7 @@ function Profile() {
                               Phone Number
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.emConNum}
+                              {(userObj) ? userObj.emConNum : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -232,7 +247,7 @@ function Profile() {
                               Relationship
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.emConRelationship}
+                              {(userObj) ? userObj.emConRelationship : ''}
                             </Text>
                           </Box>
                         </Stack>
