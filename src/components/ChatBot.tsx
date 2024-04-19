@@ -48,6 +48,16 @@ function ChatBot() {
     userId: Number;
   };
 
+  const sendText = () => (axios.post('/chatbot/text', { name: user.name, phone: user.emConNum })
+    .then(() => {
+      toast({ title: `Sent message to ${user.emConName}`, status: 'success', isClosable: true });
+    })
+    .catch((err) => {
+      console.error('failed sending friend message', err);
+      toast({ title: `Failed sending message to ${user.emConName} at ${user.emConNum}`, status: 'error', isClosable: true });
+    })
+  );
+
   const onSend = () => {
     const aiMessage = { role: 'user', content: message };
 
@@ -80,14 +90,7 @@ function ChatBot() {
         if (data && user.emConNum) {
           // should let the user know a friend message was sent
           toast({ title: `Sending message to ${user.emConName}`, status: 'warning', isClosable: true });
-          axios.post('/chatbot/text', { name: user.name, phone: user.emConNum })
-            .then(() => {
-              toast({ title: `Sent message to ${user.emConName}`, status: 'success', isClosable: true });
-            })
-            .catch((err) => {
-              console.error('failed sending friend message', err);
-              toast({ title: `Failed sending message to ${user.emConName} at ${user.emConNum}`, status: 'error', isClosable: true });
-            });
+          sendText();
         }
       })
       .catch((err) => console.error('failed sending new message', err));
