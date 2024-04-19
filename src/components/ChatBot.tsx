@@ -10,14 +10,18 @@ import {
   Text,
   Button,
   HStack,
+  useToast,
 } from '@chakra-ui/react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { UserContext } from '../context/UserContext';
 
 function ChatBot() {
+  const toast = useToast();
+
   const userContext = useContext(UserContext);
 
-  const { id } = userContext.user;
+  // was destructuring user, but caused a failure on refresh
+  const { user, setUser } = userContext;
 
   const [message, setMessage] = useState('');
 
@@ -44,6 +48,16 @@ function ChatBot() {
     userId: Number;
   };
 
+  const sendText = () => (axios.post('/chatbot/text', { name: user.name, phone: user.emConNum })
+    .then(() => {
+      toast({ title: `Sent message to ${user.emConName}`, status: 'success', isClosable: true });
+    })
+    .catch((err) => {
+      console.error('failed sending friend message', err);
+      toast({ title: `Failed sending message to ${user.emConName} at ${user.emConNum}`, status: 'error', isClosable: true });
+    })
+  );
+
   const onSend = () => {
     const aiMessage = { role: 'user', content: message };
 
@@ -51,23 +65,33 @@ function ChatBot() {
     let allMessages: OpenaiMessageType[];
 
     // this if statement is because strict mode added two initial messages
-    if (messages[2].role === 'assistant') {
-      allMessages = [messages[0], messages[2], aiMessage];
+    // also on first POST need to save the beginning of conversation
+    if (messages.length === 2 || messages.length === 3) {
+      // allMessages = [messages[0], messages[2], aiMessage];
+      allMessages = messages.concat(aiMessage);
       addMessage(allMessages);
       axios
-        .post('/chatbot/db1', { userId: id, messages: allMessages })
+        .post('/chatbot/db1', { userId: user.id, messages: allMessages })
         .catch((err) => console.error('failed posted initial messages to db', err));
     } else {
       allMessages = messages.concat([aiMessage]);
       addMessage(allMessages);
-      axios.post('/chatbot/db', { message: aiMessage, userId: id }).catch((err) => console.error('failed posting new message', err));
+      axios.post('/chatbot/db', { message: aiMessage, userId: user.id }).catch((err) => console.error('failed posting new message', err));
     }
 
     axios
       .post('/chatbot', { messages: allMessages })
       .then((response) => {
         addMessage((curMessages) => curMessages.concat([response.data.message]));
-        axios.post('/chatbot/db', { message: response.data.message, userId: id });
+        axios.post('/chatbot/db', { message: response.data.message, userId: user.id });
+      })
+      .then(() => axios.post('/chatbot/moderate', { message: aiMessage }))
+      .then(({ data }) => {
+        if (data && user.emConNum) {
+          // should let the user know a friend message was sent
+          toast({ title: `Sending message to ${user.emConName}`, status: 'warning', isClosable: true });
+          sendText();
+        }
       })
       .catch((err) => console.error('failed sending new message', err));
     setMessage('');
@@ -75,15 +99,20 @@ function ChatBot() {
 
   const onDelete = () => {
     axios
-      .delete('/chatbot/convo', { data: { userId: id } })
+      .delete('/chatbot/convo', { data: { userId: user.id } })
       .then(() => axios.get('/chatbot/new'))
       .then(({ data }) => addMessage(startState.concat(data.message)))
       .catch((err) => console.error('failed deleting convo', err));
   };
 
   useEffect(() => {
-    axios
-      .get('/chatbot/convo')
+    axios.get('/user')
+      .then(({ data }) => {
+        if (typeof data === 'object') {
+          setUser({ ...data });
+        }
+      })
+      .then(() => axios.get('/chatbot/convo'))
       .then(({ data }) => {
         if (data.length) {
           return addMessage(
@@ -99,8 +128,8 @@ function ChatBot() {
           addMessage((curMessages) => curMessages.concat(response.data.message));
         });
       })
-      .catch((err: AxiosError) => console.error('failed finding chat', err));
-  }, []);
+      .catch((err: AxiosError) => console.error('failed finding user/chat', err));
+  }, [setUser]);
 
   return (
     <ChakraProvider>

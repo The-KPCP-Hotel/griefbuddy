@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import axios from 'axios';
 import OpenAI from 'openai';
 import main from '../helpers/openai-test';
 
@@ -68,6 +69,31 @@ chatbot.delete('/convo', (req: Request, res: Response) => {
     })
     .catch((err: Error) => {
       console.error('failed deleting convo', err);
+      res.sendStatus(500);
+    });
+});
+
+chatbot.post('/moderate', async (req: Request, res: Response) => {
+  const { content } = req.body.message;
+
+  const moderation: OpenAI.Moderations.ModerationCreateResponse = await openai.moderations.create({
+    input: content,
+  });
+
+  res.send(moderation.results[0].flagged);
+});
+
+chatbot.post('/text', (req: Request, res: Response) => {
+  const { name, phone } = req.body;
+  axios.post('https://textbelt.com/text', {
+    phone,
+    message: `Your friend, ${name}, could use a call\n-Grief Buddy`,
+    key: process.env.TEXTBELT_API_KEY,
+    sender: 'Grief Buddy',
+  })
+    .then((response) => res.send(response.data))
+    .catch((err: Error) => {
+      console.error('failed sending to friend contact', err);
       res.sendStatus(500);
     });
 });

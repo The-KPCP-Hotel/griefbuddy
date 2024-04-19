@@ -1,7 +1,6 @@
 const path = require('path');
 require('dotenv').config();
 
-console.log(__dirname);
 module.exports = {
   entry: './src/index.tsx',
   devtool: 'inline-source-map',

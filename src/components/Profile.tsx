@@ -1,5 +1,4 @@
 import React = require('react');
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -19,9 +18,6 @@ import {
   CardHeader,
   CardBody,
   FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Input,
   Button,
   Heading,
@@ -44,7 +40,6 @@ function Profile() {
     preferredName: String;
   };
 
-  const [googId, setGoogId] = useState('');
   const [userObj, setUserObj] = useState({} as UserType);
   const [friendName, setFriendName] = useState('Halle Bot');
   const [friendNumber, setFriendNumber] = useState('504-XXX-XXXX');
@@ -54,13 +49,6 @@ function Profile() {
   const [myMood, setMood] = useState("I'm Feeling Great!");
   const [age, setAge] = useState('18-99+');
   const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888');
-
-  function getUser() {
-    axios.get('/profile/user').then((results) => {
-      // console.log(results.data[0])
-      setUserObj(results.data[0]);
-    });
-  }
 
   function updateUser() {
     axios
@@ -73,11 +61,11 @@ function Profile() {
           currMood: myMood,
           myLocation: location,
           agee: age,
-          myPhoneNumber: myPhoneNumber,
+          myPhoneNumber,
         },
       })
-      .then(() => {
-        console.log('successful patch');
+      .then((response) => {
+        setUserObj(response.data);
       })
       .catch((err: string) => {
         console.error(err);
@@ -96,8 +84,8 @@ function Profile() {
           emConRelationship: friendRelationship,
         },
       })
-      .then(() => {
-        console.log('successful patch');
+      .then((response) => {
+        setUserObj(response.data);
       })
       .catch((err: string) => {
         console.error(err);
@@ -105,17 +93,19 @@ function Profile() {
   }
 
   useEffect(() => {
-    getUser();
-  }, [friendName]);
+    axios.get('/user').then(({ data }) => {
+      const refreshObj = { ...data };
+      setUserObj(refreshObj);
+    });
+  }, []);
 
   useEffect(() => {}, [nickname]);
 
   return (
     <div>
       <ChakraProvider>
-        {/* <Link to="/home" style={{fontSize: "55px"}}>⌂</Link> */}
         <Center>
-          <Heading size="3xl" color={'blue.200'}>
+          <Heading size="3xl" color="blue.200">
             My Profile
           </Heading>
         </Center>
@@ -124,38 +114,38 @@ function Profile() {
             templateRows="repeat(2, 1fr)"
             templateColumns="repeat(5, 1fr)"
             gap={4}
-            h={'1000px'}
-            marginBottom={'150px'}
-            padding={'40px'}
+            h="1000px"
+            marginBottom="150px"
+            padding="40px"
           >
-            <GridItem width={'300px'} colSpan={1} bg="blue.200" h="816px" borderRadius={'15px'}>
-              <Center padding={'25px'}>
+            <GridItem width="300px" colSpan={1} bg="blue.200" h="816px" borderRadius="15px">
+              <Center padding="25px">
                 <Avatar name="Kola Tioluwani" size="xl" src="https://bit.ly/tioluwani-kolawole" />
               </Center>
               <Center>
-                <h3>{userObj.name}</h3>
+                {(userObj) ? <h3>{userObj.name}</h3> : <div />}
               </Center>
               <Center>
                 <h5>
                   <b>I Live In:</b>
-                  {userObj.myLocation}
+                  {(userObj) ? userObj.myLocation : ''}
                 </h5>
               </Center>
               <br />
               <br />
             </GridItem>
 
-            <GridItem colSpan={4} bg="blue.200" h="816px" borderRadius={'15px'}>
+            <GridItem colSpan={4} bg="blue.200" h="816px" borderRadius="15px">
               <Tabs isLazy>
-                <TabList paddingTop={'15px'}>
-                  <Tab fontSize={'20px'}>About Me</Tab>
-                  <Tab fontSize={'20px'}>Friend Contact</Tab>
-                  <Tab fontSize={'20px'}>Personal Settings</Tab>
+                <TabList paddingTop="15px">
+                  <Tab fontSize="20px">About Me</Tab>
+                  <Tab fontSize="20px">Friend Contact</Tab>
+                  <Tab fontSize="20px">Personal Settings</Tab>
                 </TabList>
                 <TabPanels>
                   {/* initially mounted */}
                   <TabPanel>
-                    <Card h={'710px'}>
+                    <Card h="710px">
                       <CardHeader>
                         <Heading size="md">About Me</Heading>
                       </CardHeader>
@@ -167,7 +157,7 @@ function Profile() {
                               Name
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.preferredName}
+                              {(userObj) ? userObj.preferredName : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -175,7 +165,7 @@ function Profile() {
                               Phone Number
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.myPhoneNumber}
+                              {(userObj) ? userObj.myPhoneNumber : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -183,7 +173,7 @@ function Profile() {
                               Age
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.agee}
+                              {(userObj) ? userObj.agee : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -191,7 +181,7 @@ function Profile() {
                               Current Mental State
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.currMood}
+                              {(userObj) ? userObj.currMood : ''}
                             </Text>
                           </Box>
                         </Stack>
@@ -200,7 +190,7 @@ function Profile() {
                   </TabPanel>
                   {/* initially not mounted */}
                   <TabPanel>
-                    <Card h={'710px'}>
+                    <Card h="710px">
                       <CardHeader>
                         <Heading size="md">Friend Contact</Heading>
                       </CardHeader>
@@ -212,7 +202,7 @@ function Profile() {
                               Name
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.emConName}
+                              {(userObj) ? userObj.emConName : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -220,7 +210,7 @@ function Profile() {
                               Phone Number
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.emConNum}
+                              {(userObj) ? userObj.emConNum : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -228,7 +218,7 @@ function Profile() {
                               Relationship
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {userObj.emConRelationship}
+                              {(userObj) ? userObj.emConRelationship : ''}
                             </Text>
                           </Box>
                         </Stack>
@@ -237,7 +227,7 @@ function Profile() {
                   </TabPanel>
                   <TabPanel>
                     <FormControl>
-                      <Card h={'710px'} style={{ overflow: 'scroll' }}>
+                      <Card h="710px" style={{ overflow: 'scroll' }}>
                         <CardHeader>
                           <Heading size="md">Update Personal Settings</Heading>
                         </CardHeader>
@@ -253,7 +243,7 @@ function Profile() {
                               <Input
                                 type="text"
                                 onChange={(e) => {
-                                  let nicknamee = e.target.value;
+                                  const nicknamee = e.target.value;
                                   setNickname(nicknamee);
                                 }}
                               />
@@ -266,7 +256,7 @@ function Profile() {
                               <Input
                                 type="text"
                                 onChange={(e) => {
-                                  let num = e.target.value;
+                                  const num = e.target.value;
                                   updateMyPhoneNumber(num);
                                 }}
                               />
@@ -279,7 +269,7 @@ function Profile() {
                               <Input
                                 type="text"
                                 onChange={(e) => {
-                                  let agee = e.target.value;
+                                  const agee = e.target.value;
                                   setAge(agee);
                                 }}
                               />
@@ -292,20 +282,20 @@ function Profile() {
                               <Input
                                 type="text"
                                 onChange={(e) => {
-                                  let locationn = e.target.value;
+                                  const locationn = e.target.value;
                                   setLocation(locationn);
                                 }}
                               />
                             </Box>
                             <Box>
                               <Heading size="xs" textTransform="uppercase">
-                                How I'm Feeling
+                                How I&apos;m Feeling
                               </Heading>
 
                               <Input
                                 type="text"
                                 onChange={(e) => {
-                                  let moodd = e.target.value;
+                                  const moodd = e.target.value;
                                   setMood(moodd);
                                 }}
                               />
@@ -321,14 +311,15 @@ function Profile() {
                             </Box>
                             <Heading size="md">Update Friend Settings</Heading>
                             <Box>
-                              <h4 style={{ color: 'orange' }}>Must fill out all boxes</h4>{' '}
+                              <h4 style={{ color: 'orange' }}>Must fill out all boxes</h4>
+                              {' '}
                               <Heading size="xs" textTransform="uppercase">
                                 Name
                               </Heading>
                               <Input
                                 type="text"
                                 onChange={(e) => {
-                                  let friendnamee = e.target.value;
+                                  const friendnamee = e.target.value;
                                   setFriendName(friendnamee);
                                 }}
                               />
@@ -341,7 +332,7 @@ function Profile() {
                               <Input
                                 type="text"
                                 onChange={(e) => {
-                                  let friendnum = e.target.value;
+                                  const friendnum = e.target.value;
                                   setFriendNumber(friendnum);
                                 }}
                               />
@@ -354,7 +345,7 @@ function Profile() {
                               <Input
                                 type="text"
                                 onChange={(e) => {
-                                  let relation = e.target.value;
+                                  const relation = e.target.value;
                                   setFriendRelationship(relation);
                                 }}
                               />
