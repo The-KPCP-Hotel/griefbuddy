@@ -13,6 +13,7 @@ DATABASE_URL="postgresql://<your computer username>:<your computer password>@loc
 NINJA_API_KEY=(your ninja api key from https://api-ninjas.com/)
 MODE=development
 OPENAI_API_KEY='(your openai key)'
+TEXTBELT_API_KEY=(your textbelt api key)
 ```
 
 **STARTUP**
