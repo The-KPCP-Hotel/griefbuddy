@@ -16,20 +16,7 @@ import BuddyChat from './buddyChildren/BuddyChat';
 
 function App() {
   // trying to figure out how to keep user context updated through page refreshes
-  // const userContext = useContext(UserContext);
-
-  // const { setUser } = userContext;
-
-  // const [user, setUser] = useState(null);
-
-  // useEffect(() => {
-  //   axios.get('/user')
-  //     .then(({ data }) => {
-  //       setUser(data);
-  //     })
-  //     .catch((err) => console.error('failed getting user', err));
-  // }, [setUser]);
-
+  // user context setUser is not a function here...
   return (
     <UserContextProvider>
       <ChakraProvider>

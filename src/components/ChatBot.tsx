@@ -20,9 +20,8 @@ function ChatBot() {
 
   const userContext = useContext(UserContext);
 
-  const {
-    id, emConNum, emConName, name,
-  } = userContext.user;
+  // was destructuring user, but caused a failure on refresh
+  const { user, setUser } = userContext;
 
   const [message, setMessage] = useState('');
 
@@ -62,32 +61,32 @@ function ChatBot() {
       allMessages = messages.concat(aiMessage);
       addMessage(allMessages);
       axios
-        .post('/chatbot/db1', { userId: id, messages: allMessages })
+        .post('/chatbot/db1', { userId: user.id, messages: allMessages })
         .catch((err) => console.error('failed posted initial messages to db', err));
     } else {
       allMessages = messages.concat([aiMessage]);
       addMessage(allMessages);
-      axios.post('/chatbot/db', { message: aiMessage, userId: id }).catch((err) => console.error('failed posting new message', err));
+      axios.post('/chatbot/db', { message: aiMessage, userId: user.id }).catch((err) => console.error('failed posting new message', err));
     }
 
     axios
       .post('/chatbot', { messages: allMessages })
       .then((response) => {
         addMessage((curMessages) => curMessages.concat([response.data.message]));
-        axios.post('/chatbot/db', { message: response.data.message, userId: id });
+        axios.post('/chatbot/db', { message: response.data.message, userId: user.id });
       })
       .then(() => axios.post('/chatbot/moderate', { message: aiMessage }))
       .then(({ data }) => {
-        if (data && emConNum) {
+        if (data && user.emConNum) {
           // should let the user know a friend message was sent
-          toast({ title: `Sending message to ${emConName}`, status: 'warning', isClosable: true });
-          axios.post('/chatbot/text', { name, phone: emConNum })
+          toast({ title: `Sending message to ${user.emConName}`, status: 'warning', isClosable: true });
+          axios.post('/chatbot/text', { name: user.name, phone: user.emConNum })
             .then(() => {
-              toast({ title: `Sent message to ${emConName}`, status: 'success', isClosable: true });
+              toast({ title: `Sent message to ${user.emConName}`, status: 'success', isClosable: true });
             })
             .catch((err) => {
               console.error('failed sending friend message', err);
-              toast({ title: `Failed sending message to ${emConName} at ${emConNum}`, status: 'error', isClosable: true });
+              toast({ title: `Failed sending message to ${user.emConName} at ${user.emConNum}`, status: 'error', isClosable: true });
             });
         }
       })
@@ -97,15 +96,20 @@ function ChatBot() {
 
   const onDelete = () => {
     axios
-      .delete('/chatbot/convo', { data: { userId: id } })
+      .delete('/chatbot/convo', { data: { userId: user.id } })
       .then(() => axios.get('/chatbot/new'))
       .then(({ data }) => addMessage(startState.concat(data.message)))
       .catch((err) => console.error('failed deleting convo', err));
   };
 
   useEffect(() => {
-    axios
-      .get('/chatbot/convo')
+    axios.get('/user')
+      .then(({ data }) => {
+        if (typeof data === 'object') {
+          setUser({ ...data });
+        }
+      })
+      .then(() => axios.get('/chatbot/convo'))
       .then(({ data }) => {
         if (data.length) {
           return addMessage(
@@ -121,8 +125,8 @@ function ChatBot() {
           addMessage((curMessages) => curMessages.concat(response.data.message));
         });
       })
-      .catch((err: AxiosError) => console.error('failed finding chat', err));
-  }, []);
+      .catch((err: AxiosError) => console.error('failed finding user/chat', err));
+  }, [setUser]);
 
   return (
     <ChakraProvider>
