@@ -5,8 +5,9 @@ import axios from 'axios';
 import { useContext, useEffect } from 'react';
 import { UserContext, AuthUser } from '../context/UserContext';
 import { ChakraProvider } from '@chakra-ui/react';
-import { Heading, Center, Container } from '@chakra-ui/react';
+import { Heading, Center, Container, Box } from '@chakra-ui/react';
 import Quote from './HomeComponents/Quote';
+import MainFeed from './MainFeed';
 
 function HomePage() {
   const userContext = useContext(UserContext);
@@ -38,6 +39,9 @@ function HomePage() {
 
       <h2>{`Welcome ${user?.name.split(' ')[0]}`}</h2>
       <Quote />
+      <Box h="300px" bg="red">
+        <MainFeed></MainFeed>
+      </Box>
       </Container>
     </ChakraProvider>
   );
