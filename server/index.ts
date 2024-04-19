@@ -65,23 +65,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));
 });
 
-// type User = {
-//   googleId: string,
-// };
-
 app.get('/user', checkAuth, (req: Request, res: Response) => {
-  console.log('from /user', req.user);
-  // const { user }: User = req;
-  // const { googleId } = user;
-
-  res.send(req.user);
-});
-
-app.get('/userById', (req, res) => {
-  prisma.User.findUnique({ where: req.user })
-    .then((response: Response) => console.log('from /userById', response))
-    .catch((err: Error) => console.error('failed finding user', err));
-
+  // console.log('from /user', req.user);
   res.send(req.user);
 });
 
@@ -111,9 +96,6 @@ io.on('connection', (socket) => {
     console.log(`${socket.id} disconnected.`);
   });
 });
-
-// calls openai - be careful not to make accessive calls
-// main();
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));

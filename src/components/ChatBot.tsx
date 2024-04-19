@@ -17,7 +17,6 @@ import { UserContext } from '../context/UserContext';
 
 function ChatBot() {
   const toast = useToast();
-  // const toastIdRef = React.useRef();
 
   const userContext = useContext(UserContext);
 
@@ -79,13 +78,11 @@ function ChatBot() {
       })
       .then(() => axios.post('/chatbot/moderate', { message: aiMessage }))
       .then(({ data }) => {
-        // console.log('moderator was flagged?', data);
         if (data && emConNum) {
           // should let the user know a friend message was sent
           toast({ title: `Sending message to ${emConName}`, status: 'warning', isClosable: true });
           axios.post('/chatbot/text', { name, phone: emConNum })
             .then(() => {
-              // console.log(response);
               toast({ title: `Sent message to ${emConName}`, status: 'success', isClosable: true });
             })
             .catch((err) => {

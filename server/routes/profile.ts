@@ -21,11 +21,12 @@ router.get('/user', (req: Request, res: Response) => {
 router.patch('/user', (req: Request, res: Response) => {
   // const { googleId, location, currMood, friendName, friendNumber, friendRelationship, nickname }
   // = req.body
-  console.log('/user req.body', req.body);
+//   console.log('/user req.body', req.body);
+  // changed to update from updateMany - now sends the updated profile response
   //   prisma.User.updateMany(req.body)
   prisma.User.update(req.body)
     .then((response: Response) => {
-      console.log('patch /user prisma update response', response);
+    //   console.log('patch /user prisma update response', response);
       res.status(200).send(response);
     })
     .catch((err: string) => {

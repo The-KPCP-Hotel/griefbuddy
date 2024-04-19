@@ -1,5 +1,4 @@
 import React = require('react');
-// import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -19,9 +18,6 @@ import {
   CardHeader,
   CardBody,
   FormControl,
-  // FormLabel,
-  // FormErrorMessage,
-  // FormHelperText,
   Input,
   Button,
   Heading,
@@ -29,7 +25,6 @@ import {
   StackDivider,
   Text,
 } from '@chakra-ui/react';
-// import { UserContext } from '../context/UserContext';
 
 function Profile() {
   type UserType = {
@@ -45,10 +40,6 @@ function Profile() {
     preferredName: String;
   };
 
-  // const userContext = useContext(UserContext);
-  // const { setUser, user } = userContext;
-
-  // const [googId, setGoogId] = useState('');
   const [userObj, setUserObj] = useState({} as UserType);
   const [friendName, setFriendName] = useState('Halle Bot');
   const [friendNumber, setFriendNumber] = useState('504-XXX-XXXX');
@@ -58,14 +49,6 @@ function Profile() {
   const [myMood, setMood] = useState("I'm Feeling Great!");
   const [age, setAge] = useState('18-99+');
   const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888');
-
-  // function getUser() {
-  //   axios.get('/user').then(({ data }) => {
-  //     // console.log(results.data[0])
-  //     console.log(data);
-  //     setUserObj(data);
-  //   });
-  // }
 
   function updateUser() {
     axios
@@ -82,14 +65,7 @@ function Profile() {
         },
       })
       .then((response) => {
-        console.log('successful patch', response);
         setUserObj(response.data);
-        // axios.get('/userById').then(({ data }) => {
-        //   // console.log(results.data[0])
-        //   console.log('get /user after patch', data);
-        //   const refreshObj = { ...data };
-        //   setUserObj(refreshObj);
-        // });
       })
       .catch((err: string) => {
         console.error(err);
@@ -109,7 +85,6 @@ function Profile() {
         },
       })
       .then((response) => {
-        console.log('successful patch', response);
         setUserObj(response.data);
       })
       .catch((err: string) => {
@@ -118,21 +93,17 @@ function Profile() {
   }
 
   useEffect(() => {
-    // getUser();
-    axios.get('/userById').then(({ data }) => {
-      // console.log(results.data[0])
-      console.log('from /userById', data);
+    axios.get('/user').then(({ data }) => {
       const refreshObj = { ...data };
       setUserObj(refreshObj);
     });
   }, []);
 
   useEffect(() => {}, [nickname]);
-  // console.log(userObj);
+
   return (
     <div>
       <ChakraProvider>
-        {/* <Link to="/home" style={{fontSize: "55px"}}>⌂</Link> */}
         <Center>
           <Heading size="3xl" color="blue.200">
             My Profile
