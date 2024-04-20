@@ -39,7 +39,7 @@ function HomePage() {
 
       <h2>{`Welcome ${user?.name.split(' ')[0]}`}</h2>
       <Quote />
-      <Box h="600px" bg="grey" overflow="scroll">
+      <Box h="600px"  overflow="scroll">
         <MainFeed></MainFeed>
       </Box>
       </Container>
