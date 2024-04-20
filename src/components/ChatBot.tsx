@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {
+  useState, useEffect, useContext, useRef,
+} from 'react';
 import {
   ChakraProvider,
   Heading,
@@ -32,6 +34,12 @@ function ChatBot() {
 
   const [messages, addMessage] = useState(startState);
 
+  const messagesEndRef = useRef(null);
+
+  const bottomScroll = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const onChange = (e: { target: { value: string } }) => {
     const { value } = e.target;
     setMessage(value);
@@ -49,7 +57,8 @@ function ChatBot() {
     userId: Number;
   };
 
-  const sendText = () =>
+  const sendText = () => {
+    // this comment is to keep eslint happy
     axios
       .post('/chatbot/text', { name: user.name, phone: user.emConNum })
       .then(() => {
@@ -63,6 +72,7 @@ function ChatBot() {
           isClosable: true,
         });
       });
+  };
 
   const onSend = () => {
     const aiMessage = { role: 'user', content: message };
@@ -144,6 +154,10 @@ function ChatBot() {
       .catch((err: AxiosError) => console.error('failed finding user/chat', err));
   }, [setUser]);
 
+  useEffect(() => {
+    bottomScroll();
+  }, [messages]);
+
   return (
     <ChakraProvider>
       <Center>
@@ -164,7 +178,7 @@ function ChatBot() {
                 {text.content}
               </Text>
             ))}
-            <HStack>
+            <HStack ref={messagesEndRef}>
               <Input onChange={onChange} value={message} />
               <Button onClick={onSend}>Send</Button>
             </HStack>
