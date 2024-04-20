@@ -2,10 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   ChakraProvider,
-  // Menu,
   Button,
-  // MenuList,
-  // MenuItem,
+  Box,
   Center,
   Heading,
   useDisclosure,
@@ -17,6 +15,8 @@ import {
   DrawerFooter,
   VStack,
   StackDivider,
+  Flex,
+  Spacer,
 } from '@chakra-ui/react';
 import Logout from './Logout';
 
@@ -27,25 +27,34 @@ function Navbar() {
     <div>
       <ChakraProvider>
         {/* <Menu> */}
-        <Button ref={btnRef} onClick={onOpen} style={{ fontSize: '45px' }}>
-          Ξ
-        </Button>
-        {'  '}
-        {/* <Link to="/home" style={{fontSize: "55px"}}>⌂</Link> */}
-
-        <Center>
-          <Heading size="3xl" color="blue.600">
-            <Link to="/home" style={{ fontSize: '55px' }}>
-              GriefBuddy
-            </Link>
-          </Heading>
-        </Center>
+        {/* {'  '} */}
+        <Flex minWidth="max-content" paddingTop="20px" alignItems="center" gap="2">
+          <Box p="2">
+            <Center>
+              <Heading size="3xl" color="blue.600">
+                <Link to="/home" style={{ fontSize: '55px' }}>
+                  GriefBuddy
+                </Link>
+              </Heading>
+            </Center>
+          </Box>
+          <Spacer />
+          <Box p="2">
+            <Button
+              colorScheme="blue.600"
+              ref={btnRef}
+              onClick={onOpen}
+              style={{ fontSize: '45px' }}
+            >
+              Ξ
+            </Button>
+          </Box>
+        </Flex>
 
         <Drawer isOpen={isOpen} placement="right" onClose={onClose} finalFocusRef={btnRef}>
           <DrawerOverlay />
           <DrawerContent>
             <DrawerCloseButton />
-
             <DrawerBody>
               <VStack divider={<StackDivider />}>
                 <Link onClick={onClose} to="/profile">
@@ -70,26 +79,6 @@ function Navbar() {
             </DrawerBody>
           </DrawerContent>
         </Drawer>
-        {/* <MenuList>
-          <MenuItem>
-            <Link to="/profile">Profile</Link>
-          </MenuItem>
-          <MenuItem>
-            <Link to="/buddy">Buddy</Link>
-          </MenuItem>
-          <MenuItem>
-            <Link to="/chatbot">ChatBot</Link>
-          </MenuItem>
-          <MenuItem>
-            <Link to="/events">Local Happenings</Link>
-          </MenuItem>
-          <MenuItem>
-            <Link to="/resources">Resources</Link>
-          </MenuItem>
-          <MenuItem>
-          </MenuItem>
-        </MenuList> */}
-        {/* </Menu> */}
       </ChakraProvider>
     </div>
   );
