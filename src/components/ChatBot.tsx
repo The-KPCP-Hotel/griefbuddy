@@ -11,6 +11,7 @@ import {
   Button,
   HStack,
   useToast,
+  Box,
 } from '@chakra-ui/react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { UserContext } from '../context/UserContext';
@@ -48,15 +49,20 @@ function ChatBot() {
     userId: Number;
   };
 
-  const sendText = () => (axios.post('/chatbot/text', { name: user.name, phone: user.emConNum })
-    .then(() => {
-      toast({ title: `Sent message to ${user.emConName}`, status: 'success', isClosable: true });
-    })
-    .catch((err) => {
-      console.error('failed sending friend message', err);
-      toast({ title: `Failed sending message to ${user.emConName} at ${user.emConNum}`, status: 'error', isClosable: true });
-    })
-  );
+  const sendText = () =>
+    axios
+      .post('/chatbot/text', { name: user.name, phone: user.emConNum })
+      .then(() => {
+        toast({ title: `Sent message to ${user.emConName}`, status: 'success', isClosable: true });
+      })
+      .catch((err) => {
+        console.error('failed sending friend message', err);
+        toast({
+          title: `Failed sending message to ${user.emConName} at ${user.emConNum}`,
+          status: 'error',
+          isClosable: true,
+        });
+      });
 
   const onSend = () => {
     const aiMessage = { role: 'user', content: message };
@@ -76,7 +82,9 @@ function ChatBot() {
     } else {
       allMessages = messages.concat([aiMessage]);
       addMessage(allMessages);
-      axios.post('/chatbot/db', { message: aiMessage, userId: user.id }).catch((err) => console.error('failed posting new message', err));
+      axios
+        .post('/chatbot/db', { message: aiMessage, userId: user.id })
+        .catch((err) => console.error('failed posting new message', err));
     }
 
     axios
@@ -89,7 +97,11 @@ function ChatBot() {
       .then(({ data }) => {
         if (data && user.emConNum) {
           // should let the user know a friend message was sent
-          toast({ title: `Sending message to ${user.emConName}`, status: 'warning', isClosable: true });
+          toast({
+            title: `Sending message to ${user.emConName}`,
+            status: 'warning',
+            isClosable: true,
+          });
           sendText();
         }
       })
@@ -106,7 +118,8 @@ function ChatBot() {
   };
 
   useEffect(() => {
-    axios.get('/user')
+    axios
+      .get('/user')
       .then(({ data }) => {
         if (typeof data === 'object') {
           setUser({ ...data });
@@ -139,22 +152,24 @@ function ChatBot() {
         </Heading>
       </Center>
       <Container>
-        <Stack divider={<StackDivider />}>
-          <Button onClick={onDelete}>Delete Conversation</Button>
-          {messages.slice(1).map((text, index) => (
-            <Text
-              // eslint-disable-next-line react/no-array-index-key
-              key={`${text.role}-${index}`}
-              color={text.role === 'assistant' ? 'purple' : 'default'}
-            >
-              {text.content}
-            </Text>
-          ))}
-          <HStack>
-            <Input onChange={onChange} value={message} />
-            <Button onClick={onSend}>Send</Button>
-          </HStack>
-        </Stack>
+        <Button onClick={onDelete}>Delete Conversation</Button>
+        <Box overflowY="auto" maxHeight="70vh" paddingBottom="10px">
+          <Stack divider={<StackDivider />}>
+            {messages.slice(1).map((text, index) => (
+              <Text
+                // eslint-disable-next-line react/no-array-index-key
+                key={`${text.role}-${index}`}
+                color={text.role === 'assistant' ? 'purple' : 'default'}
+              >
+                {text.content}
+              </Text>
+            ))}
+            <HStack>
+              <Input onChange={onChange} value={message} />
+              <Button onClick={onSend}>Send</Button>
+            </HStack>
+          </Stack>
+        </Box>
       </Container>
     </ChakraProvider>
   );
