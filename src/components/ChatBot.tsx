@@ -183,7 +183,7 @@ function ChatBot() {
                 {text.content}
               </Text>
             ))}
-            {isWaiting ? <Skeleton height="20px" /> : <> </>}
+            {isWaiting ? <Skeleton height="20px" /> : null}
             <HStack ref={messagesEndRef}>
               <Input onChange={onChange} value={message} />
               <Button onClick={onSend}>Send</Button>
