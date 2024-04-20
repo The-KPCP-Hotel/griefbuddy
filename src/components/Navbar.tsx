@@ -41,7 +41,7 @@ function Navbar() {
           <Spacer />
           <Box p="2">
             <Button
-              colorScheme="blue.600"
+              colorScheme="blue.200"
               ref={btnRef}
               onClick={onOpen}
               style={{ fontSize: '45px' }}
@@ -53,9 +53,9 @@ function Navbar() {
 
         <Drawer isOpen={isOpen} placement="right" onClose={onClose} finalFocusRef={btnRef}>
           <DrawerOverlay />
-          <DrawerContent>
+          <DrawerContent backgroundColor="blue.200">
             <DrawerCloseButton />
-            <DrawerBody>
+            <DrawerBody color="blue.600" textDecorationThickness="bold">
               <VStack divider={<StackDivider />}>
                 <Link onClick={onClose} to="/profile">
                   Profile
