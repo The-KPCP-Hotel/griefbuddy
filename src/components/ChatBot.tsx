@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {
+  useState, useEffect, useContext, useRef,
+} from 'react';
 import {
   ChakraProvider,
   Heading,
@@ -11,6 +13,8 @@ import {
   Button,
   HStack,
   useToast,
+  Box,
+  Skeleton,
 } from '@chakra-ui/react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { UserContext } from '../context/UserContext';
@@ -31,6 +35,14 @@ function ChatBot() {
 
   const [messages, addMessage] = useState(startState);
 
+  const [isWaiting, setWaiting] = useState(false);
+
+  const messagesEndRef = useRef(null);
+
+  const bottomScroll = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const onChange = (e: { target: { value: string } }) => {
     const { value } = e.target;
     setMessage(value);
@@ -48,17 +60,25 @@ function ChatBot() {
     userId: Number;
   };
 
-  const sendText = () => (axios.post('/chatbot/text', { name: user.name, phone: user.emConNum })
-    .then(() => {
-      toast({ title: `Sent message to ${user.emConName}`, status: 'success', isClosable: true });
-    })
-    .catch((err) => {
-      console.error('failed sending friend message', err);
-      toast({ title: `Failed sending message to ${user.emConName} at ${user.emConNum}`, status: 'error', isClosable: true });
-    })
-  );
+  const sendText = () => {
+    // this comment is to keep eslint happy
+    axios
+      .post('/chatbot/text', { name: user.name, phone: user.emConNum })
+      .then(() => {
+        toast({ title: `Sent message to ${user.emConName}`, status: 'success', isClosable: true });
+      })
+      .catch((err) => {
+        console.error('failed sending friend message', err);
+        toast({
+          title: `Failed sending message to ${user.emConName} at ${user.emConNum}`,
+          status: 'error',
+          isClosable: true,
+        });
+      });
+  };
 
   const onSend = () => {
+    setWaiting(true);
     const aiMessage = { role: 'user', content: message };
 
     // allMessages is so we can post before messages is done updating
@@ -76,12 +96,15 @@ function ChatBot() {
     } else {
       allMessages = messages.concat([aiMessage]);
       addMessage(allMessages);
-      axios.post('/chatbot/db', { message: aiMessage, userId: user.id }).catch((err) => console.error('failed posting new message', err));
+      axios
+        .post('/chatbot/db', { message: aiMessage, userId: user.id })
+        .catch((err) => console.error('failed posting new message', err));
     }
 
     axios
       .post('/chatbot', { messages: allMessages })
       .then((response) => {
+        setWaiting(false);
         addMessage((curMessages) => curMessages.concat([response.data.message]));
         axios.post('/chatbot/db', { message: response.data.message, userId: user.id });
       })
@@ -89,7 +112,11 @@ function ChatBot() {
       .then(({ data }) => {
         if (data && user.emConNum) {
           // should let the user know a friend message was sent
-          toast({ title: `Sending message to ${user.emConName}`, status: 'warning', isClosable: true });
+          toast({
+            title: `Sending message to ${user.emConName}`,
+            status: 'warning',
+            isClosable: true,
+          });
           sendText();
         }
       })
@@ -106,7 +133,8 @@ function ChatBot() {
   };
 
   useEffect(() => {
-    axios.get('/user')
+    axios
+      .get('/user')
       .then(({ data }) => {
         if (typeof data === 'object') {
           setUser({ ...data });
@@ -131,6 +159,10 @@ function ChatBot() {
       .catch((err: AxiosError) => console.error('failed finding user/chat', err));
   }, [setUser]);
 
+  useEffect(() => {
+    bottomScroll();
+  }, [messages]);
+
   return (
     <ChakraProvider>
       <Center>
@@ -139,22 +171,25 @@ function ChatBot() {
         </Heading>
       </Center>
       <Container>
-        <Stack divider={<StackDivider />}>
-          <Button onClick={onDelete}>Delete Conversation</Button>
-          {messages.slice(1).map((text, index) => (
-            <Text
-              // eslint-disable-next-line react/no-array-index-key
-              key={`${text.role}-${index}`}
-              color={text.role === 'assistant' ? 'purple' : 'default'}
-            >
-              {text.content}
-            </Text>
-          ))}
-          <HStack>
-            <Input onChange={onChange} value={message} />
-            <Button onClick={onSend}>Send</Button>
-          </HStack>
-        </Stack>
+        <Button onClick={onDelete}>Delete Conversation</Button>
+        <Box overflowY="auto" maxHeight="70vh" paddingBottom="10px">
+          <Stack divider={<StackDivider />}>
+            {messages.slice(1).map((text, index) => (
+              <Text
+                // eslint-disable-next-line react/no-array-index-key
+                key={`${text.role}-${index}`}
+                color={text.role === 'assistant' ? 'purple' : 'default'}
+              >
+                {text.content}
+              </Text>
+            ))}
+            {isWaiting ? <Skeleton height="20px" /> : null}
+            <HStack ref={messagesEndRef}>
+              <Input onChange={onChange} value={message} />
+              <Button onClick={onSend}>Send</Button>
+            </HStack>
+          </Stack>
+        </Box>
       </Container>
     </ChakraProvider>
   );
