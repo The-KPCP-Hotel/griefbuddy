@@ -122,13 +122,11 @@ function Profile() {
               <Center padding="25px">
                 <Avatar name="Kola Tioluwani" size="xl" src="https://bit.ly/tioluwani-kolawole" />
               </Center>
-              <Center>
-                {(userObj) ? <h3>{userObj.name}</h3> : <div />}
-              </Center>
+              <Center>{userObj ? <h3>{userObj.name}</h3> : <div />}</Center>
               <Center>
                 <h5>
                   <b>I Live In:</b>
-                  {(userObj) ? userObj.myLocation : ''}
+                  {userObj ? userObj.myLocation : ''}
                 </h5>
               </Center>
               <br />
@@ -157,7 +155,7 @@ function Profile() {
                               Name
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {(userObj) ? userObj.preferredName : ''}
+                              {userObj ? userObj.preferredName : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -165,7 +163,7 @@ function Profile() {
                               Phone Number
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {(userObj) ? userObj.myPhoneNumber : ''}
+                              {userObj ? userObj.myPhoneNumber : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -173,7 +171,7 @@ function Profile() {
                               Age
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {(userObj) ? userObj.agee : ''}
+                              {userObj ? userObj.agee : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -181,7 +179,7 @@ function Profile() {
                               Current Mental State
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {(userObj) ? userObj.currMood : ''}
+                              {userObj ? userObj.currMood : ''}
                             </Text>
                           </Box>
                         </Stack>
@@ -202,7 +200,7 @@ function Profile() {
                               Name
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {(userObj) ? userObj.emConName : ''}
+                              {userObj ? userObj.emConName : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -210,7 +208,7 @@ function Profile() {
                               Phone Number
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {(userObj) ? userObj.emConNum : ''}
+                              {userObj ? userObj.emConNum : ''}
                             </Text>
                           </Box>
                           <Box>
@@ -218,7 +216,7 @@ function Profile() {
                               Relationship
                             </Heading>
                             <Text pt="2" fontSize="sm">
-                              {(userObj) ? userObj.emConRelationship : ''}
+                              {userObj ? userObj.emConRelationship : ''}
                             </Text>
                           </Box>
                         </Stack>
@@ -349,6 +347,10 @@ function Profile() {
                                   setFriendRelationship(relation);
                                 }}
                               />
+                              <h4 color="red">
+                                If submitted, we will send your friend an SMS upon any alarming
+                                behavior.
+                              </h4>
                               <Button
                                 mt={4}
                                 bg="blue.200"
