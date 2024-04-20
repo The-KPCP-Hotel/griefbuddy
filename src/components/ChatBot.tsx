@@ -14,6 +14,7 @@ import {
   HStack,
   useToast,
   Box,
+  Skeleton,
 } from '@chakra-ui/react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { UserContext } from '../context/UserContext';
@@ -33,6 +34,8 @@ function ChatBot() {
   ];
 
   const [messages, addMessage] = useState(startState);
+
+  const [isWaiting, setWaiting] = useState(false);
 
   const messagesEndRef = useRef(null);
 
@@ -75,6 +78,7 @@ function ChatBot() {
   };
 
   const onSend = () => {
+    setWaiting(true);
     const aiMessage = { role: 'user', content: message };
 
     // allMessages is so we can post before messages is done updating
@@ -100,6 +104,7 @@ function ChatBot() {
     axios
       .post('/chatbot', { messages: allMessages })
       .then((response) => {
+        setWaiting(false);
         addMessage((curMessages) => curMessages.concat([response.data.message]));
         axios.post('/chatbot/db', { message: response.data.message, userId: user.id });
       })
@@ -178,6 +183,7 @@ function ChatBot() {
                 {text.content}
               </Text>
             ))}
+            {isWaiting ? <Skeleton height="20px" /> : <> </>}
             <HStack ref={messagesEndRef}>
               <Input onChange={onChange} value={message} />
               <Button onClick={onSend}>Send</Button>
