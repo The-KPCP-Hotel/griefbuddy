@@ -32,7 +32,8 @@ router.post('/addPost', (req: Request, res: Response) => {
                         name: results.name,
                         googleId: results.googleId
                     }
-                }
+                },
+                name: results.name
             }
         })
         .then((results: any) => {
@@ -74,7 +75,6 @@ router.post('/addComment', (req: Request, res: Response) => {
             }
             })
             .then((results: any) => {
-                // console.log(results)
                 res.sendStatus(200)
             })
             .catch((err: string) => {
@@ -96,5 +96,21 @@ router.get('/allComments', (req: Request, res: Response) => {
       res.sendStatus(500);
     });
 })
+
+router.delete('/deletePost', (req: Request, res: Response) => {
+    const {id} = req.body
+   prisma.Post.delete({
+      where: {
+        id,
+      },
+    })
+    .then(() => {
+        res.sendStatus(200)
+    })
+    .catch((err: string) => {
+        console.error(err)
+        res.sendStatus(500)
+    })
+  })
 
 module.exports = router

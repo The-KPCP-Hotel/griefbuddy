@@ -11,19 +11,19 @@ VStack,
 CardFooter,
 Button
 } from "@chakra-ui/react";
-function MainFeedPost() {
+function MainFeedPost(props: any) {
 
 
     return (
         <ChakraProvider>
-            <VStack spacing='4' padding="25px">
+            {/* <VStack spacing='4' padding="25px"> */}
   
             <Card key={'lg'} size={'lg'} width="550px" align='center'>
                 <CardHeader>
-                <Heading size='md'>Kylan Patton</Heading>
+                <Heading size='md'>{props.name}</Heading>
                 </CardHeader>
                 <CardBody>
-                <Text>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus, qui.</Text>
+                <Text>{props.text}</Text>
                 </CardBody>
                 <CardFooter>
                 <Button colorScheme='blue' bg="blue.200" color="white" margin="8px">Add Comment</Button>
@@ -31,62 +31,7 @@ function MainFeedPost() {
                 <Button colorScheme='blue' bg="red" color="white" margin="8px">Delete Post</Button>
             </CardFooter>
             </Card>
-            <Card key={'lg'} size={'lg'} width="550px" align='center'>
-                <CardHeader>
-                <Heading size='md'>Kylan Patton</Heading>
-                </CardHeader>
-                <CardBody>
-                <Text>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus, qui.</Text>
-                </CardBody>
-                <CardFooter>
-                <Button colorScheme='blue' bg="blue.200" color="white" margin="8px">Add Comment</Button>
-                <Button colorScheme='blue' bg="blue.600" color="white" margin="8px">View Comments</Button>
-                <Button colorScheme='blue' bg="red" color="white" margin="8px">Delete Post</Button>
-            </CardFooter>
-            </Card>
-            <Card key={'lg'} size={'lg'} width="550px" align='center'>
-                <CardHeader>
-                <Heading size='md'>Kylan Patton</Heading>
-                </CardHeader>
-                <CardBody>
-                <Text>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus, qui.</Text>
-                </CardBody>
-                <CardFooter>
-                <Button colorScheme='blue' bg="blue.200" color="white" margin="8px">Add Comment</Button>
-                <Button colorScheme='blue' bg="blue.600" color="white" margin="8px">View Comments</Button>
-                <Button colorScheme='blue' bg="red" color="white" margin="8px">Delete Post</Button>
-            </CardFooter>
-            </Card>
-            <Card key={'lg'} size={'lg'} width="550px" align='center'>
-                <CardHeader>
-                <Heading size='md'>Kylan Patton</Heading>
-                </CardHeader>
-                <CardBody>
-                <Text>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus, qui.</Text>
-                </CardBody>
-                <CardFooter>
-                <Button colorScheme='blue' bg="blue.200" color="white" margin="8px">Add Comment</Button>
-                <Button colorScheme='blue' bg="blue.600" color="white" margin="8px">View Comments</Button>
-                <Button colorScheme='blue' bg="red" color="white" margin="8px">Delete Post</Button>
-            </CardFooter>
-            </Card>
-            <Card key={'lg'} size={'lg'} width="550px" align='center'>
-                <CardHeader>
-                <Heading size='md'>Kylan Patton</Heading>
-                </CardHeader>
-                <CardBody>
-                <Text>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus, qui.</Text>
-                </CardBody>
-                <CardFooter>
-                <Button colorScheme='blue' bg="blue.200" color="white" margin="8px">Add Comment</Button>
-                <Button colorScheme='blue' bg="blue.600" color="white" margin="8px">View Comments</Button>
-                <Button colorScheme='blue' bg="red" color="white" margin="8px">Delete Post</Button>
-            </CardFooter>
-            </Card>
-            
-            
-
-            </VStack>
+            {/* </VStack> */}
         </ChakraProvider>
         )
 }
