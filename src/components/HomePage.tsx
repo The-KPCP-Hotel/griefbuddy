@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { useContext, useEffect } from 'react';
 import {
-  ChakraProvider, Heading, Center, Container,
+  ChakraProvider, Heading, Center, Container, Box
 } from '@chakra-ui/react';
 import { UserContext, AuthUser } from '../context/UserContext';
 import Quote from './HomeComponents/Quote';
@@ -41,6 +41,9 @@ function HomePage() {
       <Container maxW="7xl">
         <h2>{`Welcome ${user?.name.split(' ')[0]}`}</h2>
         <Quote />
+        <Box h="600px" overflow="scroll">
+        <MainFeed></MainFeed>
+        </Box>
       </Container>
     </ChakraProvider>
   );
