@@ -7,6 +7,10 @@ import session from 'express-session';
 import http from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
+
 require('dotenv').config();
 
 const app: Express = express();
@@ -16,10 +20,11 @@ const server = http.createServer(app);
 const io = new SocketIOServer(server);
 
 const authRouter = require('./routes/auth');
-const profileRouter = require('./routes/profile')
+const profileRouter = require('./routes/profile');
 const eventsRouter = require('./routes/events');
 const quotesRouter = require('./routes/quotes');
 const mapRouter = require('./routes/map');
+const chatbotRouter = require('./routes/chatbot');
 
 app.use(express.json());
 
@@ -45,6 +50,7 @@ app.use('/profile', profileRouter);
 app.use('/events', eventsRouter);
 app.use('/quotes', quotesRouter);
 app.use('/map', mapRouter);
+app.use('/chatbot', chatbotRouter);
 
 const checkAuth = (
   req: Request,
@@ -57,11 +63,12 @@ const checkAuth = (
   return res.redirect('/');
 };
 
-app.get('/', checkAuth, (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));
 });
 
-app.get('/user', checkAuth, (req, res) => {
+app.get('/user', checkAuth, (req: Request, res: Response) => {
+  // console.log('from /user', req.user);
   res.send(req.user);
 });
 
@@ -72,10 +79,6 @@ app.post('/logout', (req, res, next) => {
     }
     return res.redirect('/');
   });
-});
-
-app.get('/*', checkAuth, (req, res) => {
-  res.sendFile(path.join(CLIENT_PATH, 'index.html'));
 });
 
 io.on('connection', (socket) => {
@@ -96,9 +99,12 @@ io.on('connection', (socket) => {
   });
 });
 
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(CLIENT_PATH, 'index.html'));
+});
+
 server.listen(port, () => {
-  const host = (process.env.npm === 'prod') ? '13.56.76.68' : 'localhost';
   console.log(
-    `Example app listening on port ${port} \n http://${host}:${port}`,
+    `Example app listening on port ${port} \n http://localhost:${port}`,
   );
 });

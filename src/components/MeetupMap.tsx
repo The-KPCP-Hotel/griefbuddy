@@ -1,11 +1,9 @@
 import React = require("react");
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import 'mapbox-gl/dist/mapbox-gl.css';
-import '../index.css';
 import { ChakraProvider, Container } from "@chakra-ui/react";
 import axios from "axios";
-import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from 'mapbox-gl'; 
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3ljb2RlZSIsImEiOiJjbHJxcjd0ZXAwNmFzMmpvZDV1d2x3MjBwIn0.MbKRBF8mWxCmRX0P0qIIsA';
 function MeetupMap() {
@@ -41,7 +39,7 @@ function MeetupMap() {
       return (
         <ChakraProvider>
           <Container maxW="7xl">
-            <div ref={mapContainer} className="map-container" />
+            <div ref={mapContainer} className="map-container" style={{height: "600px"}}/>
             <h1>Map</h1>
             <p>{`lng: ${lng}, lat: ${lat}`}</p>
           </Container>  

@@ -1,6 +1,7 @@
-import React = require('react');
+import React from 'react';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { Container, ChakraProvider } from '@chakra-ui/react';
 import HomePage from './HomePage';
 import Navbar from './Navbar';
 import Profile from './Profile';
@@ -10,22 +11,22 @@ import Events from './Events';
 import Event from './EventsComponents/Event';
 import Resources from './Resources';
 import Resource from './Resource';
-import { Container, Box, ChakraProvider} from '@chakra-ui/react'
 import Login from './Login';
 import { UserContextProvider } from '../context/UserContext';
 import BuddyChat from './buddyChildren/BuddyChat';
 import MeetupMap from './MeetupMap';
 
 function App() {
+  // trying to figure out how to keep user context updated through page refreshes
+  // user context setUser is not a function here...
   return (
     <UserContextProvider>
       <ChakraProvider>
-      <Container maxW="7xl" bg="blue.200" marginTop={"25px"} marginBottom={"15px"} h={"250px"}>
-      {(useLocation().pathname === '/') ? <div /> : <Navbar />}
-
-      </Container>
+        <Container maxW="7xl" bg="blue.200" marginTop="0px" marginBottom="15px" h="125px">
+          {useLocation().pathname === '/' ? <div /> : <Navbar />}
+        </Container>
       </ChakraProvider>
-    
+
       <Routes>
         <Route index element={<Login />} />
         <Route path="/home" element={<HomePage />} />
@@ -39,11 +40,7 @@ function App() {
         <Route path="/events/:id" element={<Event />} />
         <Route path="/map" element={<MeetupMap />} />
       </Routes>
-      </UserContextProvider>
-      
-    
-
-   
+    </UserContextProvider>
   );
 }
 

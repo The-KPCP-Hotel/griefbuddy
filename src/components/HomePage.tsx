@@ -3,9 +3,10 @@ import React = require('react');
 import axios from 'axios';
 
 import { useContext, useEffect } from 'react';
+import {
+  ChakraProvider, Heading, Center, Container,
+} from '@chakra-ui/react';
 import { UserContext, AuthUser } from '../context/UserContext';
-import { ChakraProvider } from '@chakra-ui/react';
-import { Heading, Center, Container, Box } from '@chakra-ui/react';
 import Quote from './HomeComponents/Quote';
 import MainFeed from './MainFeed';
 
@@ -33,15 +34,13 @@ function HomePage() {
   return (
     <ChakraProvider>
       <Center>
-            <Heading size='3xl' color={"blue.200"}>HomePage</Heading>
+        <Heading size="3xl" color="blue.200">
+          HomePage
+        </Heading>
       </Center>
-      <Container maxW="7xl"  >
-
-      <h2>{`Welcome ${user?.name.split(' ')[0]}`}</h2>
-      <Quote />
-      <Box h="600px"  overflow="scroll">
-        <MainFeed></MainFeed>
-      </Box>
+      <Container maxW="7xl">
+        <h2>{`Welcome ${user?.name.split(' ')[0]}`}</h2>
+        <Quote />
       </Container>
     </ChakraProvider>
   );

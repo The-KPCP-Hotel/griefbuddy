@@ -1,13 +1,14 @@
 import React = require('react');
+import { Button, ChakraProvider, Heading } from '@chakra-ui/react';
 
 function Login() {
   return (
-    <div>
-      <h1>Google Login</h1>
+    <ChakraProvider>
+      <Heading>Google Login</Heading>
       <form action="/auth/google" method="GET">
-        <button type="submit">GOOGLE BUTTON</button>
+        <Button type="submit">GOOGLE BUTTON</Button>
       </form>
-    </div>
+    </ChakraProvider>
   );
 }
 
