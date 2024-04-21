@@ -47,8 +47,54 @@ router.post('/addPost', (req: Request, res: Response) => {
 
 })
 
-// router.patch('/addComment', (req: Request, res: Response) => {
-//     prisma.User.update
-// })
+router.post('/addComment', (req: Request, res: Response) => {
+    const {postId, text, user} = req.body.data
+    prisma.User.findUnique({
+        where: {
+            googleId: user
+        }
+    })
+    .then((results: any) => {
+        console.log(text, results.name, results.googleId)
+        prisma.Comment.create({
+            data: {
+                text,
+                user: {
+                    connect: {
+                        name: results.name,
+                        googleId: results.googleId
+                    }
+                },
+                post: {
+                    connect: {
+                        id: postId
+                    }
+                },
+                
+            }
+            })
+            .then((results: any) => {
+                // console.log(results)
+                res.sendStatus(200)
+            })
+            .catch((err: string) => {
+                console.error(err)
+                res.sendStatus(500)
+            })
+        })
+        
+    
+})
+
+router.get('/allComments', (req: Request, res: Response) => {
+    prisma.Comment.findMany()
+    .then((results: any) => {
+      res.send(results).status(200);
+    })
+    .catch((err: string) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+})
 
 module.exports = router
