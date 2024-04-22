@@ -12,7 +12,7 @@ function MainFeed(props: any) {
 
     const [allPosts, setAllPosts] = useState([])
     const [postMessage, setPostMessage] = useState('')
-
+    const [postStatus, setPostStatus] = useState('')
     function getAllPosts() {
         console.log(props.user)
         axios.get('/mainFeed/allPosts')
@@ -28,12 +28,16 @@ function MainFeed(props: any) {
                 text: postMessage
             }
         })
+        .then(() => {
+            setPostStatus('added')
+        })
     }
 
     
     useEffect(() => {
         getAllPosts()
-    }, [])
+        setPostStatus('')
+    }, [postStatus])
 
     return (
         <ChakraProvider>

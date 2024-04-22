@@ -26,7 +26,8 @@ function MainFeedPost(props: any) {
 
     const [comment, setComment] = useState('')
     const [allComments, setAllComments] = useState([])
-    const [allFilteredComments, setFilteredComments] = useState([])
+    // const [allPosts, setAllPosts] = useState([])
+
     function addComment() {
         axios.post('/mainFeed/addComment', {
             data: {
@@ -35,6 +36,7 @@ function MainFeedPost(props: any) {
                 postId: props.postId
             }
         })
+        
     }
 
     function getAllComments() {
@@ -45,18 +47,35 @@ function MainFeedPost(props: any) {
                 postId: props.postId
             }
         })
+        .then((results: any) => {
+            setAllComments(results.data)
+        })
     }
 
-    function filterComments() {
-        let filteredComments:any = allComments.filter((comment) => {
-            return comment.postId === props.postId
+    function getAllPosts() {
+        console.log(props.user)
+        axios.get('/mainFeed/allPosts')
+        .then((results: any) => {
+            setAllPosts(results.data)
         })
-        setFilteredComments(filteredComments)
+    }
+
+    function deletePost() {
+        axios.delete('/mainFeed/deletePost', {
+            data: {
+                id: props.postId
+            }
+        })
     }
 
     useEffect(() => {
         getAllComments()
-    }, [])
+    }, [allComments])
+
+    // useEffect(() => {
+    //     getAllPosts()
+    // }, [allComments])
+
 
     return (
         <ChakraProvider>
@@ -80,16 +99,24 @@ function MainFeedPost(props: any) {
                     addComment()
                 }}
                 >Add Comment</Button>
-                <Button colorScheme='blue' bg="red" color="white" margin="8px">Delete Post</Button>
+                <Button colorScheme='blue' bg="red" color="white" margin="8px"
+                onClick={() => {
+                    deletePost()
+                }}
+                >Delete Post</Button>
             </CardFooter>
                 <Center>
                     <h3>Comments:</h3>
                 </Center>
                 
                 <ul>
-                    {/* {allFilteredComments.map((comment) => {
-                        <li>{comment.text}</li>
-                })} */}
+                    { 
+                    allComments.map((comment) => {
+                        if(comment.postId === props.postId){
+                           return <li>{comment.text}</li>
+                        }
+                    })}
+                <li></li>
                 </ul>
                 
             </Card>
