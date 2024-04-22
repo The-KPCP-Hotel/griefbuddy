@@ -13,6 +13,8 @@ function MainFeed(props: any) {
     const [allPosts, setAllPosts] = useState([])
     const [postMessage, setPostMessage] = useState('')
     const [postStatus, setPostStatus] = useState('')
+    const [post, setPost] = useState('')
+
     function getAllPosts() {
         axios.get('/mainFeed/allPosts')
         .then((results: any) => {
@@ -29,6 +31,7 @@ function MainFeed(props: any) {
         })
         .then(() => {
             setPostStatus('added')
+            setPost('')
         })
     }
 
@@ -45,8 +48,9 @@ function MainFeed(props: any) {
                 <Heading size="3xl" color="blue.600">Main Feed</Heading>
             </Center>
             <Center>
-                <Input placeholder="Add Post Here" onChange={(e) => {
+                <Input placeholder="Add Post Here" value={post} onChange={(e) => {
                     setPostMessage(e.target.value)
+                    setPost(e.target.value)
                 }}></Input>
             </Center>
             <Center>
@@ -57,7 +61,7 @@ function MainFeed(props: any) {
             <Center>
                 <VStack>
                 {allPosts.map((post) => (
-                    <MainFeedPost text={post.text} name={post.name} googleId={props.googleId} postId={post.id}></MainFeedPost>   
+                    <MainFeedPost getPosts={getAllPosts} text={post.text} name={post.name} googleId={props.googleId} postId={post.id}></MainFeedPost>   
                 ))}
                 </VStack>
             </Center>

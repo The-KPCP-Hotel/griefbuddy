@@ -26,6 +26,7 @@ function MainFeedPost(props: any) {
 
     const [comment, setComment] = useState('')
     const [allComments, setAllComments] = useState([])
+    const [deleted, setDeleted] = useState('false')
 
     function addComment() {
         axios.post('/mainFeed/addComment', {
@@ -62,11 +63,20 @@ function MainFeedPost(props: any) {
                 id: props.postId
             }
         })
+        .then(() => {
+            setDeleted('true')
+        })
     }
 
     useEffect(() => {
         getAllComments()
     }, [allComments])
+
+    useEffect(() => {
+        props.getPosts()
+        setDeleted('false')
+    }, [deleted])
+
 
     
 

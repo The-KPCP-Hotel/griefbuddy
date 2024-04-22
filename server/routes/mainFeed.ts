@@ -6,7 +6,13 @@ const prisma = new PrismaClient()
 
 
 router.get('/allPosts', (req: Request, res: Response) => {
-    prisma.Post.findMany()
+    prisma.Post.findMany({
+        orderBy: [
+            {
+              id: 'desc'
+            }
+          ]
+    })
     .then((results: any) => {
       res.send(results).status(200);
     })
