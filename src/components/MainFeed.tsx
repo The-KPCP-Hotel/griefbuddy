@@ -54,7 +54,7 @@ function MainFeed(props: any) {
             <Center>
                 <VStack>
                 {allPosts.map((post) => (
-                    <MainFeedPost text={post.text} name={post.name}></MainFeedPost>   
+                    <MainFeedPost text={post.text} name={post.name} googleId={props.googleId} postId={post.id}></MainFeedPost>   
                 ))}
                 </VStack>
             </Center>
