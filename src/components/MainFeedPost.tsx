@@ -26,7 +26,6 @@ function MainFeedPost(props: any) {
 
     const [comment, setComment] = useState('')
     const [allComments, setAllComments] = useState([])
-    // const [allPosts, setAllPosts] = useState([])
 
     function addComment() {
         axios.post('/mainFeed/addComment', {
@@ -35,6 +34,9 @@ function MainFeedPost(props: any) {
                 text: comment,
                 postId: props.postId
             }
+        })
+        .then(() => {
+            setComment('')
         })
         
     }
@@ -52,13 +54,7 @@ function MainFeedPost(props: any) {
         })
     }
 
-    function getAllPosts() {
-        console.log(props.user)
-        axios.get('/mainFeed/allPosts')
-        .then((results: any) => {
-            setAllPosts(results.data)
-        })
-    }
+    
 
     function deletePost() {
         axios.delete('/mainFeed/deletePost', {
@@ -72,15 +68,11 @@ function MainFeedPost(props: any) {
         getAllComments()
     }, [allComments])
 
-    // useEffect(() => {
-    //     getAllPosts()
-    // }, [allComments])
+    
 
 
     return (
-        <ChakraProvider>
-            {/* <VStack spacing='4' padding="25px"> */}
-  
+        <ChakraProvider>  
             <Card key={'lg'} size={'lg'} width="550px" align='center' overflow="scroll">
                 <CardHeader>
                 <Heading size='md'>@{props.name}</Heading>
@@ -88,7 +80,7 @@ function MainFeedPost(props: any) {
                 <CardBody>
                 <Text>{props.text}</Text>
                 </CardBody>
-                <Input placeholder="Add Comment Here" width="350px" 
+                <Input placeholder="Add Comment Here" width="350px" value={comment}
                 onChange={(e) => {
                     setComment(e.target.value)
                 }}
@@ -120,7 +112,6 @@ function MainFeedPost(props: any) {
                 </ul>
                 
             </Card>
-            {/* </VStack> */}
         </ChakraProvider>
         )
 }

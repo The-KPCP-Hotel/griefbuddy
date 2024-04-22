@@ -14,7 +14,6 @@ function MainFeed(props: any) {
     const [postMessage, setPostMessage] = useState('')
     const [postStatus, setPostStatus] = useState('')
     function getAllPosts() {
-        console.log(props.user)
         axios.get('/mainFeed/allPosts')
         .then((results: any) => {
             setAllPosts(results.data)
