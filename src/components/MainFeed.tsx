@@ -2,18 +2,35 @@ import React = require("react");
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MainFeedPost from "./MainFeedPost";
-import { ChakraProvider, Center, Heading, VStack } from "@chakra-ui/react";
-function MainFeed() {
+import { ChakraProvider,
+    Center,
+    Heading,
+    Input,
+    VStack, 
+    Button} from "@chakra-ui/react";
+function MainFeed(props: any) {
 
     const [allPosts, setAllPosts] = useState([])
+    const [postMessage, setPostMessage] = useState('')
 
     function getAllPosts() {
+        console.log(props.user)
         axios.get('/mainFeed/allPosts')
         .then((results: any) => {
             setAllPosts(results.data)
         })
     }
 
+    function addPost() {
+        axios.post('/mainFeed/addPost', {
+            data: {
+                user: props.googleId,
+                text: postMessage
+            }
+        })
+    }
+
+    
     useEffect(() => {
         getAllPosts()
     }, [])
@@ -23,6 +40,16 @@ function MainFeed() {
             <div>
             <Center>
                 <Heading size="3xl" color="blue.600">Main Feed</Heading>
+            </Center>
+            <Center>
+                <Input placeholder="Add Post Here" onChange={(e) => {
+                    setPostMessage(e.target.value)
+                }}></Input>
+            </Center>
+            <Center>
+                <Button margin="25px" onClick={() => {
+                    addPost()
+                }}>Submit Post</Button>
             </Center>
             <Center>
                 <VStack>
