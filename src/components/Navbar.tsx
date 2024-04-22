@@ -69,6 +69,9 @@ function Navbar() {
                 <Link onClick={onClose} to="/events">
                   Local Happenings
                 </Link>
+                <Link onClick={onClose} to="/map">
+                  Meetup Map
+                </Link>
                 <Link onClick={onClose} to="/resources">
                   Resources
                 </Link>

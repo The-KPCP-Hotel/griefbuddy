@@ -83,6 +83,7 @@ model Post {
   user     User      @relation(fields: [userId], references: [id])
   userId   Int
   text     String
+  name     String
   comments Comment[]
 }
 
@@ -90,7 +91,7 @@ model Comment {
   id     Int    @id @default(autoincrement())
   user   User   @relation(fields: [userId], references: [id])
   userId Int
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId Int
   text   String
 }
@@ -133,4 +134,13 @@ model Notification {
   userId       Int
   notification String
   seen         Boolean
+}
+
+model LocationRequest {
+  id           Int     @id @default(autoincrement())
+  sender       String?
+  recipient    String?
+  isAccepted   String?
+  haveArrived  String?
+  closeMeeting String?
 }

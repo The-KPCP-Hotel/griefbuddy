@@ -1,3 +1,55 @@
+// import React = require("react");
+// import { Link } from "react-router-dom";
+// import { useState, useEffect } from "react";
+// import axios from "axios";
+// // type UserType = {
+// //     agee: String;
+// //     googleId: String;
+// //     name: String;
+// //     preferredName: String;
+// //     currMood: String;
+// //     myLocation: String;
+// //     myPhoneNumber: String;
+// //     emConName: String;
+// //     emConNum: String;
+// //     emConRelationship: String;
+// //   };
+// type UserType = {
+//     emConNum: String;
+//     emConRelationship: String;
+//     emConName: String;
+//     currMood: String;
+//     agee: String;
+//     googleId: String;
+//     name: String;
+//     myLocation: String;
+//     myPhoneNumber: String;
+//     preferredName: String;
+//   };
+
+  
+// import { Container, 
+//     Box, 
+//     ChakraProvider, 
+//     Grid, 
+//     GridItem, 
+//     Avatar, 
+//     Center, 
+//     Tabs, 
+//     TabList, 
+//     TabPanels, 
+//     Tab, 
+//     TabPanel, 
+//     Card, 
+//     CardHeader, 
+//     CardBody, 
+//     FormControl,
+//     FormLabel,
+//     FormErrorMessage,
+//     FormHelperText,
+//     Input,
+//     Button,
+//     Heading, Stack, StackDivider, Text } from '@chakra-ui/react'
 import React = require('react');
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -99,6 +151,15 @@ function Profile() {
     });
   }, []);
 
+    // useEffect(() => {
+    //     getUser()
+    // }, [isSubmitted])
+    
+    // useEffect(() => {
+    //     getUser()
+    // }, [isSubmittedFriend])
+
+    
   useEffect(() => {}, [nickname]);
 
   return (
