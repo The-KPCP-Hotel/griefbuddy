@@ -38,6 +38,7 @@
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.4",
     "webpack": "^5.91.0",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {

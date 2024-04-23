@@ -1,6 +1,8 @@
 const path = require('path');
 require('dotenv').config();
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
   entry: './src/index.tsx',
   devtool: 'inline-source-map',
@@ -9,6 +11,9 @@ module.exports = {
   stats: {
     errorDetails: true,
   },
+  plugins: [
+    new BundleAnalyzerPlugin({ generateStatsFile: true })
+  ],
   module: {
     rules: [
       {
