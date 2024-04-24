@@ -6,9 +6,9 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
   entry: './src/index.tsx',
   devtool: 'inline-source-map',
-  mode: process.env.MODE || 'production',
+  // mode: process.env.MODE || 'production',
   // using production mode for build testing, but don't want to push that up
-  // mode: 'production',
+  mode: 'production',
   watch: process.env.MODE === 'development',
   stats: {
     errorDetails: true,

@@ -1,10 +1,10 @@
-import React = require('react');
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import {
+  ChakraProvider, Heading, Center, Container,
+} from '@chakra-ui/react';
 import { UserContext, AuthUser } from '../context/UserContext';
-import { ChakraProvider } from '@chakra-ui/react';
-import { Heading, Center, Container } from '@chakra-ui/react';
 
 function Buddy() {
   const userContext = useContext(UserContext);
@@ -47,44 +47,37 @@ function Buddy() {
   return (
     <ChakraProvider>
       <Center>
-            <Heading size='3xl' color={"blue.200"}>Buddy</Heading>
+        <Heading size="3xl" color="blue.200">
+          Buddy
+        </Heading>
       </Center>
       <Container maxW="7xl">
-      <h1>{`Hey ${user?.name.split(' ')[0]}✌️`}</h1>
-      <Link to="/buddychat">Buddy Chat</Link>
-      {buddiesOnline === 0 ? (
+        <h1>{`Hey ${user?.name.split(' ')[0]}✌️`}</h1>
+        <Link to="/buddychat">Buddy Chat</Link>
+        {buddiesOnline === 0 ? (
+          <div>
+            <h4>No buddies online right now...🫤</h4>
+            <h6>Do not fret! Any message you send them will be seen when they are back online.</h6>
+          </div>
+        ) : (
+          <h4>{`You have ${buddiesOnline} buddies online!`}</h4>
+        )}
+        {/* might need path params? */}
         <div>
-          <h4>No buddies online right now...🫤</h4>
-          <h6>
-            Do not fret! Any message you send them will be seen when they are
-            back online.
-          </h6>
+          <Link to="/buddychat/:weekly" className="btn btn-primary">
+            Rob R.
+          </Link>
         </div>
-      ) : (
-        <h4>{`You have ${buddiesOnline} buddies online!`}</h4>
-      )}
-      {/* might need path params? */}
-      <div>
-        <Link to="/buddychat/:weekly" className="btn btn-primary">
-          Rob R.
-        </Link>
-      </div>
-      <div>
-        <Link
-          to="/buddychat/:timmy"
-          className="btn btn-primary"
-        >
-          Timmy T.
-        </Link>
-      </div>
-      <div>
-        <Link
-          to="/buddychat/:jolyne"
-          className="btn btn-primary"
-        >
-          Jolyne C.
-        </Link>
-      </div>
+        <div>
+          <Link to="/buddychat/:timmy" className="btn btn-primary">
+            Timmy T.
+          </Link>
+        </div>
+        <div>
+          <Link to="/buddychat/:jolyne" className="btn btn-primary">
+            Jolyne C.
+          </Link>
+        </div>
       </Container>
     </ChakraProvider>
   );
