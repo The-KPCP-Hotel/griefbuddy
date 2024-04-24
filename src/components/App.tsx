@@ -1,6 +1,8 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState } from 'react';
 
-import { Routes, Route, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter, Route, useLocation, Routes,
+} from 'react-router-dom';
 import { Container, ChakraProvider, Skeleton } from '@chakra-ui/react';
 import HomePage from './HomePage';
 import Navbar from './Navbar';
@@ -20,28 +22,36 @@ const MeetupMap = lazy(() => import('./MeetupMap'));
 function App() {
   // trying to figure out how to keep user context updated through page refreshes
   // user context setUser is not a function here...
-  return (
-    <UserContextProvider>
-      <ChakraProvider>
-        <Container maxW="7xl" bg="blue.200" marginTop="0px" marginBottom="15px" h="125px">
-          {useLocation().pathname === '/' ? <div /> : <Navbar />}
-        </Container>
-      </ChakraProvider>
+  const location = useLocation().pathname;
 
-      <Routes>
-        <Route index element={<Login />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/buddy" element={<Buddy />} />
-        <Route path="/chatbot" element={<ChatBot />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/resources" element={<Resources />} />
-        <Route path="/resource" element={<Resource />} />
-        <Route path="/buddychat" element={<BuddyChat />} />
-        <Route path="/events/:id" element={<Event />} />
-        <Route path="/map" element={<Suspense fallback={<Skeleton />}><MeetupMap /></Suspense>} />
-      </Routes>
-    </UserContextProvider>
+  return (
+    <BrowserRouter>
+      <UserContextProvider>
+        <ChakraProvider>
+          <Container maxW="7xl" bg="blue.200" marginTop="0px" marginBottom="15px" h="125px">
+            {location === '/' ? <div /> : <Navbar />}
+          </Container>
+        </ChakraProvider>
+        <Suspense fallback={<Skeleton />}>
+          <Routes>
+            <Route index element={<Login />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/buddy" element={<Buddy />} />
+            <Route path="/chatbot" element={<ChatBot />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/resources" element={<Resources />} />
+            <Route path="/resource" element={<Resource />} />
+            <Route path="/buddychat" element={<BuddyChat />} />
+            <Route path="/events/:id" element={<Event />} />
+            <Route
+              path="/map"
+              element={<Suspense fallback={<Skeleton />}><MeetupMap /></Suspense>}
+            />
+          </Routes>
+        </Suspense>
+      </UserContextProvider>
+    </BrowserRouter>
   );
 }
 
