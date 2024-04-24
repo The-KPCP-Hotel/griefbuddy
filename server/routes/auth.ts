@@ -1,35 +1,29 @@
-import passport = require('passport');
+import passport from 'passport';
 
-const express = require('express');
+import express from 'express';
 
-const router = express.Router();
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 
 const prisma = new PrismaClient();
-
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-
+const router = express.Router();
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
-const host = (process.env.MODE === 'development') ? 'localhost' : 'ec2-54-176-188-54.us-west-1.compute.amazonaws.com';
+const host =
+  process.env.MODE === 'development'
+    ? 'http://localhost:3000'
+    : process.env.HOST;
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: `http://${host}:3000/auth/google/callback`,
+      callbackURL: `${host}/auth/google/callback`,
       passReqToCallback: true,
     },
-    (
-      request: Request,
-      accessToken: String,
-      refreshToken: String,
-      // profile: Object,
-      profile: { id: string; displayName: string },
-      done: Function,
-    ) => {
+    (_accessToken, _refreshToken, _other, profile, done) => {
       const { id, displayName } = profile;
-      prisma.User.upsert({
+      prisma.user.upsert({
         where: {
           googleId: id,
         },
@@ -61,10 +55,7 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-router.get(
-  '/google',
-  passport.authenticate('google', { scope: ['email', 'profile'] }),
-);
+router.get('/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
 
 router.get(
   '/google/callback',
@@ -74,4 +65,4 @@ router.get(
   }),
 );
 
-module.exports = router;
+export default router;

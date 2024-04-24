@@ -1,7 +1,8 @@
-import * as express from 'express';
-import { Request, Response } from 'express';
+import express, { Request, Response } from 'express';
+
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
+
 const prisma = new PrismaClient();
 
 router.get('/allLocationRequests', (req: Request, res: Response) => {
@@ -27,4 +28,4 @@ router.post('/sendLocationRequest', (req: Request, res: Response) => {
     });
 });
 
-module.exports = router;
+export default router;

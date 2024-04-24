@@ -23,4 +23,4 @@ router.get('/', (req: Request, res: { send: Function, sendStatus: Function }) =>
     });
 });
 
-module.exports = router;
+export default router;
