@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 // import { Link } from 'react-router-dom';
 import { ChakraProvider, Container } from '@chakra-ui/react';
+// import mapboxgl from 'mapbox-gl';
 // import axios from 'axios';
-import mapboxgl from 'mapbox-gl';
 
-mapboxgl.accessToken = 'pk.eyJ1Ijoia3ljb2RlZSIsImEiOiJjbHJxcjd0ZXAwNmFzMmpvZDV1d2x3MjBwIn0.MbKRBF8mWxCmRX0P0qIIsA';
 function MeetupMap() {
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -14,19 +13,22 @@ function MeetupMap() {
   // const [zoom, setZoom] = useState(10);
 
   useEffect(() => {
-    if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/navigation-night-v1',
-      center: [lng, lat],
-      // zoom: zoom,
-      zoom: 10,
+    import('mapbox-gl').then(({ default: mapboxgl }) => {
+      if (map.current) return; // initialize map only once
+      map.current = new mapboxgl.Map({
+        accessToken: 'pk.eyJ1Ijoia3ljb2RlZSIsImEiOiJjbHJxcjd0ZXAwNmFzMmpvZDV1d2x3MjBwIn0.MbKRBF8mWxCmRX0P0qIIsA',
+        container: mapContainer.current,
+        style: 'mapbox://styles/mapbox/navigation-night-v1',
+        center: [lng, lat],
+        // zoom: zoom,
+        zoom: 10,
+      });
+      map.current.on('click', (e: any) => {
+        setLat(e.lngLat.lat);
+        setLng(e.lngLat.lng);
+      });
     });
-    map.current.on('click', (e: any) => {
-      setLat(e.lngLat.lat);
-      setLng(e.lngLat.lng);
-    });
-  });
+  }, [lat, lng]);
 
   // eslint fix - mapClick was declared after its usage, moved func block to use effect
   // function mapClick() {

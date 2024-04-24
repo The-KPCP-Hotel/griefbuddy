@@ -12,9 +12,7 @@ document.body.innerHTML = '<div id="app">Hello!</div>';
 // Render your React component instead
 const root = createRoot(document.getElementById('app'));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Suspense fallback={<Skeleton />}><App /></Suspense>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Suspense fallback={<Skeleton />}><App /></Suspense>
+  </BrowserRouter>,
 );
