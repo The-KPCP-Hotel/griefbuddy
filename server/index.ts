@@ -7,9 +7,13 @@ import session from 'express-session';
 import http from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 
-const { PrismaClient } = require('@prisma/client');
-
-const prisma = new PrismaClient();
+import authRouter from './routes/auth';
+import profileRouter from './routes/profile';
+import eventsRouter from './routes/events';
+import quotesRouter from './routes/quotes';
+import mapRouter from './routes/map';
+import chatbotRouter from './routes/chatbot';
+import mainFeedRouter from './routes/mainFeed';
 
 require('dotenv').config();
 
@@ -18,14 +22,6 @@ const port = 3000;
 
 const server = http.createServer(app);
 const io = new SocketIOServer(server);
-
-const authRouter = require('./routes/auth');
-const profileRouter = require('./routes/profile');
-const eventsRouter = require('./routes/events');
-const quotesRouter = require('./routes/quotes');
-const mapRouter = require('./routes/map');
-const chatbotRouter = require('./routes/chatbot');
-const mainFeedRouter = require('./routes/mainFeed');
 
 app.use(express.json());
 

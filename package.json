@@ -8,9 +8,10 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "rimraf dist && webpack",
     "start": "npx ts-node-dev server/index.ts",
-    "prod": "webpack && npx ts-node server/index.ts"
+    "prod": "rimraf dist && webpack && npx ts-node server/index.ts",
+    "postinstall": "node-prune"
   },
   "keywords": [],
   "author": "",
@@ -32,7 +33,9 @@
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "html-webpack-plugin": "^5.6.0",
     "prisma": "^5.12.1",
+    "rimraf": "^5.0.5",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.1",
     "ts-node-dev": "^2.0.0",
@@ -58,6 +61,7 @@
     "lodash": "^4.17.21",
     "mapbox-gl": "^3.3.0",
     "moment": "^2.30.1",
+    "node-prune": "^1.0.2",
     "openai": "^4.34.0",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
