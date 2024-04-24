@@ -2,8 +2,10 @@ import React, {
   createContext, useState, useMemo,
 } from 'react';
 
+/** Defines the user from db */
 export type AuthUser = {
   id: number,
+  /** this is the user's full name */
   name: string,
   googleId: string,
   emConNum: string,

@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ChakraProvider, Container } from '@chakra-ui/react';
 import mapboxgl from 'mapbox-gl';
 // import axios from 'axios';
+/** setZoom wasn't called, so using this constant for now */
+const MAP_ZOOM = 10;
 
 function MeetupMap() {
   const mapContainer = useRef(null);
@@ -22,7 +24,7 @@ function MeetupMap() {
       style: 'mapbox://styles/mapbox/navigation-night-v1',
       center: [lng, lat],
       // zoom: zoom,
-      zoom: 10,
+      zoom: MAP_ZOOM,
     });
     map.current.on('click', (e: any) => {
       setLat(e.lngLat.lat);
