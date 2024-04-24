@@ -35,9 +35,7 @@ function HomePage() {
   return (
     <ChakraProvider>
       <Center>
-        <Heading size="3xl" color="blue.200" onClick={() => {
-          console.log(googId)
-        }}>
+        <Heading size="3xl" color="blue.200">
           HomePage
         </Heading>
       </Center>

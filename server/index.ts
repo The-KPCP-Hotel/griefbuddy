@@ -26,6 +26,7 @@ const quotesRouter = require('./routes/quotes');
 const mapRouter = require('./routes/map');
 const chatbotRouter = require('./routes/chatbot');
 const mainFeedRouter = require('./routes/mainFeed');
+const resourcesRouter = require('./routes/resources');
 
 app.use(express.json());
 
@@ -53,6 +54,7 @@ app.use('/quotes', quotesRouter);
 app.use('/map', mapRouter);
 app.use('/chatbot', chatbotRouter);
 app.use('/mainFeed', mainFeedRouter);
+app.use('/resources', resourcesRouter);
 
 const checkAuth = (
   req: Request,

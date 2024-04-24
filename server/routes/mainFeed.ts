@@ -104,10 +104,10 @@ router.get('/allComments', (req: Request, res: Response) => {
 })
 
 router.delete('/deletePost', (req: Request, res: Response) => {
-    const {id} = req.body.data
+    const {id} = req.body
    prisma.Post.delete({
       where: {
-        id: id,
+        id,
       },
     })
     .then(() => {
