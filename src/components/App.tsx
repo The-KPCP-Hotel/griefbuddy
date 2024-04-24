@@ -1,17 +1,9 @@
-// import React, { Suspense, lazy, useState } from 'react';
 import React, { Suspense, lazy } from 'react';
 
-// import {
-//   BrowserRouter, Route, useLocation, Routes,
-// } from 'react-router-dom';
-import {
-  BrowserRouter, Route, Routes,
-} from 'react-router-dom';
-// import { Container, ChakraProvider, Skeleton } from '@chakra-ui/react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Skeleton } from '@chakra-ui/react';
 
 import HomePage from './HomePage';
-// import Navbar from './Navbar';
 import NavBarContainer from './NavBarContainer';
 import Profile from './Profile';
 import Buddy from './Buddy';
@@ -23,22 +15,16 @@ import Resource from './Resource';
 import Login from './Login';
 import { UserContextProvider } from '../context/UserContext';
 import BuddyChat from './buddyChildren/BuddyChat';
-// import MeetupMap from './MeetupMap';
+
 const MeetupMap = lazy(() => import('./MeetupMap'));
 
 function App() {
   // trying to figure out how to keep user context updated through page refreshes
   // user context setUser is not a function here...
-  // const location = useLocation().pathname;
 
   return (
     <BrowserRouter>
       <UserContextProvider>
-        {/* <ChakraProvider>
-          <Container maxW="7xl" bg="blue.200" marginTop="0px" marginBottom="15px" h="125px">
-            {location === '/' ? <div /> : <Navbar />}
-          </Container>
-        </ChakraProvider> */}
         <NavBarContainer />
         <Suspense fallback={<Skeleton />}>
           <Routes>
@@ -54,7 +40,11 @@ function App() {
             <Route path="/events/:id" element={<Event />} />
             <Route
               path="/map"
-              element={<Suspense fallback={<Skeleton />}><MeetupMap /></Suspense>}
+              element={(
+                <Suspense fallback={<Skeleton />}>
+                  <MeetupMap />
+                </Suspense>
+              )}
             />
           </Routes>
         </Suspense>
