@@ -7,6 +7,8 @@ module.exports = {
   entry: './src/index.tsx',
   devtool: 'inline-source-map',
   mode: process.env.MODE || 'production',
+  // using production mode for build testing, but don't want to push that up
+  // mode: 'production',
   watch: process.env.MODE === 'development',
   stats: {
     errorDetails: true,
@@ -42,7 +44,12 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
   },
 };
