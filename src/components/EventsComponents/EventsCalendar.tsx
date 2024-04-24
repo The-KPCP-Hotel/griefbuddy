@@ -33,8 +33,8 @@ function EventsCalendar(props: { events: any[] }) {
       <Calendar
         localizer={localizer}
         events={events}
-        startAccessor="start"
-        endAccessor="end"
+        startAccessor="startDate"
+        endAccessor="endDate"
         style={{ height: 500 }}
         showMultiDayTimes
         step={60}
