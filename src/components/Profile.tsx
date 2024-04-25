@@ -25,6 +25,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+import PhoneInput from './ProfileComponents/PhoneInput';
+
 function Profile() {
   type UserType = {
     emConNum: String;
@@ -247,19 +249,7 @@ function Profile() {
                                 }}
                               />
                             </Box>
-                            <Box>
-                              <Heading size="xs" textTransform="uppercase">
-                                Phone Number
-                              </Heading>
-
-                              <Input
-                                type="text"
-                                onChange={(e) => {
-                                  const num = e.target.value;
-                                  updateMyPhoneNumber(num);
-                                }}
-                              />
-                            </Box>
+                            <PhoneInput setNumber={updateMyPhoneNumber} />
                             <Box>
                               <Heading size="xs" textTransform="uppercase">
                                 Age
@@ -323,19 +313,7 @@ function Profile() {
                                 }}
                               />
                             </Box>
-                            <Box>
-                              <Heading size="xs" textTransform="uppercase">
-                                Phone Number
-                              </Heading>
-
-                              <Input
-                                type="text"
-                                onChange={(e) => {
-                                  const friendnum = e.target.value;
-                                  setFriendNumber(friendnum);
-                                }}
-                              />
-                            </Box>
+                            <PhoneInput setNumber={setFriendNumber} />
                             <Box>
                               <Heading size="xs" textTransform="uppercase">
                                 Your Relation
