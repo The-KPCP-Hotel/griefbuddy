@@ -1,10 +1,10 @@
 import React, { useMemo, cloneElement, Children, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
-import moment from 'moment';
+import { Calendar, dayjsLocalizer, Views } from 'react-big-calendar';
+import dayjs from 'dayjs';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-const localizer = momentLocalizer(moment);
+const localizer = dayjsLocalizer(dayjs);
 
 const coloredDateCellWrapper = ({ children }: any) => (
   cloneElement(Children.only(children), {
