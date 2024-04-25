@@ -1,16 +1,13 @@
-import React from 'react';
+import React, { useId } from 'react';
 
-import { Box, Heading, Input } from '@chakra-ui/react';
+import { Box, Heading, Input, Text } from '@chakra-ui/react';
 
 interface Props {
   setNumber: Function;
 }
 
-// const defaultProps: Props = {
-//   setNumber: () => {},
-// };
-
 function PhoneInput({ setNumber }: Props) {
+  const phoneHintId = useId();
   return (
     <Box>
       <Heading size="xs" textTransform="uppercase">
@@ -18,16 +15,16 @@ function PhoneInput({ setNumber }: Props) {
       </Heading>
 
       <Input
+        aria-describedby={phoneHintId}
         type="text"
         onChange={(e) => {
           const num = e.target.value;
           setNumber(num);
         }}
       />
+      <Text id={phoneHintId}>Number should include area code</Text>
     </Box>
   );
 }
-
-// PhoneInput.defaultProps = defaultProps;
 
 export default PhoneInput;
