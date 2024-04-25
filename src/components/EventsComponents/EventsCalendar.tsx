@@ -1,5 +1,6 @@
 import React, { useMemo, cloneElement, Children } from 'react';
-import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
+import { useNavigate } from 'react-router-dom';
+import { Calendar, Event, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
@@ -28,6 +29,14 @@ function EventsCalendar(props: { events: any[] }) {
     [viewsKeys],
   );
 
+  function onDoubleClick(...args: [Event, React.SyntheticEvent<HTMLElement, globalThis.Event>]) {
+    const [event] = args;
+    console.log(event);
+    // const navigate = useNavigate();
+
+    // navigate(`/events/${id}`);
+  }
+
   return (
     <div className="height600">
       {/* <Fragment> */}
@@ -37,10 +46,14 @@ function EventsCalendar(props: { events: any[] }) {
           console.log(typeof event.startDate);
           return {
             title: event.title,
+            // start and end must be date objects
             start: new Date(event.startDate),
             end: new Date(event.endDate),
+            id: event.id,
           };
         })}
+        // eslint-disable-next-line react/jsx-no-bind
+        onDoubleClickEvent={onDoubleClick}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500 }}
