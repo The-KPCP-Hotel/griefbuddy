@@ -45,10 +45,6 @@ function EventsCalendar(props: { events: any[] }) {
     const { id } = event;
 
     setEventId(id);
-    // breaking hooks rules here
-    // const navigate = useNavigate();
-
-    // navigate(`/events/${id}`);
   }
 
   const navigate = useNavigate();
