@@ -5,11 +5,12 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = momentLocalizer(moment);
 
-const coloredDateCellWrapper = ({ children }: any) => cloneElement(Children.only(children), {
-  style: {
-    background: 'lightblue',
-  },
-});
+const coloredDateCellWrapper = ({ children }: any) => (
+  cloneElement(Children.only(children), {
+    style: {
+      background: 'lightblue',
+    },
+  }));
 
 function EventsCalendar(props: { events: any[] }) {
   const { events } = props;
@@ -32,9 +33,16 @@ function EventsCalendar(props: { events: any[] }) {
       {/* <Fragment> */}
       <Calendar
         localizer={localizer}
-        events={events}
-        startAccessor="startDate"
-        endAccessor="endDate"
+        events={events.map((event) => {
+          console.log(typeof event.startDate);
+          return {
+            title: event.title,
+            start: new Date(event.startDate),
+            end: new Date(event.endDate),
+          };
+        })}
+        startAccessor="start"
+        endAccessor="end"
         style={{ height: 500 }}
         showMultiDayTimes
         step={60}
