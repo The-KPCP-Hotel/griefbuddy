@@ -1,6 +1,6 @@
-import React, { useMemo, cloneElement, Children } from 'react';
+import React, { useMemo, cloneElement, Children, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Event, momentLocalizer, Views } from 'react-big-calendar';
+import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
@@ -16,6 +16,8 @@ const coloredDateCellWrapper = ({ children }: any) => (
 function EventsCalendar(props: { events: any[] }) {
   const { events } = props;
 
+  const [clickedEventId, setEventId] = useState(null as Number);
+
   const viewsKeys = Object.entries(Views);
 
   const { components, defaultDate, views } = useMemo(
@@ -29,29 +31,45 @@ function EventsCalendar(props: { events: any[] }) {
     [viewsKeys],
   );
 
-  function onDoubleClick(...args: [Event, React.SyntheticEvent<HTMLElement, globalThis.Event>]) {
+  type EventWId = {
+    id: Number;
+    allDay?: boolean | undefined;
+    title?: React.ReactNode | undefined;
+    start?: Date | undefined;
+    end?: Date | undefined;
+    resource?: any;
+  };
+
+  function onDoubleClick(...args: [EventWId, React.SyntheticEvent<HTMLElement, globalThis.Event>]) {
     const [event] = args;
-    console.log(event);
+    const { id } = event;
+
+    setEventId(id);
+    // breaking hooks rules here
     // const navigate = useNavigate();
 
     // navigate(`/events/${id}`);
   }
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (clickedEventId) {
+      navigate(`/events/${clickedEventId}`);
+    }
+  }, [clickedEventId, navigate]);
 
   return (
     <div className="height600">
       {/* <Fragment> */}
       <Calendar
         localizer={localizer}
-        events={events.map((event) => {
-          console.log(typeof event.startDate);
-          return {
-            title: event.title,
-            // start and end must be date objects
-            start: new Date(event.startDate),
-            end: new Date(event.endDate),
-            id: event.id,
-          };
-        })}
+        events={events.map((event) => ({
+          title: event.title,
+          // start and end must be date objects
+          start: new Date(event.startDate),
+          end: new Date(event.endDate),
+          id: event.id,
+        }))}
         // eslint-disable-next-line react/jsx-no-bind
         onDoubleClickEvent={onDoubleClick}
         startAccessor="start"
