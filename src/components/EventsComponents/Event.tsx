@@ -17,6 +17,8 @@ import { ExternalLinkIcon } from '@chakra-ui/icons';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
+import Breadcrumbs from '../NavComponents/Breadcrumbs';
+
 function Event() {
   const { id } = useParams();
 
@@ -52,6 +54,7 @@ function Event() {
 
   return (
     <ChakraProvider>
+      <Breadcrumbs type="events" />
       <Container maxW="7xl">
         <Box padding="10px">
           <Center>
