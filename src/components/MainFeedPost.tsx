@@ -118,7 +118,6 @@ function MainFeedPost(props: any) {
                            return <li>{comment.text}</li>
                         }
                     })}
-                <li></li>
                 </ul>
                 
             </Card>
