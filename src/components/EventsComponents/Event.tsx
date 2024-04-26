@@ -14,7 +14,7 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-
+import dayjs from 'dayjs';
 import axios from 'axios';
 
 function Event() {
@@ -40,10 +40,8 @@ function Event() {
       .get(`/events/event/${id}`)
       .then(({ data }) => {
         setEvent(data);
-        const startDate = new Date(data.startDate);
-        setStart(startDate.toLocaleString());
-        const endDate = new Date(data.endDate);
-        setEnd(endDate.toLocaleString());
+        setStart(dayjs(data.startDate).format('dddd, MMMM D, YYYY'));
+        setEnd(dayjs(data.endDate).format('dddd, MMMM D, YYYY'));
       })
       .catch((err) => console.error('failed finding event', err));
   }, [id]);
