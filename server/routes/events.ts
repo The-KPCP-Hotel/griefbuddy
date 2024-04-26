@@ -40,7 +40,7 @@ events.get('/new', async (req: Request, res: Response) => {
       response
         .json()
         .then(({ docs: { docs } }) => {
-          console.log(docs);
+          // console.log(docs);
           return docs;
         })
         .then((eventsJSON) => (
@@ -71,7 +71,7 @@ events.get('/new', async (req: Request, res: Response) => {
             }),
           )))
         .then((eventsMapped) => {
-          console.log('mapped', eventsMapped);
+          // console.log('mapped', eventsMapped);
           return prisma.Event.createMany({
             data: eventsMapped,
             skipDuplicates: true,
