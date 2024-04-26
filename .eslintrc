@@ -6,7 +6,8 @@
   "rules": {
     "object-curly-newline": 0,
     "operator-linebreak": 0,
-    "no-console": [1, { "allow": ["warn", "error"]}]
+    "no-console": [1, { "allow": ["warn", "error"]}],
+    "react/jsx-no-bind": 0
   },
   "extends": ["airbnb", "airbnb/hooks", "airbnb-typescript"]
 }

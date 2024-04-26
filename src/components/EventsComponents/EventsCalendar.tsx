@@ -48,6 +48,7 @@ function EventsCalendar(props: { events: any[] }) {
   }
 
   const navigate = useNavigate();
+
   useEffect(() => {
     if (clickedEventId) {
       navigate(`/events/${clickedEventId}`);

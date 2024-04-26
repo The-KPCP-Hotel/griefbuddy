@@ -1,9 +1,5 @@
 import express, { Request, Response } from 'express';
-
 import path = require('path');
-
-// import axios, { AxiosResponse } from 'axios';
-
 import puppeteer, { HTTPResponse } from 'puppeteer';
 
 const { PrismaClient } = require('@prisma/client');
@@ -40,31 +36,40 @@ events.get('/new', async (req: Request, res: Response) => {
       // console.log('response.url', response.url());
       response
         .json()
-        .then(({ docs: { docs } }) => docs)
-        .then((eventsJSON) => eventsJSON.map((event: {
-          _id: String,
-          linkUrl: String,
-          media_raw: Object,
-          startDate: String,
-          endDate: String,
-          address1: String,
-          title: String,
-          location: String,
-        }) => ({
-          // eslint-disable-next-line no-underscore-dangle
-          OgId: event._id,
-          url: event.linkUrl,
-          media_raw: event.media_raw,
-          startDate: event.startDate,
-          endDate: (event.endDate) ? event.endDate : null,
-          address: (event.address1) ? event.address1 : 'N/A',
-          title: event.title,
-          description: event.location,
-        })))
-        .then((eventsMapped) => prisma.Event.createMany({
-          data: eventsMapped,
-          skipDuplicates: true,
-        }))
+        .then(({ docs: { docs } }) => {
+          console.log(docs);
+          return docs;
+        })
+        .then((eventsJSON) => (
+          eventsJSON.map(
+            (event: {
+              _id: String;
+              linkUrl: String;
+              media_raw: Object;
+              startDate: String;
+              endDate: String;
+              address1: String;
+              title: String;
+              location: String;
+            }) => ({
+              // eslint-disable-next-line no-underscore-dangle
+              OgId: event._id,
+              url: event.linkUrl,
+              media_raw: event.media_raw,
+              startDate: event.startDate,
+              endDate: event.endDate ? event.endDate : null,
+              address: event.address1 ? event.address1 : 'N/A',
+              title: event.title,
+              description: event.location,
+            }),
+          )))
+        .then((eventsMapped) => {
+          console.log('mapped', eventsMapped);
+          return prisma.Event.createMany({
+            data: eventsMapped,
+            skipDuplicates: true,
+          });
+        })
         .then((prismaResponse) => {
           res.send(prismaResponse);
           browser.close();
@@ -82,7 +87,8 @@ events.get('/new', async (req: Request, res: Response) => {
 
 events.get('/event/:id', (req: Request, res: Response) => {
   const { id } = req.params;
-  prisma.event.findUnique({ where: { id: Number(id) } })
+  prisma.event
+    .findUnique({ where: { id: Number(id) } })
     .then((eventData: Response) => {
       // console.log(eventData);
       res.send(eventData);
