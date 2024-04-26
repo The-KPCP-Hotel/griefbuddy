@@ -26,12 +26,15 @@ events.get('/new', async (req: Request, res: Response) => {
 
   await page.goto(
     // tried to add more categories but didn't do anything - is only getting 12...
-    'https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=102%2C36%2C44%2C31%2C40%2C38%2C34%2C123&startDate=04%2F20%2F2024&endDate=07%2F11%2F2024&sort=title',
+    // this link should have over a thousand events
+    'https://www.neworleans.com/events/upcoming-events/',
+    // 'https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=102%2C36%2C44%2C31%2C40%2C38%2C34%2C123&startDate=04%2F20%2F2024&endDate=07%2F11%2F2024&sort=title',
     // 'https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=42%2C36%2C44%2C31%2C40%2C123&startDate=04%2F11%2F2024&endDate=05%2F11%2F2024&sort=title',
     // 'https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=40&startDate=04%2F11%2F2024&endDate=05%2F11%2F2024&sort=title',
   );
 
   function pageOnResponse(response: HTTPResponse): undefined {
+    // console.log(response);
     if (response.url().includes('find')) {
       // console.log('response.url', response.url());
       response
@@ -51,6 +54,8 @@ events.get('/new', async (req: Request, res: Response) => {
               address1: String;
               title: String;
               location: String;
+              nextDate: String;
+              recurrence: String;
             }) => ({
               // eslint-disable-next-line no-underscore-dangle
               OgId: event._id,
@@ -58,7 +63,9 @@ events.get('/new', async (req: Request, res: Response) => {
               media_raw: event.media_raw,
               startDate: event.startDate,
               endDate: event.endDate ? event.endDate : null,
+              nextDate: event.nextDate ? event.nextDate : null,
               address: event.address1 ? event.address1 : 'N/A',
+              recurrence: event.recurrence ? event.recurrence : null,
               title: event.title,
               description: event.location,
             }),

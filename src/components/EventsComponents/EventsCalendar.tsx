@@ -67,7 +67,6 @@ function EventsCalendar(props: { events: any[] }) {
           end: new Date(event.endDate),
           id: event.id,
         }))}
-        // eslint-disable-next-line react/jsx-no-bind
         onDoubleClickEvent={onDoubleClick}
         startAccessor="start"
         endAccessor="end"
