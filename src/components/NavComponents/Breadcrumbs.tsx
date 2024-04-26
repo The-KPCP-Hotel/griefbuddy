@@ -8,7 +8,7 @@ interface Props {
 
 function Breadcrumbs({ type }: Props) {
   return (
-    <Breadcrumb>
+    <Breadcrumb paddingLeft="10px">
       <BreadcrumbItem>
         <BreadcrumbLink as={Link} to="/home">
           Home
