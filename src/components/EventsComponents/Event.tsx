@@ -36,7 +36,6 @@ function Event() {
   const [event, setEvent] = useState({} as EventType);
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
-  const [next, setNext] = useState(null);
 
   const { recurrence } = event;
 
@@ -47,9 +46,6 @@ function Event() {
         setEvent(data);
         setStart(dayjs(data.startDate).format('dddd, MMMM D, YYYY'));
         setEnd(dayjs(data.endDate).format('dddd, MMMM D, YYYY'));
-        if (data.nextDate) {
-          setNext(dayjs(data.nextDate).format('dddd, MMMM D, YYYY'));
-        }
       })
       .catch((err) => console.error('failed finding event', err));
   }, [id]);
@@ -72,17 +68,14 @@ function Event() {
               Check out their site
               <ExternalLinkIcon mx="2px" />
             </ChakraLink>
-            <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>
+            {(start === end) ? <Text>{`Happening on ${start}`}</Text> : <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>}
             {(recurrence) ? <Text>{recurrence}</Text> : null}
-            {/* unsure the next value will be useful info
-            it seems like it should be important - haven't figured it out yet */}
-            {(next) ? <Text>{next}</Text> : null}
             {event.media_raw ? (
               event.media_raw.map((url) => (
                 <Image key={`${event.id}-${url.sortorder}`} src={url.mediaurl} />
               ))
             ) : (
-              <div />
+              null
             )}
           </CardBody>
         </Card>
