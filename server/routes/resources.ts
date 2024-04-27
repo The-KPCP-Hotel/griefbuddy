@@ -20,48 +20,34 @@ router.get('/allResources', (req: Request, res: Response) => {
 
 
 router.get('/addResource', async (req: Request, res: Response) => {
-//    const { type, url } = req.body.data
 
-   const browser = await puppeteer.launch();
+    puppeteer.launch().then(async function(browser) {
+        const page = await browser.newPage();
+        await page.goto('https://www.lifebanc.org/resources/for-families/online-grief-resources/');
 
-   const page = await browser.newPage();
+        
+        const resourceTitles = await page.evaluate(() => {
+            return Array.from(document.querySelectorAll('.panel-right .bg-powderblue h3'), (e) => (e.innerHTML))
+        })
+    
+        const resourceLinks = await page.evaluate(() => {
+            return Array.from(document.querySelectorAll('.panel-right .bg-powderblue p a'), (e: HTMLAnchorElement) => (e.href))
+        })
+    
+        const resourceDescriptions = await page.evaluate(() => {
+            return Array.from(document.querySelectorAll('.panel-right .bg-powderblue p'), (e: HTMLParagraphElement) => (e.firstChild.nodeValue))
+        })
 
-   await page.goto(
-    'https://www.lifebanc.org/resources/for-families/online-grief-resources/'
-    );
+        // Closing the Puppeteer controlled headless browser
+        await browser.close();
 
+        res.status(200).send({
+            titles: resourceTitles,
+            links: resourceLinks,
+            descriptions: resourceDescriptions
+        });
+    });
 
-
-    // const resources = await page.evaluate(() => document.body.innerText)
-    // console.log(resources)
-
-    const resourceTitles = await page.evaluate(() => {
-        return Array.from(document.querySelectorAll('.panel-right .bg-powderblue h3'), (e) => (e.innerHTML))
-    })
-    console.log(resourceTitles)
-
-    const resourceLinks = await page.evaluate(() => {
-        return Array.from(document.querySelectorAll('.panel-right .bg-powderblue p a'), (e: HTMLAnchorElement) => (e.href))
-    })
-    console.log(resourceLinks)
-
-
-
-    await browser.close()
-    // prisma.Resource.create({
-    //     data: {
-    //         type,
-    //         url
-    //     }   
-    // })
-    // .then(() => {
-    //     console.log('Resource successfully added')
-    //     res.sendStatus(200)
-    // })
-    // .catch((err: string) => {
-    //     console.error(err)
-    //     res.sendStatus(500)
-    // })
 })
 
 module.exports = router;
