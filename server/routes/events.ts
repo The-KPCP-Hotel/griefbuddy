@@ -33,17 +33,14 @@ events.get('/new', async (req: Request, res: Response) => {
     // 'https://www.neworleans.com/events/upcoming-events/?skip=0&categoryid=40&startDate=04%2F11%2F2024&endDate=05%2F11%2F2024&sort=title',
   );
 
-  function pageOnResponse(response: HTTPResponse): undefined {
+  function pageOnResponse(response: HTTPResponse): void {
     // console.log(response);
     if (response.url().includes('find')) {
       // console.log('response.url', response.url());
       response
         .json()
-        .then(({ docs: { docs } }) => {
-          // console.log(docs);
-          return docs;
-        })
-        .then((eventsJSON) => (
+        .then(({ docs: { docs } }) => docs)
+        .then((eventsJSON) =>
           eventsJSON.map(
             (event: {
               _id: String;
@@ -69,14 +66,12 @@ events.get('/new', async (req: Request, res: Response) => {
               title: event.title,
               description: event.location,
             }),
-          )))
-        .then((eventsMapped) => {
-          // console.log('mapped', eventsMapped);
-          return prisma.Event.createMany({
+          ))
+        .then((eventsMapped) =>
+          prisma.Event.createMany({
             data: eventsMapped,
             skipDuplicates: true,
-          });
-        })
+          }))
         .then((prismaResponse) => {
           res.send(prismaResponse);
           browser.close();
