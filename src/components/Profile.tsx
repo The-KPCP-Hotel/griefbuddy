@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useId } from 'react';
 import axios from 'axios';
 import {
   Container,
@@ -25,6 +25,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+import PhoneInput from './ProfileComponents/PhoneInput';
+
 function Profile() {
   type UserType = {
     emConNum: String;
@@ -48,6 +50,8 @@ function Profile() {
   const [myMood, setMood] = useState("I'm Feeling Great!");
   const [age, setAge] = useState('18-99+');
   const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888');
+
+  const contactWarningId = useId();
 
   function updateUser() {
     axios
@@ -232,7 +236,7 @@ function Profile() {
                         <CardBody>
                           <Stack divider={<StackDivider />} spacing="4">
                             <Box>
-                              <h4 style={{ color: 'orange' }}>Must fill out all boxes</h4>
+                              <Text style={{ color: 'orange' }}>Must fill out all boxes</Text>
                               <Heading size="xs" textTransform="uppercase">
                                 Preferred Name
                               </Heading>
@@ -245,19 +249,7 @@ function Profile() {
                                 }}
                               />
                             </Box>
-                            <Box>
-                              <Heading size="xs" textTransform="uppercase">
-                                Phone Number
-                              </Heading>
-
-                              <Input
-                                type="text"
-                                onChange={(e) => {
-                                  const num = e.target.value;
-                                  updateMyPhoneNumber(num);
-                                }}
-                              />
-                            </Box>
+                            <PhoneInput setNumber={updateMyPhoneNumber} />
                             <Box>
                               <Heading size="xs" textTransform="uppercase">
                                 Age
@@ -306,9 +298,9 @@ function Profile() {
                                 Submit
                               </Button>
                             </Box>
-                            <Heading size="md">Update Friend Settings</Heading>
+                            <Heading aria-describedby={contactWarningId} size="md">Update Friend Settings</Heading>
                             <Box>
-                              <h4 style={{ color: 'orange' }}>Must fill out all boxes</h4>
+                              <Text style={{ color: 'orange' }}>Must fill out all boxes</Text>
                               {' '}
                               <Heading size="xs" textTransform="uppercase">
                                 Name
@@ -321,19 +313,7 @@ function Profile() {
                                 }}
                               />
                             </Box>
-                            <Box>
-                              <Heading size="xs" textTransform="uppercase">
-                                Phone Number
-                              </Heading>
-
-                              <Input
-                                type="text"
-                                onChange={(e) => {
-                                  const friendnum = e.target.value;
-                                  setFriendNumber(friendnum);
-                                }}
-                              />
-                            </Box>
+                            <PhoneInput setNumber={setFriendNumber} />
                             <Box>
                               <Heading size="xs" textTransform="uppercase">
                                 Your Relation
@@ -346,10 +326,10 @@ function Profile() {
                                   setFriendRelationship(relation);
                                 }}
                               />
-                              <h4 color="red">
+                              <Heading id={contactWarningId} size="xs" color="red">
                                 If submitted, we will send your friend an SMS upon any alarming
                                 behavior.
-                              </h4>
+                              </Heading>
                               <Button
                                 mt={4}
                                 bg="blue.200"
