@@ -27,6 +27,13 @@ function Events() {
   function scrollToEvent(ogId: string) {
     const eventNode = document.getElementById(ogId);
     console.log(eventNode);
+    eventRef.current = eventNode;
+
+    eventNode.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    });
   }
 
   useEffect(() => {
