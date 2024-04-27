@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import {
   ChakraProvider,
@@ -20,6 +20,25 @@ import EventsBigCalendar from './EventsComponents/EventsCalendar';
 function Events() {
   const [events, setEvents] = useState([]);
   const [eventsToday, setEventsToday] = useState([]);
+
+  const eventRef = useRef(null);
+  const [eventFocus, setEventFocus] = useState('');
+
+  function scrollToEvent(ogId: string) {
+    const eventsNode = eventRef.current;
+
+    // const eventNode = eventsNode.querySelectorAll(`div.simpleGrid > div.${ogId}`);
+    console.log(eventsNode);
+    console.log(ogId);
+    // console.log(eventsNode.querySelectorAll('div > div > div'));
+    if (ogId) {
+      // console.log(eventsNode.querySelectorAll(`div > div.${ogId}.css-sqpk59`));
+    }
+  }
+
+  useEffect(() => {
+    scrollToEvent(eventFocus);
+  }, [eventFocus]);
 
   useEffect(() => {
     axios
@@ -62,7 +81,11 @@ function Events() {
         <Box>
           <Card>
             <Stack>
-              <EventsBigCalendar events={events} />
+              <EventsBigCalendar
+                setEventFocus={setEventFocus}
+                eventRef={eventRef}
+                events={events}
+              />
             </Stack>
           </Card>
         </Box>
@@ -73,7 +96,7 @@ function Events() {
                 <Heading size="md">All Events</Heading>
               </CardHeader>
               <CardBody>
-                <SimpleGrid columns={4} spacing="4">
+                <SimpleGrid className="simpleGrid" ref={eventRef} columns={4} spacing="4">
                   {events.map((event) => (
                     <EventListItem key={event.OgId} event={event} />
                   ))}

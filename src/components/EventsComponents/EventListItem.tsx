@@ -6,15 +6,17 @@ import { Link } from 'react-router-dom';
 
 function EventListItem({
   event,
+  // className,
 }: {
-  event: { title: String; description: String; media_raw: any[], id: Number };
+  event: { title: String; description: String; media_raw: any[], id: Number, OgId: string };
+  // className: string;
 }) {
   const {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     title, description, media_raw, id,
   } = event;
   return (
-    <Box boxSize="250px" borderRadius="med">
+    <Box className={event.OgId} boxSize="250px" borderRadius="med">
       {/* <li>{title}</li> */}
       <Center>
         <Link to={`/events/${id}`}>
