@@ -39,8 +39,6 @@ function EventsCalendar({
   eventRef: React.MutableRefObject<any>;
   setEventFocus: React.Dispatch<React.SetStateAction<string>>;
 }) {
-  console.log(eventRef);
-
   const [doubleClickedEventId, setDoubleClickedEventId] = useState(null as Number);
 
   const viewsKeys = Object.entries(Views);
@@ -72,6 +70,8 @@ function EventsCalendar({
   }, [doubleClickedEventId, navigate]);
 
   function onSelect(...args: [CalEvent, React.SyntheticEvent<HTMLElement, globalThis.Event>]) {
+    console.log(eventRef);
+
     const [event] = args;
     // this is the same as key for event's card
     const { ogId } = event;

@@ -25,19 +25,14 @@ function Events() {
   const [eventFocus, setEventFocus] = useState('');
 
   function scrollToEvent(ogId: string) {
-    const eventsNode = eventRef.current;
-
-    // const eventNode = eventsNode.querySelectorAll(`div.simpleGrid > div.${ogId}`);
-    console.log(eventsNode);
-    console.log(ogId);
-    // console.log(eventsNode.querySelectorAll('div > div > div'));
-    if (ogId) {
-      // console.log(eventsNode.querySelectorAll(`div > div.${ogId}.css-sqpk59`));
-    }
+    const eventNode = document.getElementById(ogId);
+    console.log(eventNode);
   }
 
   useEffect(() => {
-    scrollToEvent(eventFocus);
+    if (eventFocus) {
+      scrollToEvent(eventFocus);
+    }
   }, [eventFocus]);
 
   useEffect(() => {
