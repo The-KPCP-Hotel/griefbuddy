@@ -85,7 +85,6 @@ function Events() {
             <Stack>
               <EventsBigCalendar
                 setEventFocus={setEventFocus}
-                eventRef={eventRef}
                 events={events}
               />
             </Stack>

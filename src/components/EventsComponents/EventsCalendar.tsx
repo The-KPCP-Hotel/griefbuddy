@@ -32,11 +32,9 @@ interface CalEvent extends Event {
 
 function EventsCalendar({
   events,
-  eventRef,
   setEventFocus,
 }: {
   events: EventWId[];
-  eventRef: React.MutableRefObject<any>;
   setEventFocus: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [doubleClickedEventId, setDoubleClickedEventId] = useState(null as Number);
@@ -70,12 +68,9 @@ function EventsCalendar({
   }, [doubleClickedEventId, navigate]);
 
   function onSelect(...args: [CalEvent, React.SyntheticEvent<HTMLElement, globalThis.Event>]) {
-    console.log(eventRef);
-
     const [event] = args;
     // this is the same as key for event's card
     const { ogId } = event;
-    console.log(ogId);
     setEventFocus(ogId);
   }
 
