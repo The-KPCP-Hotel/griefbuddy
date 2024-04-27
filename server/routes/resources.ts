@@ -1,5 +1,5 @@
-import * as express from 'express';
-import  {Request, Response } from 'express'
+// import * as express from 'express';
+import express, {Request, Response } from 'express'
 import path = require('path');
 import puppeteer, { HTTPResponse } from 'puppeteer';
 const router = express.Router();
@@ -43,15 +43,15 @@ router.get('/addResource', async (req: Request, res: Response) => {
         })
 
         // console.log(allResources)
-        console.log(resourceLinks)
+        // console.log(resourceLinks)
         // console.log(resourceDescriptions)
-        let newDescriptions = resourceDescriptions.reduce((acc: any, curr: String) => {
-            if(curr !== null){
-                 acc = acc?.push(curr)
-                }
-                return acc
-        }, [])
-        console.log(newDescriptions)
+        // let newDescriptions = resourceDescriptions.reduce((acc: any, curr: String) => {
+        //     if(curr !== null){
+        //          acc = acc?.push(curr)
+        //         }
+        //         return acc
+        // }, [])
+        // console.log(newDescriptions)
         // Closing the Puppeteer controlled headless browser
         await browser.close();
 

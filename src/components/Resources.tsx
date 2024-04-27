@@ -46,8 +46,8 @@ function Resources() {
         </MenuButton>
         <MenuList>
             {
-              griefObj.map((griefType) => (
-                <MenuItem>{griefType}</MenuItem>
+              griefObj.map((griefType, i) => (
+                <MenuItem key={i}>{griefType}</MenuItem>
               ))
             }
         </MenuList>
