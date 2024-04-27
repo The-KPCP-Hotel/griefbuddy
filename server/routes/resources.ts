@@ -1,4 +1,3 @@
-// import * as express from 'express';
 import express, {Request, Response } from 'express'
 import path = require('path');
 import puppeteer, { HTTPResponse } from 'puppeteer';
