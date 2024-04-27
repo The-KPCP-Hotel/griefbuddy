@@ -14,6 +14,7 @@ import quotesRouter from './routes/quotes';
 import mapRouter from './routes/map';
 import chatbotRouter from './routes/chatbot';
 import mainFeedRouter from './routes/mainFeed';
+import resourcesRouter from './routes/resources';
 
 require('dotenv').config();
 
@@ -49,6 +50,7 @@ app.use('/quotes', quotesRouter);
 app.use('/map', mapRouter);
 app.use('/chatbot', chatbotRouter);
 app.use('/mainFeed', mainFeedRouter);
+app.use('/resources', resourcesRouter);
 
 const checkAuth = (
   req: Request,
