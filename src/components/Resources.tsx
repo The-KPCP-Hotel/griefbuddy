@@ -45,11 +45,6 @@ function Resources() {
             Pick a Resource Type
         </MenuButton>
         <MenuList>
-            {/* <MenuItem>Death of a Spouse</MenuItem>
-            <MenuItem>Death of a Child</MenuItem>
-            <enuItem>Death of a Parent</MenuItem>
-            <MenuItem>Death of a Sibling</MenuItem>
-            <MenuItem>Death of a Friend</MenuItem> */}
             {
               griefObj.map((griefType) => (
                 <MenuItem>{griefType}</MenuItem>

@@ -42,7 +42,16 @@ router.get('/addResource', async (req: Request, res: Response) => {
             return Array.from(document.querySelectorAll('.panel-right .bg-powderblue'), (e: HTMLElement) => (e.innerText))
         })
 
-        console.log(allResources)
+        // console.log(allResources)
+        console.log(resourceLinks)
+        // console.log(resourceDescriptions)
+        let newDescriptions = resourceDescriptions.reduce((acc: any, curr: String) => {
+            if(curr !== null){
+                 acc = acc?.push(curr)
+                }
+                return acc
+        }, [])
+        console.log(newDescriptions)
         // Closing the Puppeteer controlled headless browser
         await browser.close();
 
