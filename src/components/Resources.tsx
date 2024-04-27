@@ -1,7 +1,6 @@
-import React = require('react');
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { useContext, useEffect } from 'react';
+import axios, {AxiosResponse} from 'axios';
+import React, { useContext, useEffect } from 'react';
 import { UserContext, AuthUser } from '../context/UserContext';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Heading, 
@@ -21,6 +20,16 @@ import { Heading,
 
 function Resources() {
 
+  // function getTypesOfGrief() {
+  //   axios.get('/resources/addResource')
+  //   .then((results: AxiosResponse) => {
+  //     console.log(results.data)
+  //   })
+  // }
+
+
+  
+
   return (
     <ChakraProvider>
       <Center>
@@ -33,11 +42,11 @@ function Resources() {
             Pick a Resource Type
         </MenuButton>
         <MenuList>
-            <MenuItem>Death of a Spouse</MenuItem>
+            {/* <MenuItem>Death of a Spouse</MenuItem>
             <MenuItem>Death of a Child</MenuItem>
             <MenuItem>Death of a Parent</MenuItem>
             <MenuItem>Death of a Sibling</MenuItem>
-            <MenuItem>Death of a Friend</MenuItem>
+            <MenuItem>Death of a Friend</MenuItem> */}
         </MenuList>
     </Menu>
     </Center>
