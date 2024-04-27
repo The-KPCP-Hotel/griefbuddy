@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   ChakraProvider,
@@ -21,13 +21,10 @@ function Events() {
   const [events, setEvents] = useState([]);
   const [eventsToday, setEventsToday] = useState([]);
 
-  const eventRef = useRef(null);
   const [eventFocus, setEventFocus] = useState('');
 
   function scrollToEvent(ogId: string) {
     const eventNode = document.getElementById(ogId);
-    console.log(eventNode);
-    eventRef.current = eventNode;
 
     eventNode.scrollIntoView({
       behavior: 'smooth',
@@ -83,10 +80,7 @@ function Events() {
         <Box>
           <Card>
             <Stack>
-              <EventsBigCalendar
-                setEventFocus={setEventFocus}
-                events={events}
-              />
+              <EventsBigCalendar setEventFocus={setEventFocus} events={events} />
             </Stack>
           </Card>
         </Box>
@@ -97,7 +91,7 @@ function Events() {
                 <Heading size="md">All Events</Heading>
               </CardHeader>
               <CardBody>
-                <SimpleGrid className="simpleGrid" ref={eventRef} columns={4} spacing="4">
+                <SimpleGrid className="simpleGrid" columns={4} spacing="4">
                   {events.map((event) => (
                     <EventListItem key={event.OgId} event={event} />
                   ))}
