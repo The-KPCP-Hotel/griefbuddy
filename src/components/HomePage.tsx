@@ -1,11 +1,8 @@
-import React = require('react');
+import React, { useContext, useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-import { useContext, useEffect, useState } from 'react';
-import {
-  ChakraProvider, Heading, Center, Container, Box
-} from '@chakra-ui/react';
+import { ChakraProvider, Heading, Center, Container, Box } from '@chakra-ui/react';
 import { UserContext, AuthUser } from '../context/UserContext';
 import Quote from './HomeComponents/Quote';
 import MainFeed from './MainFeed';
@@ -14,7 +11,7 @@ function HomePage() {
   const userContext = useContext(UserContext);
 
   const { setUser, user } = userContext;
-  const [googId, setGoogId] = useState('')
+  const [googId, setGoogId] = useState('');
   // want to find a better solution than calling db every time homepage is rendered
   useEffect(() => {
     axios
@@ -23,7 +20,7 @@ function HomePage() {
         if (typeof data === 'object') {
           const curUser = { ...data };
           setUser(curUser);
-          setGoogId(curUser.googleId)
+          setGoogId(curUser.googleId);
         }
       })
       // adding here because this response takes over a second
@@ -35,7 +32,13 @@ function HomePage() {
   return (
     <ChakraProvider>
       <Center>
-        <Heading size="3xl" color="blue.200">
+        <Heading
+          size="3xl"
+          color="blue.200"
+          onClick={() => {
+            console.log(googId);
+          }}
+        >
           HomePage
         </Heading>
       </Center>
@@ -43,7 +46,7 @@ function HomePage() {
         <h2>{`Welcome ${user?.name.split(' ')[0]}`}</h2>
         <Quote />
         <Box h="600px" overflow="scroll">
-        <MainFeed user={user} googleId={googId}></MainFeed>
+          <MainFeed user={user} googleId={googId} />
         </Box>
       </Container>
     </ChakraProvider>

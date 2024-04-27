@@ -48,6 +48,8 @@ model Event {
   media_raw   Json?
   startDate   DateTime
   endDate     DateTime?
+  nextDate    DateTime?
+  recurrence  String?
   address     String?
   title       String
   description String

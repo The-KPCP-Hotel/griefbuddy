@@ -1,14 +1,28 @@
 const path = require('path');
 require('dotenv').config();
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
-  entry: './src/index.tsx',
+  entry: {
+    index: './src/index.tsx',
+    map: './src/components/MeetupMap.tsx'
+},
   devtool: 'inline-source-map',
   mode: process.env.MODE || 'production',
+  // using production mode for build testing, but don't want to push that up
+  // mode: 'production',
   watch: process.env.MODE === 'development',
   stats: {
     errorDetails: true,
   },
+  plugins: [
+    new BundleAnalyzerPlugin({ generateStatsFile: true }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'src', 'index.html')
+    })
+  ],
   module: {
     rules: [
       {
@@ -37,7 +51,14 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+    chunkFilename: '[id].bundle.js'
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
   },
 };

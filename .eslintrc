@@ -3,5 +3,11 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "extends": ["airbnb",  "airbnb/hooks", "airbnb-typescript"]
+  "rules": {
+    "object-curly-newline": 0,
+    "operator-linebreak": 0,
+    "no-console": [1, { "allow": ["warn", "error"]}],
+    "react/jsx-no-bind": 0
+  },
+  "extends": ["airbnb", "airbnb/hooks", "airbnb-typescript"]
 }

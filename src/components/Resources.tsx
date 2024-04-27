@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom';
 import axios, {AxiosResponse} from 'axios';
 import React, { useContext, useEffect } from 'react';
-import { UserContext, AuthUser } from '../context/UserContext';
-import { ChakraProvider } from '@chakra-ui/react';
 import { Heading, 
     Center,
     Menu,
@@ -16,16 +14,16 @@ import { Heading,
     ListIcon,
     OrderedList,
     UnorderedList,
-    Container } from '@chakra-ui/react';
+    Container, ChakraProvider } from '@chakra-ui/react';
 
 function Resources() {
 
-  // function getTypesOfGrief() {
-  //   axios.get('/resources/addResource')
-  //   .then((results: AxiosResponse) => {
-  //     console.log(results.data)
-  //   })
-  // }
+  function getTypesOfGrief() {
+    axios.get('/resources/addResource')
+    .then((results: AxiosResponse) => {
+      console.log(results.data)
+    })
+  }
 
 
   

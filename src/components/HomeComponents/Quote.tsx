@@ -1,5 +1,4 @@
-import React = require('react');
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChakraProvider, Button } from '@chakra-ui/react';
 import axios from 'axios';
 

@@ -1,18 +1,22 @@
-import React, { useMemo, cloneElement, Children } from 'react';
-import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
-import moment from 'moment';
+import React, { useMemo, cloneElement, Children, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Calendar, dayjsLocalizer, Views } from 'react-big-calendar';
+import dayjs from 'dayjs';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-const localizer = momentLocalizer(moment);
+const localizer = dayjsLocalizer(dayjs);
 
-const coloredDateCellWrapper = ({ children }: any) => cloneElement(Children.only(children), {
-  style: {
-    background: 'lightblue',
-  },
-});
+const coloredDateCellWrapper = ({ children }: any) => (
+  cloneElement(Children.only(children), {
+    style: {
+      background: 'lightblue',
+    },
+  }));
 
 function EventsCalendar(props: { events: any[] }) {
   const { events } = props;
+
+  const [clickedEventId, setEventId] = useState(null as Number);
 
   const viewsKeys = Object.entries(Views);
 
@@ -27,12 +31,43 @@ function EventsCalendar(props: { events: any[] }) {
     [viewsKeys],
   );
 
+  type EventWId = {
+    id: Number;
+    allDay?: boolean | undefined;
+    title?: React.ReactNode | undefined;
+    start?: Date | undefined;
+    end?: Date | undefined;
+    resource?: any;
+  };
+
+  function onDoubleClick(...args: [EventWId, React.SyntheticEvent<HTMLElement, globalThis.Event>]) {
+    const [event] = args;
+    const { id } = event;
+
+    setEventId(id);
+  }
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (clickedEventId) {
+      navigate(`/events/${clickedEventId}`);
+    }
+  }, [clickedEventId, navigate]);
+
   return (
     <div className="height600">
       {/* <Fragment> */}
       <Calendar
         localizer={localizer}
-        events={events}
+        events={events.map((event) => ({
+          title: event.title,
+          // start and end must be date objects
+          start: new Date(event.startDate),
+          end: new Date(event.endDate),
+          id: event.id,
+        }))}
+        onDoubleClickEvent={onDoubleClick}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500 }}
