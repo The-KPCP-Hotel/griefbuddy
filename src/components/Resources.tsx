@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import axios, {AxiosResponse} from 'axios';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Heading, 
     Center,
     Menu,
@@ -17,15 +17,20 @@ import { Heading,
     Container, ChakraProvider } from '@chakra-ui/react';
 
 function Resources() {
+  
+  const [griefObj, setGriefObj] = useState([])
 
   function getTypesOfGrief() {
     axios.get('/resources/addResource')
     .then((results: AxiosResponse) => {
-      console.log(results.data)
+      setGriefObj(results.data.titles)
     })
   }
 
 
+  useEffect(() => {
+    getTypesOfGrief()
+  }, [])
   
 
   return (
@@ -42,9 +47,14 @@ function Resources() {
         <MenuList>
             {/* <MenuItem>Death of a Spouse</MenuItem>
             <MenuItem>Death of a Child</MenuItem>
-            <MenuItem>Death of a Parent</MenuItem>
+            <enuItem>Death of a Parent</MenuItem>
             <MenuItem>Death of a Sibling</MenuItem>
             <MenuItem>Death of a Friend</MenuItem> */}
+            {
+              griefObj.map((griefType) => (
+                <MenuItem>{griefType}</MenuItem>
+              ))
+            }
         </MenuList>
     </Menu>
     </Center>
