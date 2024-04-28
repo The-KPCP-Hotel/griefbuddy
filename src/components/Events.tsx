@@ -69,11 +69,16 @@ function Events() {
               <Heading size="md">Today&apos;s Events</Heading>
             </CardHeader>
             <CardBody>
-              <Stack divider={<StackDivider />} spacing="4">
+              <SimpleGrid
+                className="simpleGrid"
+                columns={[1, 1, 2, 3, 3, 4]}
+                spacingY="40px"
+                spacingX="80px"
+              >
                 {eventsToday.map((event) => (
                   <EventListItem key={event.OgId} event={event} />
                 ))}
-              </Stack>
+              </SimpleGrid>
             </CardBody>
           </Card>
         </Box>
@@ -91,7 +96,12 @@ function Events() {
                 <Heading size="md">All Events</Heading>
               </CardHeader>
               <CardBody>
-                <SimpleGrid className="simpleGrid" columns={[1, 1, 2, 3, 3, 4]} spacingY="40px" spacingX="80px">
+                <SimpleGrid
+                  className="simpleGrid"
+                  columns={[1, 1, 2, 3, 3, 4]}
+                  spacingY="40px"
+                  spacingX="80px"
+                >
                   {events.map((event) => (
                     <EventListItem key={event.OgId} event={event} />
                   ))}

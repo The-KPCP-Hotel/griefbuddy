@@ -177,11 +177,11 @@ function ChatBot() {
             {messages.slice(1).map((text, index) => (
               <Text
                 borderRadius="10px"
-                background="#E6E6FA"
+                background={text.role === 'assistant' ? 'lavender' : 'blue.600'}
                 p="10px"
                 // eslint-disable-next-line react/no-array-index-key
                 key={`${text.role}-${index}`}
-                color={text.role === 'assistant' ? 'purple' : 'default'}
+                color={text.role === 'assistant' ? 'purple' : 'white'}
               >
                 {text.content}
               </Text>
