@@ -16,23 +16,23 @@ function EventListItem({
     title, description, media_raw, id,
   } = event;
   return (
-    <Box id={event.OgId} boxSize="250px" borderRadius="med">
+    <Box id={event.OgId} boxSize="300px" p="10px" borderRadius="md" background="blue.200">
       {/* <li>{title}</li> */}
       <Center>
         <Link to={`/events/${id}`}>
           <Heading size="sm">{title}</Heading>
         </Link>
       </Center>
-      {(media_raw) ? (
-        <Center><Image boxSize="200px" fit="contain" src={media_raw[0].mediaurl} /></Center>
-      ) : (
-        <div />
-      )}
       <Center>
         <Text pt="2" fontSize="sm">
           {description}
         </Text>
       </Center>
+      {(media_raw) ? (
+        <Center><Image boxSize="200px" fit="contain" src={media_raw[0].mediaurl} /></Center>
+      ) : (
+        <div />
+      )}
     </Box>
   );
 }
