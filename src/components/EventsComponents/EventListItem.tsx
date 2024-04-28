@@ -16,7 +16,7 @@ function EventListItem({
     title, description, media_raw, id,
   } = event;
   return (
-    <Box id={event.OgId} boxSize="300px" p="10px" borderRadius="md" background="blue.200">
+    <Box id={event.OgId} boxSize="300px" p="10px" borderColor="blue.600" borderWidth="10px" borderRadius="md" background="blue.200">
       {/* <li>{title}</li> */}
       <Center>
         <Link to={`/events/${id}`}>

@@ -171,11 +171,14 @@ function ChatBot() {
         </Heading>
       </Center>
       <Container>
-        <Button onClick={onDelete}>Delete Conversation</Button>
-        <Box overflowY="auto" maxHeight="70vh" paddingBottom="10px">
+        <Button marginBottom="15px" onClick={onDelete}>Delete Conversation</Button>
+        <Box overflowY="auto" maxHeight="70vh" marginBottom="10px">
           <Stack divider={<StackDivider />}>
             {messages.slice(1).map((text, index) => (
               <Text
+                borderRadius="10px"
+                background="#E6E6FA"
+                p="10px"
                 // eslint-disable-next-line react/no-array-index-key
                 key={`${text.role}-${index}`}
                 color={text.role === 'assistant' ? 'purple' : 'default'}
