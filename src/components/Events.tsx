@@ -91,7 +91,7 @@ function Events() {
                 <Heading size="md">All Events</Heading>
               </CardHeader>
               <CardBody>
-                <SimpleGrid className="simpleGrid" columns={4} spacing="4">
+                <SimpleGrid className="simpleGrid" columns={[1, 2, 3, 4]} spacingY="40px" spacingX="80px">
                   {events.map((event) => (
                     <EventListItem key={event.OgId} event={event} />
                   ))}
