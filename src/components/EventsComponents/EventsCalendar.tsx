@@ -1,22 +1,43 @@
 import React, { useMemo, cloneElement, Children, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, dayjsLocalizer, Views } from 'react-big-calendar';
+import { Calendar, dayjsLocalizer, Views, Event } from 'react-big-calendar';
 import dayjs from 'dayjs';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = dayjsLocalizer(dayjs);
 
-const coloredDateCellWrapper = ({ children }: any) => (
+const coloredDateCellWrapper = ({ children }: any) =>
   cloneElement(Children.only(children), {
     style: {
       background: 'lightblue',
     },
-  }));
+  });
 
-function EventsCalendar(props: { events: any[] }) {
-  const { events } = props;
+// type for events out the db
+type EventWId = {
+  id: Number;
+  OgId: string;
+  allDay?: boolean | undefined;
+  title?: React.ReactNode | undefined;
+  startDate?: Date | undefined;
+  endDate?: Date | undefined;
+  resource?: any;
+};
 
-  const [clickedEventId, setEventId] = useState(null as Number);
+// types for events on calendar
+interface CalEvent extends Event {
+  id: Number;
+  ogId: string;
+}
+
+function EventsCalendar({
+  events,
+  setEventFocus,
+}: {
+  events: EventWId[];
+  setEventFocus: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  const [doubleClickedEventId, setDoubleClickedEventId] = useState(null as Number);
 
   const viewsKeys = Object.entries(Views);
 
@@ -31,33 +52,30 @@ function EventsCalendar(props: { events: any[] }) {
     [viewsKeys],
   );
 
-  type EventWId = {
-    id: Number;
-    allDay?: boolean | undefined;
-    title?: React.ReactNode | undefined;
-    start?: Date | undefined;
-    end?: Date | undefined;
-    resource?: any;
-  };
-
-  function onDoubleClick(...args: [EventWId, React.SyntheticEvent<HTMLElement, globalThis.Event>]) {
+  function onDoubleClick(...args: [CalEvent, React.SyntheticEvent<HTMLElement, globalThis.Event>]) {
     const [event] = args;
     const { id } = event;
 
-    setEventId(id);
+    setDoubleClickedEventId(id);
   }
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (clickedEventId) {
-      navigate(`/events/${clickedEventId}`);
+    if (doubleClickedEventId) {
+      navigate(`/events/${doubleClickedEventId}`);
     }
-  }, [clickedEventId, navigate]);
+  }, [doubleClickedEventId, navigate]);
+
+  function onSelect(...args: [CalEvent, React.SyntheticEvent<HTMLElement, globalThis.Event>]) {
+    const [event] = args;
+    // this is the same as key for event's card
+    const { ogId } = event;
+    setEventFocus(ogId);
+  }
 
   return (
     <div className="height600">
-      {/* <Fragment> */}
       <Calendar
         localizer={localizer}
         events={events.map((event) => ({
@@ -66,8 +84,10 @@ function EventsCalendar(props: { events: any[] }) {
           start: new Date(event.startDate),
           end: new Date(event.endDate),
           id: event.id,
+          ogId: event.OgId,
         }))}
         onDoubleClickEvent={onDoubleClick}
+        onSelectEvent={onSelect}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500 }}
@@ -77,7 +97,6 @@ function EventsCalendar(props: { events: any[] }) {
         components={components}
         defaultDate={defaultDate}
       />
-      {/* </Fragment> */}
     </div>
   );
 }

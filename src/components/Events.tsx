@@ -21,6 +21,24 @@ function Events() {
   const [events, setEvents] = useState([]);
   const [eventsToday, setEventsToday] = useState([]);
 
+  const [eventFocus, setEventFocus] = useState('');
+
+  function scrollToEvent(ogId: string) {
+    const eventNode = document.getElementById(ogId);
+
+    eventNode.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    });
+  }
+
+  useEffect(() => {
+    if (eventFocus) {
+      scrollToEvent(eventFocus);
+    }
+  }, [eventFocus]);
+
   useEffect(() => {
     axios
       .get('/events/all')
@@ -51,18 +69,23 @@ function Events() {
               <Heading size="md">Today&apos;s Events</Heading>
             </CardHeader>
             <CardBody>
-              <Stack divider={<StackDivider />} spacing="4">
+              <SimpleGrid
+                className="simpleGrid"
+                columns={[1, 1, 2, 3, 3, 4]}
+                spacingY="40px"
+                spacingX="80px"
+              >
                 {eventsToday.map((event) => (
                   <EventListItem key={event.OgId} event={event} />
                 ))}
-              </Stack>
+              </SimpleGrid>
             </CardBody>
           </Card>
         </Box>
         <Box>
           <Card>
             <Stack>
-              <EventsBigCalendar events={events} />
+              <EventsBigCalendar setEventFocus={setEventFocus} events={events} />
             </Stack>
           </Card>
         </Box>
@@ -73,7 +96,12 @@ function Events() {
                 <Heading size="md">All Events</Heading>
               </CardHeader>
               <CardBody>
-                <SimpleGrid columns={4} spacing="4">
+                <SimpleGrid
+                  className="simpleGrid"
+                  columns={[1, 1, 2, 3, 3, 4]}
+                  spacingY="40px"
+                  spacingX="80px"
+                >
                   {events.map((event) => (
                     <EventListItem key={event.OgId} event={event} />
                   ))}
