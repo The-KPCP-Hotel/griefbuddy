@@ -37,27 +37,17 @@ router.get('/addResource', async (req: Request, res: Response) => {
             return Array.from(document.querySelectorAll('.panel-right .bg-powderblue p'), (e: HTMLParagraphElement) => (e.firstChild.nodeValue))
         })
 
-        const allResources = await page.evaluate(() => {
-            return Array.from(document.querySelectorAll('.panel-right .bg-powderblue'), (e: HTMLElement) => (e.innerText))
+        const allResources: any = await page.evaluate(() => {
+            return Array.from(document.querySelectorAll('.panel-right .bg-powderblue'), (e: HTMLElement) => (e.innerHTML))
         })
 
-        // console.log(allResources)
-        // console.log(resourceLinks)
-        // console.log(resourceDescriptions)
-        // let newDescriptions = resourceDescriptions.reduce((acc: any, curr: String) => {
-        //     if(curr !== null){
-        //          acc = acc?.push(curr)
-        //         }
-        //         return acc
-        // }, [])
-        // console.log(newDescriptions)
-        // Closing the Puppeteer controlled headless browser
         await browser.close();
 
         res.status(200).send({
             titles: resourceTitles,
             links: resourceLinks,
-            descriptions: resourceDescriptions
+            descriptions: resourceDescriptions,
+            allResources
         });
     });
 
