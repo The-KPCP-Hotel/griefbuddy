@@ -7,12 +7,15 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
   entry: {
     index: './src/index.tsx',
-    map: './src/components/MeetupMap.tsx'
-},
+    map: './src/components/MeetupMap.tsx',
+    // this ups build size from 14mb to 52mb, and crashes site - tried adding ts to tsx test but no effect
+    // server: './server/index.ts'
+  },
   devtool: 'inline-source-map',
-  mode: process.env.MODE || 'production',
-  // using production mode for build testing, but don't want to push that up
+  // this is still needed for instance to run production mode
   // mode: 'production',
+  // this still runs development
+  mode: process.env.MODE || 'production',
   watch: process.env.MODE === 'development',
   stats: {
     errorDetails: true,
@@ -20,13 +23,13 @@ module.exports = {
   plugins: [
     new BundleAnalyzerPlugin({ generateStatsFile: true }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src', 'index.html')
-    })
+      template: path.resolve(__dirname, 'src', 'index.html'),
+    }),
   ],
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.(ts|tsx)?$/,
         use: [
           {
             loader: 'ts-loader',
@@ -39,22 +42,23 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
         include: [
-          path.resolve(__dirname, "src"),
-          path.resolve(__dirname, "node_modules/react-big-calendar")
+          path.resolve(__dirname, 'src'),
+          path.resolve(__dirname, 'node_modules', 'react-big-calendar'),
         ],
       },
     ],
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    fallback: { "path": false, "util": false }
   },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    chunkFilename: '[id].bundle.js'
+    chunkFilename: '[id].bundle.js',
   },
   optimization: {
     splitChunks: {
