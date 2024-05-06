@@ -25,7 +25,7 @@ function MainFeedPost(props: any) {
         data: {
           user: googleId,
           text: comment,
-          postId,
+          postId: postId
         },
       })
       .then(() => {
@@ -45,24 +45,29 @@ function MainFeedPost(props: any) {
       });
   }
 
-  useEffect(() => {
+  function getAllComments(){
     axios
       .get('/mainFeed/allComments', {
         data: {
           user: googleId,
           text: comment,
-          postId,
+          postId: postId
         },
       })
       .then((results: any) => {
-        setAllComments(results.data);
+        let returnedData = results.data
+        setAllComments(returnedData);
       });
-  }, [allComments, comment, googleId, postId]);
+  }
+
+  useEffect(() => {
+    getAllComments()
+  }, [allComments]);
 
   useEffect(() => {
     getPosts();
     setDeleted('false');
-  }, [deleted, getPosts]);
+  }, [deleted]);
 
   return (
     <ChakraProvider>
@@ -110,8 +115,8 @@ function MainFeedPost(props: any) {
         </Center>
 
         <ul>
-          {allComments.map((c) => (
-            c.postId === postId && <li>{c.text}</li>
+          {allComments.map((c, i) => (
+            c.postId === postId && <li key={i}>{c.text}</li>
           ))}
         </ul>
       </Card>
