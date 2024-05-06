@@ -1,5 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
+  // if eslint errors come back to routes files, remove parserOptions
   "parserOptions": {
     "project": "./tsconfig.json"
   },
