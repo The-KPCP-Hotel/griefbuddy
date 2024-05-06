@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "../dist/",
+    "outDir": "./dist",
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "CommonJS",
@@ -11,6 +11,6 @@
     "esModuleInterop": true,
     "composite": true
   },
-  // "include": ["./server"],
-  "exclude": ["dist", "node_modules", "prisma", "package-lock.json", "package.json"]
+  "include": ["server"],
+  // "exclude": ["dist", "node_modules", "prisma", "package-lock.json", "package.json"]
 }

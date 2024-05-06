@@ -9,13 +9,13 @@ module.exports = {
     index: './src/index.tsx',
     map: './src/components/MeetupMap.tsx',
     // this ups build size from 14mb to 52mb, and crashes site - tried adding ts to tsx test but no effect
-    // server: './server/index.ts'
+    // server: './server/index.ts',
   },
   devtool: 'inline-source-map',
   // this is still needed for instance to run production mode
-  // mode: 'production',
+  mode: 'production',
   // this still runs development
-  mode: process.env.MODE || 'production',
+  // mode: process.env.MODE || 'production',
   watch: process.env.MODE === 'development',
   stats: {
     errorDetails: true,
@@ -52,7 +52,19 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
-    fallback: { "path": false, "util": false }
+    fallback: {
+      path: false,
+      util: false,
+      os: false,
+      assert: false,
+      stream: false,
+      zlib: false,
+      http: false,
+      url: false,
+      querystring: false,
+      timers: false,
+      https: false,
+    },
   },
   output: {
     filename: '[name].bundle.js',

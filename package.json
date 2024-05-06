@@ -8,9 +8,10 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist && webpack",
+    "build": "rimraf dist && tsc -p ./tsconfig-server.json && webpack",
     "start": "npx ts-node-dev server/index.ts",
-    "prod": "rimraf dist && webpack && npx ts-node server/index.ts",
+    "prod": "rimraf dist && tsc -p ./tsconfig-server.json && webpack",
+    "prodStart": "node ./dist/server/index.js",
     "postinstall": "node-prune"
   },
   "keywords": [],

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "outDir": "./dist",
     "sourceMap": true,
     "noImplicitAny": true,
     // "module": "es6",
@@ -11,8 +11,5 @@
     "moduleResolution": "node",
     "esModuleInterop": true
   },
-  "references": [
-    { "path": "./server" },
-  ],
   "exclude": ["dist", "node_modules"]
 }
