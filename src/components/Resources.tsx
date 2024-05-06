@@ -61,7 +61,7 @@ function Resources() {
   function parseAndReturnH3() {
     let concated = '<h3>'
     return (
-      <div dangerouslySetInnerHTML={{__html: concated.concat(griefStrSplitH3)}}></div>
+      <div style={{textAlign: 'center', lineHeight: '45px'}} dangerouslySetInnerHTML={{__html: concated.concat(griefStrSplitH3)}}></div>
     )
   }
 
@@ -102,7 +102,7 @@ function Resources() {
     <br />
     <Center>
         <Box h={"350px"} bg={"blue.200"} padding={"25px"} borderRadius={"15px"} overflow={"scroll"}>
-        <UnorderedList  >
+        <UnorderedList  className='h3outputs'>
             {parseObj()}
             {parseAndReturnH3()}
         </UnorderedList>

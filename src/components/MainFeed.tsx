@@ -41,7 +41,9 @@ function MainFeed(props: any) {
     <ChakraProvider>
       <div>
         <Center>
-          <Heading size="3xl" color="blue.600">
+          <Heading size="3xl" color="blue.600" onClick={() => {
+            console.log(allPosts)
+          }}>
             Main Feed
           </Heading>
         </Center>
