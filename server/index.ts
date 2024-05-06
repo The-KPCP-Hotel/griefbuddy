@@ -41,7 +41,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // const CLIENT_PATH = path.resolve(__dirname, '../dist');
-const CLIENT_PATH = path.resolve(__dirname, '../');
+const CLIENT_PATH = (process.env.MODE === 'development') ? path.resolve(__dirname, '../dist') : path.resolve(__dirname, '../');
 app.use(express.static(CLIENT_PATH));
 
 app.use('/auth', authRouter);

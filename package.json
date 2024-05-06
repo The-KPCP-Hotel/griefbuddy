@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist && tsc -p ./tsconfig-server.json && webpack",
+    "build": "rimraf dist && webpack",
     "start": "npx ts-node-dev server/index.ts",
     "prod": "rimraf dist && tsc -p ./tsconfig-server.json && webpack",
     "prodStart": "node ./dist/server/index.js",

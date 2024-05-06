@@ -12,5 +12,4 @@
     "composite": true
   },
   "include": ["server"],
-  // "exclude": ["dist", "node_modules", "prisma", "package-lock.json", "package.json"]
 }
