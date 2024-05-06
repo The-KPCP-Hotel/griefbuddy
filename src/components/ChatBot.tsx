@@ -140,7 +140,7 @@ function ChatBot() {
           setUser({ ...data });
         }
       })
-      .then(() => axios.get('/chatbot/convo'))
+      .then(() => axios.get('/chatbot/convo', { params: { userId: user.id } }))
       .then(({ data }) => {
         if (data.length) {
           return addMessage(
@@ -157,7 +157,7 @@ function ChatBot() {
         });
       })
       .catch((err: AxiosError) => console.error('failed finding user/chat', err));
-  }, [setUser]);
+  }, [setUser, user.id]);
 
   useEffect(() => {
     bottomScroll();
