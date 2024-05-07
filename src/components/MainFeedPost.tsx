@@ -18,7 +18,7 @@ function MainFeedPost(props: any) {
   const [allComments, setAllComments] = useState([]);
   const [deleted, setDeleted] = useState('false');
 
-  const { googleId, postId, getPosts, name, text } = props;
+  const { googleId, postId, getPosts, name, text, usersGoogleId } = props;
   function addComment() {
     axios
       .post('/mainFeed/addComment', {
@@ -60,11 +60,23 @@ function MainFeedPost(props: any) {
       });
   }
 
-  // function onlyDeleteButtonOnUsersPost(){
-  //   if(){
-
-  //   }
-  // }
+  function onlyDeleteButtonOnUsersPost(){
+    if(googleId === usersGoogleId){
+      return (
+        <Button
+            colorScheme="blue"
+            bg="red"
+            color="white"
+            margin="8px"
+            onClick={() => {
+              deletePost();
+            }}
+          >
+            Delete Post
+          </Button>
+      )
+    }
+  }
 
   useEffect(() => {
     getAllComments()
@@ -104,17 +116,7 @@ function MainFeedPost(props: any) {
           >
             Add Comment
           </Button>
-          <Button
-            colorScheme="blue"
-            bg="red"
-            color="white"
-            margin="8px"
-            onClick={() => {
-              deletePost();
-            }}
-          >
-            Delete Post
-          </Button>
+         {onlyDeleteButtonOnUsersPost()}
         </CardFooter>
         <Center>
           <h3>Comments:</h3>
