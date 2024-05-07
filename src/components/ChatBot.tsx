@@ -1,6 +1,4 @@
-import React, {
-  useState, useEffect, useContext, useRef,
-} from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import {
   ChakraProvider,
   Heading,
@@ -171,7 +169,9 @@ function ChatBot() {
         </Heading>
       </Center>
       <Container>
-        <Button marginBottom="15px" onClick={onDelete}>Delete Conversation</Button>
+        <Button marginBottom="15px" bg="red" color="white" onClick={onDelete}>
+          Delete Conversation
+        </Button>
         <Box overflowY="auto" maxHeight="70vh" marginBottom="10px">
           <Stack divider={<StackDivider />}>
             {messages.slice(1).map((text, index) => (
