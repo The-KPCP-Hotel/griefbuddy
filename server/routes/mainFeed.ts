@@ -59,9 +59,9 @@ router.post('/addComment', (req: Request, res: Response) => {
       googleId: user,
     },
   }).then((results: any) => {
-    console.log(text, results.name, results.googleId);
     prisma.Comment.create({
       data: {
+        googleId: user,
         text,
         user: {
           connect: {
@@ -111,6 +111,23 @@ router.delete('/deletePost', (req: Request, res: Response) => {
       console.error(err);
       res.sendStatus(500);
     });
+});
+
+
+router.delete('/deleteComment', (req: Request, res: Response) => {
+  const {id} = req.body
+ prisma.Comment.delete({
+    where: {
+      id,
+    },
+  })
+  .then(() => {
+    res.sendStatus(200);
+  })
+  .catch((err: string) => {
+    console.error(err);
+    res.sendStatus(500);
+  });
 });
 
 export = router;

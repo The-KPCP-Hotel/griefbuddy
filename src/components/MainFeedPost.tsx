@@ -17,12 +17,13 @@ function MainFeedPost(props: any) {
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
   const [deleted, setDeleted] = useState('false');
-
+  const [commentDeleted, setCommentDeleted] = useState('false')
   const { googleId, postId, getPosts, name, text, usersGoogleId } = props;
   function addComment() {
     axios
       .post('/mainFeed/addComment', {
         data: {
+          googleId: googleId,
           user: googleId,
           text: comment,
           postId: postId
@@ -44,6 +45,22 @@ function MainFeedPost(props: any) {
         setDeleted('true');
       });
   }
+
+  function deleteComment(commentId: Number){
+    axios
+      .delete('/mainFeed/deleteComment', {
+        data: {
+          id: commentId,
+        },
+      })
+      .then(() => {
+        setCommentDeleted('true');
+      });
+  }
+
+  // function canOnlyDeleteCommentIfUser() {
+  //   if(googleId)
+  // }
 
   function getAllComments(){
     axios
