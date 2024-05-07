@@ -31,6 +31,7 @@ router.post('/addPost', (req: Request, res: Response) => {
   }).then((results: any) => {
     prisma.Post.create({
       data: {
+        googleId: user,
         text,
         user: {
           connect: {

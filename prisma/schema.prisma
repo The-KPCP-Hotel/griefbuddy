@@ -86,6 +86,7 @@ model Post {
   userId   Int
   text     String
   name     String
+  googleId String
   comments Comment[]
 }
 

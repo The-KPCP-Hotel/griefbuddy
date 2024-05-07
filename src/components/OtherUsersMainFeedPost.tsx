@@ -60,12 +60,6 @@ function MainFeedPost(props: any) {
       });
   }
 
-  // function onlyDeleteButtonOnUsersPost(){
-  //   if(){
-
-  //   }
-  // }
-
   useEffect(() => {
     getAllComments()
   }, [allComments]);
@@ -103,17 +97,6 @@ function MainFeedPost(props: any) {
             }}
           >
             Add Comment
-          </Button>
-          <Button
-            colorScheme="blue"
-            bg="red"
-            color="white"
-            margin="8px"
-            onClick={() => {
-              deletePost();
-            }}
-          >
-            Delete Post
           </Button>
         </CardFooter>
         <Center>

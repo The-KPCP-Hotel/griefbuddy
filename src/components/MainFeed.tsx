@@ -77,6 +77,7 @@ function MainFeed(props: any) {
                 name={p.name}
                 googleId={googleId}
                 postId={p.id}
+                usersGoogleId={p.googleId}
               />
             ))}
           </VStack>
