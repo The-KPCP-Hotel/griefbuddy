@@ -78,6 +78,14 @@ function MainFeedPost(props: any) {
     }
   }
 
+  function showCommentsHeader(){
+    if(allComments.length !== 0){
+      return (
+        <h3>Comments:</h3>
+      )
+    }
+  }
+
   useEffect(() => {
     getAllComments()
   }, [allComments]);
@@ -119,7 +127,7 @@ function MainFeedPost(props: any) {
          {onlyDeleteButtonOnUsersPost()}
         </CardFooter>
         <Center>
-          <h3>Comments:</h3>
+          {showCommentsHeader()}
         </Center>
 
         <ul>
