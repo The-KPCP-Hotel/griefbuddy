@@ -24,7 +24,7 @@ function DeleteModal({ onDelete }: { onDelete: () => void }) {
           <ModalCloseButton />
           <ModalBody>This action is permanent</ModalBody>
           <ModalFooter>
-            <Button onClick={onClose}>Close</Button>
+            <Button onClick={onClose} marginRight="15px">Close</Button>
             <DeleteButton onDelete={onDelete} />
           </ModalFooter>
         </ModalContent>

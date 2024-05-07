@@ -185,7 +185,7 @@ function ChatBot() {
       <Info />
       <Container>
         <DeleteModal onDelete={onDelete} />
-        <Box overflowY="auto" maxHeight="70vh" marginBottom="10px">
+        <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
           <Stack divider={<StackDivider />}>
             {messages.slice(1).map((text, index) => (
               <Text
