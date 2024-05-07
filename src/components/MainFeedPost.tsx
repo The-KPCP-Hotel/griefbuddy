@@ -58,9 +58,22 @@ function MainFeedPost(props: any) {
       });
   }
 
-  // function canOnlyDeleteCommentIfUser() {
-  //   if(googleId)
-  // }
+  function canOnlyDeleteCommentIfUser() {
+      return (
+        <>
+        {allComments.map((c, i) => {
+          if(googleId === usersGoogleId){
+            return c.postId === postId && <li style={{listStyleType: "none"}} key={i}>@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}{' '}<button onClick={() => {
+              deleteComment(c.id)
+            }}>  ❌  </button></li>
+          } else {
+            return c.postId === postId && <li style={{listStyleType: "none"}} key={i}>@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}</li>
+          }
+        }
+        )}
+        </>
+      )
+  }
 
   function getAllComments(){
     axios
@@ -148,9 +161,10 @@ function MainFeedPost(props: any) {
         </Center>
 
         <ul>
-          {allComments.map((c, i) => (
-            c.postId === postId && <li style={{listStyleType: "none"}} key={i}>@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}</li>
-          ))}
+          {/* {allComments.map((c, i) => (
+            c.postId === postId && <li style={{listStyleType: "none"}} key={i}>@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}{' '}<button>  ❌  </button></li>
+          ))} */}
+          {canOnlyDeleteCommentIfUser()}
         </ul>
       </Card>
     </ChakraProvider>
