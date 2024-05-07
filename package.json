@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist && webpack",
     "start": "npx ts-node-dev server/index.ts",
-    "prod": "rimraf dist && webpack && npx ts-node server/index.ts",
+    "prodBuild": "rimraf dist && tsc -p ./tsconfig-server.json && webpack",
+    "prod": "node ./dist/server/index.js",
     "postinstall": "node-prune"
   },
   "keywords": [],
