@@ -122,6 +122,12 @@ function ChatBot() {
     setMessage('');
   };
 
+  const onPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onSend();
+    }
+  };
+
   const onDelete = () => {
     axios
       .delete('/chatbot/convo', { data: { userId: user.id } })
@@ -188,7 +194,7 @@ function ChatBot() {
             ))}
             {isWaiting ? <Skeleton height="20px" /> : null}
             <HStack ref={messagesEndRef}>
-              <Input onChange={onChange} value={message} />
+              <Input onChange={onChange} onKeyDown={onPress} value={message} />
               <Button onClick={onSend}>Send</Button>
             </HStack>
           </Stack>
