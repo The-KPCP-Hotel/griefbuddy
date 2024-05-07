@@ -17,6 +17,8 @@ import {
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { UserContext } from '../context/UserContext';
 
+import Info from './BotComponents/Info';
+
 function ChatBot() {
   const toast = useToast();
 
@@ -161,6 +163,11 @@ function ChatBot() {
         });
       })
       .catch((err: AxiosError) => console.error('failed finding user/chat', err));
+    /* may need to separate these useEffects,
+    having dependency array issues
+      if refreshing the page with user.id - page breaks
+      if just user, chatbot keeps sending messages
+      */
   }, [setUser, user.id]);
 
   useEffect(() => {
@@ -174,6 +181,7 @@ function ChatBot() {
           Chat Bot
         </Heading>
       </Center>
+      <Info />
       <Container>
         <Button marginBottom="15px" bg="red" color="white" onClick={onDelete}>
           Delete Conversation
@@ -188,13 +196,24 @@ function ChatBot() {
                 // eslint-disable-next-line react/no-array-index-key
                 key={`${text.role}-${index}`}
                 color={text.role === 'assistant' ? 'purple' : 'white'}
+                textAlign={text.role === 'assistant' ? 'left' : 'right'}
+                // if using below width - text is no longer aligned
+                // width="fit-content"
+                // tried this along with alignContent
+                // alignItems={text.role === 'assistant' ? 'start' : 'end'}
+                // alignContent={text.role === 'assistant' ? 'flex-start' : 'flex-end'}
               >
                 {text.content}
               </Text>
             ))}
             {isWaiting ? <Skeleton height="20px" /> : null}
             <HStack ref={messagesEndRef}>
-              <Input onChange={onChange} onKeyDown={onPress} value={message} />
+              <Input
+                onChange={onChange}
+                onKeyDown={onPress}
+                value={message}
+                placeholder="Start typing here"
+              />
               <Button onClick={onSend}>Send</Button>
             </HStack>
           </Stack>
