@@ -18,6 +18,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { UserContext } from '../context/UserContext';
 
 import Info from './BotComponents/Info';
+import DeleteButton from './BotComponents/DeleteButton';
 
 function ChatBot() {
   const toast = useToast();
@@ -183,9 +184,7 @@ function ChatBot() {
       </Center>
       <Info />
       <Container>
-        <Button marginBottom="15px" bg="red" color="white" onClick={onDelete}>
-          Delete Conversation
-        </Button>
+        <DeleteButton onDelete={onDelete} />
         <Box overflowY="auto" maxHeight="70vh" marginBottom="10px">
           <Stack divider={<StackDivider />}>
             {messages.slice(1).map((text, index) => (
