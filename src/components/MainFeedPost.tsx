@@ -132,7 +132,7 @@ function MainFeedPost(props: any) {
 
         <ul>
           {allComments.map((c, i) => (
-            c.postId === postId && <li key={i}>{c.text}</li>
+            c.postId === postId && <li style={{listStyleType: "none"}} key={i}>@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}</li>
           ))}
         </ul>
       </Card>
