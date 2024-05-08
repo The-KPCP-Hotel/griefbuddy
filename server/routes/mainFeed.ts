@@ -98,12 +98,12 @@ router.get('/allComments', (req: Request, res: Response) => {
 });
 
 router.delete('/deletePost', (req: Request, res: Response) => {
-    const {id} = req.body
-   prisma.Post.delete({
-      where: {
-        id,
-      },
-    })
+  const { id } = req.body;
+  prisma.Post.delete({
+    where: {
+      id,
+    },
+  })
     .then(() => {
       res.sendStatus(200);
     })
