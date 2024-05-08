@@ -111,11 +111,11 @@ function ChatBot() {
       .then(({ data }) => {
         if (data && user.emConNum) {
           // should let the user know a friend message was sent
-          toast({
-            title: `Sending message to ${user.emConName}`,
-            status: 'warning',
-            isClosable: true,
-          });
+          // toast({
+          //   title: `Sending message to ${user.emConName}`,
+          //   status: 'warning',
+          //   isClosable: true,
+          // });
           sendText();
         }
       })
