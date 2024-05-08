@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
   // stay new line
   Card,
@@ -13,11 +13,11 @@ import {
   Container,
   Box,
 } from '@chakra-ui/react';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { ExternalLinkIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
-import Breadcrumbs from '../NavComponents/Breadcrumbs';
+// import Breadcrumbs from '../NavComponents/Breadcrumbs';
 
 function Event() {
   const { id } = useParams();
@@ -54,7 +54,12 @@ function Event() {
 
   return (
     <ChakraProvider>
-      <Breadcrumbs type="events" />
+      <Link to="/events">
+        <ChakraLink paddingLeft="10px">
+          <ArrowBackIcon />
+          Back to Local Happenings
+        </ChakraLink>
+      </Link>
       <Container maxW="7xl">
         <Box padding="10px">
           <Center>
@@ -68,18 +73,20 @@ function Event() {
             <Text>{event.description}</Text>
             <Text>{event.address}</Text>
             <ChakraLink href={event.url} isExternal>
-              Check out their site
+              More information on their site
               <ExternalLinkIcon mx="2px" />
             </ChakraLink>
-            {(start === end) ? <Text>{`Happening on ${start}`}</Text> : <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>}
-            {(recurrence) ? <Text>{recurrence}</Text> : null}
-            {event.media_raw ? (
-              event.media_raw.map((url) => (
+            {start === end ? (
+              <Text>{`Happening on ${start}`}</Text>
+            ) : (
+              <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>
+            )}
+            {recurrence ? <Text>{recurrence}</Text> : null}
+            {event.media_raw
+              ? event.media_raw.map((url) => (
                 <Image key={`${event.id}-${url.sortorder}`} src={url.mediaurl} />
               ))
-            ) : (
-              null
-            )}
+              : null}
           </CardBody>
         </Card>
       </Container>
