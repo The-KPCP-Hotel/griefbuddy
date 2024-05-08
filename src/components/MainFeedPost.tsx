@@ -11,6 +11,13 @@ import {
   Button,
   CardFooter,
   Center,
+  VStack,
+  StackDivider,
+  Box,
+  Flex,
+  Avatar, 
+  IconButton,
+  Image,
 } from '@chakra-ui/react';
 
 function MainFeedPost(props: any) {
@@ -63,9 +70,14 @@ function MainFeedPost(props: any) {
         <>
         {allComments.map((c, i) => {
           if(googleId === usersGoogleId){
-            return c.postId === postId && <li style={{listStyleType: "none"}} key={i}>@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}{' '}<button onClick={() => {
+            // return c.postId === postId && <li style={{listStyleType: "none"}} key={i}>@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}{' '}<button onClick={() => {
+            //   deleteComment(c.id)
+            // }}>  ❌  </button></li>
+            
+            return c.postId === postId && <Flex justifyContent={"space-between"}><Box key={i} h='40px' bg='whitesmoke' w="400px" marginBottom="10px" padding="8px">@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}<button onClick={() => {
               deleteComment(c.id)
-            }}>  ❌  </button></li>
+            }}>❌</button>
+          </Box></Flex>
           } else {
             return c.postId === postId && <li style={{listStyleType: "none"}} key={i}>@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}</li>
           }
@@ -160,12 +172,61 @@ function MainFeedPost(props: any) {
           {showCommentsHeader()}
         </Center>
 
-        <ul>
-          {/* {allComments.map((c, i) => (
-            c.postId === postId && <li style={{listStyleType: "none"}} key={i}>@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}{' '}<button>  ❌  </button></li>
-          ))} */}
+        <Card maxW='md'>
+  <CardHeader>
+    <Flex >
+      <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+        <Avatar src='https://bit.ly/sage-adebayo' />
+
+        <Box>
+          <Heading size='sm'>{`@${name}`}</Heading>
+        </Box>
+      </Flex>
+      <IconButton
+        variant='ghost'
+        colorScheme='gray'
+        aria-label='See menu'
+        
+      />
+    </Flex>
+  </CardHeader>
+  <CardBody>
+    <Text>
+    {text}
+    </Text>
+  </CardBody>
+  <Image
+    objectFit='cover'
+    src='https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+    alt='Chakra UI'
+  />
+
+  <CardFooter
+    justify='space-between'
+    flexWrap='wrap'
+    sx={{
+      '& > button': {
+        minW: '136px',
+      },
+    }}
+  >
+   
+    <Button flex='1' variant='ghost' >
+      Comment
+    </Button>
+<VStack
+          divider={<StackDivider borderColor='gray.200' />}
+          spacing={1}
+          align='stretch'
+        >
+         {canOnlyDeleteCommentIfUser()}
+        </VStack>
+  </CardFooter>
+</Card>
+        
+        {/* <ul>
           {canOnlyDeleteCommentIfUser()}
-        </ul>
+        </ul> */}
       </Card>
     </ChakraProvider>
   );
