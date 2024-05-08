@@ -50,8 +50,8 @@ chatbot.post('/db', (req: Request, res: Response) => {
 });
 
 chatbot.get('/convo', (req: Request, res: Response) => {
-  const { userId } = req.body;
-  prisma.BotMessage.findMany({ where: { userId } })
+  const { userId } = req.query;
+  prisma.BotMessage.findMany({ where: { userId: Number(userId) } })
     .then((response: Response) => {
       res.send(response);
     })

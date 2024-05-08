@@ -1,6 +1,4 @@
-import React, {
-  useState, useEffect, useContext, useRef,
-} from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import {
   ChakraProvider,
   Heading,
@@ -18,6 +16,9 @@ import {
 } from '@chakra-ui/react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { UserContext } from '../context/UserContext';
+
+import Info from './BotComponents/Info';
+import DeleteModal from './BotComponents/DeleteModal';
 
 function ChatBot() {
   const toast = useToast();
@@ -60,8 +61,8 @@ function ChatBot() {
     userId: Number;
   };
 
+  // sends text to friend if message was flagged
   const sendText = () => {
-    // this comment is to keep eslint happy
     axios
       .post('/chatbot/text', { name: user.name, phone: user.emConNum })
       .then(() => {
@@ -84,10 +85,8 @@ function ChatBot() {
     // allMessages is so we can post before messages is done updating
     let allMessages: OpenaiMessageType[];
 
-    // this if statement is because strict mode added two initial messages
-    // also on first POST need to save the beginning of conversation
+    // on first POST need to save the beginning of conversation
     if (messages.length === 2 || messages.length === 3) {
-      // allMessages = [messages[0], messages[2], aiMessage];
       allMessages = messages.concat(aiMessage);
       addMessage(allMessages);
       axios
@@ -111,17 +110,18 @@ function ChatBot() {
       .then(() => axios.post('/chatbot/moderate', { message: aiMessage }))
       .then(({ data }) => {
         if (data && user.emConNum) {
-          // should let the user know a friend message was sent
-          toast({
-            title: `Sending message to ${user.emConName}`,
-            status: 'warning',
-            isClosable: true,
-          });
           sendText();
         }
       })
       .catch((err) => console.error('failed sending new message', err));
     setMessage('');
+  };
+
+  // triggers send if return key is pressed
+  const onPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onSend();
+    }
   };
 
   const onDelete = () => {
@@ -132,6 +132,7 @@ function ChatBot() {
       .catch((err) => console.error('failed deleting convo', err));
   };
 
+  // sets state of signed in user
   useEffect(() => {
     axios
       .get('/user')
@@ -140,25 +141,38 @@ function ChatBot() {
           setUser({ ...data });
         }
       })
-      .then(() => axios.get('/chatbot/convo'))
-      .then(({ data }) => {
-        if (data.length) {
-          return addMessage(
-            data.map((dbMessage: DbMessageType) => {
-              const { role, content } = dbMessage;
-              return { role, content };
-            }),
-          );
-        }
-        return axios.get('/chatbot/new').then((response: AxiosResponse) => {
-          // strick mode causes two new messages to render
-          // - the first is deleted on the first user response
-          addMessage((curMessages) => curMessages.concat(response.data.message));
-        });
-      })
       .catch((err: AxiosError) => console.error('failed finding user/chat', err));
   }, [setUser]);
 
+  // finds user's previous convo or start new one
+  useEffect(() => {
+    if (user && !messages[1]) {
+      axios
+        .get('/chatbot/convo', { params: { userId: user.id } })
+        .then(({ data }) => {
+          if (data.length) {
+            return addMessage(
+              data.map((dbMessage: DbMessageType) => {
+                const { role, content } = dbMessage;
+                return { role, content };
+              }),
+            );
+          }
+          return axios.get('/chatbot/new').then((response: AxiosResponse) => {
+            // this is running a second time before messages has been updated
+            addMessage((curMessages) => {
+              if (curMessages.length === 1) {
+                return curMessages.concat(response.data.message);
+              }
+              return curMessages;
+            });
+          });
+        })
+        .catch((err) => console.error('Failed finding messages or starting new convo', err));
+    }
+  }, [user, messages]);
+
+  // scrolls to the bottom of messages (newest messages)
   useEffect(() => {
     bottomScroll();
   }, [messages]);
@@ -170,9 +184,12 @@ function ChatBot() {
           Chat Bot
         </Heading>
       </Center>
+      <Center>
+        <Info />
+      </Center>
       <Container>
-        <Button marginBottom="15px" onClick={onDelete}>Delete Conversation</Button>
-        <Box overflowY="auto" maxHeight="70vh" marginBottom="10px">
+        <DeleteModal onDelete={onDelete} />
+        <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
           <Stack divider={<StackDivider />}>
             {messages.slice(1).map((text, index) => (
               <Text
@@ -182,13 +199,21 @@ function ChatBot() {
                 // eslint-disable-next-line react/no-array-index-key
                 key={`${text.role}-${index}`}
                 color={text.role === 'assistant' ? 'purple' : 'white'}
+                textAlign={text.role === 'assistant' ? 'left' : 'right'}
+                marginLeft={text.role === 'assistant' ? 0 : 'auto'}
+                width="fit-content"
               >
                 {text.content}
               </Text>
             ))}
             {isWaiting ? <Skeleton height="20px" /> : null}
             <HStack ref={messagesEndRef}>
-              <Input onChange={onChange} value={message} />
+              <Input
+                onChange={onChange}
+                onKeyDown={onPress}
+                value={message}
+                placeholder="Start typing here"
+              />
               <Button onClick={onSend}>Send</Button>
             </HStack>
           </Stack>
