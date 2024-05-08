@@ -150,7 +150,6 @@ function ChatBot() {
   }, [setUser]);
 
   useEffect(() => {
-    console.log(messages[1]);
     if (user && !messages[1]) {
       axios
         .get('/chatbot/convo', { params: { userId: user.id } })
@@ -165,9 +164,7 @@ function ChatBot() {
           }
           return axios.get('/chatbot/new').then((response: AxiosResponse) => {
             // this is running a second time before messages has been updated
-            console.log(messages[1], messages);
             addMessage((curMessages) => {
-              console.log(curMessages);
               if (curMessages.length === 1) {
                 return curMessages.concat(response.data.message);
               }
