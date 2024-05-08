@@ -102,17 +102,14 @@ function Profile() {
     });
   }, []);
 
-  useEffect(() => {}, [nickname]);
+  useEffect(() => { }, [nickname]);
 
   return (
     <div>
       <ChakraProvider>
         <Center>
-          <Heading size="3xl" color="blue.200">
-            My Profile
-          </Heading>
         </Center>
-        <Container maxW="7xl">
+        <Container maxW="7xl" h="550px">
           <Grid
             templateRows="repeat(2, 1fr)"
             templateColumns="repeat(5, 1fr)"
@@ -121,14 +118,14 @@ function Profile() {
             marginBottom="150px"
             padding="40px"
           >
-            <GridItem width="300px" colSpan={1} bg="blue.200" h="816px" borderRadius="15px">
+            <GridItem width="300px" colSpan={1} bg="blue.200" h="616px" borderRadius="15px">
               <Center padding="25px">
                 <Avatar name="Kola Tioluwani" size="xl" src="https://bit.ly/tioluwani-kolawole" />
               </Center>
-              <Center>{userObj ? <h3>{userObj.name}</h3> : <div />}</Center>
+              <Center>{userObj ? <h3 style={{ fontSize: "28px" }}>{userObj.name}</h3> : <div />}</Center>
               <Center>
                 <h5>
-                  <b>I Live In:</b>
+                  <b>I Live In: </b>
                   {userObj ? userObj.myLocation : ''}
                 </h5>
               </Center>
@@ -136,7 +133,7 @@ function Profile() {
               <br />
             </GridItem>
 
-            <GridItem colSpan={4} bg="blue.200" h="816px" borderRadius="15px">
+            <GridItem colSpan={4} bg="blue.200" h="616px" borderRadius="15px">
               <Tabs isLazy>
                 <TabList paddingTop="15px">
                   <Tab fontSize="20px">About Me</Tab>
@@ -146,11 +143,7 @@ function Profile() {
                 <TabPanels>
                   {/* initially mounted */}
                   <TabPanel>
-                    <Card h="710px">
-                      <CardHeader>
-                        <Heading size="md">About Me</Heading>
-                      </CardHeader>
-
+                    <Card h="500px">
                       <CardBody>
                         <Stack divider={<StackDivider />} spacing="4">
                           <Box>
@@ -191,10 +184,7 @@ function Profile() {
                   </TabPanel>
                   {/* initially not mounted */}
                   <TabPanel>
-                    <Card h="710px">
-                      <CardHeader>
-                        <Heading size="md">Friend Contact</Heading>
-                      </CardHeader>
+                    <Card h="500px">
 
                       <CardBody>
                         <Stack divider={<StackDivider />} spacing="4">
@@ -228,7 +218,7 @@ function Profile() {
                   </TabPanel>
                   <TabPanel>
                     <FormControl>
-                      <Card h="710px" style={{ overflow: 'scroll' }}>
+                      <Card h="500px" style={{ overflow: 'scroll' }}>
                         <CardHeader>
                           <Heading size="md">Update Personal Settings</Heading>
                         </CardHeader>
