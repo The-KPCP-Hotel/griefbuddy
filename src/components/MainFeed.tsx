@@ -67,9 +67,9 @@ function MainFeed(props: any) {
         </Center>
         <Center>
           <VStack>
-            {allPosts.map((p) => (
+            {allPosts.map((p, i) => (
               <MainFeedPost
-                key={`post-${p.id}`}
+                key={`post-${i}`}
                 getPosts={getAllPosts}
                 text={p.text}
                 name={p.name}
