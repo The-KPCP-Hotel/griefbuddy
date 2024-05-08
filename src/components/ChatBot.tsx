@@ -182,7 +182,9 @@ function ChatBot() {
           Chat Bot
         </Heading>
       </Center>
-      <Info />
+      <Center>
+        <Info />
+      </Center>
       <Container>
         <DeleteModal onDelete={onDelete} />
         <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
@@ -196,8 +198,9 @@ function ChatBot() {
                 key={`${text.role}-${index}`}
                 color={text.role === 'assistant' ? 'purple' : 'white'}
                 textAlign={text.role === 'assistant' ? 'left' : 'right'}
+                marginLeft={text.role === 'assistant' ? 0 : 'auto'}
                 // if using below width - text is no longer aligned
-                // width="fit-content"
+                width="fit-content"
                 // tried this along with alignContent
                 // alignItems={text.role === 'assistant' ? 'start' : 'end'}
                 // alignContent={text.role === 'assistant' ? 'flex-start' : 'flex-end'}
