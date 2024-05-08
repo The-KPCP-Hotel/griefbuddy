@@ -122,10 +122,10 @@ function Profile() {
               <Center padding="25px">
                 <Avatar name="Kola Tioluwani" size="xl" src="https://bit.ly/tioluwani-kolawole" />
               </Center>
-              <Center>{userObj ? <h3>{userObj.name}</h3> : <div />}</Center>
+              <Center>{userObj ? <h3 style={{fontSize: "28px"}}>{userObj.name}</h3> : <div />}</Center>
               <Center>
                 <h5>
-                  <b>I Live In:</b>
+                  <b>I Live In: </b>
                   {userObj ? userObj.myLocation : ''}
                 </h5>
               </Center>
