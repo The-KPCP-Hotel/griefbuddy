@@ -18,7 +18,6 @@ import {
   Avatar, 
   IconButton,
   Image,
-  Spacer,
 } from '@chakra-ui/react';
 
 function MainFeedPost(props: any) {
