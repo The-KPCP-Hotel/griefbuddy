@@ -147,45 +147,27 @@ function ChatBot() {
           setUser({ ...data });
         }
       })
-      // .then(() => axios.get('/chatbot/convo', { params: { userId: user.id } }))
-      // .then(({ data }) => {
-      //   if (data.length) {
-      //     return addMessage(
-      //       data.map((dbMessage: DbMessageType) => {
-      //         const { role, content } = dbMessage;
-      //         return { role, content };
-      //       }),
-      //     );
-      //   }
-      //   return axios.get('/chatbot/new').then((response: AxiosResponse) => {
-      //     // strick mode causes two new messages to render
-      //     // - the first is deleted on the first user response
-      //     addMessage((curMessages) => curMessages.concat(response.data.message));
-      //   });
-      // })
       .catch((err: AxiosError) => console.error('failed finding user/chat', err));
-    /* may need to separate these useEffects,
-    having dependency array issues
-      if refreshing the page with user.id - page breaks
-      if just user, chatbot keeps sending messages
-      */
   }, [setUser]);
 
   useEffect(() => {
     if (user) {
-      axios.get('/chatbot/convo', { params: { userId: user.id } }).then(({ data }) => {
-        if (data.length) {
-          return addMessage(
-            data.map((dbMessage: DbMessageType) => {
-              const { role, content } = dbMessage;
-              return { role, content };
-            }),
-          );
-        }
-        return axios.get('/chatbot/new').then((response: AxiosResponse) => {
-          addMessage((curMessages) => curMessages.concat(response.data.message));
-        });
-      });
+      axios
+        .get('/chatbot/convo', { params: { userId: user.id } })
+        .then(({ data }) => {
+          if (data.length) {
+            return addMessage(
+              data.map((dbMessage: DbMessageType) => {
+                const { role, content } = dbMessage;
+                return { role, content };
+              }),
+            );
+          }
+          return axios.get('/chatbot/new').then((response: AxiosResponse) => {
+            addMessage((curMessages) => curMessages.concat(response.data.message));
+          });
+        })
+        .catch((err) => console.error('Failed finding messages or starting new convo', err));
     }
   }, [user]);
 
