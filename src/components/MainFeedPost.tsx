@@ -70,12 +70,12 @@ function MainFeedPost(props: any) {
         <>
         {allComments.map((c, i) => {
           if(googleId === usersGoogleId){
-            return c.postId === postId && <Flex justifyContent={"space-between"}><Box key={i} h='40px' bg='whitesmoke' w="400px" marginBottom="10px" padding="8px">@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}<button onClick={() => {
+            return c.postId === postId && <Box key={i} h='40px' bg='whitesmoke' w="400px" marginBottom="10px" padding="8px">@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}<button onClick={() => {
               deleteComment(c.id)
             }}>❌</button>
-          </Box></Flex>
+          </Box>
           } else {
-            return c.postId === postId && <li style={{listStyleType: "none"}} key={i}>@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}</li>
+            return c.postId === postId && <Box key={i} h='40px' bg='whitesmoke' w="400px" marginBottom="10px" padding="8px">@<span style={{textDecoration: "underline"}}>{`${name}`}</span>:  {c.text}</Box>
           }
         }
         )}
