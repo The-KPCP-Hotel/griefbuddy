@@ -72,12 +72,21 @@ function Events() {
               <SimpleGrid
                 className="simpleGrid"
                 columns={[1, 1, 2, 3, 3, 4]}
+                // this centers single event, but then it's only ever one line
+                // display="flex"
+                // minChildWidth="400px"
                 spacingY="40px"
                 spacingX="80px"
               >
                 {eventsToday.map((event) => (
                   <EventListItem key={event.OgId} event={event} />
                 ))}
+                {/* this is for testing tons of events */}
+                {/* {events.map((event) => (
+                  <EventListItem key={event.OgId} event={event} />
+                ))} */}
+                {/* this is just to force grid to only have one card */}
+                {/* {events.length ? <EventListItem event={events[0]} /> : null} */}
               </SimpleGrid>
             </CardBody>
           </Card>
@@ -99,6 +108,7 @@ function Events() {
                 <SimpleGrid
                   className="simpleGrid"
                   columns={[1, 1, 2, 3, 3, 4]}
+                  // minChildWidth="300px"
                   spacingY="40px"
                   spacingX="80px"
                 >
