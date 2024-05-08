@@ -108,9 +108,6 @@ function Profile() {
     <div>
       <ChakraProvider>
         <Center>
-          <Heading size="3xl" color="blue.200">
-            My Profile
-          </Heading>
         </Center>
         <Container maxW="7xl">
           <Grid
@@ -147,10 +144,6 @@ function Profile() {
                   {/* initially mounted */}
                   <TabPanel>
                     <Card h="710px">
-                      <CardHeader>
-                        <Heading size="md">About Me</Heading>
-                      </CardHeader>
-
                       <CardBody>
                         <Stack divider={<StackDivider />} spacing="4">
                           <Box>
@@ -192,9 +185,6 @@ function Profile() {
                   {/* initially not mounted */}
                   <TabPanel>
                     <Card h="710px">
-                      <CardHeader>
-                        <Heading size="md">Friend Contact</Heading>
-                      </CardHeader>
 
                       <CardBody>
                         <Stack divider={<StackDivider />} spacing="4">
