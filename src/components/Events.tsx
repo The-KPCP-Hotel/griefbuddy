@@ -12,6 +12,8 @@ import {
   VStack,
   Box,
   SimpleGrid,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react';
 
 import EventListItem from './EventsComponents/EventListItem';
@@ -69,7 +71,7 @@ function Events() {
               <Heading size="md">Today&apos;s Events</Heading>
             </CardHeader>
             <CardBody>
-              <SimpleGrid
+              {/* <SimpleGrid
                 className="simpleGrid"
                 columns={[1, 1, 2, 3, 3, 4]}
                 // this centers single event, but then it's only ever one line
@@ -77,17 +79,29 @@ function Events() {
                 // minChildWidth="400px"
                 spacingY="40px"
                 spacingX="80px"
-              >
-                {eventsToday.map((event) => (
-                  <EventListItem key={event.OgId} event={event} />
-                ))}
+              > */}
+              <Wrap spacingY="40px" spacingX="80px" justify="center">
+                {/* {eventsToday.map((event) => (
+                  <WrapItem>
+                    <Center>
+                      <EventListItem key={event.OgId} event={event} />
+                    </Center>
+                  </WrapItem>
+                ))} */}
                 {/* this is for testing tons of events */}
                 {/* {events.map((event) => (
                   <EventListItem key={event.OgId} event={event} />
                 ))} */}
                 {/* this is just to force grid to only have one card */}
-                {/* {events.length ? <EventListItem event={events[0]} /> : null} */}
-              </SimpleGrid>
+                {events.length ? (
+                  <WrapItem>
+                    <Center>
+                      <EventListItem event={events[0]} />
+                    </Center>
+                  </WrapItem>
+                ) : null}
+              </Wrap>
+              {/* </SimpleGrid> */}
             </CardBody>
           </Card>
         </Box>
