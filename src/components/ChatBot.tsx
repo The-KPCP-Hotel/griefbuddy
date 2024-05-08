@@ -61,6 +61,7 @@ function ChatBot() {
     userId: Number;
   };
 
+  // sends text to friend if message was flagged
   const sendText = () => {
     axios
       .post('/chatbot/text', { name: user.name, phone: user.emConNum })
@@ -84,10 +85,8 @@ function ChatBot() {
     // allMessages is so we can post before messages is done updating
     let allMessages: OpenaiMessageType[];
 
-    // this if statement is because strict mode added two initial messages
-    // also on first POST need to save the beginning of conversation
+    // on first POST need to save the beginning of conversation
     if (messages.length === 2 || messages.length === 3) {
-      // allMessages = [messages[0], messages[2], aiMessage];
       allMessages = messages.concat(aiMessage);
       addMessage(allMessages);
       axios
@@ -124,6 +123,7 @@ function ChatBot() {
     setMessage('');
   };
 
+  // triggers send if return key is pressed
   const onPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       onSend();
@@ -138,6 +138,7 @@ function ChatBot() {
       .catch((err) => console.error('failed deleting convo', err));
   };
 
+  // sets state of signed in user
   useEffect(() => {
     axios
       .get('/user')
@@ -149,6 +150,7 @@ function ChatBot() {
       .catch((err: AxiosError) => console.error('failed finding user/chat', err));
   }, [setUser]);
 
+  // finds user's previous convo or start new one
   useEffect(() => {
     if (user && !messages[1]) {
       axios
@@ -176,6 +178,7 @@ function ChatBot() {
     }
   }, [user, messages]);
 
+  // scrolls to the bottom of messages (newest messages)
   useEffect(() => {
     bottomScroll();
   }, [messages]);
