@@ -28,6 +28,8 @@ import {
   EditablePreview,
   EditableInput,
   Flex, 
+  Spacer,
+  HStack,
   useEditableControls,
   IconButtonProps,
   IconButton
@@ -125,19 +127,24 @@ function Profile() {
      
   
     return (
-      <Editable
-        textAlign='left'
-        defaultValue='My Name'
-        fontSize='2xl'
-        isPreviewFocusable={true}
-      >
-        <EditablePreview />
-        {/* Here is the custom input */}
-        <Stack>
-        <EditableInput />
-        <Button size='sm'>Update </Button>
-        </Stack>
-      </Editable>
+      // <Editable
+      //   textAlign='left'
+      //   defaultValue='My Name'
+      //   fontSize='2xl'
+      //   isPreviewFocusable={true}
+      // >
+      //   <EditablePreview />
+      //   {/* Here is the custom input */}
+      //   <Flex justifyContent={"space-between"}>
+      //   <EditableInput w="200px" display={"inline"}/>
+      //   <Button size='sm' display={"inline"}>Update </Button>
+      //   </Flex>
+      // </Editable>
+      <div>
+      {/* <Input placeholder='type here' display="inline"></Input> */}
+      <Input style={{display: "inline-block", width: "initial"}} placeholder='hey world'/>
+      <Button>Edit</Button>
+      </div>
     )
   }
 
@@ -280,6 +287,7 @@ function Profile() {
 
                               <Input
                                 type="text"
+                                // border={0}
                                 onChange={(e) => {
                                   const nicknamee = e.target.value;
                                   setNickname(nicknamee);
