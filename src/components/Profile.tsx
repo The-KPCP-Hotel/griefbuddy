@@ -23,6 +23,14 @@ import {
   Stack,
   StackDivider,
   Text,
+  ButtonGroup,
+  Editable,
+  EditablePreview,
+  EditableInput,
+  Flex, 
+  useEditableControls,
+  IconButtonProps,
+  IconButton
 } from '@chakra-ui/react';
 
 import PhoneInput from './ProfileComponents/PhoneInput';
@@ -93,6 +101,44 @@ function Profile() {
       .catch((err: string) => {
         console.error(err);
       });
+  }
+
+  function CustomControlsExample() {
+    /* Here's a custom control */
+    // function EditableControls() {
+    //   const {
+    //     isEditing,
+    //     getSubmitButtonProps,
+    //     getCancelButtonProps,
+    //     getEditButtonProps,
+    //   } = useEditableControls()
+  
+      
+        // <ButtonGroup justifyContent='center' size='sm'>
+        //   <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
+        //   <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
+        // </ButtonGroup>
+    
+        // <Flex justifyContent='center'>
+          
+        // </Flex>
+     
+  
+    return (
+      <Editable
+        textAlign='left'
+        defaultValue='My Name'
+        fontSize='2xl'
+        isPreviewFocusable={true}
+      >
+        <EditablePreview />
+        {/* Here is the custom input */}
+        <Stack>
+        <EditableInput />
+        <Button size='sm'>Update </Button>
+        </Stack>
+      </Editable>
+    )
   }
 
   useEffect(() => {
@@ -179,6 +225,7 @@ function Profile() {
                             </Text>
                           </Box>
                         </Stack>
+                        {CustomControlsExample()}
                       </CardBody>
                     </Card>
                   </TabPanel>
