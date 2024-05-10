@@ -12,6 +12,8 @@ import {
   Link as ChakraLink,
   Container,
   Box,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import dayjs from 'dayjs';
@@ -82,11 +84,21 @@ function Event() {
               <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>
             )}
             {recurrence ? <Text>{recurrence}</Text> : null}
-            {event.media_raw
-              ? event.media_raw.map((url) => (
-                <Image key={`${event.id}-${url.sortorder}`} src={url.mediaurl} />
-              ))
-              : null}
+            <Wrap justify="center" spacing="30px">
+              {event.media_raw
+                ? event.media_raw.map((url) => (
+                  <WrapItem>
+                    <Center>
+                      <Image
+                        maxW="500px"
+                        key={`${event.id}-${url.sortorder}`}
+                        src={url.mediaurl}
+                      />
+                    </Center>
+                  </WrapItem>
+                ))
+                : null}
+            </Wrap>
           </CardBody>
         </Card>
       </Container>
