@@ -20,22 +20,26 @@ import dayjs from 'dayjs';
 import axios from 'axios';
 
 // import Breadcrumbs from '../NavComponents/Breadcrumbs';
+export type EventType = {
+  id: Number;
+  title: String;
+  media_raw: MediaRawItem[];
+  description: String;
+  address: String;
+  url: string;
+  startDate: String;
+  endDate: String;
+  nextDate: String;
+  recurrence: String;
+};
+
+export type MediaRawItem = {
+  mediaurl: string;
+  sortorder: Number;
+};
 
 function Event() {
   const { id } = useParams();
-
-  type EventType = {
-    id: Number;
-    title: String;
-    media_raw: any[];
-    description: String;
-    address: String;
-    url: string;
-    startDate: String;
-    endDate: String;
-    nextDate: String;
-    recurrence: String;
-  };
 
   const [event, setEvent] = useState({} as EventType);
   const [start, setStart] = useState(null);
@@ -86,7 +90,7 @@ function Event() {
             {recurrence ? <Text>{recurrence}</Text> : null}
             <Wrap justify="center" spacing="30px">
               {event.media_raw
-                ? event.media_raw.map((url) => (
+                ? event.media_raw.map((url: MediaRawItem) => (
                   <WrapItem>
                     <Center>
                       <Image
