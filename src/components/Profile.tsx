@@ -27,7 +27,7 @@ import {
   Editable,
   EditablePreview,
   EditableInput,
-  Flex, 
+  Flex,
   Spacer,
   HStack,
   useEditableControls,
@@ -60,7 +60,10 @@ function Profile() {
   const [myMood, setMood] = useState("I'm Feeling Great!");
   const [age, setAge] = useState('18-99+');
   const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888');
-  const [selfEditClicked, setSelfEditClicked] = useState(false)
+  const [myNameEditClicked, setMyNameEditClicked] = useState(false)
+  const [myNumberEditClicked, setMyNumberEditClicked] = useState(false)
+  const [myAgeEditClicked, setMyAgeEditClicked] = useState(false)
+  const [myMoodEditClicked, setMyMoodEditClicked] = useState(false)
 
   const contactWarningId = useId();
 
@@ -115,18 +118,18 @@ function Profile() {
     //     getCancelButtonProps,
     //     getEditButtonProps,
     //   } = useEditableControls()
-  
-      
-        // <ButtonGroup justifyContent='center' size='sm'>
-        //   <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
-        //   <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
-        // </ButtonGroup>
-    
-        // <Flex justifyContent='center'>
-          
-        // </Flex>
-     
-  
+
+
+    // <ButtonGroup justifyContent='center' size='sm'>
+    //   <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
+    //   <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
+    // </ButtonGroup>
+
+    // <Flex justifyContent='center'>
+
+    // </Flex>
+
+
     return (
       // <Editable
       //   textAlign='left'
@@ -142,37 +145,91 @@ function Profile() {
       //   </Flex>
       // </Editable>
       <div>
-      {/* <Input placeholder='type here' display="inline"></Input> */}
-      <Input style={{display: "inline-block", width: "initial"}} placeholder='hey world' border={0}/>
-      <Button>Edit</Button>
+        {/* <Input placeholder='type here' display="inline"></Input> */}
+        <Input style={{ display: "inline-block", width: "initial" }} placeholder='hey world' border={0} />
+        <Button>Edit</Button>
       </div>
     )
   }
 
-  function doubleClickOnInput() {
-    if(selfEditClicked === false){
+  function doubleClickOnInput(heading: String) {
+    if (myNameEditClicked === false && heading === "Name") {
       return (
-      <Flex>
-      <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
-          setSelfEditClicked(true)
-      }}>
-        {userObj ? userObj.myPhoneNumber : ''}
-      </Text>
-      </Flex>
-    )
-    } else {
-      return (
-        <Flex>
-      <div>
-      {/* <Input placeholder='type here' display="inline"></Input> */}
-      <Input style={{display: "inline-block", width: "initial"}} placeholder='hey world' border={0}/>
-      </div>
-      <Spacer/>
-      <Button>✏️</Button>
-      </Flex>
+       <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+           <Flex>
+          <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+            setMyNameEditClicked(true)
+          }}>
+            {userObj ? userObj.myPhoneNumber : ''}
+          </Text>
+        </Flex>
+        </>
       )
+    } else if(myNumberEditClicked === false && heading === "Phone Number") {
+      return (
+        <>
+           <Heading size="xs" textTransform="uppercase">
+             {heading}
+           </Heading>
+            <Flex>
+           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+             setMyNumberEditClicked(true)
+           }}>
+             {userObj ? userObj.myPhoneNumber : ''}
+           </Text>
+         </Flex>
+         </>
+       )
+    } else if(myAgeEditClicked === false && heading === "Age"){
+      return (
+        <>
+           <Heading size="xs" textTransform="uppercase">
+             {heading}
+           </Heading>
+            <Flex>
+           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+             setMyAgeEditClicked(true)
+           }}>
+             {userObj ? userObj.myPhoneNumber : ''}
+           </Text>
+         </Flex>
+         </>
+       )
+    } else if(myMoodEditClicked === false && heading === "Current Mental State") {
+      return (
+        <>
+           <Heading size="xs" textTransform="uppercase">
+             {heading}
+           </Heading>
+            <Flex>
+           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+             setMyMoodEditClicked(true)
+           }}>
+             {userObj ? userObj.myPhoneNumber : ''}
+           </Text>
+         </Flex>
+         </>
+       )
     }
     
+    else {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+          <Input style={{ display: "inline-block", width: "initial" }} placeholder='hey world' border={0} />
+          <Spacer />
+          <Button>✏️</Button>
+        </Flex>
+        </>
+      )
+    }
+
   }
 
   useEffect(() => {
@@ -182,11 +239,10 @@ function Profile() {
     });
   }, []);
 
-  useEffect(() => { }, [nickname]);
+  useEffect(() => { }, [nickname, myNameEditClicked]);
 
-  useEffect(() => {
-    doubleClickOnInput()
-  }, [selfEditClicked])
+  // useEffect(() => {
+  // }, [selfEditClicked])
   return (
     <div>
       <ChakraProvider>
@@ -230,46 +286,18 @@ function Profile() {
                       <CardBody>
                         <Stack divider={<StackDivider />} spacing="4">
                           <Box>
-                            <Heading size="xs" textTransform="uppercase">
-                              Name
-                            </Heading>
-                            <Text pt="2" fontSize="sm">
-                              {userObj ? userObj.preferredName : ''}
-                            </Text>
-                            <Button>Edit</Button>
+                          {doubleClickOnInput("Name")}
                           </Box>
                           <Box>
-                            <Heading size="xs" textTransform="uppercase">
-                              Phone Number
-                            </Heading>
-                            <Flex>
-                            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
-
-                            }}>
-                              {userObj ? userObj.myPhoneNumber : ''}
-                            </Text>
-                            <Spacer/>
-                            <Button>✏️</Button>
-                            </Flex>
+                          {doubleClickOnInput("Phone Number")}
                           </Box>
                           <Box>
-                            <Heading size="xs" textTransform="uppercase">
-                              Age
-                            </Heading>
-                            <Text pt="2" fontSize="sm">
-                              {userObj ? userObj.agee : ''}
-                            </Text>
+                          {doubleClickOnInput("Age")}
                           </Box>
                           <Box>
-                            <Heading size="xs" textTransform="uppercase">
-                              Current Mental State
-                            </Heading>
-                            <Text pt="2" fontSize="sm">
-                              {userObj ? userObj.currMood : ''}
-                            </Text>
+                          {doubleClickOnInput("Current Mental State")}
                           </Box>
                         </Stack>
-                        {CustomControlsExample()}
                       </CardBody>
                     </Card>
                   </TabPanel>
@@ -336,7 +364,7 @@ function Profile() {
                               <Heading size="xs" textTransform="uppercase">
                                 Age
                               </Heading>
-                                {doubleClickOnInput()}
+                              
                               <Input
                                 type="text"
                                 onChange={(e) => {
@@ -422,6 +450,9 @@ function Profile() {
                               >
                                 Submit
                               </Button>
+                            </Box>
+                            <Box>
+                            {/* {doubleClickOnInput("Number")} */}
                             </Box>
                           </Stack>
                         </CardBody>
