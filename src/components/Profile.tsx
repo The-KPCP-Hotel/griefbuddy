@@ -163,7 +163,7 @@ function Profile() {
           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
             setMyNameEditClicked(true)
           }}>
-            {userObj ? userObj.myPhoneNumber : ''}
+            {userObj ? userObj.preferredName : ''}
           </Text>
         </Flex>
         </>
@@ -193,7 +193,7 @@ function Profile() {
            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
              setMyAgeEditClicked(true)
            }}>
-             {userObj ? userObj.myPhoneNumber : ''}
+             {userObj ? userObj.agee : ''}
            </Text>
          </Flex>
          </>
@@ -208,7 +208,7 @@ function Profile() {
            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
              setMyMoodEditClicked(true)
            }}>
-             {userObj ? userObj.myPhoneNumber : ''}
+             {userObj ? userObj.currMood : ''}
            </Text>
          </Flex>
          </>
@@ -222,7 +222,7 @@ function Profile() {
             {heading}
           </Heading>
           <Flex>
-          <Input style={{ display: "inline-block", width: "initial" }} placeholder='hey world' border={0} />
+          <Input style={{ display: "inline-block", width: "initial" }} placeholder={`Update ${heading}`} border={0} />
           <Spacer />
           <Button>✏️</Button>
         </Flex>
