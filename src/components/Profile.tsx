@@ -60,6 +60,7 @@ function Profile() {
   const [myMood, setMood] = useState("I'm Feeling Great!");
   const [age, setAge] = useState('18-99+');
   const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888');
+  const [selfEditClicked, setSelfEditClicked] = useState(false)
 
   const contactWarningId = useId();
 
@@ -142,10 +143,36 @@ function Profile() {
       // </Editable>
       <div>
       {/* <Input placeholder='type here' display="inline"></Input> */}
-      <Input style={{display: "inline-block", width: "initial"}} placeholder='hey world'/>
+      <Input style={{display: "inline-block", width: "initial"}} placeholder='hey world' border={0}/>
       <Button>Edit</Button>
       </div>
     )
+  }
+
+  function doubleClickOnInput() {
+    if(selfEditClicked === false){
+      return (
+      <Flex>
+      <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+          setSelfEditClicked(true)
+      }}>
+        {userObj ? userObj.myPhoneNumber : ''}
+      </Text>
+      </Flex>
+    )
+    } else {
+      return (
+        <Flex>
+      <div>
+      {/* <Input placeholder='type here' display="inline"></Input> */}
+      <Input style={{display: "inline-block", width: "initial"}} placeholder='hey world' border={0}/>
+      </div>
+      <Spacer/>
+      <Button>✏️</Button>
+      </Flex>
+      )
+    }
+    
   }
 
   useEffect(() => {
@@ -157,6 +184,9 @@ function Profile() {
 
   useEffect(() => { }, [nickname]);
 
+  useEffect(() => {
+    doubleClickOnInput()
+  }, [selfEditClicked])
   return (
     <div>
       <ChakraProvider>
@@ -206,14 +236,21 @@ function Profile() {
                             <Text pt="2" fontSize="sm">
                               {userObj ? userObj.preferredName : ''}
                             </Text>
+                            <Button>Edit</Button>
                           </Box>
                           <Box>
                             <Heading size="xs" textTransform="uppercase">
                               Phone Number
                             </Heading>
-                            <Text pt="2" fontSize="sm">
+                            <Flex>
+                            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+
+                            }}>
                               {userObj ? userObj.myPhoneNumber : ''}
                             </Text>
+                            <Spacer/>
+                            <Button>✏️</Button>
+                            </Flex>
                           </Box>
                           <Box>
                             <Heading size="xs" textTransform="uppercase">
@@ -299,7 +336,7 @@ function Profile() {
                               <Heading size="xs" textTransform="uppercase">
                                 Age
                               </Heading>
-
+                                {doubleClickOnInput()}
                               <Input
                                 type="text"
                                 onChange={(e) => {
