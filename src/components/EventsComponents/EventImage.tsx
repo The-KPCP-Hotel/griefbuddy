@@ -31,7 +31,7 @@ function EventImage({ url }: { url: MediaRawItem }) {
   return (
     <>
       <Image onClick={onOpen} src={url.mediaurl} maxW="500px" />
-      <Modal isOpen={isOpen} onClose={onClose} size="6xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="5xl">
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton background="white" />
