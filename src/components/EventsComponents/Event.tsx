@@ -21,25 +21,6 @@ import axios from 'axios';
 
 import EventImage, { EventType, MediaRawItem } from './EventImage';
 
-// import Breadcrumbs from '../NavComponents/Breadcrumbs';
-// export type EventType = {
-//   id: Number;
-//   title: String;
-//   media_raw: MediaRawItem[];
-//   description: String;
-//   address: String;
-//   url: string;
-//   startDate: String;
-//   endDate: String;
-//   nextDate: String;
-//   recurrence: String;
-// };
-
-// export type MediaRawItem = {
-//   mediaurl: string;
-//   sortorder: Number;
-// };
-
 function Event() {
   const { id } = useParams();
 
@@ -94,11 +75,6 @@ function Event() {
                   <WrapItem key={`wi-${event.id}-${url.sortorder}`}>
                     <Center>
                       <EventImage key={`ev-${event.id}-${url.sortorder}`} url={url} />
-                      {/* <Image
-                        maxW="500px"
-                        key={`${event.id}-${url.sortorder}`}
-                        src={url.mediaurl}
-                      /> */}
                     </Center>
                   </WrapItem>
                 ))

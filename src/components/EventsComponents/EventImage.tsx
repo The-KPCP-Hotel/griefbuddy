@@ -7,7 +7,6 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
-// import { EventType, MediaRawItem } from './Event';
 
 export type EventType = {
   id: Number;
