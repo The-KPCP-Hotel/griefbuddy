@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link as ReactRouterLink, useParams } from 'react-router-dom';
 import {
   // stay new line
   Card,
@@ -19,24 +19,26 @@ import { ExternalLinkIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
-// import Breadcrumbs from '../NavComponents/Breadcrumbs';
-export type EventType = {
-  id: Number;
-  title: String;
-  media_raw: MediaRawItem[];
-  description: String;
-  address: String;
-  url: string;
-  startDate: String;
-  endDate: String;
-  nextDate: String;
-  recurrence: String;
-};
+import EventImage, { EventType, MediaRawItem } from './EventImage';
 
-export type MediaRawItem = {
-  mediaurl: string;
-  sortorder: Number;
-};
+// import Breadcrumbs from '../NavComponents/Breadcrumbs';
+// export type EventType = {
+//   id: Number;
+//   title: String;
+//   media_raw: MediaRawItem[];
+//   description: String;
+//   address: String;
+//   url: string;
+//   startDate: String;
+//   endDate: String;
+//   nextDate: String;
+//   recurrence: String;
+// };
+
+// export type MediaRawItem = {
+//   mediaurl: string;
+//   sortorder: Number;
+// };
 
 function Event() {
   const { id } = useParams();
@@ -60,12 +62,10 @@ function Event() {
 
   return (
     <ChakraProvider>
-      <Link to="/events">
-        <ChakraLink paddingLeft="10px">
-          <ArrowBackIcon />
-          Back to Local Happenings
-        </ChakraLink>
-      </Link>
+      <ChakraLink as={ReactRouterLink} to="/events" paddingLeft="10px">
+        <ArrowBackIcon />
+        Back to Local Happenings
+      </ChakraLink>
       <Container maxW="7xl">
         <Box padding="10px">
           <Center>
@@ -91,7 +91,7 @@ function Event() {
             <Wrap justify="center" spacing="30px">
               {event.media_raw
                 ? event.media_raw.map((url: MediaRawItem) => (
-                  <WrapItem>
+                  <WrapItem key={`wi-${event.id}-${url.sortorder}`}>
                     <Center>
                       <Image
                         maxW="500px"
