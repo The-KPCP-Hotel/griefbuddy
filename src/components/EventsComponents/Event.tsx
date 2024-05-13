@@ -93,6 +93,7 @@ function Event() {
                 ? event.media_raw.map((url: MediaRawItem) => (
                   <WrapItem key={`wi-${event.id}-${url.sortorder}`}>
                     <Center>
+                      <EventImage key={`ev-${event.id}-${url.sortorder}`} url={url} />
                       <Image
                         maxW="500px"
                         key={`${event.id}-${url.sortorder}`}

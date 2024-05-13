@@ -31,7 +31,7 @@ function EventImage({ url }: { url: MediaRawItem }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Image onClick={onOpen} />
+      <Image onClick={onOpen} src={url.mediaurl} maxW="500px" />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
