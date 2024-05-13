@@ -5,7 +5,7 @@ import {
   Card,
   Center,
   Heading,
-  Image,
+  // Image,
   ChakraProvider,
   CardBody,
   Text,
@@ -94,11 +94,11 @@ function Event() {
                   <WrapItem key={`wi-${event.id}-${url.sortorder}`}>
                     <Center>
                       <EventImage key={`ev-${event.id}-${url.sortorder}`} url={url} />
-                      <Image
+                      {/* <Image
                         maxW="500px"
                         key={`${event.id}-${url.sortorder}`}
                         src={url.mediaurl}
-                      />
+                      /> */}
                     </Center>
                   </WrapItem>
                 ))
