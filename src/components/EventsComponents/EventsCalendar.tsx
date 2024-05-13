@@ -94,6 +94,7 @@ function EventsCalendar({
         showMultiDayTimes
         step={60}
         views={['month', 'agenda']}
+        drilldownView="agenda"
         components={components}
         defaultDate={defaultDate}
       />
