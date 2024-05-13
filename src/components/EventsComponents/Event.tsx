@@ -23,10 +23,11 @@ function Event() {
   const { id } = useParams();
 
   const [event, setEvent] = useState({} as EventType);
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const { recurrence, title, description, address, media_raw } = event;
+
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
-
-  const { recurrence } = event;
 
   useEffect(() => {
     axios
@@ -49,14 +50,14 @@ function Event() {
         <Box padding="10px">
           <Center>
             <Heading size="3xl" color="blue.200">
-              {event.title}
+              {title}
             </Heading>
           </Center>
         </Box>
         <Card>
           <CardBody>
-            <Text>{event.description}</Text>
-            <Text>{event.address}</Text>
+            <Text>{description}</Text>
+            <Text>{address}</Text>
             <ChakraLink href={event.url} isExternal>
               More information on their site
               <ExternalLinkIcon mx="2px" />
@@ -68,15 +69,27 @@ function Event() {
             )}
             {recurrence ? <Text>{recurrence}</Text> : null}
             <Wrap justify="center" spacing="30px">
-              {event.media_raw
-                ? event.media_raw.map((url: MediaRawItem) => (
-                  <WrapItem key={`wi-${event.id}-${url.sortorder}`}>
+              {media_raw ? (
+                media_raw.map((url: MediaRawItem) => (
+                  <WrapItem key={`wi-${id}-${url.sortorder}`}>
                     <Center>
-                      <EventImage key={`ev-${event.id}-${url.sortorder}`} url={url} />
+                      <EventImage key={`ev-${id}-${url.sortorder}`} url={url} />
                     </Center>
                   </WrapItem>
                 ))
-                : null}
+              ) : (
+                <WrapItem key={`wi-${id}-default`}>
+                  <Center>
+                    <EventImage
+                      url={{
+                        mediaurl:
+                          'https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,h_72,q_75,w_123/v1/clients/neworleans/NewOrleansLogo_Website_Dark_Grey_1a1a1a_123px_3c60c0e3-35b0-4efb-9685-d2f5ac92528a.jpg',
+                        sortorder: 1,
+                      }}
+                    />
+                  </Center>
+                </WrapItem>
+              )}
             </Wrap>
           </CardBody>
         </Card>

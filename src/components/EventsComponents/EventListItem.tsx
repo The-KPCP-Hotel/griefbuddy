@@ -47,13 +47,9 @@ function EventListItem({
           {description}
         </Text>
       </Center>
-      {media_raw ? (
-        <Center>
-          <Image boxSize="200px" fit="contain" src={media_raw[0].mediaurl} />
-        </Center>
-      ) : (
-        <div />
-      )}
+      <Center>
+        <Image boxSize="200px" fit="contain" src={media_raw ? media_raw[0].mediaurl : 'https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,h_72,q_75,w_123/v1/clients/neworleans/NewOrleansLogo_Website_Dark_Grey_1a1a1a_123px_3c60c0e3-35b0-4efb-9685-d2f5ac92528a.jpg'} />
+      </Center>
     </Box>
   );
 }
