@@ -25,12 +25,17 @@ function Events() {
 
   const [eventFocus, setEventFocus] = useState('');
 
+  const [boxShadow, setBoxShadow] = useState('base');
+
   function scrollToEvent(ogId: string) {
     const eventNode = document.getElementById(ogId);
 
+    setBoxShadow('dark-lg');
+
     eventNode.scrollIntoView({
       behavior: 'smooth',
-      block: 'nearest',
+      // block: 'nearest',
+      block: 'center',
       inline: 'center',
     });
   }
@@ -68,14 +73,14 @@ function Events() {
         <Box>
           <Card>
             <CardHeader>
-              <Heading size="md">Today&apos;s Events</Heading>
+              <Heading size="md">Events Starting Today</Heading>
             </CardHeader>
             <CardBody>
               <Wrap spacingY="40px" spacingX="80px" justify="center">
                 {eventsToday.map((event) => (
                   <WrapItem>
                     <Center>
-                      <EventListItem key={event.OgId} event={event} />
+                      <EventListItem key={event.OgId} event={event} boxShadow="base" />
                     </Center>
                   </WrapItem>
                 ))}
@@ -117,7 +122,7 @@ function Events() {
                   spacingX="80px"
                 >
                   {events.map((event) => (
-                    <EventListItem key={event.OgId} event={event} />
+                    <EventListItem key={event.OgId} event={event} boxShadow={boxShadow} />
                   ))}
                 </SimpleGrid>
               </CardBody>
