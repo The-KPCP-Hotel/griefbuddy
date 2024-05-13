@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link as ReactRouterLink, useParams } from 'react-router-dom';
 import {
-  // stay new line
   Card,
   Center,
   Heading,
-  // Image,
   ChakraProvider,
   CardBody,
   Text,
