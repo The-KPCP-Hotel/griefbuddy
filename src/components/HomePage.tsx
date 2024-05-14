@@ -31,17 +31,6 @@ function HomePage() {
 
   return (
     <ChakraProvider>
-      {/* <Center>
-        <Heading
-          size="3xl"
-          color="blue.200"
-          onClick={() => {
-            console.log(googId);
-          }}
-        >
-          HomePage
-        </Heading>
-      </Center> */}
       <Container maxW="7xl">
         <Heading color="blue.600" size="lg">{`Welcome ${user?.name.split(' ')[0]}`}</Heading>
         <Quote />
