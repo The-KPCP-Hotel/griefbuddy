@@ -33,7 +33,7 @@ function Quote() {
           </Box>
         </Center>
       ) : null}
-      <Center>
+      <Center m="20px">
         <Button type="button" onClick={getQuote}>
           New Quote
         </Button>
