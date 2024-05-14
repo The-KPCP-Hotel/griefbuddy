@@ -12,6 +12,8 @@ import {
   VStack,
   Box,
   SimpleGrid,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react';
 
 import EventListItem from './EventsComponents/EventListItem';
@@ -28,7 +30,8 @@ function Events() {
 
     eventNode.scrollIntoView({
       behavior: 'smooth',
-      block: 'nearest',
+      // block: 'nearest',
+      block: 'center',
       inline: 'center',
     });
   }
@@ -66,19 +69,30 @@ function Events() {
         <Box>
           <Card>
             <CardHeader>
-              <Heading size="md">Today&apos;s Events</Heading>
+              <Heading size="md">Events Starting Today</Heading>
             </CardHeader>
             <CardBody>
-              <SimpleGrid
-                className="simpleGrid"
-                columns={[1, 1, 2, 3, 3, 4]}
-                spacingY="40px"
-                spacingX="80px"
-              >
+              <Wrap spacingY="40px" spacingX="80px" justify="center">
                 {eventsToday.map((event) => (
-                  <EventListItem key={event.OgId} event={event} />
+                  <WrapItem>
+                    <Center>
+                      <EventListItem key={event.OgId} event={event} eventFocus="" />
+                    </Center>
+                  </WrapItem>
                 ))}
-              </SimpleGrid>
+                {/* this is for testing tons of events */}
+                {/* {events.map((event) => (
+                  <EventListItem key={event.OgId} event={event} />
+                ))} */}
+                {/* this is just to force grid to only have one card */}
+                {/* {events.length ? (
+                  <WrapItem>
+                    <Center>
+                      <EventListItem event={events[0]} />
+                    </Center>
+                  </WrapItem>
+                ) : null} */}
+              </Wrap>
             </CardBody>
           </Card>
         </Box>
@@ -99,11 +113,12 @@ function Events() {
                 <SimpleGrid
                   className="simpleGrid"
                   columns={[1, 1, 2, 3, 3, 4]}
+                  // minChildWidth="300px"
                   spacingY="40px"
                   spacingX="80px"
                 >
                   {events.map((event) => (
-                    <EventListItem key={event.OgId} event={event} />
+                    <EventListItem key={event.OgId} event={event} eventFocus={eventFocus} />
                   ))}
                 </SimpleGrid>
               </CardBody>
