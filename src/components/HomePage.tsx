@@ -32,7 +32,7 @@ function HomePage() {
   return (
     <ChakraProvider>
       <Container maxW="7xl">
-        <Heading color="blue.600" size="lg">{`Welcome ${user?.name.split(' ')[0]}`}</Heading>
+        <Heading pl="15px" color="blue.600" size="lg">{`Welcome ${user?.name.split(' ')[0]}`}</Heading>
         <Quote />
         <Box h="600px" overflow="scroll">
           <MainFeed user={user} googleId={googId} />
