@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { ChakraProvider, Button } from '@chakra-ui/react';
+import { ChakraProvider, Button, Center, Text, Box } from '@chakra-ui/react';
 import axios from 'axios';
 
 function Quote() {
   type Quote = {
-    quote: String,
-    author: String
+    quote: String;
+    author: String;
   };
 
   const [quote, setQuote] = useState({} as Quote);
 
   const getQuote = () => {
-    axios.get('/quotes')
-      .then(({ data }: { data: { author: String, quote: String } }) => {
+    axios
+      .get('/quotes')
+      .then(({ data }: { data: { author: String; quote: String } }) => {
         setQuote(data);
       })
       .catch((err) => console.error('failed getting quote', err));
@@ -24,8 +25,19 @@ function Quote() {
 
   return (
     <ChakraProvider>
-      {(quote.quote) ? <h3>{`${quote.quote} -${quote.author}`}</h3> : <div />}
-      <Button type="button" onClick={getQuote}>New Quote</Button>
+      {quote.quote ? (
+        <Center>
+          <Box>
+            <Text fontStyle="italic">{quote.quote}</Text>
+            <Text>{`  -${quote.author}`}</Text>
+          </Box>
+        </Center>
+      ) : null}
+      <Center>
+        <Button type="button" onClick={getQuote}>
+          New Quote
+        </Button>
+      </Center>
     </ChakraProvider>
   );
 }

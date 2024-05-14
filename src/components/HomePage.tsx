@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-import { ChakraProvider, Heading, Center, Container, Box } from '@chakra-ui/react';
+import { ChakraProvider, Heading, Container, Box } from '@chakra-ui/react';
 import { UserContext, AuthUser } from '../context/UserContext';
 import Quote from './HomeComponents/Quote';
 import MainFeed from './MainFeed';
@@ -31,7 +31,7 @@ function HomePage() {
 
   return (
     <ChakraProvider>
-      <Center>
+      {/* <Center>
         <Heading
           size="3xl"
           color="blue.200"
@@ -41,9 +41,9 @@ function HomePage() {
         >
           HomePage
         </Heading>
-      </Center>
+      </Center> */}
       <Container maxW="7xl">
-        <h2>{`Welcome ${user?.name.split(' ')[0]}`}</h2>
+        <Heading color="blue.600" size="lg">{`Welcome ${user?.name.split(' ')[0]}`}</Heading>
         <Quote />
         <Box h="600px" overflow="scroll">
           <MainFeed user={user} googleId={googId} />
