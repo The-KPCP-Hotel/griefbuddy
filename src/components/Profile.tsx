@@ -109,51 +109,8 @@ function Profile() {
       });
   }
 
-  function CustomControlsExample() {
-    /* Here's a custom control */
-    // function EditableControls() {
-    //   const {
-    //     isEditing,
-    //     getSubmitButtonProps,
-    //     getCancelButtonProps,
-    //     getEditButtonProps,
-    //   } = useEditableControls()
-
-
-    // <ButtonGroup justifyContent='center' size='sm'>
-    //   <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
-    //   <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
-    // </ButtonGroup>
-
-    // <Flex justifyContent='center'>
-
-    // </Flex>
-
-
-    return (
-      // <Editable
-      //   textAlign='left'
-      //   defaultValue='My Name'
-      //   fontSize='2xl'
-      //   isPreviewFocusable={true}
-      // >
-      //   <EditablePreview />
-      //   {/* Here is the custom input */}
-      //   <Flex justifyContent={"space-between"}>
-      //   <EditableInput w="200px" display={"inline"}/>
-      //   <Button size='sm' display={"inline"}>Update </Button>
-      //   </Flex>
-      // </Editable>
-      <div>
-        {/* <Input placeholder='type here' display="inline"></Input> */}
-        <Input style={{ display: "inline-block", width: "initial" }} placeholder='hey world' border={0} />
-        <Button>Edit</Button>
-      </div>
-    )
-  }
-
   function doubleClickOnInput(heading: String) {
-    if (myNameEditClicked === false && heading === "Name") {
+    if (myNameEditClicked === false && heading === "Preferred Name") {
       return (
        <>
           <Heading size="xs" textTransform="uppercase">
@@ -222,13 +179,17 @@ function Profile() {
             {heading}
           </Heading>
           <Flex>
-          <Input style={{ display: "inline-block", width: "initial" }} placeholder={`Update ${heading}`} border={0} />
+          <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
           <Spacer />
           <Button>✏️</Button>
         </Flex>
         </>
       )
     }
+
+  }
+
+  function sendUpdateOnClick() {
 
   }
 
@@ -239,7 +200,7 @@ function Profile() {
     });
   }, []);
 
-  useEffect(() => { }, [nickname, myNameEditClicked]);
+  useEffect(() => { }, [nickname, myNameEditClicked, myAgeEditClicked, myNumberEditClicked, myMoodEditClicked]);
 
   // useEffect(() => {
   // }, [selfEditClicked])
@@ -286,7 +247,7 @@ function Profile() {
                       <CardBody>
                         <Stack divider={<StackDivider />} spacing="4">
                           <Box>
-                          {doubleClickOnInput("Name")}
+                          {doubleClickOnInput("Preferred Name")}
                           </Box>
                           <Box>
                           {doubleClickOnInput("Phone Number")}
