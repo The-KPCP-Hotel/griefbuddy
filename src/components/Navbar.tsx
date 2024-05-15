@@ -16,6 +16,7 @@ import {
   StackDivider,
   Flex,
   Spacer,
+  Container,
 } from '@chakra-ui/react';
 import Logout from './Logout';
 
@@ -23,10 +24,18 @@ function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   return (
-    <div>
-      <ChakraProvider>
-        <Flex minWidth="max-content" paddingTop="20px" alignItems="center" gap="2">
-          <Box p="2">
+    <ChakraProvider>
+      <Container
+        className="navContainer"
+        width="100%"
+        maxW="inherit"
+        bg="blue.200"
+        marginTop="0px"
+        marginBottom="15px"
+        h="125px"
+      >
+        <Flex color="purple" className="navFlex" paddingTop="20px" alignItems="center" gap="2">
+          <Box className="GriefBuddyBox" p="2">
             <Center>
               <Heading size="3xl" color="blue.600">
                 {useLocation().pathname === '/' ? (
@@ -40,8 +49,8 @@ function Navbar() {
             </Center>
           </Box>
           <Spacer />
-          {useLocation().pathname === '/' ? null : (
-            <Box p="2">
+          <Box p="2">
+            {useLocation().pathname === '/' ? null : (
               <Button
                 colorScheme="blue.200"
                 ref={btnRef}
@@ -50,8 +59,8 @@ function Navbar() {
               >
                 Ξ
               </Button>
-            </Box>
-          )}
+            )}
+          </Box>
         </Flex>
 
         <Drawer isOpen={isOpen} placement="right" onClose={onClose} finalFocusRef={btnRef}>
@@ -83,8 +92,8 @@ function Navbar() {
             </DrawerBody>
           </DrawerContent>
         </Drawer>
-      </ChakraProvider>
-    </div>
+      </Container>
+    </ChakraProvider>
   );
 }
 
