@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button, ChakraProvider, Heading, Center, Image } from '@chakra-ui/react';
+import { Button, ChakraProvider, Center, Image } from '@chakra-ui/react';
 
 function Login() {
   return (
     <ChakraProvider>
-      <Center>
+      {/* <Center>
         <Heading size="3xl" color="blue.600">GriefBuddy</Heading>
-      </Center>
+      </Center> */}
       <Center m="20px">
         <form action="/auth/google" method="GET">
           <Button

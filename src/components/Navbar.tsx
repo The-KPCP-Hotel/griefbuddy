@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   ChakraProvider,
   Button,
@@ -39,16 +39,18 @@ function Navbar() {
             </Center>
           </Box>
           <Spacer />
-          <Box p="2">
-            <Button
-              colorScheme="blue.200"
-              ref={btnRef}
-              onClick={onOpen}
-              style={{ fontSize: '45px' }}
-            >
-              Ξ
-            </Button>
-          </Box>
+          {useLocation().pathname === '/' ? null : (
+            <Box p="2">
+              <Button
+                colorScheme="blue.200"
+                ref={btnRef}
+                onClick={onOpen}
+                style={{ fontSize: '45px' }}
+              >
+                Ξ
+              </Button>
+            </Box>
+          )}
         </Flex>
 
         <Drawer isOpen={isOpen} placement="right" onClose={onClose} finalFocusRef={btnRef}>
