@@ -12,7 +12,6 @@ import {
   DrawerContent,
   DrawerCloseButton,
   DrawerBody,
-  DrawerFooter,
   VStack,
   StackDivider,
   Flex,
@@ -26,8 +25,6 @@ function Navbar() {
   return (
     <div>
       <ChakraProvider>
-        {/* <Menu> */}
-        {/* {'  '} */}
         <Flex minWidth="max-content" paddingTop="20px" alignItems="center" gap="2">
           <Box p="2">
             <Center>
@@ -81,10 +78,8 @@ function Navbar() {
                 <Link onClick={onClose} to="/resources">
                   Resources
                 </Link>
-              </VStack>
-              <DrawerFooter>
                 <Logout />
-              </DrawerFooter>
+              </VStack>
             </DrawerBody>
           </DrawerContent>
         </Drawer>
