@@ -24,7 +24,7 @@ function Login() {
         </form>
       </Center>
       <Center>
-        <Box backgroundColor="lavender" width="max-content" p="15px" borderRadius="md">
+        <Box backgroundColor="lavender" width="max-content" m="15px" p="15px" borderRadius="md">
           <Center>
             <Text color="purple" fontWeight="bold">
               Disclaimer
