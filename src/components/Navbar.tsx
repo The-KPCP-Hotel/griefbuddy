@@ -32,9 +32,13 @@ function Navbar() {
           <Box p="2">
             <Center>
               <Heading size="3xl" color="blue.600">
-                <Link to="/home" style={{ fontSize: '55px' }}>
-                  GriefBuddy
-                </Link>
+                {useLocation().pathname === '/' ? (
+                  'GriefBuddy'
+                ) : (
+                  <Link to="/home" style={{ fontSize: '55px' }}>
+                    GriefBuddy
+                  </Link>
+                )}
               </Heading>
             </Center>
           </Box>
