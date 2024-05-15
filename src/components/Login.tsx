@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ChakraProvider, Center, Image } from '@chakra-ui/react';
+import { Button, ChakraProvider, Center, Image, Text, Box } from '@chakra-ui/react';
 
 function Login() {
   return (
@@ -22,6 +22,19 @@ function Login() {
             Sign in with Google
           </Button>
         </form>
+      </Center>
+      <Center>
+        <Box backgroundColor="lavender" width="max-content" p="15px" borderRadius="md">
+          <Center>
+            <Text color="purple" fontWeight="bold">
+              Disclaimer
+            </Text>
+          </Center>
+          <Text color="purple">
+            This site is not an emergency service. As this site aims to help confront grief, there
+            may be triggering contents.
+          </Text>
+        </Box>
       </Center>
     </ChakraProvider>
   );
