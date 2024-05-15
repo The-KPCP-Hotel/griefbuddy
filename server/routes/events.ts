@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-// import path = require('path');
 import puppeteer, { HTTPResponse } from 'puppeteer';
 
 const { PrismaClient } = require('@prisma/client');
@@ -101,13 +100,4 @@ events.get('/event/:id', (req: Request, res: Response) => {
     });
 });
 
-// think this was causing bug on deployed state
-// const CLIENT_PATH = path.resolve(__dirname, '../../dist');
-
-// thought this would fix blank page on refresh - not quite
-// events.get('/*', (req, res) => {
-//   res.sendFile(path.join(CLIENT_PATH, 'index.html'));
-// });
-
-// this was erroring but stopped?
 export = events;
