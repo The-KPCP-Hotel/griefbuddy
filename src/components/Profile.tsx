@@ -193,6 +193,12 @@ function Profile() {
 
   }
 
+
+  function inputReturnBasedOffInputType() {
+    
+  }
+
+
   useEffect(() => {
     axios.get('/user').then(({ data }) => {
       const refreshObj = { ...data };
