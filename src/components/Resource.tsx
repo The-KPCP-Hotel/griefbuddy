@@ -10,7 +10,7 @@ import {
 
 function Resource() {
   return (
-    <ChakraProvider>
+    <>
       <Center>
         <Heading size="3xl" color="blue.200" marginBottom="35px">
           Resource

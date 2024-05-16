@@ -56,7 +56,7 @@ function Events() {
   }, []);
 
   return (
-    <VStack divider={<StackDivider />} spacing="4">
+    <VStack divider={<StackDivider />} spacing="4" maxW="100%">
       <Box>
         <Center>
           <Heading size="3xl" color="blue.200">
@@ -94,7 +94,7 @@ function Events() {
           </CardBody>
         </Card>
       </Box>
-      <Box>
+      <Box maxW="100%" justifyContent="inherit" p="10px">
         <Card>
           <Stack>
             <EventsBigCalendar setEventFocus={setEventFocus} events={events} />

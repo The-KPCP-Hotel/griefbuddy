@@ -30,7 +30,7 @@ function HomePage() {
   }, [setUser]);
 
   return (
-    <Container maxW="7xl">
+    <Container maxW="100%" minW="100%">
       <Heading pl="15px" color="blue.600" size="lg">
         {`Welcome ${
           user?.name.split(' ')[0]
