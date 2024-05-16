@@ -11,6 +11,7 @@ import {
   Box,
   UnorderedList,
   Container,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 function Resources() {
@@ -19,9 +20,12 @@ function Resources() {
   const [clickedGriefType, setClickedGriefType] = useState('');
   const [dropdownLabel, setDropdownLabel] = useState('Pick a Grief Type');
   const [griefStrSplit, setGriefStrSplit] = useState([]);
-  //string that is split and matches type clicked
+  // string that is split and matches type clicked
   const [griefStrSplitH3, setGriefStrSplitH3] = useState('');
   const [typeUpdateStatus, setUpdateStatus] = useState('false');
+
+  const bg = useColorModeValue('blue.200', 'blue.600');
+
   function getTypesOfGrief() {
     axios.get('/resources/addResource').then((results: AxiosResponse) => {
       setGriefObj(results.data.allResources);
@@ -36,7 +40,7 @@ function Resources() {
 
   function parseObj() {
     if (clickedGriefType === '') {
-      return <div dangerouslySetInnerHTML={{ __html: griefObj }}></div>;
+      return <div dangerouslySetInnerHTML={{ __html: griefObj }} />;
     }
   }
 
@@ -49,12 +53,12 @@ function Resources() {
   }
 
   function parseAndReturnH3() {
-    let concated = '<h3>';
+    const concated = '<h3>';
     return (
       <div
         style={{ textAlign: 'center', lineHeight: '45px' }}
         dangerouslySetInnerHTML={{ __html: concated.concat(griefStrSplitH3) }}
-      ></div>
+      />
     );
   }
 
@@ -69,7 +73,7 @@ function Resources() {
   return (
     <>
       <Center>
-        <Heading size="3xl" color={'blue.200'} marginBottom={'35px'}>
+        <Heading size="3xl" color="blue.200" marginBottom="35px">
           Resources
         </Heading>
       </Center>
@@ -100,11 +104,11 @@ function Resources() {
         <br />
         <Center>
           <Box
-            h={'350px'}
-            bg={'blue.200'}
-            padding={'25px'}
-            borderRadius={'15px'}
-            overflow={'scroll'}
+            h="350px"
+            bg={bg}
+            padding="25px"
+            borderRadius="15px"
+            overflow="scroll"
           >
             <UnorderedList className="h3outputs">
               {parseObj()}
