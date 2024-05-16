@@ -28,9 +28,17 @@ export type MediaRawItem = {
 
 function EventImage({ url }: { url: MediaRawItem }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  function onHover() {
+    document.body.style.cursor = 'zoom-in';
+  }
+
+  function offHover() {
+    document.body.style.cursor = 'default';
+  }
   return (
     <>
-      <Image onClick={onOpen} src={url.mediaurl} maxW="500px" />
+      <Image onClick={onOpen} onMouseOver={onHover} onMouseLeave={offHover} src={url.mediaurl} maxW="500px" />
       <Modal isOpen={isOpen} onClose={onClose} size="5xl">
         <ModalOverlay />
         <ModalContent>

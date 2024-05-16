@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Skeleton } from '@chakra-ui/react';
 
 import HomePage from './HomePage';
-import NavBarContainer from './NavBarContainer';
 import Profile from './Profile';
 import Buddy from './Buddy';
 import ChatBot from './ChatBot';
@@ -15,6 +14,7 @@ import Resource from './Resource';
 import Login from './Login';
 import { UserContextProvider } from '../context/UserContext';
 import BuddyChat from './buddyChildren/BuddyChat';
+import Navbar from './Navbar';
 
 const MeetupMap = lazy(() => import('./MeetupMap'));
 
@@ -25,7 +25,7 @@ function App() {
   return (
     <BrowserRouter>
       <UserContextProvider>
-        <NavBarContainer />
+        <Navbar />
         <Suspense fallback={<Skeleton />}>
           <Routes>
             <Route index element={<Login />} />

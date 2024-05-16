@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChakraProvider, Center, Heading, Input, VStack, Button } from '@chakra-ui/react';
+import { ChakraProvider, Center, Input, VStack, Button } from '@chakra-ui/react';
 import axios from 'axios';
 
 import MainFeedPost from './MainFeedPost';
@@ -40,12 +40,7 @@ function MainFeed(props: any) {
   return (
     <ChakraProvider>
       <div>
-        <Center>
-          <Heading size="3xl" color="blue.600">
-            Main Feed
-          </Heading>
-        </Center>
-        <Center>
+        <Center mt="25px">
           <Input
             placeholder="Add Post Here"
             value={post}
@@ -69,6 +64,7 @@ function MainFeed(props: any) {
           <VStack>
             {allPosts.map((p, i) => (
               <MainFeedPost
+                // eslint-disable-next-line react/no-array-index-key
                 key={`post-${i}`}
                 getPosts={getAllPosts}
                 text={p.text}

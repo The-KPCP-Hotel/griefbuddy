@@ -100,7 +100,7 @@ io.on('connection', (socket) => {
   });
 });
 
-app.get('/*', (req, res) => {
+app.get('/*', checkAuth, (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));
 });
 

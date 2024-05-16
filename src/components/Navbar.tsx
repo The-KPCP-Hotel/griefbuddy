@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   ChakraProvider,
   Button,
@@ -12,11 +12,11 @@ import {
   DrawerContent,
   DrawerCloseButton,
   DrawerBody,
-  DrawerFooter,
   VStack,
   StackDivider,
   Flex,
   Spacer,
+  Container,
 } from '@chakra-ui/react';
 import Logout from './Logout';
 
@@ -24,30 +24,42 @@ function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   return (
-    <div>
-      <ChakraProvider>
-        {/* <Menu> */}
-        {/* {'  '} */}
-        <Flex minWidth="max-content" paddingTop="20px" alignItems="center" gap="2">
-          <Box p="2">
+    <ChakraProvider>
+      <Container
+        className="navContainer"
+        width="100%"
+        maxW="inherit"
+        bg="blue.200"
+        marginTop="0px"
+        marginBottom="15px"
+        h="125px"
+      >
+        <Flex color="purple" className="navFlex" paddingTop="20px" alignItems="center" gap="2">
+          <Box className="GriefBuddyBox" p="2">
             <Center>
               <Heading size="3xl" color="blue.600">
-                <Link to="/home" style={{ fontSize: '55px' }}>
-                  GriefBuddy
-                </Link>
+                {useLocation().pathname === '/' ? (
+                  'GriefBuddy'
+                ) : (
+                  <Link to="/home" style={{ fontSize: '55px' }}>
+                    GriefBuddy
+                  </Link>
+                )}
               </Heading>
             </Center>
           </Box>
           <Spacer />
           <Box p="2">
-            <Button
-              colorScheme="blue.200"
-              ref={btnRef}
-              onClick={onOpen}
-              style={{ fontSize: '45px' }}
-            >
-              Ξ
-            </Button>
+            {useLocation().pathname === '/' ? null : (
+              <Button
+                colorScheme="blue.200"
+                ref={btnRef}
+                onClick={onOpen}
+                style={{ fontSize: '45px' }}
+              >
+                Ξ
+              </Button>
+            )}
           </Box>
         </Flex>
 
@@ -75,15 +87,13 @@ function Navbar() {
                 <Link onClick={onClose} to="/resources">
                   Resources
                 </Link>
-              </VStack>
-              <DrawerFooter>
                 <Logout />
-              </DrawerFooter>
+              </VStack>
             </DrawerBody>
           </DrawerContent>
         </Drawer>
-      </ChakraProvider>
-    </div>
+      </Container>
+    </ChakraProvider>
   );
 }
 
