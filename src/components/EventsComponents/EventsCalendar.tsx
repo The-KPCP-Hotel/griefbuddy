@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Calendar, dayjsLocalizer, Views, Event } from 'react-big-calendar';
 import dayjs from 'dayjs';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import './index.css';
 
 const localizer = dayjsLocalizer(dayjs);
 
