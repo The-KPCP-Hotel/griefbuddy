@@ -22,6 +22,7 @@ import {
   Stack,
   StackDivider,
   Text,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import PhoneInput from './ProfileComponents/PhoneInput';
@@ -51,6 +52,8 @@ function Profile() {
   const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888');
 
   const contactWarningId = useId();
+
+  const bg = useColorModeValue('blue.200', 'blue.600');
 
   function updateUser() {
     axios
@@ -114,7 +117,7 @@ function Profile() {
           marginBottom="150px"
           padding="40px"
         >
-          <GridItem width="300px" colSpan={1} bg="blue.200" h="616px" borderRadius="15px">
+          <GridItem width="300px" colSpan={1} bg={bg} h="616px" borderRadius="15px">
             <Center padding="25px">
               <Avatar name="Kola Tioluwani" size="xl" src="https://bit.ly/tioluwani-kolawole" />
             </Center>
@@ -131,7 +134,7 @@ function Profile() {
             <br />
           </GridItem>
 
-          <GridItem colSpan={4} bg="blue.200" h="616px" borderRadius="15px">
+          <GridItem colSpan={4} bg={bg} h="616px" borderRadius="15px">
             <Tabs isLazy>
               <TabList paddingTop="15px">
                 <Tab fontSize="20px">About Me</Tab>
@@ -277,7 +280,7 @@ function Profile() {
                             />
                             <Button
                               mt={4}
-                              bg="blue.200"
+                              bg={bg}
                               onClick={() => {
                                 updateUser();
                               }}
@@ -321,7 +324,7 @@ function Profile() {
                             </Heading>
                             <Button
                               mt={4}
-                              bg="blue.200"
+                              bg={bg}
                               type="submit"
                               onClick={() => {
                                 updateFriend();
