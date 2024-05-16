@@ -3,6 +3,7 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Skeleton, ChakraProvider } from '@chakra-ui/react';
 
+import theme from '../styling/theme';
 import HomePage from './HomePage';
 import Profile from './Profile';
 import Buddy from './Buddy';
@@ -25,7 +26,7 @@ function App() {
   return (
     <BrowserRouter>
       <UserContextProvider>
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
           <Navbar />
           <Suspense fallback={<Skeleton />}>
             <Routes>

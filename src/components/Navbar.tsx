@@ -16,12 +16,15 @@ import {
   Flex,
   Spacer,
   Container,
+  useColorMode,
 } from '@chakra-ui/react';
 import Logout from './Logout';
 
 function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
+
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
     <Container
       className="navContainer"
@@ -86,6 +89,9 @@ function Navbar() {
                 Resources
               </Link>
               <Logout />
+              <Button onClick={toggleColorMode}>
+                {`Toggle ${colorMode === 'light' ? 'Dark' : 'Light'}`}
+              </Button>
             </VStack>
           </DrawerBody>
         </DrawerContent>
