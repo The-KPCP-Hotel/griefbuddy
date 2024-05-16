@@ -17,6 +17,7 @@ import {
   Avatar,
   IconButton,
   Image,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 function MainFeedPost(props: any) {
@@ -25,6 +26,11 @@ function MainFeedPost(props: any) {
   const [deleted, setDeleted] = useState('false');
   const [commentDeleted, setCommentDeleted] = useState('false');
   const { googleId, postId, getPosts, name, text, usersGoogleId } = props;
+
+  const commentBg = useColorModeValue('whitesmoke', 'gray.800');
+
+  const buttonBg = useColorModeValue('blue.200', 'blue.600');
+
   function addComment() {
     axios
       .post('/mainFeed/addComment', {
@@ -71,7 +77,15 @@ function MainFeedPost(props: any) {
           if (googleId === usersGoogleId) {
             return (
               c.postId === postId && (
-                <Box key={i} h="40px" bg="whitesmoke" w="400px" marginBottom="10px" padding="8px">
+                <Box
+                  key={i}
+                  h="40px"
+                  bg={commentBg}
+                  w="400px"
+                  borderRadius="md"
+                  marginBottom="10px"
+                  padding="8px"
+                >
                   @<span style={{ textDecoration: 'underline' }}>{`${name}`}</span>: {c.text}
                   <button
                     onClick={() => {
@@ -86,7 +100,15 @@ function MainFeedPost(props: any) {
           } else {
             return (
               c.postId === postId && (
-                <Box key={i} h="40px" bg="whitesmoke" w="400px" marginBottom="10px" padding="8px">
+                <Box
+                  key={i}
+                  h="40px"
+                  bg={commentBg}
+                  w="400px"
+                  borderRadius="md"
+                  marginBottom="10px"
+                  padding="8px"
+                >
                   @<span style={{ textDecoration: 'underline' }}>{`${name}`}</span>: {c.text}
                 </Box>
               )
@@ -179,7 +201,7 @@ function MainFeedPost(props: any) {
       <Center>
         <Button
           colorScheme="blue"
-          bg="blue.200"
+          bg={buttonBg}
           color="white"
           margin="8px"
           onClick={() => {
