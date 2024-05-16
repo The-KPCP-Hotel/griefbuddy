@@ -8,12 +8,10 @@ import {
   OrderedList,
   Container,
 } from '@chakra-ui/react';
-// import Breadcrumbs from './NavComponents/Breadcrumbs';
 
 function Resource() {
   return (
     <ChakraProvider>
-      {/* <Breadcrumbs type="resources" /> */}
       <Center>
         <Heading size="3xl" color="blue.200" marginBottom="35px">
           Resource
