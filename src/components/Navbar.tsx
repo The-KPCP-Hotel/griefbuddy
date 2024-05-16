@@ -17,6 +17,7 @@ import {
   Spacer,
   Container,
   useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import Logout from './Logout';
 
@@ -25,20 +26,26 @@ function Navbar() {
   const btnRef = React.useRef();
 
   const { colorMode, toggleColorMode } = useColorMode();
+
+  const bg = useColorModeValue('blue.200', 'blue.600');
+  const text = useColorModeValue('blue.600', 'blue.200');
   return (
     <Container
       className="navContainer"
       width="100%"
       maxW="inherit"
-      bg="blue.200"
+      // bg="blue.200"
+      bg={bg}
       marginTop="0px"
       marginBottom="15px"
       h="125px"
     >
-      <Flex color="purple" className="navFlex" paddingTop="20px" alignItems="center" gap="2">
+      <Flex className="navFlex" paddingTop="20px" alignItems="center" gap="2">
         <Box className="GriefBuddyBox" p="2">
           <Center>
-            <Heading size="3xl" color="blue.600">
+            {/* <Heading size="3xl" color="blue.600"> */}
+            <Heading size="3xl" color={text}>
+
               {useLocation().pathname === '/' ? (
                 'GriefBuddy'
               ) : (
@@ -53,7 +60,8 @@ function Navbar() {
         <Box p="2">
           {useLocation().pathname === '/' ? null : (
             <Button
-              colorScheme="blue.200"
+              // colorScheme="blue.200"
+              colorScheme={bg}
               ref={btnRef}
               onClick={onOpen}
               style={{ fontSize: '45px' }}
@@ -66,9 +74,13 @@ function Navbar() {
 
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />
-        <DrawerContent backgroundColor="blue.200">
+        {/* <DrawerContent backgroundColor="blue.200"> */}
+        <DrawerContent backgroundColor={bg}>
+
           <DrawerCloseButton />
-          <DrawerBody color="blue.600" textDecorationThickness="bold">
+          {/* <DrawerBody color="blue.600" textDecorationThickness="bold"> */}
+          <DrawerBody color={text} textDecorationThickness="bold">
+
             <VStack divider={<StackDivider />}>
               <Link onClick={onClose} to="/profile">
                 Profile
