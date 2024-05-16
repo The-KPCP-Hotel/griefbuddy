@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-import { ChakraProvider, Heading, Container, Box, Divider } from '@chakra-ui/react';
+import { Heading, Container, Box, Divider } from '@chakra-ui/react';
 import { UserContext, AuthUser } from '../context/UserContext';
 import Quote from './HomeComponents/Quote';
 import MainFeed from './MainFeed';
@@ -30,16 +30,18 @@ function HomePage() {
   }, [setUser]);
 
   return (
-    <ChakraProvider>
-      <Container maxW="7xl">
-        <Heading pl="15px" color="blue.600" size="lg">{`Welcome ${user?.name.split(' ')[0]}`}</Heading>
-        <Quote />
-        <Divider orientation="horizontal" />
-        <Box h="600px" overflow="scroll">
-          <MainFeed user={user} googleId={googId} />
-        </Box>
-      </Container>
-    </ChakraProvider>
+    <Container maxW="7xl">
+      <Heading pl="15px" color="blue.600" size="lg">
+        {`Welcome ${
+          user?.name.split(' ')[0]
+        }`}
+      </Heading>
+      <Quote />
+      <Divider orientation="horizontal" />
+      <Box h="600px" overflow="scroll">
+        <MainFeed user={user} googleId={googId} />
+      </Box>
+    </Container>
   );
 }
 

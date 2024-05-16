@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import {
-  ChakraProvider,
   Heading,
   Center,
   StackDivider,
@@ -178,7 +177,7 @@ function ChatBot() {
   }, [messages]);
 
   return (
-    <ChakraProvider>
+    <>
       <Center>
         <Heading paddingBottom="15px" size="3xl" color="blue.200">
           Chat Bot
@@ -219,7 +218,7 @@ function ChatBot() {
           </Stack>
         </Box>
       </Container>
-    </ChakraProvider>
+    </>
   );
 }
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
-  ChakraProvider,
   Heading,
   Center,
   Card,
@@ -57,76 +56,74 @@ function Events() {
   }, []);
 
   return (
-    <ChakraProvider>
-      <VStack divider={<StackDivider />} spacing="4">
-        <Box>
-          <Center>
-            <Heading size="3xl" color="blue.200">
-              Events
-            </Heading>
-          </Center>
-        </Box>
-        <Box>
-          <Card>
-            <CardHeader>
-              <Heading size="md">Events Starting Today</Heading>
-            </CardHeader>
-            <CardBody>
-              <Wrap spacingY="40px" spacingX="80px" justify="center">
-                {eventsToday.map((event) => (
-                  <WrapItem>
-                    <Center>
-                      <EventListItem key={event.OgId} event={event} eventFocus="" />
-                    </Center>
-                  </WrapItem>
-                ))}
-                {/* this is for testing tons of events */}
-                {/* {events.map((event) => (
+    <VStack divider={<StackDivider />} spacing="4">
+      <Box>
+        <Center>
+          <Heading size="3xl" color="blue.200">
+            Events
+          </Heading>
+        </Center>
+      </Box>
+      <Box>
+        <Card>
+          <CardHeader>
+            <Heading size="md">Events Starting Today</Heading>
+          </CardHeader>
+          <CardBody>
+            <Wrap spacingY="40px" spacingX="80px" justify="center">
+              {eventsToday.map((event) => (
+                <WrapItem>
+                  <Center>
+                    <EventListItem key={event.OgId} event={event} eventFocus="" />
+                  </Center>
+                </WrapItem>
+              ))}
+              {/* this is for testing tons of events */}
+              {/* {events.map((event) => (
                   <EventListItem key={event.OgId} event={event} />
                 ))} */}
-                {/* this is just to force grid to only have one card */}
-                {/* {events.length ? (
+              {/* this is just to force grid to only have one card */}
+              {/* {events.length ? (
                   <WrapItem>
                     <Center>
                       <EventListItem event={events[0]} />
                     </Center>
                   </WrapItem>
                 ) : null} */}
-              </Wrap>
+            </Wrap>
+          </CardBody>
+        </Card>
+      </Box>
+      <Box>
+        <Card>
+          <Stack>
+            <EventsBigCalendar setEventFocus={setEventFocus} events={events} />
+          </Stack>
+        </Card>
+      </Box>
+      <Box>
+        <Card>
+          <Stack>
+            <CardHeader>
+              <Heading size="md">All Events</Heading>
+            </CardHeader>
+            <CardBody>
+              <SimpleGrid
+                className="simpleGrid"
+                columns={[1, 1, 2, 3, 3, 4]}
+                // minChildWidth="300px"
+                spacingY="40px"
+                spacingX="80px"
+              >
+                {events.map((event) => (
+                  <EventListItem key={event.OgId} event={event} eventFocus={eventFocus} />
+                ))}
+              </SimpleGrid>
             </CardBody>
-          </Card>
-        </Box>
-        <Box>
-          <Card>
-            <Stack>
-              <EventsBigCalendar setEventFocus={setEventFocus} events={events} />
-            </Stack>
-          </Card>
-        </Box>
-        <Box>
-          <Card>
-            <Stack>
-              <CardHeader>
-                <Heading size="md">All Events</Heading>
-              </CardHeader>
-              <CardBody>
-                <SimpleGrid
-                  className="simpleGrid"
-                  columns={[1, 1, 2, 3, 3, 4]}
-                  // minChildWidth="300px"
-                  spacingY="40px"
-                  spacingX="80px"
-                >
-                  {events.map((event) => (
-                    <EventListItem key={event.OgId} event={event} eventFocus={eventFocus} />
-                  ))}
-                </SimpleGrid>
-              </CardBody>
-            </Stack>
-          </Card>
-        </Box>
-      </VStack>
-    </ChakraProvider>
+          </Stack>
+        </Card>
+      </Box>
+    </VStack>
   );
 }
 

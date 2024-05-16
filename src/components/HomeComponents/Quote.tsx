@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ChakraProvider, Button, Center, Text, Box } from '@chakra-ui/react';
+import { Button, Center, Text, Box } from '@chakra-ui/react';
 import axios from 'axios';
 
 function Quote() {
@@ -24,7 +24,7 @@ function Quote() {
   }, []);
 
   return (
-    <ChakraProvider>
+    <>
       {quote.quote ? (
         <Center>
           <Box>
@@ -38,7 +38,7 @@ function Quote() {
           New Quote
         </Button>
       </Center>
-    </ChakraProvider>
+    </>
   );
 }
 

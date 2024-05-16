@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChakraProvider, Center, Input, VStack, Button } from '@chakra-ui/react';
+import { Center, Input, VStack, Button } from '@chakra-ui/react';
 import axios from 'axios';
 
 import MainFeedPost from './MainFeedPost';
@@ -38,46 +38,44 @@ function MainFeed(props: any) {
   }, [postStatus]);
 
   return (
-    <ChakraProvider>
-      <div>
-        <Center mt="25px">
-          <Input
-            placeholder="Add Post Here"
-            value={post}
-            onChange={(e) => {
-              setPostMessage(e.target.value);
-              setPost(e.target.value);
-            }}
-          />
-        </Center>
-        <Center>
-          <Button
-            margin="25px"
-            onClick={() => {
-              addPost();
-            }}
-          >
-            Submit Post
-          </Button>
-        </Center>
-        <Center>
-          <VStack>
-            {allPosts.map((p, i) => (
-              <MainFeedPost
-                // eslint-disable-next-line react/no-array-index-key
-                key={`post-${i}`}
-                getPosts={getAllPosts}
-                text={p.text}
-                name={p.name}
-                googleId={googleId}
-                postId={p.id}
-                usersGoogleId={p.googleId}
-              />
-            ))}
-          </VStack>
-        </Center>
-      </div>
-    </ChakraProvider>
+    <div>
+      <Center mt="25px">
+        <Input
+          placeholder="Add Post Here"
+          value={post}
+          onChange={(e) => {
+            setPostMessage(e.target.value);
+            setPost(e.target.value);
+          }}
+        />
+      </Center>
+      <Center>
+        <Button
+          margin="25px"
+          onClick={() => {
+            addPost();
+          }}
+        >
+          Submit Post
+        </Button>
+      </Center>
+      <Center>
+        <VStack>
+          {allPosts.map((p, i) => (
+            <MainFeedPost
+              // eslint-disable-next-line react/no-array-index-key
+              key={`post-${i}`}
+              getPosts={getAllPosts}
+              text={p.text}
+              name={p.name}
+              googleId={googleId}
+              postId={p.id}
+              usersGoogleId={p.googleId}
+            />
+          ))}
+        </VStack>
+      </Center>
+    </div>
   );
 }
 
