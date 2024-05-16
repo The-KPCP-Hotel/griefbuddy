@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Heading, Container, Box, Divider } from '@chakra-ui/react';
 import { UserContext, AuthUser } from '../context/UserContext';
 import Quote from './HomeComponents/Quote';
-import MainFeed from './MainFeed';
+import MainFeed from './HomeComponents/MainFeed';
 
 function HomePage() {
   const userContext = useContext(UserContext);
