@@ -41,7 +41,7 @@ function EventsCalendar({
 
   const viewsKeys = Object.entries(Views);
 
-  const { components, defaultDate, views } = useMemo(
+  const { components, defaultDate } = useMemo(
     () => ({
       components: {
         timeSlotWrapper: coloredDateCellWrapper,
@@ -93,7 +93,8 @@ function EventsCalendar({
         style={{ height: 500 }}
         showMultiDayTimes
         step={60}
-        views={views}
+        views={['month', 'agenda']}
+        drilldownView="agenda"
         components={components}
         defaultDate={defaultDate}
       />

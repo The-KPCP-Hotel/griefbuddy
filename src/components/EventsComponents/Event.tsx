@@ -1,45 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link as ReactRouterLink, useParams } from 'react-router-dom';
 import {
-  // stay new line
   Card,
   Center,
   Heading,
-  Image,
   ChakraProvider,
   CardBody,
   Text,
   Link as ChakraLink,
   Container,
   Box,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { ExternalLinkIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
-import Breadcrumbs from '../NavComponents/Breadcrumbs';
+import EventImage, { EventType, MediaRawItem } from './EventImage';
 
 function Event() {
   const { id } = useParams();
 
-  type EventType = {
-    id: Number;
-    title: String;
-    media_raw: any[];
-    description: String;
-    address: String;
-    url: string;
-    startDate: String;
-    endDate: String;
-    nextDate: String;
-    recurrence: String;
-  };
-
   const [event, setEvent] = useState({} as EventType);
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const { recurrence, title, description, address, media_raw } = event;
+
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
-
-  const { recurrence } = event;
 
   useEffect(() => {
     axios
@@ -54,32 +42,55 @@ function Event() {
 
   return (
     <ChakraProvider>
-      <Breadcrumbs type="events" />
+      <ChakraLink as={ReactRouterLink} to="/events" paddingLeft="10px">
+        <ArrowBackIcon />
+        Back to Local Happenings
+      </ChakraLink>
       <Container maxW="7xl">
         <Box padding="10px">
           <Center>
             <Heading size="3xl" color="blue.200">
-              {event.title}
+              {title}
             </Heading>
           </Center>
         </Box>
         <Card>
           <CardBody>
-            <Text>{event.description}</Text>
-            <Text>{event.address}</Text>
+            <Text>{description}</Text>
+            <Text>{address}</Text>
             <ChakraLink href={event.url} isExternal>
-              Check out their site
+              More information on their site
               <ExternalLinkIcon mx="2px" />
             </ChakraLink>
-            {(start === end) ? <Text>{`Happening on ${start}`}</Text> : <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>}
-            {(recurrence) ? <Text>{recurrence}</Text> : null}
-            {event.media_raw ? (
-              event.media_raw.map((url) => (
-                <Image key={`${event.id}-${url.sortorder}`} src={url.mediaurl} />
-              ))
+            {start === end ? (
+              <Text>{`Happening on ${start}`}</Text>
             ) : (
-              null
+              <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>
             )}
+            {recurrence ? <Text>{recurrence}</Text> : null}
+            <Wrap justify="center" spacing="30px">
+              {media_raw ? (
+                media_raw.map((url: MediaRawItem) => (
+                  <WrapItem key={`wi-${id}-${url.sortorder}`}>
+                    <Center>
+                      <EventImage key={`ev-${id}-${url.sortorder}`} url={url} />
+                    </Center>
+                  </WrapItem>
+                ))
+              ) : (
+                <WrapItem key={`wi-${id}-default`}>
+                  <Center>
+                    <EventImage
+                      url={{
+                        mediaurl:
+                          'https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,h_72,q_75,w_123/v1/clients/neworleans/NewOrleansLogo_Website_Dark_Grey_1a1a1a_123px_3c60c0e3-35b0-4efb-9685-d2f5ac92528a.jpg',
+                        sortorder: 1,
+                      }}
+                    />
+                  </Center>
+                </WrapItem>
+              )}
+            </Wrap>
           </CardBody>
         </Card>
       </Container>
