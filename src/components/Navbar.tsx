@@ -11,6 +11,7 @@ import {
   DrawerContent,
   DrawerCloseButton,
   DrawerBody,
+  DrawerHeader,
   VStack,
   StackDivider,
   Flex,
@@ -19,6 +20,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { SunIcon, MoonIcon } from '@chakra-ui/icons';
 import Logout from './Logout';
 
 function Navbar() {
@@ -28,7 +30,8 @@ function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   const bg = useColorModeValue('blue.200', 'blue.600');
-  const text = useColorModeValue('blue.600', 'blue.200');
+  const textHeading = useColorModeValue('blue.600', 'blue.200');
+  const text = useColorModeValue('blue.600', 'whitesmoke');
   return (
     <Container
       className="navContainer"
@@ -44,8 +47,7 @@ function Navbar() {
         <Box className="GriefBuddyBox" p="2">
           <Center>
             {/* <Heading size="3xl" color="blue.600"> */}
-            <Heading size="3xl" color={text}>
-
+            <Heading size="3xl" color={textHeading}>
               {useLocation().pathname === '/' ? (
                 'GriefBuddy'
               ) : (
@@ -65,6 +67,7 @@ function Navbar() {
               ref={btnRef}
               onClick={onOpen}
               style={{ fontSize: '45px' }}
+              aria-label="open navigation bar"
             >
               Ξ
             </Button>
@@ -76,11 +79,15 @@ function Navbar() {
         <DrawerOverlay />
         {/* <DrawerContent backgroundColor="blue.200"> */}
         <DrawerContent backgroundColor={bg}>
+          <DrawerHeader>
+            <Button onClick={toggleColorMode} aria-label="toggle dark and light mode">
+              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            </Button>
+          </DrawerHeader>
 
           <DrawerCloseButton />
           {/* <DrawerBody color="blue.600" textDecorationThickness="bold"> */}
           <DrawerBody color={text} textDecorationThickness="bold">
-
             <VStack divider={<StackDivider />}>
               <Link onClick={onClose} to="/profile">
                 Profile
@@ -101,9 +108,6 @@ function Navbar() {
                 Resources
               </Link>
               <Logout />
-              <Button onClick={toggleColorMode}>
-                {`Toggle ${colorMode === 'light' ? 'Dark' : 'Light'}`}
-              </Button>
             </VStack>
           </DrawerBody>
         </DrawerContent>
