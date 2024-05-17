@@ -4,6 +4,7 @@ import { Calendar, dayjsLocalizer, Views, Event } from 'react-big-calendar';
 import dayjs from 'dayjs';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './index.css';
+import { useColorMode } from '@chakra-ui/react';
 
 const localizer = dayjsLocalizer(dayjs);
 
@@ -39,6 +40,21 @@ function EventsCalendar({
   setEventFocus: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [doubleClickedEventId, setDoubleClickedEventId] = useState(null as Number);
+
+  const { colorMode } = useColorMode();
+
+  useEffect(() => {
+    const calButtons: HTMLCollectionOf<Element> = document.getElementsByClassName('rbc-btn-group');
+    if (colorMode === 'dark') {
+      for (let i = 0; i < calButtons.length; i += 1) {
+        calButtons[i].classList.add('dark');
+      }
+    } else if (colorMode === 'light') {
+      for (let i = 0; i < calButtons.length; i += 1) {
+        calButtons[i].classList.remove('dark');
+      }
+    }
+  }, [colorMode]);
 
   const viewsKeys = Object.entries(Views);
 
