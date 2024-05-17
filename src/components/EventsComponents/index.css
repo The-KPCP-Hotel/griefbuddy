@@ -4,9 +4,13 @@
 }
 
 .dark > button {
-  color: white;
+  color: whitesmoke;
 }
 
 .dark > button.rbc-active {
   color: black;
+}
+
+.rbc-row-segment {
+  background: whitesmoke;
 }
