@@ -6,3 +6,7 @@
 .dark > button {
   color: white;
 }
+
+.dark > button.rbc-active {
+  color: black;
+}
