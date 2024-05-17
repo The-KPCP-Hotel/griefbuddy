@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 // import { Link } from 'react-router-dom';
-import { ChakraProvider, Container } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import mapboxgl from 'mapbox-gl';
 // import axios from 'axios';
 /** setZoom wasn't called, so using this constant for now */
@@ -45,13 +45,11 @@ function MeetupMap() {
   }, [lat, lng]);
 
   return (
-    <ChakraProvider>
-      <Container maxW="7xl">
-        <div ref={mapContainer} className="map-container" style={{ height: '600px' }} />
-        <h1>Map</h1>
-        <p>{`lng: ${lng}, lat: ${lat}`}</p>
-      </Container>
-    </ChakraProvider>
+    <Container maxW="7xl">
+      <div ref={mapContainer} className="map-container" style={{ height: '600px' }} />
+      <h1>Map</h1>
+      <p>{`lng: ${lng}, lat: ${lat}`}</p>
+    </Container>
   );
 }
 export default MeetupMap;

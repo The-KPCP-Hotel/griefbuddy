@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import {
-  ChakraProvider, Heading, Center, Container,
-} from '@chakra-ui/react';
+import { Heading, Center, Container } from '@chakra-ui/react';
 import { UserContext, AuthUser } from '../context/UserContext';
 
 function Buddy() {
@@ -45,7 +43,7 @@ function Buddy() {
   }, []);
 
   return (
-    <ChakraProvider>
+    <>
       <Center>
         <Heading size="3xl" color="blue.200">
           Buddy
@@ -79,7 +77,7 @@ function Buddy() {
           </Link>
         </div>
       </Container>
-    </ChakraProvider>
+    </>
   );
 }
 

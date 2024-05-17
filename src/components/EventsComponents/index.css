@@ -1,0 +1,16 @@
+/* calendar nav buttons not visible in dark mode */
+.dark {
+  background: black;
+}
+
+.dark > button {
+  color: whitesmoke;
+}
+
+.dark > button.rbc-active {
+  color: black;
+}
+
+.rbc-row-segment {
+  background: whitesmoke;
+}

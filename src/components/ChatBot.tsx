@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import {
-  ChakraProvider,
   Heading,
   Center,
   StackDivider,
@@ -13,6 +12,7 @@ import {
   useToast,
   Box,
   Skeleton,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { UserContext } from '../context/UserContext';
@@ -60,6 +60,10 @@ function ChatBot() {
     id: Number;
     userId: Number;
   };
+
+  const botBg = useColorModeValue('lavender', 'purple.700');
+
+  const botColor = useColorModeValue('purple', 'lavender');
 
   // sends text to friend if message was flagged
   const sendText = () => {
@@ -178,7 +182,7 @@ function ChatBot() {
   }, [messages]);
 
   return (
-    <ChakraProvider>
+    <>
       <Center>
         <Heading paddingBottom="15px" size="3xl" color="blue.200">
           Chat Bot
@@ -194,11 +198,11 @@ function ChatBot() {
             {messages.slice(1).map((text, index) => (
               <Text
                 borderRadius="10px"
-                background={text.role === 'assistant' ? 'lavender' : 'blue.600'}
+                background={text.role === 'assistant' ? botBg : 'blue.600'}
                 p="10px"
                 // eslint-disable-next-line react/no-array-index-key
                 key={`${text.role}-${index}`}
-                color={text.role === 'assistant' ? 'purple' : 'white'}
+                color={text.role === 'assistant' ? botColor : 'white'}
                 textAlign={text.role === 'assistant' ? 'left' : 'right'}
                 marginLeft={text.role === 'assistant' ? 0 : 'auto'}
                 width="fit-content"
@@ -219,7 +223,7 @@ function ChatBot() {
           </Stack>
         </Box>
       </Container>
-    </ChakraProvider>
+    </>
   );
 }
 

@@ -1,8 +1,9 @@
 import React, { Suspense, lazy } from 'react';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Skeleton } from '@chakra-ui/react';
+import { Skeleton, ChakraProvider } from '@chakra-ui/react';
 
+import theme from '../styling/theme';
 import HomePage from './HomePage';
 import Profile from './Profile';
 import Buddy from './Buddy';
@@ -25,29 +26,31 @@ function App() {
   return (
     <BrowserRouter>
       <UserContextProvider>
-        <Navbar />
-        <Suspense fallback={<Skeleton />}>
-          <Routes>
-            <Route index element={<Login />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/buddy" element={<Buddy />} />
-            <Route path="/chatbot" element={<ChatBot />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/resource" element={<Resource />} />
-            <Route path="/buddychat" element={<BuddyChat />} />
-            <Route path="/events/:id" element={<Event />} />
-            <Route
-              path="/map"
-              element={(
-                <Suspense fallback={<Skeleton />}>
-                  <MeetupMap />
-                </Suspense>
-              )}
-            />
-          </Routes>
-        </Suspense>
+        <ChakraProvider theme={theme}>
+          <Navbar />
+          <Suspense fallback={<Skeleton />}>
+            <Routes>
+              <Route index element={<Login />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/buddy" element={<Buddy />} />
+              <Route path="/chatbot" element={<ChatBot />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/resource" element={<Resource />} />
+              <Route path="/buddychat" element={<BuddyChat />} />
+              <Route path="/events/:id" element={<Event />} />
+              <Route
+                path="/map"
+                element={(
+                  <Suspense fallback={<Skeleton />}>
+                    <MeetupMap />
+                  </Suspense>
+                )}
+              />
+            </Routes>
+          </Suspense>
+        </ChakraProvider>
       </UserContextProvider>
     </BrowserRouter>
   );

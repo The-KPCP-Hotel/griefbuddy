@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
-import { ChakraProvider } from '@chakra-ui/react';
 import { Heading, Center, Container } from '@chakra-ui/react';
+
 const socket = io('http://localhost:3000');
 
 function BuddyChat() {
@@ -39,37 +38,40 @@ function BuddyChat() {
   }, []);
 
   // eslint with the help of ts helped with this structure
-  const getMessageColor = (message: { sender: string }) => (message.sender === socket.id ? 'blue' : 'lightgreen');
+  const getMessageColor = (message: { sender: string }) =>
+    message.sender === socket.id ? 'blue' : 'lightgreen';
 
   return (
-    <ChakraProvider>
+    <>
       <Center>
-            <Heading size='3xl' color={"blue.200"}>Buddy Chat</Heading>
+        <Heading size="3xl" color={'blue.200'}>
+          Buddy Chat
+        </Heading>
       </Center>
       <Container maxW="7xl">
-      <input
-        type="text"
-        placeholder="BuddyPair ID"
-        value={room}
-        onChange={(e) => setRoom(e.target.value)}
-      />
-      <button type="button" onClick={joinRoom}>Join Room</button>
-      <div>
-        {messages.map((message) => (
-          // can use timestamps instead of Date
-          <div key={message.timestamp} style={{ color: getMessageColor(message) }}>
-            {message.text}
-          </div>
-        ))}
-      </div>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <button type="button" onClick={handleMessage}>Send</button>
+        <input
+          type="text"
+          placeholder="BuddyPair ID"
+          value={room}
+          onChange={(e) => setRoom(e.target.value)}
+        />
+        <button type="button" onClick={joinRoom}>
+          Join Room
+        </button>
+        <div>
+          {messages.map((message) => (
+            // can use timestamps instead of Date
+            <div key={message.timestamp} style={{ color: getMessageColor(message) }}>
+              {message.text}
+            </div>
+          ))}
+        </div>
+        <input type="text" value={input} onChange={(e) => setInput(e.target.value)} />
+        <button type="button" onClick={handleMessage}>
+          Send
+        </button>
       </Container>
-    </ChakraProvider>
+    </>
   );
 }
 
