@@ -5,7 +5,7 @@ import path = require('path');
 import passport from 'passport';
 import session from 'express-session';
 import http from 'http';
-import { Server as SocketIOServer } from 'socket.io';
+// import { Server as SocketIOServer } from 'socket.io';
 
 import authRouter from './routes/auth';
 import profileRouter from './routes/profile';
@@ -22,7 +22,7 @@ const app: Express = express();
 const port = 3000;
 
 const server = http.createServer(app);
-const io = new SocketIOServer(server);
+// const io = new SocketIOServer(server);
 
 app.use(express.json());
 
@@ -82,23 +82,23 @@ app.post('/logout', (req, res, next) => {
   });
 });
 
-io.on('connection', (socket) => {
-  console.log(`${socket.id} connected.`);
+// io.on('connection', (socket) => {
+//   console.log(`${socket.id} connected.`);
 
-  socket.on('join_room', (room) => {
-    socket.join(room);
-    console.log(`${socket.id} joined room ${room}`);
-  });
+//   socket.on('join_room', (room) => {
+//     socket.join(room);
+//     console.log(`${socket.id} joined room ${room}`);
+//   });
 
-  socket.on('message', (data) => {
-    // access socketID of sender
-    io.to(data.room).emit('receive_message', { text: data.text, sender: socket.id });
-  });
+//   socket.on('message', (data) => {
+//     // access socketID of sender
+//     io.to(data.room).emit('receive_message', { text: data.text, sender: socket.id });
+//   });
 
-  socket.on('disconnect', () => {
-    console.log(`${socket.id} disconnected.`);
-  });
-});
+//   socket.on('disconnect', () => {
+//     console.log(`${socket.id} disconnected.`);
+//   });
+// });
 
 app.get('/*', checkAuth, (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));

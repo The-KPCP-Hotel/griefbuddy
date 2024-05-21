@@ -92,9 +92,9 @@ function Navbar() {
               <Link onClick={onClose} to="/profile">
                 Profile
               </Link>
-              <Link onClick={onClose} to="/buddy">
+              {/* <Link onClick={onClose} to="/buddy">
                 Buddy
-              </Link>
+              </Link> */}
               <Link onClick={onClose} to="/chatbot">
                 ChatBot
               </Link>
