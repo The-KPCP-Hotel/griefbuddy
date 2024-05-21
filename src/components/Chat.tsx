@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Box, Container, Heading } from '@chakra-ui/react';
+import { Box, Center, Container, Heading, useColorModeValue } from '@chakra-ui/react';
 
 import ChatInput from './ChatComponents/ChatInput';
 
@@ -33,9 +33,13 @@ function Chat() {
     }
   };
 
+  const color = useColorModeValue('blue.600', 'blue.200');
+
   return (
     <Container>
-      <Heading>Chat</Heading>
+      <Center>
+        <Heading color={color}>Chat</Heading>
+      </Center>
       <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
         <ChatInput
           messagesEndRef={messagesEndRef}
