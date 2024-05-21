@@ -4,8 +4,8 @@ import express, {
 import path = require('path');
 import passport from 'passport';
 import session from 'express-session';
-import http from 'http';
-// import { Server as SocketIOServer } from 'socket.io';
+import { createServer } from 'http';
+import { Server as SocketIOServer } from 'socket.io';
 
 import authRouter from './routes/auth';
 import profileRouter from './routes/profile';
@@ -21,8 +21,8 @@ require('dotenv').config();
 const app: Express = express();
 const port = 3000;
 
-const server = http.createServer(app);
-// const io = new SocketIOServer(server);
+const server = createServer(app);
+const io = new SocketIOServer(server);
 
 app.use(express.json());
 
@@ -82,6 +82,9 @@ app.post('/logout', (req, res, next) => {
   });
 });
 
+io.on('connection', (socket) => {
+  
+});
 // io.on('connection', (socket) => {
 //   console.log(`${socket.id} connected.`);
 
