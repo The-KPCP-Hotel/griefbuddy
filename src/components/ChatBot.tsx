@@ -3,12 +3,9 @@ import {
   Heading,
   Center,
   StackDivider,
-  Input,
   Stack,
   Container,
   Text,
-  Button,
-  HStack,
   useToast,
   Box,
   Skeleton,
@@ -19,6 +16,7 @@ import { UserContext } from '../context/UserContext';
 
 import Info from './BotComponents/Info';
 import DeleteModal from './BotComponents/DeleteModal';
+import ChatInput from './ChatComponents/ChatInput';
 
 function ChatBot() {
   const toast = useToast();
@@ -211,15 +209,13 @@ function ChatBot() {
               </Text>
             ))}
             {isWaiting ? <Skeleton height="20px" /> : null}
-            <HStack ref={messagesEndRef}>
-              <Input
-                onChange={onChange}
-                onKeyDown={onPress}
-                value={message}
-                placeholder="Start typing here"
-              />
-              <Button onClick={onSend}>Send</Button>
-            </HStack>
+            <ChatInput
+              messagesEndRef={messagesEndRef}
+              onChange={onChange}
+              onPress={onPress}
+              message={message}
+              onSend={onSend}
+            />
           </Stack>
         </Box>
       </Container>
