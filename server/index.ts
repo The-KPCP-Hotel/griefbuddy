@@ -1,6 +1,4 @@
-import express, {
-  Express, Request, Response, NextFunction,
-} from 'express';
+import express, { Express, Request, Response, NextFunction } from 'express';
 import path = require('path');
 import passport from 'passport';
 import session from 'express-session';
@@ -41,7 +39,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // const CLIENT_PATH = path.resolve(__dirname, '../dist');
-const CLIENT_PATH = (process.env.MODE === 'development') ? path.resolve(__dirname, '../dist') : path.resolve(__dirname, '../');
+const CLIENT_PATH =
+  process.env.MODE === 'development'
+    ? path.resolve(__dirname, '../dist')
+    : path.resolve(__dirname, '../');
 app.use(express.static(CLIENT_PATH));
 
 app.use('/auth', authRouter);
@@ -53,11 +54,7 @@ app.use('/chatbot', chatbotRouter);
 app.use('/mainFeed', mainFeedRouter);
 app.use('/resources', resourcesRouter);
 
-const checkAuth = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const checkAuth = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
     return next();
   }
@@ -83,7 +80,11 @@ app.post('/logout', (req, res, next) => {
 });
 
 io.on('connection', (socket) => {
-  
+  // console.log(`${socket.id} connected to chat.`);
+
+  socket.on('msg', (msg) => {
+    io.emit('msg', msg);
+  });
 });
 // io.on('connection', (socket) => {
 //   console.log(`${socket.id} connected.`);
@@ -108,7 +109,5 @@ app.get('/*', checkAuth, (req, res) => {
 });
 
 server.listen(port, () => {
-  console.log(
-    `Example app listening on port ${port} \n http://localhost:${port}`,
-  );
+  console.log(`Example app listening on port ${port} \n http://localhost:${port}`);
 });

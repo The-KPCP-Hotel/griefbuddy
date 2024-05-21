@@ -1,9 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 import { Box, Center, Container, Heading, useColorModeValue } from '@chakra-ui/react';
 
 import ChatInput from './ChatComponents/ChatInput';
 
 function Chat() {
+  const socket = io();
+
   const [message, setMessage] = useState('');
 
   const [messages, setMessages] = useState([] as (typeof message)[]);
@@ -21,9 +24,16 @@ function Chat() {
     setMessage(value);
   };
 
+  socket.on('msg', (msg) => {
+    // cur adding way too many times
+    setMessages((curMessages) => curMessages.concat([msg]));
+  });
   // needs socket
   const onSend = () => {
-    setMessages((curMessages) => curMessages.concat([message]));
+    // setMessages((curMessages) => curMessages.concat([message]));
+    if (message) {
+      socket.emit('msg', message);
+    }
     setMessage('');
   };
 
