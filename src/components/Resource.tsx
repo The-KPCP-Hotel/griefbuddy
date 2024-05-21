@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  ChakraProvider,
   Heading,
   Center,
   Box,
@@ -11,7 +10,7 @@ import {
 
 function Resource() {
   return (
-    <ChakraProvider>
+    <>
       <Center>
         <Heading size="3xl" color="blue.200" marginBottom="35px">
           Resource
@@ -41,7 +40,7 @@ function Resource() {
           </Box>
         </Center>
       </Container>
-    </ChakraProvider>
+    </>
   );
 }
 

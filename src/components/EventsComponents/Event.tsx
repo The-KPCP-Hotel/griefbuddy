@@ -4,7 +4,6 @@ import {
   Card,
   Center,
   Heading,
-  ChakraProvider,
   CardBody,
   Text,
   Link as ChakraLink,
@@ -41,7 +40,7 @@ function Event() {
   }, [id]);
 
   return (
-    <ChakraProvider>
+    <>
       <ChakraLink as={ReactRouterLink} to="/events" paddingLeft="10px">
         <ArrowBackIcon />
         Back to Local Happenings
@@ -94,7 +93,7 @@ function Event() {
           </CardBody>
         </Card>
       </Container>
-    </ChakraProvider>
+    </>
   );
 }
 

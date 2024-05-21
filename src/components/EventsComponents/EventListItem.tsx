@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Heading, Text, Image, Center, Link as ChakraLink } from '@chakra-ui/react';
+import { Box, Heading, Text, Image, Center, Link as ChakraLink, useColorModeValue } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
 function EventListItem({
@@ -20,13 +20,17 @@ function EventListItem({
 
   const [boxShadow, setBoxShadow] = useState('base');
 
+  const bg = useColorModeValue('blue.200', 'blue.600');
+
+  const exShadow = useColorModeValue('dark-lg', 'outline');
+
   useEffect(() => {
     if (eventFocus === OgId) {
-      setBoxShadow('dark-lg');
+      setBoxShadow(exShadow);
     } else {
       setBoxShadow('base');
     }
-  }, [eventFocus, OgId]);
+  }, [eventFocus, OgId, exShadow]);
 
   return (
     <Box
@@ -35,7 +39,8 @@ function EventListItem({
       p="10px"
       boxShadow={boxShadow}
       borderRadius="md"
-      background="blue.200"
+      // background="blue.200"
+      background={bg}
     >
       <Center>
         <ChakraLink as={ReactRouterLink} to={`/events/${id}`}>
