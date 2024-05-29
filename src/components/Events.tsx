@@ -71,36 +71,38 @@ function Events() {
           </Stack>
         </Card>
       </Box>
-      <Box className="eventsToday">
-        <Card>
-          <CardHeader>
-            <Heading size="md">Events Starting Today</Heading>
-          </CardHeader>
-          <CardBody>
-            <Wrap spacingY="40px" spacingX="80px" justify="center">
-              {eventsToday.map((event) => (
-                <WrapItem>
-                  <Center>
-                    <EventListItem key={event.OgId} event={event} eventFocus="" />
-                  </Center>
-                </WrapItem>
-              ))}
-              {/* this is for testing tons of events */}
-              {/* {events.map((event) => (
+      {eventsToday.length ? (
+        <Box className="eventsToday">
+          <Card>
+            <CardHeader>
+              <Heading size="md">Events Starting Today</Heading>
+            </CardHeader>
+            <CardBody>
+              <Wrap spacingY="40px" spacingX="80px" justify="center">
+                {eventsToday.map((event) => (
+                  <WrapItem>
+                    <Center>
+                      <EventListItem key={event.OgId} event={event} eventFocus="" />
+                    </Center>
+                  </WrapItem>
+                ))}
+                {/* this is for testing tons of events */}
+                {/* {events.map((event) => (
                   <EventListItem key={event.OgId} event={event} />
                 ))} */}
-              {/* this is just to force grid to only have one card */}
-              {/* {events.length ? (
+                {/* this is just to force grid to only have one card */}
+                {/* {events.length ? (
                   <WrapItem>
                     <Center>
                       <EventListItem event={events[0]} />
                     </Center>
                   </WrapItem>
                 ) : null} */}
-            </Wrap>
-          </CardBody>
-        </Card>
-      </Box>
+              </Wrap>
+            </CardBody>
+          </Card>
+        </Box>
+      ) : null}
       <Box>
         <Card>
           <Stack>
