@@ -6,7 +6,7 @@ const axios = require('axios');
 
 function getQuote() {
   const { NINJA_API_KEY } = process.env;
-  const quoteUrl = 'https://api.api-ninjas.com/v1/quotes?category=death';
+  const quoteUrl = 'https://api.api-ninjas.com/v1/quotes?category=inspirational';
   return axios.get(quoteUrl, { headers: { 'X-Api-Key': NINJA_API_KEY, 'X-Requested-With': 'XMLHttpRequest' } })
     .then((response: Response) => response)
     .catch((err: Error) => console.error('failed getting quote', err));
