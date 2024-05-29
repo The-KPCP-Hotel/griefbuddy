@@ -64,7 +64,14 @@ function Events() {
           </Heading>
         </Center>
       </Box>
-      <Box>
+      <Box maxW="100%" justifyContent="inherit" p="10px">
+        <Card>
+          <Stack>
+            <EventsBigCalendar setEventFocus={setEventFocus} events={events} />
+          </Stack>
+        </Card>
+      </Box>
+      <Box className="eventsToday">
         <Card>
           <CardHeader>
             <Heading size="md">Events Starting Today</Heading>
@@ -92,13 +99,6 @@ function Events() {
                 ) : null} */}
             </Wrap>
           </CardBody>
-        </Card>
-      </Box>
-      <Box maxW="100%" justifyContent="inherit" p="10px">
-        <Card>
-          <Stack>
-            <EventsBigCalendar setEventFocus={setEventFocus} events={events} />
-          </Stack>
         </Card>
       </Box>
       <Box>
