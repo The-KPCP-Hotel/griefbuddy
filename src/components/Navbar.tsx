@@ -37,16 +37,12 @@ function Navbar() {
       className="navContainer"
       width="100%"
       maxW="inherit"
-      // bg="blue.200"
       bg={bg}
-      marginTop="0px"
-      marginBottom="15px"
-      h="125px"
+      h="5rem"
     >
-      <Flex className="navFlex" paddingTop="20px" alignItems="center" gap="2">
+      <Flex className="navFlex" alignItems="center" gap="2">
         <Box className="GriefBuddyBox" p="2">
           <Center>
-            {/* <Heading size="3xl" color="blue.600"> */}
             <Heading size="3xl" color={textHeading}>
               {useLocation().pathname === '/' ? (
                 'GriefBuddy'
@@ -62,12 +58,12 @@ function Navbar() {
         <Box p="2">
           {useLocation().pathname === '/' ? null : (
             <Button
-              // colorScheme="blue.200"
               colorScheme={bg}
               ref={btnRef}
               onClick={onOpen}
               style={{ fontSize: '45px' }}
               aria-label="open navigation bar"
+              mr="1rem"
             >
               Ξ
             </Button>
@@ -77,7 +73,6 @@ function Navbar() {
 
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />
-        {/* <DrawerContent backgroundColor="blue.200"> */}
         <DrawerContent backgroundColor={bg}>
           <DrawerHeader>
             <Button onClick={toggleColorMode} aria-label="toggle dark and light mode">
@@ -86,7 +81,6 @@ function Navbar() {
           </DrawerHeader>
 
           <DrawerCloseButton />
-          {/* <DrawerBody color="blue.600" textDecorationThickness="bold"> */}
           <DrawerBody color={text} textDecorationThickness="bold">
             <VStack divider={<StackDivider />}>
               <Link onClick={onClose} to="/profile">
