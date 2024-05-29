@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardBody,
   Stack,
-  StackDivider,
   VStack,
   Box,
   SimpleGrid,
@@ -56,10 +55,10 @@ function Events() {
   }, []);
 
   return (
-    <VStack divider={<StackDivider />} spacing="4" maxW="100%">
+    <VStack spacing="4" maxW="100%">
       <Box>
         <Center>
-          <Heading size="3xl" color="blue.200">
+          <Heading as="h2" size="xl" color="blue.200">
             Events
           </Heading>
         </Center>
@@ -107,7 +106,7 @@ function Events() {
         <Card>
           <Stack>
             <CardHeader>
-              <Heading size="md">All Events</Heading>
+              <Heading as="h3" size="md">All Events</Heading>
             </CardHeader>
             <CardBody>
               <SimpleGrid
