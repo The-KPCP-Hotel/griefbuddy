@@ -38,16 +38,16 @@ function Navbar() {
       width="100%"
       maxW="inherit"
       bg={bg}
-      h="5rem"
+      h="4.5rem"
     >
-      <Flex className="navFlex" alignItems="center" gap="2">
+      <Flex className="navFlex" alignItems="center" gap="2" minWidth="max-content">
         <Box className="GriefBuddyBox" p="2">
           <Center>
-            <Heading size="3xl" color={textHeading}>
+            <Heading as="h1" size="xl" color={textHeading}>
               {useLocation().pathname === '/' ? (
                 'GriefBuddy'
               ) : (
-                <Link to="/home" style={{ fontSize: '55px' }}>
+                <Link to="/home" style={{ fontSize: '2.5rem' }}>
                   GriefBuddy
                 </Link>
               )}
@@ -63,7 +63,6 @@ function Navbar() {
               onClick={onOpen}
               style={{ fontSize: '45px' }}
               aria-label="open navigation bar"
-              mr="1rem"
             >
               Ξ
             </Button>
