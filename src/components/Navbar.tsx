@@ -19,6 +19,7 @@ import {
   Container,
   useColorMode,
   useColorModeValue,
+  Image,
 } from '@chakra-ui/react';
 import { SunIcon, MoonIcon } from '@chakra-ui/icons';
 import Logout from './Logout';
@@ -32,14 +33,9 @@ function Navbar() {
   const bg = useColorModeValue('blue.200', 'blue.600');
   const textHeading = useColorModeValue('blue.600', 'blue.200');
   const text = useColorModeValue('blue.600', 'whitesmoke');
+
   return (
-    <Container
-      className="navContainer"
-      width="100%"
-      maxW="inherit"
-      bg={bg}
-      h="4.5rem"
-    >
+    <Container className="navContainer" width="100%" maxW="inherit" bg={bg} h="4.5rem">
       <Flex className="navFlex" alignItems="center" gap="2" minWidth="max-content">
         <Box className="GriefBuddyBox" p="2">
           <Center>
@@ -56,7 +52,9 @@ function Navbar() {
         </Box>
         <Spacer />
         <Box p="2">
-          {useLocation().pathname === '/' ? null : (
+          {useLocation().pathname === '/' ? (
+            <Image maxW="3rem" src="GriefBuddy.png" />
+          ) : (
             <Button
               colorScheme={bg}
               ref={btnRef}

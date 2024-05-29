@@ -22,7 +22,8 @@ module.exports = {
     new BundleAnalyzerPlugin({ generateStatsFile: true }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html'),
-      favicon: path.resolve(__dirname, 'src', 'img', 'favicon.ico')
+      favicon: path.resolve(__dirname, 'src', 'img', 'favicon.ico'),
+      favicon: path.resolve(__dirname, 'src', 'img', 'GriefBuddy.png')
     }),
   ],
   module: {
