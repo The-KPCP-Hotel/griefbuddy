@@ -37,7 +37,7 @@ function Navbar() {
   return (
     <Container className="navContainer" width="100%" maxW="inherit" bg={bg} h="4.5rem">
       <Flex className="navFlex" alignItems="center" gap="2" minWidth="max-content">
-        <Box className="GriefBuddyBox" p="2">
+        <Box className="GriefBuddyBox">
           <Center>
             <Heading as="h1" size="xl" color={textHeading}>
               {useLocation().pathname === '/' ? (
