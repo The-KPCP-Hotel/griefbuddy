@@ -38,7 +38,7 @@ function Chat() {
     setMessage(value);
   };
 
-  let counter = 0;
+  // let counter = 0;
 
   useEffect(() => {
     const addMessage = (msg: string, clientOffset: string) => {
@@ -50,8 +50,9 @@ function Chat() {
   // needs socket
   const onSend = () => {
     if (message) {
-      const clientOffset = `${socket.id}-${(counter += 1)}`;
-      socket.emit('msg', message, clientOffset);
+      // const clientOffset = `${socket.id}-${(counter += 1)}`;
+      // socket.emit('msg', message, clientOffset);
+      socket.emit('msg', message, socket.id);
     }
     setMessage('');
   };
@@ -64,16 +65,31 @@ function Chat() {
 
   const color = useColorModeValue('blue.600', 'blue.200');
 
+  const otherUserBG = useColorModeValue('lavender', 'purple.700');
+
+  const otherUserColor = useColorModeValue('purple', 'lavender');
+
   return (
     <Container>
       <Center>
         <Heading color={color}>Chat</Heading>
       </Center>
       <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
-        <Stack divider={<StackDivider />}>
+        <Stack divider={<StackDivider />} margin="8px">
           {messages.map((msg, index) => (
+            <Text
             // eslint-disable-next-line react/no-array-index-key
-            <Text key={`${msg.clientOffset}-${index}`}>{msg.msg}</Text>
+              key={`${msg.clientOffset}-${index}`}
+              borderRadius="10px"
+              background={msg.clientOffset === socket.id ? 'blue.600' : otherUserBG}
+              p="10px"
+              color={msg.clientOffset === socket.id ? 'white' : otherUserColor}
+              textAlign={msg.clientOffset === socket.id ? 'right' : 'left'}
+              marginLeft={msg.clientOffset === socket.id ? 'auto' : 0}
+              width="fit-content"
+            >
+              {msg.msg}
+            </Text>
           ))}
         </Stack>
         <ChatInput
