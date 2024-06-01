@@ -32,7 +32,7 @@ router.get('/', (req: Request, res: { send: Function, sendStatus: Function }) =>
           author,
           category,
         },
-      }).then((response: Response) => console.log(response));
+      });
       res.send(data[0]);
     })
     .catch((err: Error) => {
