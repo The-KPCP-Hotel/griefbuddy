@@ -53,7 +53,7 @@ function Navbar() {
         <Spacer />
         <Box p="2">
           {useLocation().pathname === '/' ? (
-            <Image maxW="3rem" src="GriefBuddy.png" />
+            <Image maxW="3rem" src="GriefBuddyLogo.png" />
           ) : (
             <Button
               colorScheme={bg}
