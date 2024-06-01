@@ -13,13 +13,17 @@ import {
 
 import ChatInput from './ChatComponents/ChatInput';
 
+const socket = io();
+
 function Chat() {
-  const socket = io();
+  // const socket = io();
 
   interface Message {
     msg: string;
     clientOffset: string;
   }
+
+  // const [socket, setSocket] = useState(null);
 
   const [message, setMessage] = useState('');
 
@@ -42,37 +46,21 @@ function Chat() {
 
   useEffect(() => {
     console.log('use effect');
+    // if (!socket) {
+    // setSocket(io());
+    // } else {
     const addMessage = (msg: string, clientOffset: string) => {
       setMessages((curMessages) => curMessages.concat([{ msg, clientOffset }]));
+      console.log('socket on called');
     };
-    // socket.on('connection', null);
-    socket.on('msg', (msg: string, clientOffset: string) => {
-      // cur adding way too many times
-      console.log('base socket on msg', msg, clientOffset);
-      addMessage(msg, clientOffset);
-      // if (messages.length) {
-      //   console.log('if messages has length', messages[messages.length - 1].clientOffset);
-      // }
-      // if (!messages.length || messages[messages.length - 1].clientOffset !== clientOffset) {
-      //   console.log('messages has no length || last message clientOffset doesn't match current');
-      //   setMessages((curMessages) => curMessages.concat([{ msg, clientOffset }]));
-      //   // these returns do nothing
-      //   // return socket.off('msg');
-      //   // return function cleanup() {
-      //   //   socket.removeListener('msg');
-      //   // };
-      // }
-      // return messages;
-    });
-    // both return functions stops socket.on from running
-    // found this on https://stackoverflow.com/questions/73479617/getting-duplicate-messages-with-react-socket-io-chat-app
-    // return function cleanup() {
-    //   socket.removeListener('msg');
+    // // socket.on('connection', null);
+    socket.on('sendMsg', addMessage);
+    // }
+    // return () => {
+    //   socket.off('sendMsg', addMessage);
     // };
-    // this doesn't seem to effect the bug
-    return () => { socket.off('msg', (msg, clientOffset) => addMessage(msg, clientOffset)); };
-    socket.off('msg');
-  }, [socket, messages]);
+  }, [setMessage]);
+
   // needs socket
   const onSend = () => {
     // setMessages((curMessages) => curMessages.concat([message]));

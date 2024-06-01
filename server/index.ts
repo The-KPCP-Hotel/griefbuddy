@@ -85,7 +85,7 @@ io.on('connection', (socket) => {
   socket.on('msg', (msg, clientOffset) => {
     // only being logged once - front end being called many times
     console.log(msg);
-    io.emit('msg', msg, clientOffset);
+    io.emit('sendMsg', msg, clientOffset);
   });
 });
 // io.on('connection', (socket) => {
