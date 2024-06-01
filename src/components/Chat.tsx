@@ -42,17 +42,36 @@ function Chat() {
 
   useEffect(() => {
     console.log('use effect');
+    const addMessage = (msg: string, clientOffset: string) => {
+      setMessages((curMessages) => curMessages.concat([{ msg, clientOffset }]));
+    };
+    // socket.on('connection', null);
     socket.on('msg', (msg: string, clientOffset: string) => {
       // cur adding way too many times
       console.log('base socket on msg', msg, clientOffset);
-      if (messages.length) {
-        console.log('if messages has length', messages[messages.length - 1].clientOffset);
-      }
-      if (messages.length === 0 || messages[messages.length - 1].clientOffset !== clientOffset) {
-        console.log('messages has no length or last messages clientOffset does not match current');
-        setMessages((curMessages) => curMessages.concat([{ msg, clientOffset }]));
-      }
+      addMessage(msg, clientOffset);
+      // if (messages.length) {
+      //   console.log('if messages has length', messages[messages.length - 1].clientOffset);
+      // }
+      // if (!messages.length || messages[messages.length - 1].clientOffset !== clientOffset) {
+      //   console.log('messages has no length || last message clientOffset doesn't match current');
+      //   setMessages((curMessages) => curMessages.concat([{ msg, clientOffset }]));
+      //   // these returns do nothing
+      //   // return socket.off('msg');
+      //   // return function cleanup() {
+      //   //   socket.removeListener('msg');
+      //   // };
+      // }
+      // return messages;
     });
+    // both return functions stops socket.on from running
+    // found this on https://stackoverflow.com/questions/73479617/getting-duplicate-messages-with-react-socket-io-chat-app
+    // return function cleanup() {
+    //   socket.removeListener('msg');
+    // };
+    // this doesn't seem to effect the bug
+    return () => { socket.off('msg', (msg, clientOffset) => addMessage(msg, clientOffset)); };
+    socket.off('msg');
   }, [socket, messages]);
   // needs socket
   const onSend = () => {
