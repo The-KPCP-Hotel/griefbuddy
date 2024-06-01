@@ -1,10 +1,8 @@
-import express, {
-  Express, Request, Response, NextFunction,
-} from 'express';
+import express, { Express, Request, Response, NextFunction } from 'express';
 import path = require('path');
 import passport from 'passport';
 import session from 'express-session';
-import http from 'http';
+import { createServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 
 import authRouter from './routes/auth';
@@ -21,7 +19,7 @@ require('dotenv').config();
 const app: Express = express();
 const port = 3000;
 
-const server = http.createServer(app);
+const server = createServer(app);
 const io = new SocketIOServer(server);
 
 app.use(express.json());
@@ -41,7 +39,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // const CLIENT_PATH = path.resolve(__dirname, '../dist');
-const CLIENT_PATH = (process.env.MODE === 'development') ? path.resolve(__dirname, '../dist') : path.resolve(__dirname, '../');
+const CLIENT_PATH =
+  process.env.MODE === 'development'
+    ? path.resolve(__dirname, '../dist')
+    : path.resolve(__dirname, '../');
 app.use(express.static(CLIENT_PATH));
 
 app.use('/auth', authRouter);
@@ -53,11 +54,7 @@ app.use('/chatbot', chatbotRouter);
 app.use('/mainFeed', mainFeedRouter);
 app.use('/resources', resourcesRouter);
 
-const checkAuth = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const checkAuth = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
     return next();
   }
@@ -83,29 +80,36 @@ app.post('/logout', (req, res, next) => {
 });
 
 io.on('connection', (socket) => {
-  console.log(`${socket.id} connected.`);
+  // console.log(`${socket.id} connected to chat.`);
 
-  socket.on('join_room', (room) => {
-    socket.join(room);
-    console.log(`${socket.id} joined room ${room}`);
-  });
-
-  socket.on('message', (data) => {
-    // access socketID of sender
-    io.to(data.room).emit('receive_message', { text: data.text, sender: socket.id });
-  });
-
-  socket.on('disconnect', () => {
-    console.log(`${socket.id} disconnected.`);
+  socket.on('msg', (msg, clientOffset) => {
+    // only being logged once - front end being called many times
+    // console.log(msg);
+    io.emit('sendMsg', msg, clientOffset);
   });
 });
+// io.on('connection', (socket) => {
+//   console.log(`${socket.id} connected.`);
+
+//   socket.on('join_room', (room) => {
+//     socket.join(room);
+//     console.log(`${socket.id} joined room ${room}`);
+//   });
+
+//   socket.on('message', (data) => {
+//     // access socketID of sender
+//     io.to(data.room).emit('receive_message', { text: data.text, sender: socket.id });
+//   });
+
+//   socket.on('disconnect', () => {
+//     console.log(`${socket.id} disconnected.`);
+//   });
+// });
 
 app.get('/*', checkAuth, (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));
 });
 
 server.listen(port, () => {
-  console.log(
-    `Example app listening on port ${port} \n http://localhost:${port}`,
-  );
+  console.log(`Example app listening on port ${port} \n http://localhost:${port}`);
 });
