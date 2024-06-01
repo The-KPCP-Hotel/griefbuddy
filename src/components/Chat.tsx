@@ -74,6 +74,9 @@ function Chat() {
       <Center>
         <Heading color={color}>Chat</Heading>
       </Center>
+      <Center>
+        <Text>This is currently a chat with between you and anyone else logged on the chat!</Text>
+      </Center>
       <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
         <Stack divider={<StackDivider />} margin="8px">
           {messages.map((msg, index) => (
