@@ -81,4 +81,4 @@ function Buddy() {
   );
 }
 
-export default Buddy;
+// export default Buddy;
