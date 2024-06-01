@@ -1,6 +1,6 @@
 const express = require('express');
 
-const router = express.Router();
+const quotes = express.Router();
 
 const axios = require('axios');
 
@@ -18,7 +18,7 @@ function getQuote() {
     .catch((err: Error) => console.error('failed getting quote', err));
 }
 
-router.get('/', (req: Request, res: { send: Function, sendStatus: Function }) => {
+quotes.get('/', (req: Request, res: { send: Function, sendStatus: Function }) => {
   getQuote()
     .then(({ data }: { data: [ { quote: String, author: String, category: String } ] }) => {
       const { quote, author, category } = data[0];
@@ -41,4 +41,4 @@ router.get('/', (req: Request, res: { send: Function, sendStatus: Function }) =>
     });
 });
 
-export default router;
+export default quotes;
