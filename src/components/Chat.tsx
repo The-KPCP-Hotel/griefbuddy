@@ -16,14 +16,10 @@ import ChatInput from './ChatComponents/ChatInput';
 const socket = io();
 
 function Chat() {
-  // const socket = io();
-
   interface Message {
     msg: string;
     clientOffset: string;
   }
-
-  // const [socket, setSocket] = useState(null);
 
   const [message, setMessage] = useState('');
 
@@ -45,25 +41,14 @@ function Chat() {
   let counter = 0;
 
   useEffect(() => {
-    console.log('use effect');
-    // if (!socket) {
-    // setSocket(io());
-    // } else {
     const addMessage = (msg: string, clientOffset: string) => {
       setMessages((curMessages) => curMessages.concat([{ msg, clientOffset }]));
-      console.log('socket on called');
     };
-    // // socket.on('connection', null);
     socket.on('sendMsg', addMessage);
-    // }
-    // return () => {
-    //   socket.off('sendMsg', addMessage);
-    // };
-  }, [setMessage]);
+  }, [setMessages]);
 
   // needs socket
   const onSend = () => {
-    // setMessages((curMessages) => curMessages.concat([message]));
     if (message) {
       const clientOffset = `${socket.id}-${(counter += 1)}`;
       socket.emit('msg', message, clientOffset);
