@@ -75,4 +75,4 @@ function BuddyChat() {
   );
 }
 
-export default BuddyChat;
+// export default BuddyChat;
