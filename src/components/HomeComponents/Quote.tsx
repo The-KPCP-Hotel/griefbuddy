@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Button, Center, Text, Box } from '@chakra-ui/react';
 import axios from 'axios';
 
-function Quote() {
+function Quote({ userId }: { userId: number }) {
   type Quote = {
     quote: String;
     author: String;
+    category: String;
   };
 
   const [quote, setQuote] = useState({} as Quote);
@@ -13,7 +14,7 @@ function Quote() {
   const getQuote = () => {
     axios
       .get('/quotes')
-      .then(({ data }: { data: { author: String; quote: String } }) => {
+      .then(({ data }: { data: { author: String; quote: String; category: String } }) => {
         setQuote(data);
       })
       .catch((err) => console.error('failed getting quote', err));
@@ -22,6 +23,10 @@ function Quote() {
   useEffect(() => {
     getQuote();
   }, []);
+
+  const blockQuote = () => {
+    axios.post('/quotes/block', { userId, quote });
+  };
 
   return (
     <>
@@ -37,6 +42,7 @@ function Quote() {
         <Button type="button" onClick={getQuote}>
           New Quote
         </Button>
+        <Button type="button" onClick={blockQuote}>Don&apos;t show this quote again</Button>
       </Center>
     </>
   );

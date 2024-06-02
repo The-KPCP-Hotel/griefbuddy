@@ -36,7 +36,7 @@ function HomePage() {
           user?.name.split(' ')[0]
         }`}
       </Heading>
-      <Quote />
+      <Quote userId={user?.id} />
       <Divider orientation="horizontal" />
       <Box h="600px" overflow="scroll">
         <MainFeed user={user} googleId={googId} />

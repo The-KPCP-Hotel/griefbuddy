@@ -1,3 +1,5 @@
+import { Quote as QuoteType, UserBlockedQuote as UserBlockedQuoteType } from '@prisma/client';
+
 const express = require('express');
 
 const quotes = express.Router();
@@ -8,31 +10,28 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-const { Quote } = prisma;
+const { Quote, UserBlockedQuote } = prisma;
+
+type NinjaQuote = {
+  quote: string;
+  author: string;
+  category: string;
+};
 
 function getQuote() {
   const { NINJA_API_KEY } = process.env;
   const quoteUrl = 'https://api.api-ninjas.com/v1/quotes?category=inspirational';
-  return axios.get(quoteUrl, { headers: { 'X-Api-Key': NINJA_API_KEY, 'X-Requested-With': 'XMLHttpRequest' } })
+  return axios
+    .get(quoteUrl, {
+      headers: { 'X-Api-Key': NINJA_API_KEY, 'X-Requested-With': 'XMLHttpRequest' },
+    })
     .then((response: Response) => response)
     .catch((err: Error) => console.error('failed getting quote', err));
 }
 
-quotes.get('/', (req: Request, res: { send: Function, sendStatus: Function }) => {
+quotes.get('/', (req: Request, res: { send: Function; sendStatus: Function }) => {
   getQuote()
-    .then(({ data }: { data: [ { quote: String, author: String, category: String } ] }) => {
-      const { quote, author, category } = data[0];
-      Quote.upsert({
-        where: {
-          quote,
-        },
-        update: {},
-        create: {
-          quote,
-          author,
-          category,
-        },
-      });
+    .then(({ data }: { data: [NinjaQuote] }) => {
       res.send(data[0]);
     })
     .catch((err: Error) => {
@@ -41,11 +40,26 @@ quotes.get('/', (req: Request, res: { send: Function, sendStatus: Function }) =>
     });
 });
 
-quotes.post('/block', (req: Request, res: Response) => {
+quotes.post('/block', (req: { body: { userId: number; quote: NinjaQuote } }) => {
   const { userId, quote } = req.body;
-  console.log(userId, quote);
-  Quote.findUnique({ where: quote })
-    .then((response) => { console.log(response) });
+  const { author, category } = quote;
+  Quote.upsert({
+    where: {
+      quote: quote.quote,
+    },
+    update: {},
+    create: {
+      quote: quote.quote,
+      author,
+      category,
+    },
+  }).then((dbQuote: QuoteType) => {
+    UserBlockedQuote.create({ data: { userId, quoteId: dbQuote.id } }).then(
+      (blocked: UserBlockedQuoteType) => {
+        console.log('blocked', blocked);
+      },
+    );
+  });
 });
 
 export default quotes;
