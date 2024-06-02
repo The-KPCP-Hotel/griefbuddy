@@ -41,4 +41,11 @@ quotes.get('/', (req: Request, res: { send: Function, sendStatus: Function }) =>
     });
 });
 
+quotes.post('/block', (req: Request, res: Response) => {
+  const { userId, quote } = req.body;
+  console.log(userId, quote);
+  Quote.findUnique({ where: quote })
+    .then((response) => { console.log(response) });
+});
+
 export default quotes;
