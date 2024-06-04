@@ -39,7 +39,7 @@ model User {
   requester         PendingRequest[]   @relation("Requester")
   requested         PendingRequest[]   @relation("Requested")
   notifications     Notification[]
-  UserBlockedQuote  UserBlockedQuote[]
+  UserBlockedQuote UserBlockedQuote[]
 }
 
 model Event {
@@ -55,7 +55,6 @@ model Event {
   title            String
   description      String
   users            User_Event[]
-  UserBlockedQuote UserBlockedQuote[]
 }
 
 // not being used
@@ -154,16 +153,17 @@ model LocationRequest {
 }
 
 model Quote {
-  id       Int     @id @default(autoincrement())
-  quote    String  @unique
-  author   String?
-  category String?
+  id               Int                @id @default(autoincrement())
+  quote            String             @unique
+  author           String?
+  category         String?
+  UserBlockedQuote UserBlockedQuote[]
 }
 
 model UserBlockedQuote {
-  id      Int   @id @default(autoincrement())
-  quote   Event @relation(fields: [quoteId], references: [id])
+  id      Int    @id @default(autoincrement())
+  quote   Quote  @relation(fields: [quoteId], references: [id])
   quoteId Int
-  user    User  @relation(fields: [userId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
   userId  Int
 }

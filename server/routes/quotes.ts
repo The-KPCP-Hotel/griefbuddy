@@ -29,9 +29,15 @@ function getQuote() {
     .catch((err: Error) => console.error('failed getting quote', err));
 }
 
-quotes.get('/', (req: Request, res: { send: Function; sendStatus: Function }) => {
+quotes.get('/', (req: { user: { id: number } }, res: { send: Function; sendStatus: Function }) => {
+  console.log(req.user);
   getQuote()
     .then(({ data }: { data: [NinjaQuote] }) => {
+      UserBlockedQuote.findMany({
+        where: { userId: req.user.id },
+        include: { quote: true },
+        // this logs the rows from junction table - want the quote tho
+      }).then((userBlockedQuote: UserBlockedQuoteType) => console.log(userBlockedQuote));
       res.send(data[0]);
     })
     .catch((err: Error) => {
