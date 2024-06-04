@@ -46,11 +46,13 @@ function Quote({ userId }: { userId: number }) {
           </Button>
         </Center>
       ) : null}
-      <Center m="20px">
-        <Button type="button" onClick={blockQuote}>
-          Don&apos;t show this quote again
-        </Button>
-      </Center>
+      {quote.quote ? (
+        <Center m="20px">
+          <Button type="button" onClick={blockQuote}>
+            Don&apos;t show this quote again
+          </Button>
+        </Center>
+      ) : null}
     </>
   );
 }
