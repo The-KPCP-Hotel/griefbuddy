@@ -22,6 +22,9 @@ function Quote({ userId }: { userId: number }) {
 
   useEffect(() => {
     getQuote();
+    const quoteRefresh = setInterval(getQuote, 60000);
+
+    return () => clearInterval(quoteRefresh);
   }, []);
 
   const blockQuote = () => {
@@ -42,7 +45,9 @@ function Quote({ userId }: { userId: number }) {
         <Button type="button" onClick={getQuote}>
           New Quote
         </Button>
-        <Button type="button" onClick={blockQuote}>Don&apos;t show this quote again</Button>
+        <Button type="button" onClick={blockQuote}>
+          Don&apos;t show this quote again
+        </Button>
       </Center>
     </>
   );
