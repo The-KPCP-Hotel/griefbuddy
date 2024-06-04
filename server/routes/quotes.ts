@@ -1,4 +1,4 @@
-import { Quote as QuoteType, UserBlockedQuote as UserBlockedQuoteType } from '@prisma/client';
+import { Quote as QuoteType } from '@prisma/client';
 
 const express = require('express');
 
@@ -29,22 +29,29 @@ function getQuote() {
     .catch((err: Error) => console.error('failed getting quote', err));
 }
 
-quotes.get('/', (req: { user: { id: number } }, res: { send: Function; sendStatus: Function }) => {
-  console.log(req.user);
-  getQuote()
-    .then(({ data }: { data: [NinjaQuote] }) => {
-      UserBlockedQuote.findMany({
-        where: { userId: req.user.id },
-        include: { quote: true },
-        // this logs the rows from junction table - want the quote tho
-      }).then((userBlockedQuote: UserBlockedQuoteType) => console.log(userBlockedQuote));
-      res.send(data[0]);
-    })
-    .catch((err: Error) => {
-      console.error('failed getting quote', err);
-      res.sendStatus(500);
+async function getUnblockedQuote(blockedQuotesArray: string[]) {
+  const ninjaQuoteResponse = await getQuote();
+  if (!blockedQuotesArray.includes(ninjaQuoteResponse.data[0])) {
+    return ninjaQuoteResponse.data[0];
+  }
+  return getUnblockedQuote(blockedQuotesArray);
+}
+
+quotes.get(
+  '/',
+  async (req: { user: { id: number } }, res: { send: Function; sendStatus: Function }) => {
+    const userBlockedQuotes = await UserBlockedQuote.findMany({
+      where: { userId: req.user.id },
+      select: { quote: true },
     });
-});
+    const blockedQuotesArray: string[] = [];
+    for (let i = 0; i < userBlockedQuotes.length; i += 1) {
+      blockedQuotesArray.push(userBlockedQuotes[i].quote.quote);
+    }
+    const unblockedQuote = await getUnblockedQuote(blockedQuotesArray);
+    res.send(unblockedQuote);
+  },
+);
 
 quotes.post('/block', (req: { body: { userId: number; quote: NinjaQuote } }) => {
   const { userId, quote } = req.body;
@@ -60,11 +67,7 @@ quotes.post('/block', (req: { body: { userId: number; quote: NinjaQuote } }) => 
       category,
     },
   }).then((dbQuote: QuoteType) => {
-    UserBlockedQuote.create({ data: { userId, quoteId: dbQuote.id } }).then(
-      (blocked: UserBlockedQuoteType) => {
-        console.log('blocked', blocked);
-      },
-    );
+    UserBlockedQuote.create({ data: { userId, quoteId: dbQuote.id } });
   });
 });
 
