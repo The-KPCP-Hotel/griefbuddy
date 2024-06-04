@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Center, Text, Box } from '@chakra-ui/react';
+import { ArrowRightIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 
 function Quote({ userId }: { userId: number }) {
@@ -29,6 +30,7 @@ function Quote({ userId }: { userId: number }) {
 
   const blockQuote = () => {
     axios.post('/quotes/block', { userId, quote });
+    getQuote();
   };
 
   return (
@@ -39,12 +41,12 @@ function Quote({ userId }: { userId: number }) {
             <Text fontStyle="italic">{quote.quote}</Text>
             <Text>{`  -${quote.author}`}</Text>
           </Box>
+          <Button ml="1rem" variant="ghost" onClick={getQuote}>
+            <ArrowRightIcon />
+          </Button>
         </Center>
       ) : null}
       <Center m="20px">
-        <Button type="button" onClick={getQuote}>
-          New Quote
-        </Button>
         <Button type="button" onClick={blockQuote}>
           Don&apos;t show this quote again
         </Button>
