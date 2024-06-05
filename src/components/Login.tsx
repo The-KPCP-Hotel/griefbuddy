@@ -31,7 +31,7 @@ function Login() {
           </Center>
           <Text color={color}>
             This site is not an emergency service. As this site aims to help confront grief, there
-            may be triggering contents.
+            may be triggering content.
           </Text>
         </Box>
       </Center>

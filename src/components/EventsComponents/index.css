@@ -1,16 +1,28 @@
 /* calendar nav buttons not visible in dark mode */
 .dark {
-  background: black;
+  background: rgb(0, 0, 0, 0.48);
 }
 
 .dark > button {
   color: whitesmoke;
+  background: rgb(0, 0, 0, 0.48);
 }
 
 .dark > button.rbc-active {
-  color: black;
+  color: rgb(0, 0, 0, 0.48);
 }
 
 .rbc-row-segment {
   background: whitesmoke;
+  opacity: .90;
 }
+
+/* this looks better in dark than light mode */
+.rbc-today {
+  background: rgb(0, 0, 0, 0.48);
+}
+
+/* this color doesn't look good - want different for dark mode
+.rbc-off-range-bg {
+  background: rgb(144, 202, 249);
+} */

@@ -5,10 +5,9 @@ import { LockIcon } from '@chakra-ui/icons';
 function Logout() {
   return (
     <form action="/logout" method="POST">
-      <Button type="submit">
-        <LockIcon />
+      <Button type="submit" pr=".75rem" pl=".75rem">
+        <LockIcon mr=".5rem" />
         Logout
-        {' '}
       </Button>
     </form>
   );

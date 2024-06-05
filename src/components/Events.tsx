@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardBody,
   Stack,
-  StackDivider,
   VStack,
   Box,
   SimpleGrid,
@@ -56,43 +55,13 @@ function Events() {
   }, []);
 
   return (
-    <VStack divider={<StackDivider />} spacing="4" maxW="100%">
+    <VStack spacing="4" maxW="100%">
       <Box>
         <Center>
-          <Heading size="3xl" color="blue.200">
+          <Heading as="h2" size="xl" color="blue.200">
             Events
           </Heading>
         </Center>
-      </Box>
-      <Box>
-        <Card>
-          <CardHeader>
-            <Heading size="md">Events Starting Today</Heading>
-          </CardHeader>
-          <CardBody>
-            <Wrap spacingY="40px" spacingX="80px" justify="center">
-              {eventsToday.map((event) => (
-                <WrapItem>
-                  <Center>
-                    <EventListItem key={event.OgId} event={event} eventFocus="" />
-                  </Center>
-                </WrapItem>
-              ))}
-              {/* this is for testing tons of events */}
-              {/* {events.map((event) => (
-                  <EventListItem key={event.OgId} event={event} />
-                ))} */}
-              {/* this is just to force grid to only have one card */}
-              {/* {events.length ? (
-                  <WrapItem>
-                    <Center>
-                      <EventListItem event={events[0]} />
-                    </Center>
-                  </WrapItem>
-                ) : null} */}
-            </Wrap>
-          </CardBody>
-        </Card>
       </Box>
       <Box maxW="100%" justifyContent="inherit" p="10px">
         <Card>
@@ -101,11 +70,43 @@ function Events() {
           </Stack>
         </Card>
       </Box>
+      {eventsToday.length ? (
+        <Box className="eventsToday">
+          <Card>
+            <CardHeader>
+              <Heading size="md">Events Starting Today</Heading>
+            </CardHeader>
+            <CardBody>
+              <Wrap spacingY="40px" spacingX="80px" justify="center">
+                {eventsToday.map((event) => (
+                  <WrapItem>
+                    <Center>
+                      <EventListItem key={event.OgId} event={event} eventFocus="" />
+                    </Center>
+                  </WrapItem>
+                ))}
+                {/* this is for testing tons of events */}
+                {/* {events.map((event) => (
+                  <EventListItem key={event.OgId} event={event} />
+                ))} */}
+                {/* this is just to force grid to only have one card */}
+                {/* {events.length ? (
+                  <WrapItem>
+                    <Center>
+                      <EventListItem event={events[0]} />
+                    </Center>
+                  </WrapItem>
+                ) : null} */}
+              </Wrap>
+            </CardBody>
+          </Card>
+        </Box>
+      ) : null}
       <Box>
         <Card>
           <Stack>
             <CardHeader>
-              <Heading size="md">All Events</Heading>
+              <Heading as="h3" size="md">All Events</Heading>
             </CardHeader>
             <CardBody>
               <SimpleGrid
