@@ -31,12 +31,12 @@ function HomePage() {
 
   return (
     <Container maxW="100%" minW="100%">
-      <Heading pl="15px" color="blue.600" size="lg">
+      <Heading color="blue.600" size="lg">
         {`Welcome ${
           user?.name.split(' ')[0]
         }`}
       </Heading>
-      <Quote />
+      <Quote userId={user?.id} />
       <Divider orientation="horizontal" />
       <Box h="600px" overflow="scroll">
         <MainFeed user={user} googleId={googId} />

@@ -44,11 +44,11 @@ function EventListItem({
     >
       <Center>
         <ChakraLink as={ReactRouterLink} to={`/events/${id}`}>
-          <Heading pt="10px" size="sm">{title}</Heading>
+          <Heading pt="10px" size="sm" textAlign="center">{title}</Heading>
         </ChakraLink>
       </Center>
       <Center>
-        <Text pt="2" fontSize="sm">
+        <Text pt="2" fontSize="sm" textAlign="center">
           {description}
         </Text>
       </Center>
