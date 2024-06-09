@@ -41,7 +41,7 @@ function MainFeed(props: any) {
     <div>
       <Center mt="25px">
         <Input
-          placeholder="Add Post Here"
+          placeholder="What's on your mind?"
           value={post}
           onChange={(e) => {
             setPostMessage(e.target.value);
