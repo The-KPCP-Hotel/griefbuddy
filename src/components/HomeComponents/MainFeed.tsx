@@ -49,6 +49,7 @@ function MainFeed(props: any) {
             setPostMessage(e.target.value);
             setPost(e.target.value);
           }}
+          marginBottom={"55px"}
         />
         
         <InputRightElement 
