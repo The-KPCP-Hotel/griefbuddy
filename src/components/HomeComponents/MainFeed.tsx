@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Center, Input, VStack, Button } from '@chakra-ui/react';
+import { Center, Input, InputGroup, InputRightElement, VStack, Button } from '@chakra-ui/react';
+import { IoSend } from "react-icons/io5";
 import axios from 'axios';
 
 import MainFeedPost from './MainFeedPost';
@@ -40,6 +41,7 @@ function MainFeed(props: any) {
   return (
     <div>
       <Center mt="25px">
+        <InputGroup>
         <Input
           placeholder="What's on your mind?"
           value={post}
@@ -48,16 +50,13 @@ function MainFeed(props: any) {
             setPost(e.target.value);
           }}
         />
-      </Center>
-      <Center>
-        <Button
-          margin="25px"
+        
+        <InputRightElement 
           onClick={() => {
             addPost();
-          }}
-        >
-          Submit Post
-        </Button>
+          }} 
+          children={<IoSend/>} />
+       </InputGroup>
       </Center>
       <Center>
         <VStack>
