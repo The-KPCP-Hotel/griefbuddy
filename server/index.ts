@@ -81,10 +81,7 @@ app.post('/logout', (req, res, next) => {
 
 io.on('connection', (socket) => {
   // console.log(`${socket.id} connected to chat.`);
-
-  socket.on('msg', (msg, clientOffset) => {
-    // only being logged once - front end being called many times
-    // console.log(msg);
+  socket.on('msg', (msg: string, clientOffset) => {
     io.emit('sendMsg', msg, clientOffset);
   });
 });
