@@ -26,7 +26,7 @@ function Chat() {
 
   const [messages, setMessages] = useState([] as Message[]);
 
-  const [searchedUser, setSearchedUser] = useState('');
+  const [userSearch, setUserSearch] = useState('');
 
   const messagesEndRef = useRef(null);
 
@@ -44,7 +44,7 @@ function Chat() {
         setMessage(value);
         break;
       case 'user':
-        setSearchedUser(value);
+        setUserSearch(value);
         break;
       default:
         throw new Error('input id has no matching valid case');
@@ -87,7 +87,7 @@ function Chat() {
       <Center>
         <Heading color={color}>Chat</Heading>
       </Center>
-      {searchedUser}
+      {userSearch}
       <UserSearchInput onChange={onChange} />
       <Center>
         <Text>This is currently a chat with between you and anyone else logged on the chat!</Text>
