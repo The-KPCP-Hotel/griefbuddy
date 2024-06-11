@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
+import axios from 'axios';
 import {
   Box,
   Center,
@@ -10,6 +11,8 @@ import {
   useColorModeValue,
   Text,
 } from '@chakra-ui/react';
+
+import { User } from '@prisma/client';
 
 import ChatInput from './ChatComponents/ChatInput';
 import UserSearchInput from './ChatComponents/UserSearchInput';
@@ -27,6 +30,8 @@ function Chat() {
   const [messages, setMessages] = useState([] as Message[]);
 
   const [userSearch, setUserSearch] = useState('');
+
+  const [foundUsers, setFoundUsers] = useState([] as User[]);
 
   const messagesEndRef = useRef(null);
 
@@ -76,6 +81,12 @@ function Chat() {
     }
   };
 
+  const onSearch = async () => {
+    // just get all users at first
+    axios.get('/chat/user')
+      .then((usersResponse) => setFoundUsers(usersResponse.data));
+  };
+
   const color = useColorModeValue('blue.600', 'blue.200');
 
   const otherUserBG = useColorModeValue('lavender', 'purple.700');
@@ -88,7 +99,8 @@ function Chat() {
         <Heading color={color}>Chat</Heading>
       </Center>
       {userSearch}
-      <UserSearchInput onChange={onChange} />
+      <UserSearchInput onChange={onChange} onSearch={onSearch} />
+      {foundUsers.map((user) => <Text key={user.googleId}>{user.name}</Text>)}
       <Center>
         <Text>This is currently a chat with between you and anyone else logged on the chat!</Text>
       </Center>

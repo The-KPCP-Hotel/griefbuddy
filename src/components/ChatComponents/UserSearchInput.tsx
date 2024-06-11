@@ -3,6 +3,7 @@ import { HStack, Input, Button } from '@chakra-ui/react';
 
 function UserSearchInput({
   onChange,
+  onSearch,
 }: {
   onChange: (e: {
     target: {
@@ -10,11 +11,12 @@ function UserSearchInput({
       id: string;
     };
   }) => void;
+  onSearch: () => Promise<void>;
 }) {
   return (
     <HStack>
       <Input onChange={onChange} id="user" />
-      <Button>Search User</Button>
+      <Button onClick={onSearch}>Search User</Button>
     </HStack>
   );
 }
