@@ -59,7 +59,7 @@ function Event() {
         <Card>
           <CardBody>
             <Text>{description}</Text>
-            <Text>{address}</Text>
+            {address !== 'N/A' ? <Text>{address}</Text> : null}
             <ChakraLink href={event.url} isExternal>
               More information on their site
               <ExternalLinkIcon mx="2px" />
