@@ -82,7 +82,7 @@ function Events() {
             <CardBody>
               <Wrap spacingY="40px" spacingX="80px" justify="center">
                 {eventsToday.map((event) => (
-                  <WrapItem>
+                  <WrapItem key={`wi-${event.OgId}`}>
                     <Center>
                       <EventListItem key={event.OgId} event={event} eventFocus="" />
                     </Center>
