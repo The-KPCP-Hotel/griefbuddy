@@ -12,6 +12,7 @@ function ChatInput({
   onChange: (e: {
     target: {
       value: string;
+      id: string;
     };
   }) => void;
   onPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -24,6 +25,7 @@ function ChatInput({
         onChange={onChange}
         onKeyDown={onPress}
         value={message}
+        id="chat"
         placeholder="Start typing here"
       />
       <Button onClick={onSend}>Send</Button>

@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 
 import ChatInput from './ChatComponents/ChatInput';
+import UserSearchInput from './ChatComponents/UserSearchInput';
 
 const socket = io();
 
@@ -25,6 +26,8 @@ function Chat() {
 
   const [messages, setMessages] = useState([] as Message[]);
 
+  const [searchedUser, setSearchedUser] = useState('');
+
   const messagesEndRef = useRef(null);
 
   const bottomScroll = () => {
@@ -33,9 +36,19 @@ function Chat() {
 
   useEffect(bottomScroll, [messages]);
 
-  const onChange = (e: { target: { value: string } }) => {
-    const { value } = e.target;
-    setMessage(value);
+  const onChange = (e: { target: { value: string; id: string } }) => {
+    const { value, id } = e.target;
+    // console.log(id);
+    switch (id) {
+      case 'chat':
+        setMessage(value);
+        break;
+      case 'user':
+        setSearchedUser(value);
+        break;
+      default:
+        throw new Error('input id has no matching valid case');
+    }
   };
 
   // let counter = 0;
@@ -74,6 +87,8 @@ function Chat() {
       <Center>
         <Heading color={color}>Chat</Heading>
       </Center>
+      {searchedUser}
+      <UserSearchInput onChange={onChange} />
       <Center>
         <Text>This is currently a chat with between you and anyone else logged on the chat!</Text>
       </Center>
@@ -81,7 +96,7 @@ function Chat() {
         <Stack divider={<StackDivider />} margin="8px">
           {messages.map((msg, index) => (
             <Text
-            // eslint-disable-next-line react/no-array-index-key
+              // eslint-disable-next-line react/no-array-index-key
               key={`${msg.clientOffset}-${index}`}
               borderRadius="10px"
               background={msg.clientOffset === socket.id ? 'blue.600' : otherUserBG}
