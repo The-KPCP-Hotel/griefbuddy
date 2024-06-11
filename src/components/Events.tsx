@@ -12,6 +12,7 @@ import {
   SimpleGrid,
   Wrap,
   WrapItem,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import EventListItem from './EventsComponents/EventListItem';
@@ -54,11 +55,13 @@ function Events() {
       .catch();
   }, []);
 
+  const color = useColorModeValue('blue.600', 'blue.200');
+
   return (
     <VStack spacing="4" maxW="100%">
       <Box>
         <Center>
-          <Heading as="h2" size="xl" color="blue.200">
+          <Heading as="h2" color={color}>
             Events
           </Heading>
         </Center>
