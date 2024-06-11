@@ -38,7 +38,7 @@ function EventImage({ url }: { url: MediaRawItem }) {
   }
   return (
     <>
-      <Image onClick={onOpen} onMouseOver={onHover} onMouseLeave={offHover} src={url.mediaurl} maxW="500px" />
+      <Image onClick={onOpen} onMouseOver={onHover} onMouseLeave={offHover} src={url.mediaurl} width="500px" maxW="95%" />
       <Modal isOpen={isOpen} onClose={onClose} size="5xl">
         <ModalOverlay />
         <ModalContent>
