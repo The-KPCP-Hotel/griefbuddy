@@ -82,8 +82,7 @@ function Chat() {
   };
 
   const onSearch = async () => {
-    // just get all users at first
-    axios.get('/chat/user')
+    axios.get('/chat/user', { params: { userSearch } })
       .then((usersResponse) => setFoundUsers(usersResponse.data));
   };
 

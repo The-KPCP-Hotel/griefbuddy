@@ -11,7 +11,10 @@ const { User } = prisma;
 const chat = express.Router();
 
 chat.get('/user', async (req, res) => {
-  const searchedUsers: UserType[] = await User.findMany();
+  const { userSearch } = req.query;
+  const searchedUsers: UserType[] = await User.findMany({
+    where: { name: { contains: userSearch, mode: 'insensitive' } },
+  });
   res.send(searchedUsers);
 });
 
