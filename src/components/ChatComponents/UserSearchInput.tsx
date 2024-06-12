@@ -1,5 +1,6 @@
 import React from 'react';
 import { HStack, Input, Button } from '@chakra-ui/react';
+import { Search2Icon } from '@chakra-ui/icons';
 
 function UserSearchInput({
   onChange,
@@ -20,7 +21,7 @@ function UserSearchInput({
   return (
     <HStack>
       <Input onChange={onChange} onKeyDown={onPress} placeholder="Look up a buddy's name" value={userSearch} id="user" />
-      <Button onClick={onSearch}>Search</Button>
+      <Button onClick={onSearch}><Search2Icon /></Button>
     </HStack>
   );
 }
