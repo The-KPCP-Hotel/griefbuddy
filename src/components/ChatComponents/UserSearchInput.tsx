@@ -19,8 +19,8 @@ function UserSearchInput({
 }) {
   return (
     <HStack>
-      <Input onChange={onChange} onKeyDown={onPress} value={userSearch} id="user" />
-      <Button onClick={onSearch}>Search User</Button>
+      <Input onChange={onChange} onKeyDown={onPress} placeholder="Look up a buddy's name" value={userSearch} id="user" />
+      <Button onClick={onSearch}>Search</Button>
     </HStack>
   );
 }
