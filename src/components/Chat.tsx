@@ -10,6 +10,11 @@ import {
   StackDivider,
   useColorModeValue,
   Text,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
 } from '@chakra-ui/react';
 
 import { User } from '@prisma/client';
@@ -116,35 +121,47 @@ function Chat() {
       {foundUsers.map((user) => (
         <Text key={user.googleId}>{user.name}</Text>
       ))}
-      <Center>
-        <Text>This is currently a chat with between you and anyone else logged on the chat!</Text>
-      </Center>
-      <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
-        <Stack divider={<StackDivider />} margin="8px">
-          {messages.map((msg, index) => (
-            <Text
-              // eslint-disable-next-line react/no-array-index-key
-              key={`${msg.clientOffset}-${index}`}
-              borderRadius="10px"
-              background={msg.clientOffset === socket.id ? 'blue.600' : otherUserBG}
-              p="10px"
-              color={msg.clientOffset === socket.id ? 'white' : otherUserColor}
-              textAlign={msg.clientOffset === socket.id ? 'right' : 'left'}
-              marginLeft={msg.clientOffset === socket.id ? 'auto' : 0}
-              width="fit-content"
-            >
-              {msg.msg}
-            </Text>
-          ))}
-        </Stack>
-        <ChatInput
-          messagesEndRef={messagesEndRef}
-          message={message}
-          onChange={onChange}
-          onSend={onSend}
-          onPress={onPress}
-        />
-      </Box>
+      <Tabs>
+        <TabList>
+          <Tab>Main</Tab>
+          <Tab>DMs</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <Center>
+              <Text>
+                This is currently a chat with between you and anyone else logged on the chat!
+              </Text>
+            </Center>
+            <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
+              <Stack divider={<StackDivider />} margin="8px">
+                {messages.map((msg, index) => (
+                  <Text
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={`${msg.clientOffset}-${index}`}
+                    borderRadius="10px"
+                    background={msg.clientOffset === socket.id ? 'blue.600' : otherUserBG}
+                    p="10px"
+                    color={msg.clientOffset === socket.id ? 'white' : otherUserColor}
+                    textAlign={msg.clientOffset === socket.id ? 'right' : 'left'}
+                    marginLeft={msg.clientOffset === socket.id ? 'auto' : 0}
+                    width="fit-content"
+                  >
+                    {msg.msg}
+                  </Text>
+                ))}
+              </Stack>
+              <ChatInput
+                messagesEndRef={messagesEndRef}
+                message={message}
+                onChange={onChange}
+                onSend={onSend}
+                onPress={onPress}
+              />
+            </Box>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Container>
   );
 }
