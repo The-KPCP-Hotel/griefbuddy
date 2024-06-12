@@ -38,6 +38,8 @@ function Chat() {
 
   const [foundUsers, setFoundUsers] = useState([] as User[]);
 
+  const [tabIndex, setTabIndex] = useState(0);
+
   const messagesEndRef = useRef(null);
 
   const bottomScroll = () => {
@@ -101,6 +103,8 @@ function Chat() {
     }
   };
 
+  const userSelect = () => setTabIndex(1);
+
   const color = useColorModeValue('blue.600', 'blue.200');
 
   const otherUserBG = useColorModeValue('lavender', 'purple.700');
@@ -119,9 +123,9 @@ function Chat() {
         onPress={onPress}
       />
       {foundUsers.map((user) => (
-        <Text key={user.googleId}>{user.name}</Text>
+        <Text onClick={userSelect} key={user.googleId}>{user.name}</Text>
       ))}
-      <Tabs>
+      <Tabs index={tabIndex}>
         <TabList>
           <Tab>Main</Tab>
           <Tab>DMs</Tab>
