@@ -12,7 +12,7 @@ function ChatInput({
   onChange: (e: {
     target: {
       value: string;
-      id: string;
+      id: string
     };
   }) => void;
   onPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;

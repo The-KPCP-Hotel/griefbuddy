@@ -75,15 +75,25 @@ function Chat() {
     setMessage('');
   };
 
-  const onPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      onSend();
-    }
+  const onSearch = async () => {
+    axios
+      .get('/chat/user', { params: { userSearch } })
+      .then((usersResponse) => setFoundUsers(usersResponse.data));
+    setUserSearch('');
   };
 
-  const onSearch = async () => {
-    axios.get('/chat/user', { params: { userSearch } })
-      .then((usersResponse) => setFoundUsers(usersResponse.data));
+  const onPress = (
+    e: React.KeyboardEvent<HTMLInputElement> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => {
+    const { id } = e.target;
+    const { key } = e;
+    if (key === 'Enter' && id === 'chat') {
+      onSend();
+    } else if (key === 'Enter' && id === 'user') {
+      onSearch();
+    }
   };
 
   const color = useColorModeValue('blue.600', 'blue.200');
@@ -97,9 +107,15 @@ function Chat() {
       <Center>
         <Heading color={color}>Chat</Heading>
       </Center>
-      {userSearch}
-      <UserSearchInput onChange={onChange} onSearch={onSearch} />
-      {foundUsers.map((user) => <Text key={user.googleId}>{user.name}</Text>)}
+      <UserSearchInput
+        userSearch={userSearch}
+        onChange={onChange}
+        onSearch={onSearch}
+        onPress={onPress}
+      />
+      {foundUsers.map((user) => (
+        <Text key={user.googleId}>{user.name}</Text>
+      ))}
       <Center>
         <Text>This is currently a chat with between you and anyone else logged on the chat!</Text>
       </Center>
