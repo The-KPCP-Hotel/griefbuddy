@@ -86,6 +86,10 @@ io.on('connection', (socket) => {
   socket.on('msg', (msg: string, clientOffset) => {
     io.emit('sendMsg', msg, clientOffset);
   });
+
+  // socket.on('room', (room) => {
+  //   console.log(room);
+  // });
 });
 // io.on('connection', (socket) => {
 //   console.log(`${socket.id} connected.`);

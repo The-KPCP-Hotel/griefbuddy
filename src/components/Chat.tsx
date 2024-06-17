@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import axios from 'axios';
 import {
   Box,
@@ -22,13 +22,14 @@ import { User } from '@prisma/client';
 import ChatInput from './ChatComponents/ChatInput';
 import UserSearchInput from './ChatComponents/UserSearchInput';
 
-const socket = io();
+const socket: Socket = io();
 
 function Chat() {
   interface Message {
     msg: string;
     clientOffset: string;
   }
+  const [user, setUser] = useState({} as User);
 
   const [message, setMessage] = useState('');
 
@@ -39,6 +40,8 @@ function Chat() {
   const [foundUsers, setFoundUsers] = useState([] as User[]);
 
   const [tabIndex, setTabIndex] = useState(0);
+  
+  const [selectedUser, setSelectedUser] = useState({} as User);
 
   const messagesEndRef = useRef(null);
 
@@ -47,6 +50,10 @@ function Chat() {
   };
 
   useEffect(bottomScroll, [messages]);
+
+  useEffect(() => {
+    axios.get('/user').then((response) => setUser(response.data));
+  });
 
   const onChange = (e: { target: { value: string; id: string } }) => {
     const { value, id } = e.target;
@@ -84,7 +91,7 @@ function Chat() {
 
   const onSearch = async () => {
     axios
-      .get('/chat/user', { params: { userSearch } })
+      .get('/chat/userSearch', { params: { userSearch } })
       .then((usersResponse) => setFoundUsers(usersResponse.data));
     setUserSearch('');
   };
@@ -103,7 +110,12 @@ function Chat() {
     }
   };
 
-  const userSelect = () => setTabIndex(1);
+  const userSelect = (e: HTMLButtonElement) => {
+    console.log(e);
+    setTabIndex(1);
+    // setSelectedUser()
+    // socket.to('myID-theirID').emit('hello');
+  };
 
   const color = useColorModeValue('blue.600', 'blue.200');
 
@@ -122,8 +134,8 @@ function Chat() {
         onSearch={onSearch}
         onPress={onPress}
       />
-      {foundUsers.map((user) => (
-        <Text onClick={userSelect} key={user.googleId}>{user.name}</Text>
+      {foundUsers.map((foundUser) => (
+        <Text onClick={userSelect} key={foundUser.googleId} id={`${foundUser.id}`}>{foundUser.name}</Text>
       ))}
       <Tabs index={tabIndex}>
         <TabList>
