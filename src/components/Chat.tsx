@@ -41,7 +41,7 @@ function Chat() {
 
   const [tabIndex, setTabIndex] = useState(0);
 
-  const [selectedUser, setSelectedUser] = useState({} as User);
+  // const [selectedUser, setSelectedUser] = useState({} as User);
 
   const messagesEndRef = useRef(null);
 
@@ -116,11 +116,15 @@ function Chat() {
     },
   ) => {
     setTabIndex(1);
-    axios
-      .get('/chat/user', { params: { id: e.target.id } })
-      .then((userResponse) => setSelectedUser(userResponse.data));
-    // setSelectedUser()
-    // socket.to('myID-theirID').emit('hello');
+    axios.get('/chat/user', { params: { id: e.target.id } }).then((userResponse) => {
+      // setSelectedUser(userResponse.data);
+      console.log(user.googleId, userResponse.data.googleId);
+      const roomName: string =
+        user.googleId < userResponse.data.googleId
+          ? user.googleId + userResponse.data.googleId
+          : userResponse.data.googleId + user.googleId;
+      socket.emit('room', roomName);
+    });
   };
 
   const color = useColorModeValue('blue.600', 'blue.200');
