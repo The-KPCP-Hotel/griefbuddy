@@ -18,4 +18,10 @@ chat.get('/userSearch', async (req, res) => {
   res.send(searchedUsers);
 });
 
+chat.get('/user', async (req, res) => {
+  const { id } = req.query;
+  const user: UserType = await User.findUnique({ where: { id: Number(id) } });
+  res.send(user);
+});
+
 export = chat;

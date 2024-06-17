@@ -40,7 +40,7 @@ function Chat() {
   const [foundUsers, setFoundUsers] = useState([] as User[]);
 
   const [tabIndex, setTabIndex] = useState(0);
-  
+
   const [selectedUser, setSelectedUser] = useState({} as User);
 
   const messagesEndRef = useRef(null);
@@ -110,9 +110,15 @@ function Chat() {
     }
   };
 
-  const userSelect = (e: HTMLButtonElement) => {
-    console.log(e);
+  const userSelect = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => {
     setTabIndex(1);
+    axios
+      .get('/chat/user', { params: { id: e.target.id } })
+      .then((userResponse) => setSelectedUser(userResponse.data));
     // setSelectedUser()
     // socket.to('myID-theirID').emit('hello');
   };
@@ -135,7 +141,9 @@ function Chat() {
         onPress={onPress}
       />
       {foundUsers.map((foundUser) => (
-        <Text onClick={userSelect} key={foundUser.googleId} id={`${foundUser.id}`}>{foundUser.name}</Text>
+        <Text onClick={userSelect} key={foundUser.googleId} id={`${foundUser.id}`}>
+          {foundUser.name}
+        </Text>
       ))}
       <Tabs index={tabIndex}>
         <TabList>
