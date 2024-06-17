@@ -7,6 +7,7 @@ function ChatInput({
   onPress,
   message,
   onSend,
+  id,
 }: {
   messagesEndRef: React.MutableRefObject<any>;
   onChange: (e: {
@@ -18,6 +19,7 @@ function ChatInput({
   onPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   message: string;
   onSend: () => void;
+  id: string;
 }) {
   return (
     <HStack ref={messagesEndRef}>
@@ -25,7 +27,7 @@ function ChatInput({
         onChange={onChange}
         onKeyDown={onPress}
         value={message}
-        id="chat"
+        id={id}
         placeholder="Start typing here"
       />
       <Button onClick={onSend}>Send</Button>

@@ -41,6 +41,10 @@ function Chat() {
 
   const [tabIndex, setTabIndex] = useState(0);
 
+  const [dm, setDm] = useState('');
+
+  // const [dms, setDms] = useState([] as Message[]);
+
   // const [selectedUser, setSelectedUser] = useState({} as User);
 
   const messagesEndRef = useRef(null);
@@ -64,6 +68,9 @@ function Chat() {
         break;
       case 'user':
         setUserSearch(value);
+        break;
+      case 'dm':
+        setDm(value);
         break;
       default:
         throw new Error('input id has no matching valid case');
@@ -118,7 +125,7 @@ function Chat() {
     setTabIndex(1);
     axios.get('/chat/user', { params: { id: e.target.id } }).then((userResponse) => {
       // setSelectedUser(userResponse.data);
-      console.log(user.googleId, userResponse.data.googleId);
+      // console.log(user.googleId, userResponse.data.googleId);
       const roomName: string =
         user.googleId < userResponse.data.googleId
           ? user.googleId + userResponse.data.googleId
@@ -185,6 +192,7 @@ function Chat() {
                 onChange={onChange}
                 onSend={onSend}
                 onPress={onPress}
+                id="chat"
               />
             </Box>
           </TabPanel>
@@ -194,10 +202,11 @@ function Chat() {
             should go into chat inputs code to change id base on whether global or dm */}
             <ChatInput
               messagesEndRef={messagesEndRef}
-              message={message}
+              message={dm}
               onChange={onChange}
               onSend={onSend}
               onPress={onPress}
+              id="dm"
             />
           </TabPanel>
         </TabPanels>

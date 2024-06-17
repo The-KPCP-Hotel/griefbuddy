@@ -217,6 +217,7 @@ function ChatBot() {
               onPress={onPress}
               message={message}
               onSend={onSend}
+              id="chat"
             />
           </Stack>
         </Box>
