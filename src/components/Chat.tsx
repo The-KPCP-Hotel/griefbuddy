@@ -149,7 +149,7 @@ function Chat() {
           {foundUser.name}
         </Text>
       ))}
-      <Tabs index={tabIndex}>
+      <Tabs index={tabIndex} onChange={(index) => setTabIndex(index)}>
         <TabList>
           <Tab>Main</Tab>
           <Tab>DMs</Tab>
@@ -187,6 +187,18 @@ function Chat() {
                 onPress={onPress}
               />
             </Box>
+          </TabPanel>
+          <TabPanel>
+            {/* need to update onChange and onSend for this fund
+            currently the global and dm input have same func - are linked
+            should go into chat inputs code to change id base on whether global or dm */}
+            <ChatInput
+              messagesEndRef={messagesEndRef}
+              message={message}
+              onChange={onChange}
+              onSend={onSend}
+              onPress={onPress}
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>
