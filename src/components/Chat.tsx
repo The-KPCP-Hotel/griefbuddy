@@ -32,6 +32,7 @@ function Chat() {
   type Dm = {
     msg: string;
     userId: number;
+    sendId: number;
   };
 
   const [user, setUser] = useState({} as User);
@@ -98,20 +99,19 @@ function Chat() {
     if (dm && room) {
       // want to emit by user id and not socket id
       // socket.emit('dm', dm, room, socket.id);
-      socket.emit('dm', dm, room, user.id);
+      socket.emit('dm', dm, room, user.id, selectedUser.id);
     }
     setDm('');
   };
 
   useEffect(() => {
     // const addDm = (msg: string, clientOffset: string) => {
-    const addDm = (msg: string, userId: number) => {
+    const addDm = (msg: string, userId: number, sendId: number) => {
       console.log(msg);
       // setDms((curDms) => curDms.concat([{ msg, clientOffset }]));
-      setDms((curDms) => curDms.concat([{ msg, userId }]));
+      setDms((curDms) => curDms.concat([{ msg, userId, sendId }]));
     };
     socket.on('sendDm', addDm);
-    console.log('socket sendDm triggered');
   }, [setDms]);
 
   // needs socket

@@ -92,9 +92,9 @@ io.on('connection', (socket) => {
     socket.join(room);
   });
 
-  socket.on('dm', (dm: string, room: string, userId: number) => {
+  socket.on('dm', (dm: string, room: string, userId: number, sendId: number) => {
     console.log('sending to room: ', room);
-    io.to(room).emit('sendDm', dm, userId);
+    io.to(room).emit('sendDm', dm, userId, sendId);
   });
 });
 // io.on('connection', (socket) => {
