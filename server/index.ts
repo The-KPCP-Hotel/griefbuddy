@@ -94,7 +94,7 @@ io.on('connection', (socket) => {
 
   socket.on('dm', (dm: string, room: string, clientOffset) => {
     console.log('sending to room: ', room);
-    socket.to(room).emit('sendDm', dm, clientOffset);
+    io.to(room).emit('sendDm', dm, clientOffset);
   });
 });
 // io.on('connection', (socket) => {

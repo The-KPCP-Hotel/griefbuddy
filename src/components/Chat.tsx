@@ -89,6 +89,13 @@ function Chat() {
     // socket.off('sendMsg');
   }, [setMessages]);
 
+  const onSendDm = () => {
+    if (dm && room) {
+      socket.emit('dm', dm, room, socket.id);
+    }
+    setDm('');
+  };
+
   useEffect(() => {
     const addDm = (msg: string, clientOffset: string) => {
       console.log(msg);
@@ -106,13 +113,6 @@ function Chat() {
       socket.emit('msg', message, socket.id);
     }
     setMessage('');
-  };
-
-  const onSendDm = () => {
-    if (dm && room) {
-      socket.emit('dm', dm, room, socket.id);
-    }
-    setDm('');
   };
 
   const onSearch = async () => {
