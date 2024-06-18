@@ -129,10 +129,14 @@ function Chat() {
   ) => {
     const { id } = e.target;
     const { key } = e;
-    if (key === 'Enter' && id === 'chat') {
-      onSend();
-    } else if (key === 'Enter' && id === 'user') {
-      onSearch();
+    if (key === 'Enter') {
+      if (id === 'chat') {
+        onSend();
+      } else if (id === 'user') {
+        onSearch();
+      } else if (id === 'dm') {
+        onSendDm();
+      }
     }
   };
 
