@@ -173,7 +173,7 @@ function Chat() {
       />
       {foundUsers.map((foundUser) => (
         <Text onClick={userSelect} key={foundUser.googleId} id={`${foundUser.id}`}>
-          {foundUser.name}
+          {foundUser.preferredName || foundUser.name}
         </Text>
       ))}
       <Tabs index={tabIndex} onChange={(index) => setTabIndex(index)}>
@@ -218,7 +218,7 @@ function Chat() {
           </TabPanel>
           <TabPanel>
             <Center>
-              <Text>{selectedUser.preferredName}</Text>
+              <Text>{selectedUser.preferredName || selectedUser.name}</Text>
             </Center>
             <Stack divider={<StackDivider />} margin="8px">
               {dms.map((msg, index) => (

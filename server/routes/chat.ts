@@ -13,7 +13,12 @@ const chat = express.Router();
 chat.get('/userSearch', async (req, res) => {
   const { userSearch } = req.query;
   const searchedUsers: UserType[] = await User.findMany({
-    where: { name: { contains: userSearch, mode: 'insensitive' } },
+    where: {
+      OR: [
+        { name: { contains: userSearch, mode: 'insensitive' } },
+        { preferredName: { contains: userSearch, mode: 'insensitive' } },
+      ],
+    },
   });
   res.send(searchedUsers);
 });
