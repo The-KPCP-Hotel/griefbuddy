@@ -47,7 +47,7 @@ function Chat() {
 
   const [room, setRoom] = useState('');
 
-  // const [selectedUser, setSelectedUser] = useState({} as User);
+  const [selectedUser, setSelectedUser] = useState({} as User);
 
   const messagesEndRef = useRef(null);
 
@@ -143,7 +143,7 @@ function Chat() {
   ) => {
     setTabIndex(1);
     axios.get('/chat/user', { params: { id: e.target.id } }).then((userResponse) => {
-      // setSelectedUser(userResponse.data);
+      setSelectedUser(userResponse.data);
       // console.log(user.googleId, userResponse.data.googleId);
       const roomName: string =
         user.googleId < userResponse.data.googleId
@@ -217,9 +217,9 @@ function Chat() {
             </Box>
           </TabPanel>
           <TabPanel>
-            {/* need to update onChange and onSend for this fund
-            currently the global and dm input have same func - are linked
-            should go into chat inputs code to change id base on whether global or dm */}
+            <Center>
+              <Text>{selectedUser.preferredName}</Text>
+            </Center>
             <Stack divider={<StackDivider />} margin="8px">
               {dms.map((msg, index) => (
                 <Text
