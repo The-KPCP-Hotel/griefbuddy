@@ -29,6 +29,11 @@ function Chat() {
     msg: string;
     clientOffset: string;
   }
+  type Dm = {
+    msg: string;
+    userId: number;
+  };
+
   const [user, setUser] = useState({} as User);
 
   const [message, setMessage] = useState('');
@@ -43,7 +48,7 @@ function Chat() {
 
   const [dm, setDm] = useState('');
 
-  const [dms, setDms] = useState([] as Message[]);
+  const [dms, setDms] = useState([] as Dm[]);
 
   const [room, setRoom] = useState('');
 
@@ -91,15 +96,19 @@ function Chat() {
 
   const onSendDm = () => {
     if (dm && room) {
-      socket.emit('dm', dm, room, socket.id);
+      // want to emit by user id and not socket id
+      // socket.emit('dm', dm, room, socket.id);
+      socket.emit('dm', dm, room, user.id);
     }
     setDm('');
   };
 
   useEffect(() => {
-    const addDm = (msg: string, clientOffset: string) => {
+    // const addDm = (msg: string, clientOffset: string) => {
+    const addDm = (msg: string, userId: number) => {
       console.log(msg);
-      setDms((curDms) => curDms.concat([{ msg, clientOffset }]));
+      // setDms((curDms) => curDms.concat([{ msg, clientOffset }]));
+      setDms((curDms) => curDms.concat([{ msg, userId }]));
     };
     socket.on('sendDm', addDm);
     console.log('socket sendDm triggered');
@@ -228,13 +237,13 @@ function Chat() {
               {dms.map((msg, index) => (
                 <Text
                   // eslint-disable-next-line react/no-array-index-key
-                  key={`${msg.clientOffset}-${index}`}
+                  key={`${msg.userId}-${index}`}
                   borderRadius="10px"
-                  background={msg.clientOffset === socket.id ? 'blue.600' : otherUserBG}
+                  background={msg.userId === user.id ? 'blue.600' : otherUserBG}
                   p="10px"
-                  color={msg.clientOffset === socket.id ? 'white' : otherUserColor}
-                  textAlign={msg.clientOffset === socket.id ? 'right' : 'left'}
-                  marginLeft={msg.clientOffset === socket.id ? 'auto' : 0}
+                  color={msg.userId === user.id ? 'white' : otherUserColor}
+                  textAlign={msg.userId === user.id ? 'right' : 'left'}
+                  marginLeft={msg.userId === user.id ? 'auto' : 0}
                   width="fit-content"
                 >
                   {msg.msg}
