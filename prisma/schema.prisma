@@ -68,6 +68,7 @@ model User_Event {
 
 model Message {
   id          Int  @id @default(autoincrement())
+  msg         String
   sender      User @relation("Sender", fields: [senderId], references: [id])
   senderId    Int
   recipient   User @relation("Recipient", fields: [recipientId], references: [id])
