@@ -15,6 +15,11 @@ import mainFeedRouter from './routes/mainFeed';
 import resourcesRouter from './routes/resources';
 import chatRouter from './routes/chat';
 
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
+const { Message } = prisma;
+
 require('dotenv').config();
 
 const app: Express = express();
@@ -92,9 +97,13 @@ io.on('connection', (socket) => {
     socket.join(room);
   });
 
-  socket.on('dm', (dm: string, room: string, userId: number, sendId: number) => {
+  socket.on('dm', async (dm: string, room: string, userId: number, sendId: number) => {
     console.log('sending to room: ', room);
-    io.to(room).emit('sendDm', dm, userId, sendId);
+    const message = await Message.create({
+      data: { msg: dm, senderId: userId, recipientId: sendId },
+    });
+    io.to(room).emit('sendDm', message.msg, message.senderId, message.recipientId);
+    console.log(message);
   });
 });
 // io.on('connection', (socket) => {
