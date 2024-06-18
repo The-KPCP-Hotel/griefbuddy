@@ -43,7 +43,9 @@ function Chat() {
 
   const [dm, setDm] = useState('');
 
-  // const [dms, setDms] = useState([] as Message[]);
+  const [dms, setDms] = useState([] as Message[]);
+
+  const [room, setRoom] = useState('');
 
   // const [selectedUser, setSelectedUser] = useState({} as User);
 
@@ -84,7 +86,17 @@ function Chat() {
       setMessages((curMessages) => curMessages.concat([{ msg, clientOffset }]));
     };
     socket.on('sendMsg', addMessage);
+    // socket.off('sendMsg');
   }, [setMessages]);
+
+  useEffect(() => {
+    const addDm = (msg: string, clientOffset: string) => {
+      console.log(msg);
+      setDms((curDms) => curDms.concat([{ msg, clientOffset }]));
+    };
+    socket.on('sendDm', addDm);
+    console.log('socket sendDm triggered');
+  }, [setDms]);
 
   // needs socket
   const onSend = () => {
@@ -94,6 +106,13 @@ function Chat() {
       socket.emit('msg', message, socket.id);
     }
     setMessage('');
+  };
+
+  const onSendDm = () => {
+    if (dm && room) {
+      socket.emit('dm', dm, room, socket.id);
+    }
+    setDm('');
   };
 
   const onSearch = async () => {
@@ -128,8 +147,9 @@ function Chat() {
       // console.log(user.googleId, userResponse.data.googleId);
       const roomName: string =
         user.googleId < userResponse.data.googleId
-          ? user.googleId + userResponse.data.googleId
-          : userResponse.data.googleId + user.googleId;
+          ? `${user.googleId}-${userResponse.data.googleId}`
+          : `${userResponse.data.googleId}-${user.googleId}`;
+      setRoom(roomName);
       socket.emit('room', roomName);
     });
   };
@@ -200,11 +220,28 @@ function Chat() {
             {/* need to update onChange and onSend for this fund
             currently the global and dm input have same func - are linked
             should go into chat inputs code to change id base on whether global or dm */}
+            <Stack divider={<StackDivider />} margin="8px">
+              {dms.map((msg, index) => (
+                <Text
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`${msg.clientOffset}-${index}`}
+                  borderRadius="10px"
+                  background={msg.clientOffset === socket.id ? 'blue.600' : otherUserBG}
+                  p="10px"
+                  color={msg.clientOffset === socket.id ? 'white' : otherUserColor}
+                  textAlign={msg.clientOffset === socket.id ? 'right' : 'left'}
+                  marginLeft={msg.clientOffset === socket.id ? 'auto' : 0}
+                  width="fit-content"
+                >
+                  {msg.msg}
+                </Text>
+              ))}
+            </Stack>
             <ChatInput
               messagesEndRef={messagesEndRef}
               message={dm}
               onChange={onChange}
-              onSend={onSend}
+              onSend={onSendDm}
               onPress={onPress}
               id="dm"
             />
