@@ -1,12 +1,12 @@
 import express from 'express';
 
 // having issues getting everything from one import
-import { User as UserType } from '@prisma/client';
+import { User as UserType, Message as MessageType } from '@prisma/client';
 
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
-const { User } = prisma;
+const { User, Message } = prisma;
 
 const chat = express.Router();
 
@@ -27,6 +27,22 @@ chat.get('/user', async (req, res) => {
   const { id } = req.query;
   const user: UserType = await User.findUnique({ where: { id: Number(id) } });
   res.send(user);
+});
+
+chat.get('/dms', async (req, res) => {
+  const { senderId, recipientId } = req.query;
+  const senderNum: number = Number(senderId);
+  const recipientNum: number = Number(recipientId);
+  const dms: MessageType[] = await Message.findMany({
+    where: {
+      OR: [
+        { senderId: senderNum, recipientId: recipientNum },
+        { senderId: recipientNum, recipientId: senderNum },
+      ],
+    },
+  });
+  // console.log(dms);
+  res.send(dms);
 });
 
 export = chat;

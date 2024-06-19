@@ -67,6 +67,13 @@ function Chat() {
     axios.get('/user').then((response) => setUser(response.data));
   });
 
+  useEffect(() => {
+    axios.get('/chat/dms', { params: { senderId: user.id, recipientId: selectedUser.id } })
+    // data is currently empty
+      .then((dmResponse) => setDms(dmResponse.data))
+      .catch((err) => console.error('Failed finding existing messages: ', err));
+  }, [selectedUser.id, user.id]);
+
   const onChange = (e: { target: { value: string; id: string } }) => {
     const { value, id } = e.target;
     // console.log(id);
