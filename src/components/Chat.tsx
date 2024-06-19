@@ -31,8 +31,10 @@ function Chat() {
   }
   type Dm = {
     msg: string;
-    userId: number;
-    sendId: number;
+    // userId: number;
+    // sendId: number;
+    senderId: number;
+    recipientId: number;
   };
 
   const [user, setUser] = useState({} as User);
@@ -113,10 +115,10 @@ function Chat() {
 
   useEffect(() => {
     // const addDm = (msg: string, clientOffset: string) => {
-    const addDm = (msg: string, userId: number, sendId: number) => {
+    const addDm = (msg: string, senderId: number, recipientId: number) => {
       console.log(msg);
       // setDms((curDms) => curDms.concat([{ msg, clientOffset }]));
-      setDms((curDms) => curDms.concat([{ msg, userId, sendId }]));
+      setDms((curDms) => curDms.concat([{ msg, senderId, recipientId }]));
     };
     socket.on('sendDm', addDm);
   }, [setDms]);
@@ -244,13 +246,13 @@ function Chat() {
               {dms.map((msg, index) => (
                 <Text
                   // eslint-disable-next-line react/no-array-index-key
-                  key={`${msg.userId}-${index}`}
+                  key={`${msg.senderId}-${index}`}
                   borderRadius="10px"
-                  background={msg.userId === user.id ? 'blue.600' : otherUserBG}
+                  background={msg.senderId === user.id ? 'blue.600' : otherUserBG}
                   p="10px"
-                  color={msg.userId === user.id ? 'white' : otherUserColor}
-                  textAlign={msg.userId === user.id ? 'right' : 'left'}
-                  marginLeft={msg.userId === user.id ? 'auto' : 0}
+                  color={msg.senderId === user.id ? 'white' : otherUserColor}
+                  textAlign={msg.senderId === user.id ? 'right' : 'left'}
+                  marginLeft={msg.senderId === user.id ? 'auto' : 0}
                   width="fit-content"
                 >
                   {msg.msg}
