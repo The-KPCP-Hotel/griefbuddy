@@ -31,8 +31,6 @@ function Chat() {
   }
   type Dm = {
     msg: string;
-    // userId: number;
-    // sendId: number;
     senderId: number;
     recipientId: number;
   };
@@ -80,7 +78,6 @@ function Chat() {
 
   const onChange = (e: { target: { value: string; id: string } }) => {
     const { value, id } = e.target;
-    // console.log(id);
     switch (id) {
       case 'chat':
         setMessage(value);
@@ -96,40 +93,29 @@ function Chat() {
     }
   };
 
-  // let counter = 0;
-
   useEffect(() => {
     const addMessage = (msg: string, clientOffset: string) => {
       setMessages((curMessages) => curMessages.concat([{ msg, clientOffset }]));
     };
     socket.on('sendMsg', addMessage);
-    // socket.off('sendMsg');
   }, [setMessages]);
 
   const onSendDm = () => {
     if (dm && room) {
-      // want to emit by user id and not socket id
-      // socket.emit('dm', dm, room, socket.id);
       socket.emit('dm', dm, room, user.id, selectedUser.id);
     }
     setDm('');
   };
 
   useEffect(() => {
-    // const addDm = (msg: string, clientOffset: string) => {
     const addDm = (msg: string, senderId: number, recipientId: number) => {
-      // console.log(msg);
-      // setDms((curDms) => curDms.concat([{ msg, clientOffset }]));
       setDms((curDms) => curDms.concat([{ msg, senderId, recipientId }]));
     };
     socket.on('sendDm', addDm);
   }, [setDms]);
 
-  // needs socket
   const onSend = () => {
     if (message) {
-      // const clientOffset = `${socket.id}-${(counter += 1)}`;
-      // socket.emit('msg', message, clientOffset);
       socket.emit('msg', message, socket.id);
     }
     setMessage('');
@@ -168,7 +154,6 @@ function Chat() {
     setTabIndex(1);
     axios.get('/chat/user', { params: { id: e.target.id } }).then((userResponse) => {
       setSelectedUser(userResponse.data);
-      // console.log(user.googleId, userResponse.data.googleId);
       const roomName: string =
         user.googleId < userResponse.data.googleId
           ? `${user.googleId}-${userResponse.data.googleId}`

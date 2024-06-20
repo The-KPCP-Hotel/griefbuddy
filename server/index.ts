@@ -103,7 +103,6 @@ io.on('connection', (socket) => {
       data: { msg: dm, senderId: userId, recipientId: sendId },
     });
     io.to(room).emit('sendDm', message.msg, message.senderId, message.recipientId);
-    // console.log(message);
   });
 });
 // io.on('connection', (socket) => {
