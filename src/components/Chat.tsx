@@ -116,7 +116,7 @@ function Chat() {
   useEffect(() => {
     // const addDm = (msg: string, clientOffset: string) => {
     const addDm = (msg: string, senderId: number, recipientId: number) => {
-      console.log(msg);
+      // console.log(msg);
       // setDms((curDms) => curDms.concat([{ msg, clientOffset }]));
       setDms((curDms) => curDms.concat([{ msg, senderId, recipientId }]));
     };

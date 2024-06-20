@@ -93,17 +93,17 @@ io.on('connection', (socket) => {
   });
 
   socket.on('room', (room) => {
-    console.log('joining room: ', room);
+    // console.log('joining room: ', room);
     socket.join(room);
   });
 
   socket.on('dm', async (dm: string, room: string, userId: number, sendId: number) => {
-    console.log('sending to room: ', room);
+    // console.log('sending to room: ', room);
     const message = await Message.create({
       data: { msg: dm, senderId: userId, recipientId: sendId },
     });
     io.to(room).emit('sendDm', message.msg, message.senderId, message.recipientId);
-    console.log(message);
+    // console.log(message);
   });
 });
 // io.on('connection', (socket) => {
