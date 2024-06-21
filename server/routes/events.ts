@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 const events = express.Router();
 
 events.get('/all', (req: Request, res: Response) => {
+  // may want to add distinct to findMany options to avoid duplicates
   prisma.Event.findMany()
     .then((response: Response) => {
       // console.log(response);

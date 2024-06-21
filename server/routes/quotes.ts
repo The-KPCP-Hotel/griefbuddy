@@ -1,4 +1,4 @@
-import { Quote as QuoteType } from '@prisma/client';
+import { Quote as QuoteType, UserBlockedQuote as UserBlockedQuoteType } from '@prisma/client';
 
 const express = require('express');
 
@@ -53,22 +53,37 @@ quotes.get(
   },
 );
 
-quotes.post('/block', (req: { body: { userId: number; quote: NinjaQuote } }) => {
-  const { userId, quote } = req.body;
-  const { author, category } = quote;
-  Quote.upsert({
-    where: {
-      quote: quote.quote,
-    },
-    update: {},
-    create: {
-      quote: quote.quote,
-      author,
-      category,
-    },
-  }).then((dbQuote: QuoteType) => {
-    UserBlockedQuote.create({ data: { userId, quoteId: dbQuote.id } });
-  });
-});
+quotes.post(
+  '/block',
+  (req: { body: { userId: number; quote: NinjaQuote } }, res: { sendStatus: Function }) => {
+    const { userId, quote } = req.body;
+    const { author, category } = quote;
+    Quote.upsert({
+      where: {
+        quote: quote.quote,
+      },
+      update: {},
+      create: {
+        quote: quote.quote,
+        author,
+        category,
+      },
+    }).then((dbQuote: QuoteType) => {
+      UserBlockedQuote.create({ data: { userId, quoteId: dbQuote.id } }).then(
+        (newBlockedQuote: UserBlockedQuoteType) => {
+          if (typeof newBlockedQuote !== UserBlockedQuote) {
+            res.sendStatus(200);
+          } else {
+            console.error('newBlockedQuote not created');
+            res.sendStatus(500);
+          }
+        },
+      );
+    }).catch((err: Error) => {
+      console.error('failed blocking quote', err);
+      res.sendStatus(500);
+    });
+  },
+);
 
 export default quotes;

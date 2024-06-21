@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
+import axios from 'axios';
 import {
   Box,
   Center,
@@ -9,21 +10,50 @@ import {
   StackDivider,
   useColorModeValue,
   Text,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
 } from '@chakra-ui/react';
 
-import ChatInput from './ChatComponents/ChatInput';
+import { User } from '@prisma/client';
 
-const socket = io();
+import ChatInput from './ChatComponents/ChatInput';
+import UserSearchInput from './ChatComponents/UserSearchInput';
+
+const socket: Socket = io();
 
 function Chat() {
   interface Message {
     msg: string;
     clientOffset: string;
   }
+  type Dm = {
+    msg: string;
+    senderId: number;
+    recipientId: number;
+  };
+
+  const [user, setUser] = useState({} as User);
 
   const [message, setMessage] = useState('');
 
   const [messages, setMessages] = useState([] as Message[]);
+
+  const [userSearch, setUserSearch] = useState('');
+
+  const [foundUsers, setFoundUsers] = useState([] as User[]);
+
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const [dm, setDm] = useState('');
+
+  const [dms, setDms] = useState([] as Dm[]);
+
+  const [room, setRoom] = useState('');
+
+  const [selectedUser, setSelectedUser] = useState({} as User);
 
   const messagesEndRef = useRef(null);
 
@@ -33,12 +63,35 @@ function Chat() {
 
   useEffect(bottomScroll, [messages]);
 
-  const onChange = (e: { target: { value: string } }) => {
-    const { value } = e.target;
-    setMessage(value);
-  };
+  useEffect(() => {
+    axios.get('/user').then((response) => setUser(response.data));
+  });
 
-  // let counter = 0;
+  useEffect(() => {
+    if (selectedUser.id) {
+      axios
+        .get('/chat/dms', { params: { senderId: user.id, recipientId: selectedUser.id } })
+        .then((dmResponse) => setDms(dmResponse.data))
+        .catch((err) => console.error('Failed finding existing messages: ', err));
+    }
+  }, [selectedUser.id, user.id]);
+
+  const onChange = (e: { target: { value: string; id: string } }) => {
+    const { value, id } = e.target;
+    switch (id) {
+      case 'chat':
+        setMessage(value);
+        break;
+      case 'user':
+        setUserSearch(value);
+        break;
+      case 'dm':
+        setDm(value);
+        break;
+      default:
+        throw new Error('input id has no matching valid case');
+    }
+  };
 
   useEffect(() => {
     const addMessage = (msg: string, clientOffset: string) => {
@@ -47,20 +100,67 @@ function Chat() {
     socket.on('sendMsg', addMessage);
   }, [setMessages]);
 
-  // needs socket
+  const onSendDm = () => {
+    if (dm && room) {
+      socket.emit('dm', dm, room, user.id, selectedUser.id);
+    }
+    setDm('');
+  };
+
+  useEffect(() => {
+    const addDm = (msg: string, senderId: number, recipientId: number) => {
+      setDms((curDms) => curDms.concat([{ msg, senderId, recipientId }]));
+    };
+    socket.on('sendDm', addDm);
+  }, [setDms]);
+
   const onSend = () => {
     if (message) {
-      // const clientOffset = `${socket.id}-${(counter += 1)}`;
-      // socket.emit('msg', message, clientOffset);
       socket.emit('msg', message, socket.id);
     }
     setMessage('');
   };
 
-  const onPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      onSend();
+  const onSearch = async () => {
+    axios
+      .get('/chat/userSearch', { params: { userSearch } })
+      .then((usersResponse) => setFoundUsers(usersResponse.data));
+    setUserSearch('');
+  };
+
+  const onPress = (
+    e: React.KeyboardEvent<HTMLInputElement> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => {
+    const { id } = e.target;
+    const { key } = e;
+    if (key === 'Enter') {
+      if (id === 'chat') {
+        onSend();
+      } else if (id === 'user') {
+        onSearch();
+      } else if (id === 'dm') {
+        onSendDm();
+      }
     }
+  };
+
+  const userSelect = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => {
+    setTabIndex(1);
+    axios.get('/chat/user', { params: { id: e.target.id } }).then((userResponse) => {
+      setSelectedUser(userResponse.data);
+      const roomName: string =
+        user.googleId < userResponse.data.googleId
+          ? `${user.googleId}-${userResponse.data.googleId}`
+          : `${userResponse.data.googleId}-${user.googleId}`;
+      setRoom(roomName);
+      socket.emit('room', roomName);
+    });
   };
 
   const color = useColorModeValue('blue.600', 'blue.200');
@@ -74,35 +174,89 @@ function Chat() {
       <Center>
         <Heading color={color}>Chat</Heading>
       </Center>
-      <Center>
-        <Text>This is currently a chat with between you and anyone else logged on the chat!</Text>
-      </Center>
-      <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
-        <Stack divider={<StackDivider />} margin="8px">
-          {messages.map((msg, index) => (
-            <Text
-            // eslint-disable-next-line react/no-array-index-key
-              key={`${msg.clientOffset}-${index}`}
-              borderRadius="10px"
-              background={msg.clientOffset === socket.id ? 'blue.600' : otherUserBG}
-              p="10px"
-              color={msg.clientOffset === socket.id ? 'white' : otherUserColor}
-              textAlign={msg.clientOffset === socket.id ? 'right' : 'left'}
-              marginLeft={msg.clientOffset === socket.id ? 'auto' : 0}
-              width="fit-content"
-            >
-              {msg.msg}
-            </Text>
-          ))}
-        </Stack>
-        <ChatInput
-          messagesEndRef={messagesEndRef}
-          message={message}
-          onChange={onChange}
-          onSend={onSend}
-          onPress={onPress}
-        />
-      </Box>
+      <UserSearchInput
+        userSearch={userSearch}
+        onChange={onChange}
+        onSearch={onSearch}
+        onPress={onPress}
+      />
+      {foundUsers.map((foundUser) => (
+        <Text onClick={userSelect} key={foundUser.googleId} id={`${foundUser.id}`}>
+          {foundUser.preferredName || foundUser.name}
+        </Text>
+      ))}
+      <Tabs index={tabIndex} onChange={(index) => setTabIndex(index)}>
+        <TabList>
+          <Tab>Main</Tab>
+          <Tab>DMs</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <Center>
+              <Text>
+                This is currently a chat with between you and anyone else logged on the chat!
+              </Text>
+            </Center>
+            <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
+              <Stack divider={<StackDivider />} margin="8px">
+                {messages.map((msg, index) => (
+                  <Text
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={`${msg.clientOffset}-${index}`}
+                    borderRadius="10px"
+                    background={msg.clientOffset === socket.id ? 'blue.600' : otherUserBG}
+                    p="10px"
+                    color={msg.clientOffset === socket.id ? 'white' : otherUserColor}
+                    textAlign={msg.clientOffset === socket.id ? 'right' : 'left'}
+                    marginLeft={msg.clientOffset === socket.id ? 'auto' : 0}
+                    width="fit-content"
+                  >
+                    {msg.msg}
+                  </Text>
+                ))}
+              </Stack>
+              <ChatInput
+                messagesEndRef={messagesEndRef}
+                message={message}
+                onChange={onChange}
+                onSend={onSend}
+                onPress={onPress}
+                id="chat"
+              />
+            </Box>
+          </TabPanel>
+          <TabPanel>
+            <Center>
+              <Text>{selectedUser.preferredName || selectedUser.name}</Text>
+            </Center>
+            <Stack divider={<StackDivider />} margin="8px">
+              {dms.map((msg, index) => (
+                <Text
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`${msg.senderId}-${index}`}
+                  borderRadius="10px"
+                  background={msg.senderId === user.id ? 'blue.600' : otherUserBG}
+                  p="10px"
+                  color={msg.senderId === user.id ? 'white' : otherUserColor}
+                  textAlign={msg.senderId === user.id ? 'right' : 'left'}
+                  marginLeft={msg.senderId === user.id ? 'auto' : 0}
+                  width="fit-content"
+                >
+                  {msg.msg}
+                </Text>
+              ))}
+            </Stack>
+            <ChatInput
+              messagesEndRef={messagesEndRef}
+              message={dm}
+              onChange={onChange}
+              onSend={onSendDm}
+              onPress={onPress}
+              id="dm"
+            />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Container>
   );
 }

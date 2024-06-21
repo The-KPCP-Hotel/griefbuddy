@@ -63,6 +63,8 @@ function ChatBot() {
 
   const botColor = useColorModeValue('purple', 'lavender');
 
+  const color = useColorModeValue('blue.600', 'blue.200');
+
   // sends text to friend if message was flagged
   const sendText = () => {
     axios
@@ -182,7 +184,7 @@ function ChatBot() {
   return (
     <>
       <Center>
-        <Heading paddingBottom="15px" size="3xl" color="blue.200">
+        <Heading color={color}>
           Chat Bot
         </Heading>
       </Center>
@@ -215,6 +217,7 @@ function ChatBot() {
               onPress={onPress}
               message={message}
               onSend={onSend}
+              id="chat"
             />
           </Stack>
         </Box>
