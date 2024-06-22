@@ -46,16 +46,14 @@ chat.get('/dms', async (req, res) => {
 });
 
 chat.get('/existingDms', async (req, res) => {
-  console.log(req);
-  // only need user id
   const { senderId } = req.query;
   const senderNum: number = Number(senderId);
-  // find all users that currently have dms with user
-  // select name, id, and most recent message
-  // figure out how to only select the most recent msg from current chats
-  // maybe try to first get only the ids - then a second that only grabs the first from those ids
+  // this query grabs the most recent sent and received msg from every convo user is a part of
+  // the most recent msg comes first
   const existingDms = await Message.findMany({
     where: { OR: [{ senderId: senderNum }, { recipientId: senderNum }] },
+    orderBy: [{ id: 'desc' }],
+    distinct: ['senderId', 'recipientId'],
     select: {
       senderId: true,
       recipientId: true,
