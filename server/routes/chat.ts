@@ -45,4 +45,27 @@ chat.get('/dms', async (req, res) => {
   res.send(dms);
 });
 
+chat.get('/existingDms', async (req, res) => {
+  console.log(req);
+  // only need user id
+  const { senderId } = req.query;
+  const senderNum: number = Number(senderId);
+  // find all users that currently have dms with user
+  // select name, id, and most recent message
+  // figure out how to only select the most recent msg from current chats
+  // maybe try to first get only the ids - then a second that only grabs the first from those ids
+  const existingDms = await Message.findMany({
+    where: { OR: [{ senderId: senderNum }, { recipientId: senderNum }] },
+    select: {
+      senderId: true,
+      recipientId: true,
+      msg: true,
+      sender: { select: { name: true, preferredName: true } },
+      recipient: { select: { name: true, preferredName: true } },
+    },
+  });
+
+  res.send(existingDms);
+});
+
 export = chat;
