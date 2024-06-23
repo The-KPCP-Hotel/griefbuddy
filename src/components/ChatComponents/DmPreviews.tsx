@@ -13,11 +13,15 @@ function DmPreviews({ dmPreviews }: { dmPreviews: DmPreview[] }) {
     return shortMsg;
   };
 
-  const onMouseHover = (e) => {
+  const onMouseHover = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+    target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  }) => {
     e.target.style.textDecoration = 'underline';
   };
 
-  const onMouseLeave = (e) => {
+  const onMouseLeave = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+    target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  }) => {
     e.target.style.textDecoration = 'none';
   };
 
