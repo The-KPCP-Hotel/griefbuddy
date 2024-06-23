@@ -35,6 +35,19 @@ function Chat() {
     recipientId: number;
   };
 
+  type DmPreviewUser = {
+    name: string;
+    preferredName: string | null;
+  };
+
+  type DmPreview = {
+    senderId: number;
+    recipientId: number;
+    msg: string;
+    sender: DmPreviewUser;
+    recipient: DmPreviewUser;
+  };
+
   const [user, setUser] = useState({} as User);
 
   const [message, setMessage] = useState('');
@@ -54,6 +67,8 @@ function Chat() {
   const [room, setRoom] = useState('');
 
   const [selectedUser, setSelectedUser] = useState({} as User);
+
+  const [dmPreviews, setDmPreviews] = useState([] as DmPreview[]);
 
   const messagesEndRef = useRef(null);
 
