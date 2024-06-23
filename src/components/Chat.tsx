@@ -10,12 +10,10 @@ import {
   useColorModeValue,
   Text,
   Box,
-  // Tabs,
-  // TabList,
-  // Tab,
-  // TabPanels,
-  // TabPanel,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 
 import { User } from '@prisma/client';
 import { Message, Dm, DmPreview } from '../types/chat';
@@ -237,9 +235,18 @@ function Chat() {
       ))}
       {dms.length ? (
         <Box>
-          <Center>
-            <Text>{selectedUser.preferredName || selectedUser.name}</Text>
-          </Center>
+          <Grid templateColumns="repeat(5, 1fr)" gap={1}>
+            <GridItem>
+              <ArrowBackIcon />
+            </GridItem>
+            <GridItem colSpan={1} />
+            <GridItem>
+              <Center>
+                <Text>{selectedUser.preferredName || selectedUser.name}</Text>
+              </Center>
+            </GridItem>
+            <GridItem colSpan={2} />
+          </Grid>
           <Stack divider={<StackDivider />} margin="8px">
             {dms.map((msg, index) => (
               <Text
