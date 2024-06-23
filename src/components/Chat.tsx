@@ -217,17 +217,6 @@ function Chat() {
       <Center>
         <Heading color={color}>Chat</Heading>
       </Center>
-      <UserSearchInput
-        userSearch={userSearch}
-        onChange={onChange}
-        onSearch={onSearch}
-        onPress={onPress}
-      />
-      {foundUsers.map((foundUser) => (
-        <Text onClick={userSelect} key={foundUser.googleId} id={`${foundUser.id}`}>
-          {foundUser.preferredName || foundUser.name}
-        </Text>
-      ))}
       {dms.length ? (
         <Box>
           <Grid mt=".5rem" templateColumns="repeat(5, 1fr)" gap={1}>
@@ -271,7 +260,20 @@ function Chat() {
           />
         </Box>
       ) : (
-        <DmPreviews dmPreviews={dmPreviews} select={dmPreviewSelect} />
+        <>
+          <UserSearchInput
+            userSearch={userSearch}
+            onChange={onChange}
+            onSearch={onSearch}
+            onPress={onPress}
+          />
+          {foundUsers.map((foundUser) => (
+            <Text onClick={userSelect} key={foundUser.googleId} id={`${foundUser.id}`}>
+              {foundUser.preferredName || foundUser.name}
+            </Text>
+          ))}
+          <DmPreviews dmPreviews={dmPreviews} select={dmPreviewSelect} />
+        </>
       )}
     </Container>
   );
