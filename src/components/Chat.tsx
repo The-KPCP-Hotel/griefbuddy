@@ -18,36 +18,15 @@ import {
 } from '@chakra-ui/react';
 
 import { User } from '@prisma/client';
+import { Message, Dm, DmPreview } from '../types/chat';
 
 import ChatInput from './ChatComponents/ChatInput';
 import UserSearchInput from './ChatComponents/UserSearchInput';
+import DmPreviews from './ChatComponents/DmPreviews';
 
 const socket: Socket = io();
 
 function Chat() {
-  interface Message {
-    msg: string;
-    clientOffset: string;
-  }
-  type Dm = {
-    msg: string;
-    senderId: number;
-    recipientId: number;
-  };
-
-  type DmPreviewUser = {
-    name: string;
-    preferredName: string | null;
-  };
-
-  type DmPreview = {
-    senderId: number;
-    recipientId: number;
-    msg: string;
-    sender: DmPreviewUser;
-    recipient: DmPreviewUser;
-  };
-
   const [user, setUser] = useState({} as User);
 
   const [message, setMessage] = useState('');
@@ -224,6 +203,7 @@ function Chat() {
           {foundUser.preferredName || foundUser.name}
         </Text>
       ))}
+      <DmPreviews dmPreviews={dmPreviews} />
       <Tabs index={tabIndex} onChange={(index) => setTabIndex(index)}>
         <TabList>
           <Tab>Main</Tab>
