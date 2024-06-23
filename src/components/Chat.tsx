@@ -79,8 +79,32 @@ function Chat() {
   useEffect(bottomScroll, [messages]);
 
   useEffect(() => {
-    axios.get('/user').then((response) => setUser(response.data));
-  });
+    axios.get('/user').then((userResponse: { data: User }) => {
+      setUser(userResponse.data);
+      axios
+        .get('/chat/dmPreviews', { params: { userId: userResponse.data.id } })
+        .then((dmPreviewsResponse: { data: DmPreview[] }) => {
+          const reducedPreviews: DmPreview[] = dmPreviewsResponse.data.reduce((acc, curDm) => {
+            if (!acc.length) {
+              acc.push(curDm);
+              return acc;
+            }
+            if (
+              acc[acc.length - 1].senderId === curDm.recipientId &&
+              acc[acc.length - 1].recipientId === curDm.senderId
+            ) {
+              return acc;
+            }
+            acc.push(curDm);
+            return acc;
+          }, [] as DmPreview[]);
+          setDmPreviews(reducedPreviews);
+          // setDmPreviews(dmPreviewsResponse.data);
+          console.log(dmPreviewsResponse.data);
+          console.log(reducedPreviews);
+        });
+    });
+  }, [setUser, setDmPreviews]);
 
   useEffect(() => {
     if (selectedUser.id) {
