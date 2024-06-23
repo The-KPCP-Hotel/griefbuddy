@@ -37,22 +37,6 @@ function DmPreviews({
     return shortMsg;
   };
 
-  // const onMouseHover = (
-  //   e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
-  //     target: React.ButtonHTMLAttributes<HTMLButtonElement>;
-  //   },
-  // ) => {
-  //   e.target.style.textDecoration = 'underline';
-  // };
-
-  // const onMouseLeave = (
-  //   e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
-  //     target: React.ButtonHTMLAttributes<HTMLButtonElement>;
-  //   },
-  // ) => {
-  //   e.target.style.textDecoration = 'none';
-  // };
-
   return (
     <VStack
       divider={<StackDivider />}

@@ -284,11 +284,6 @@ function Chat() {
             onSearch={onSearch}
             onPress={onPress}
           />
-          {/* {foundUsers.map((foundUser) => (
-            <Text onClick={userSelect} key={foundUser.googleId} id={`${foundUser.id}`}>
-              {foundUser.preferredName || foundUser.name}
-            </Text>
-          ))} */}
           <FoundUsers
             foundUsers={foundUsers}
             userSelect={userSelect}
