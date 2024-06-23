@@ -86,6 +86,7 @@ function Chat() {
         .get('/chat/dms', { params: { senderId: user.id, recipientId: selectedUser.id } })
         .then((dmResponse) => setDms(dmResponse.data))
         .catch((err) => console.error('Failed finding existing messages: ', err));
+      setFoundUsers([] as User[]);
     }
   }, [selectedUser.id, user.id]);
 
