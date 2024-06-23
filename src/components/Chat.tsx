@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import axios from 'axios';
 import {
-  Box,
   Center,
   Container,
   Heading,
@@ -10,31 +9,24 @@ import {
   StackDivider,
   useColorModeValue,
   Text,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
+  Box,
+  Grid,
+  GridItem,
+  Button,
 } from '@chakra-ui/react';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 
 import { User } from '@prisma/client';
+import { Message, Dm, DmPreview } from '../types/chat';
 
 import ChatInput from './ChatComponents/ChatInput';
 import UserSearchInput from './ChatComponents/UserSearchInput';
+import FoundUsers from './ChatComponents/FoundUsers';
+import DmPreviews from './ChatComponents/DmPreviews';
 
 const socket: Socket = io();
 
 function Chat() {
-  interface Message {
-    msg: string;
-    clientOffset: string;
-  }
-  type Dm = {
-    msg: string;
-    senderId: number;
-    recipientId: number;
-  };
-
   const [user, setUser] = useState({} as User);
 
   const [message, setMessage] = useState('');
@@ -45,8 +37,6 @@ function Chat() {
 
   const [foundUsers, setFoundUsers] = useState([] as User[]);
 
-  const [tabIndex, setTabIndex] = useState(0);
-
   const [dm, setDm] = useState('');
 
   const [dms, setDms] = useState([] as Dm[]);
@@ -54,6 +44,8 @@ function Chat() {
   const [room, setRoom] = useState('');
 
   const [selectedUser, setSelectedUser] = useState({} as User);
+
+  const [dmPreviews, setDmPreviews] = useState([] as DmPreview[]);
 
   const messagesEndRef = useRef(null);
 
@@ -63,9 +55,52 @@ function Chat() {
 
   useEffect(bottomScroll, [messages]);
 
+  const getDmPreviews: (userId: number) => void = (userId) => {
+    axios
+      .get('/chat/dmPreviews', { params: { userId } })
+      .then((dmPreviewsResponse: { data: DmPreview[] }) => {
+        const reducedPreviews: DmPreview[] = dmPreviewsResponse.data.reduce((acc, curDm) => {
+          if (!acc.length) {
+            acc.push(curDm);
+            return acc;
+          }
+          for (let i = acc.length - 1; i >= 0; i -= 1) {
+            if (acc[i].senderId === curDm.recipientId && acc[i].recipientId === curDm.senderId) {
+              return acc;
+            }
+          }
+          acc.push(curDm);
+          return acc;
+        }, [] as DmPreview[]);
+        setDmPreviews(reducedPreviews);
+      });
+  };
+
   useEffect(() => {
-    axios.get('/user').then((response) => setUser(response.data));
-  });
+    axios.get('/user').then((userResponse: { data: User }) => {
+      setUser(userResponse.data);
+      getDmPreviews(userResponse.data.id);
+      // axios
+      //   .get('/chat/dmPreviews', { params: { userId: userResponse.data.id } })
+      //   .then((dmPreviewsResponse: { data: DmPreview[] }) => {
+      //     const reducedPreviews: DmPreview[] = dmPreviewsResponse.data.reduce((acc, curDm) => {
+      //       if (!acc.length) {
+      //         acc.push(curDm);
+      //         return acc;
+      //       }
+      //       for (let i = acc.length - 1; i >= 0; i -= 1) {
+      //         if (acc[i].senderId === curDm.recipientId &&
+      // acc[i].recipientId === curDm.senderId) {
+      //           return acc;
+      //         }
+      //       }
+      //       acc.push(curDm);
+      //       return acc;
+      //     }, [] as DmPreview[]);
+      //     setDmPreviews(reducedPreviews);
+      //   });
+    });
+  }, [setUser, setDmPreviews]);
 
   useEffect(() => {
     if (selectedUser.id) {
@@ -73,6 +108,8 @@ function Chat() {
         .get('/chat/dms', { params: { senderId: user.id, recipientId: selectedUser.id } })
         .then((dmResponse) => setDms(dmResponse.data))
         .catch((err) => console.error('Failed finding existing messages: ', err));
+      setFoundUsers([] as User[]);
+      // setDmPreviews([] as DmPreview[]);
     }
   }, [selectedUser.id, user.id]);
 
@@ -151,7 +188,6 @@ function Chat() {
       target: React.ButtonHTMLAttributes<HTMLButtonElement>;
     },
   ) => {
-    setTabIndex(1);
     axios.get('/chat/user', { params: { id: e.target.id } }).then((userResponse) => {
       setSelectedUser(userResponse.data);
       const roomName: string =
@@ -161,6 +197,55 @@ function Chat() {
       setRoom(roomName);
       socket.emit('room', roomName);
     });
+  };
+
+  const dmPreviewSelect = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => {
+    const ids: string[] = e.target.id.split('-');
+    const firstId: number = Number(ids[0]);
+    const secondId: number = Number(ids[1]);
+    let selectedUserId: number;
+    if (firstId !== user.id) {
+      selectedUserId = firstId;
+    } else if (secondId !== user.id) {
+      selectedUserId = secondId;
+    } else {
+      selectedUserId = user.id;
+    }
+    axios.get('/chat/user', { params: { id: selectedUserId } }).then((userResponse) => {
+      setSelectedUser(userResponse.data);
+      const roomName: string =
+        user.googleId < userResponse.data.googleId
+          ? `${user.googleId}-${userResponse.data.googleId}`
+          : `${userResponse.data.googleId}-${user.googleId}`;
+      setRoom(roomName);
+      socket.emit('room', roomName);
+    });
+  };
+
+  const backToPreview = () => {
+    setSelectedUser({} as User);
+    setDms([] as Dm[]);
+    getDmPreviews(user.id);
+  };
+
+  const onMouseHover = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => {
+    e.target.style.textDecoration = 'underline';
+  };
+
+  const onMouseLeave = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => {
+    e.target.style.textDecoration = 'none';
   };
 
   const color = useColorModeValue('blue.600', 'blue.200');
@@ -174,89 +259,70 @@ function Chat() {
       <Center>
         <Heading color={color}>Chat</Heading>
       </Center>
-      <UserSearchInput
-        userSearch={userSearch}
-        onChange={onChange}
-        onSearch={onSearch}
-        onPress={onPress}
-      />
-      {foundUsers.map((foundUser) => (
-        <Text onClick={userSelect} key={foundUser.googleId} id={`${foundUser.id}`}>
-          {foundUser.preferredName || foundUser.name}
-        </Text>
-      ))}
-      <Tabs index={tabIndex} onChange={(index) => setTabIndex(index)}>
-        <TabList>
-          <Tab>Main</Tab>
-          <Tab>DMs</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <Center>
-              <Text>
-                This is currently a chat with between you and anyone else logged on the chat!
+      {dms.length ? (
+        <Box>
+          <Grid mt=".5rem" templateColumns="repeat(5, 1fr)" gap={1}>
+            <GridItem>
+              <Button p="0" minW="30px" height="30px">
+                <ArrowBackIcon onClick={backToPreview} width="20px" height="20px" />
+              </Button>
+            </GridItem>
+            <GridItem colSpan={1} />
+            <GridItem>
+              <Center>
+                <Text>{selectedUser.preferredName || selectedUser.name}</Text>
+              </Center>
+            </GridItem>
+            <GridItem colSpan={2} />
+          </Grid>
+          <Stack divider={<StackDivider />} margin="8px">
+            {dms.map((msg, index) => (
+              <Text
+                // eslint-disable-next-line react/no-array-index-key
+                key={`${msg.senderId}-${index}`}
+                borderRadius="10px"
+                background={msg.senderId === user.id ? 'blue.600' : otherUserBG}
+                p="10px"
+                color={msg.senderId === user.id ? 'white' : otherUserColor}
+                textAlign={msg.senderId === user.id ? 'right' : 'left'}
+                marginLeft={msg.senderId === user.id ? 'auto' : 0}
+                width="fit-content"
+              >
+                {msg.msg}
               </Text>
-            </Center>
-            <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
-              <Stack divider={<StackDivider />} margin="8px">
-                {messages.map((msg, index) => (
-                  <Text
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={`${msg.clientOffset}-${index}`}
-                    borderRadius="10px"
-                    background={msg.clientOffset === socket.id ? 'blue.600' : otherUserBG}
-                    p="10px"
-                    color={msg.clientOffset === socket.id ? 'white' : otherUserColor}
-                    textAlign={msg.clientOffset === socket.id ? 'right' : 'left'}
-                    marginLeft={msg.clientOffset === socket.id ? 'auto' : 0}
-                    width="fit-content"
-                  >
-                    {msg.msg}
-                  </Text>
-                ))}
-              </Stack>
-              <ChatInput
-                messagesEndRef={messagesEndRef}
-                message={message}
-                onChange={onChange}
-                onSend={onSend}
-                onPress={onPress}
-                id="chat"
-              />
-            </Box>
-          </TabPanel>
-          <TabPanel>
-            <Center>
-              <Text>{selectedUser.preferredName || selectedUser.name}</Text>
-            </Center>
-            <Stack divider={<StackDivider />} margin="8px">
-              {dms.map((msg, index) => (
-                <Text
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`${msg.senderId}-${index}`}
-                  borderRadius="10px"
-                  background={msg.senderId === user.id ? 'blue.600' : otherUserBG}
-                  p="10px"
-                  color={msg.senderId === user.id ? 'white' : otherUserColor}
-                  textAlign={msg.senderId === user.id ? 'right' : 'left'}
-                  marginLeft={msg.senderId === user.id ? 'auto' : 0}
-                  width="fit-content"
-                >
-                  {msg.msg}
-                </Text>
-              ))}
-            </Stack>
-            <ChatInput
-              messagesEndRef={messagesEndRef}
-              message={dm}
-              onChange={onChange}
-              onSend={onSendDm}
-              onPress={onPress}
-              id="dm"
-            />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+            ))}
+          </Stack>
+          <ChatInput
+            messagesEndRef={messagesEndRef}
+            message={dm}
+            onChange={onChange}
+            onSend={onSendDm}
+            onPress={onPress}
+            id="dm"
+          />
+        </Box>
+      ) : (
+        <>
+          <UserSearchInput
+            userSearch={userSearch}
+            onChange={onChange}
+            onSearch={onSearch}
+            onPress={onPress}
+          />
+          <FoundUsers
+            foundUsers={foundUsers}
+            userSelect={userSelect}
+            onMouseHover={onMouseHover}
+            onMouseLeave={onMouseLeave}
+          />
+          <DmPreviews
+            dmPreviews={dmPreviews}
+            select={dmPreviewSelect}
+            onMouseHover={onMouseHover}
+            onMouseLeave={onMouseLeave}
+          />
+        </>
+      )}
     </Container>
   );
 }
