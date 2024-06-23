@@ -1,8 +1,10 @@
 import React from 'react';
-import { Box, StackDivider, Text, VStack } from '@chakra-ui/react';
+import { Box, StackDivider, Text, VStack, useColorModeValue } from '@chakra-ui/react';
 import { DmPreview } from '../../types/chat';
 
 function DmPreviews({ dmPreviews }: { dmPreviews: DmPreview[] }) {
+  const bgClr = useColorModeValue('whitesmoke', 'default');
+
   const shortenMsg: (msg: string) => string = (msg) => {
     let shortMsg: string;
     if (msg.length < 60) {
@@ -26,7 +28,7 @@ function DmPreviews({ dmPreviews }: { dmPreviews: DmPreview[] }) {
   };
 
   return (
-    <VStack divider={<StackDivider />} backgroundColor="whitesmoke" alignItems="start" borderRadius=".4rem" mt=".4rem" p=".5rem">
+    <VStack divider={<StackDivider />} backgroundColor={bgClr} alignItems="start" borderRadius=".4rem" mt=".4rem" p=".5rem">
       {dmPreviews.map((dm) => (
         <Box key={`${dm.senderId}-${dm.recipientId}`}>
           <Text id={`text-${dm.senderId}-${dm.recipientId}`} onMouseEnter={onMouseHover} onMouseLeave={onMouseLeave}>{`${dm.recipient.preferredName || dm.recipient.name}: ${shortenMsg(dm.msg)}`}</Text>
