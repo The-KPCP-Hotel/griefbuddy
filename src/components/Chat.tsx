@@ -55,30 +55,50 @@ function Chat() {
 
   useEffect(bottomScroll, [messages]);
 
+  const getDmPreviews: (userId: number) => void = (userId) => {
+    axios
+      .get('/chat/dmPreviews', { params: { userId } })
+      .then((dmPreviewsResponse: { data: DmPreview[] }) => {
+        const reducedPreviews: DmPreview[] = dmPreviewsResponse.data.reduce((acc, curDm) => {
+          if (!acc.length) {
+            acc.push(curDm);
+            return acc;
+          }
+          for (let i = acc.length - 1; i >= 0; i -= 1) {
+            if (acc[i].senderId === curDm.recipientId && acc[i].recipientId === curDm.senderId) {
+              return acc;
+            }
+          }
+          acc.push(curDm);
+          return acc;
+        }, [] as DmPreview[]);
+        setDmPreviews(reducedPreviews);
+      });
+  };
+
   useEffect(() => {
     axios.get('/user').then((userResponse: { data: User }) => {
       setUser(userResponse.data);
-      axios
-        .get('/chat/dmPreviews', { params: { userId: userResponse.data.id } })
-        .then((dmPreviewsResponse: { data: DmPreview[] }) => {
-          const reducedPreviews: DmPreview[] = dmPreviewsResponse.data.reduce((acc, curDm) => {
-            if (!acc.length) {
-              acc.push(curDm);
-              return acc;
-            }
-            for (let i = acc.length - 1; i >= 0; i -= 1) {
-              if (
-                acc[i].senderId === curDm.recipientId &&
-                acc[i].recipientId === curDm.senderId
-              ) {
-                return acc;
-              }
-            }
-            acc.push(curDm);
-            return acc;
-          }, [] as DmPreview[]);
-          setDmPreviews(reducedPreviews);
-        });
+      getDmPreviews(userResponse.data.id);
+      // axios
+      //   .get('/chat/dmPreviews', { params: { userId: userResponse.data.id } })
+      //   .then((dmPreviewsResponse: { data: DmPreview[] }) => {
+      //     const reducedPreviews: DmPreview[] = dmPreviewsResponse.data.reduce((acc, curDm) => {
+      //       if (!acc.length) {
+      //         acc.push(curDm);
+      //         return acc;
+      //       }
+      //       for (let i = acc.length - 1; i >= 0; i -= 1) {
+      //         if (acc[i].senderId === curDm.recipientId &&
+      // acc[i].recipientId === curDm.senderId) {
+      //           return acc;
+      //         }
+      //       }
+      //       acc.push(curDm);
+      //       return acc;
+      //     }, [] as DmPreview[]);
+      //     setDmPreviews(reducedPreviews);
+      //   });
     });
   }, [setUser, setDmPreviews]);
 
@@ -89,6 +109,7 @@ function Chat() {
         .then((dmResponse) => setDms(dmResponse.data))
         .catch((err) => console.error('Failed finding existing messages: ', err));
       setFoundUsers([] as User[]);
+      // setDmPreviews([] as DmPreview[]);
     }
   }, [selectedUser.id, user.id]);
 
@@ -208,6 +229,7 @@ function Chat() {
   const backToPreview = () => {
     setSelectedUser({} as User);
     setDms([] as Dm[]);
+    getDmPreviews(user.id);
   };
 
   const onMouseHover = (
