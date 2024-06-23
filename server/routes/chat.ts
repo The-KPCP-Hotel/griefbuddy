@@ -45,12 +45,12 @@ chat.get('/dms', async (req, res) => {
   res.send(dms);
 });
 
-chat.get('/existingDms', async (req, res) => {
+chat.get('/dmPreviews', async (req, res) => {
   const { senderId } = req.query;
   const senderNum: number = Number(senderId);
   // this query grabs the most recent sent and received msg from every convo user is a part of
   // the most recent msg comes first
-  const existingDms = await Message.findMany({
+  const dmPreviews = await Message.findMany({
     where: { OR: [{ senderId: senderNum }, { recipientId: senderNum }] },
     orderBy: [{ id: 'desc' }],
     distinct: ['senderId', 'recipientId'],
@@ -63,7 +63,7 @@ chat.get('/existingDms', async (req, res) => {
     },
   });
 
-  res.send(existingDms);
+  res.send(dmPreviews);
 });
 
 export = chat;
