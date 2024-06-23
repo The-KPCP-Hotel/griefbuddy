@@ -212,6 +212,11 @@ function Chat() {
     });
   };
 
+  const backToPreview = () => {
+    setSelectedUser({} as User);
+    setDms([] as Dm[]);
+  };
+
   const color = useColorModeValue('blue.600', 'blue.200');
 
   const otherUserBG = useColorModeValue('lavender', 'purple.700');
@@ -239,7 +244,7 @@ function Chat() {
           <Grid mt=".5rem" templateColumns="repeat(5, 1fr)" gap={1}>
             <GridItem>
               <Button p="0" minW="30px" height="30px">
-                <ArrowBackIcon width="20px" height="20px" />
+                <ArrowBackIcon onClick={backToPreview} width="20px" height="20px" />
               </Button>
             </GridItem>
             <GridItem colSpan={1} />
