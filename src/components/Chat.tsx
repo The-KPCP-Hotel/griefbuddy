@@ -12,6 +12,7 @@ import {
   Box,
   Grid,
   GridItem,
+  Button,
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 
@@ -235,9 +236,11 @@ function Chat() {
       ))}
       {dms.length ? (
         <Box>
-          <Grid templateColumns="repeat(5, 1fr)" gap={1}>
+          <Grid mt=".5rem" templateColumns="repeat(5, 1fr)" gap={1}>
             <GridItem>
-              <ArrowBackIcon />
+              <Button p="0" minW="30px" height="30px">
+                <ArrowBackIcon width="20px" height="20px" />
+              </Button>
             </GridItem>
             <GridItem colSpan={1} />
             <GridItem>
