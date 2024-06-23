@@ -78,8 +78,8 @@ function Chat() {
           }, [] as DmPreview[]);
           setDmPreviews(reducedPreviews);
           // setDmPreviews(dmPreviewsResponse.data);
-          console.log(dmPreviewsResponse.data);
-          console.log(reducedPreviews);
+          // console.log(dmPreviewsResponse.data);
+          // console.log(reducedPreviews);
         });
     });
   }, [setUser, setDmPreviews]);
@@ -185,11 +185,11 @@ function Chat() {
       target: React.ButtonHTMLAttributes<HTMLButtonElement>;
     },
   ) => {
-    console.log(e.target.id);
-    console.log(
-      Number(e.target.id.split('-')[0]) !== user.id,
-      Number(e.target.id.split('-')[1]) !== user.id,
-    );
+    // console.log(e.target.id);
+    // console.log(
+    //   Number(e.target.id.split('-')[0]) !== user.id,
+    //   Number(e.target.id.split('-')[1]) !== user.id,
+    // );
     const ids: string[] = e.target.id.split('-');
     const firstId: number = Number(ids[0]);
     const secondId: number = Number(ids[1]);
