@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import axios from 'axios';
 import {
-  Box,
   Center,
   Container,
   Heading,
@@ -10,11 +9,12 @@ import {
   StackDivider,
   useColorModeValue,
   Text,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
+  Box,
+  // Tabs,
+  // TabList,
+  // Tab,
+  // TabPanels,
+  // TabPanel,
 } from '@chakra-ui/react';
 
 import { User } from '@prisma/client';
@@ -37,7 +37,7 @@ function Chat() {
 
   const [foundUsers, setFoundUsers] = useState([] as User[]);
 
-  const [tabIndex, setTabIndex] = useState(0);
+  // const [tabIndex, setTabIndex] = useState(0);
 
   const [dm, setDm] = useState('');
 
@@ -169,8 +169,40 @@ function Chat() {
       target: React.ButtonHTMLAttributes<HTMLButtonElement>;
     },
   ) => {
-    setTabIndex(1);
+    // setTabIndex(1);
     axios.get('/chat/user', { params: { id: e.target.id } }).then((userResponse) => {
+      setSelectedUser(userResponse.data);
+      const roomName: string =
+        user.googleId < userResponse.data.googleId
+          ? `${user.googleId}-${userResponse.data.googleId}`
+          : `${userResponse.data.googleId}-${user.googleId}`;
+      setRoom(roomName);
+      socket.emit('room', roomName);
+    });
+  };
+
+  const dmPreviewSelect = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => {
+    console.log(e.target.id);
+    console.log(
+      Number(e.target.id.split('-')[0]) !== user.id,
+      Number(e.target.id.split('-')[1]) !== user.id,
+    );
+    const ids: string[] = e.target.id.split('-');
+    const firstId: number = Number(ids[0]);
+    const secondId: number = Number(ids[1]);
+    let selectedUserId: number;
+    if (firstId !== user.id) {
+      selectedUserId = firstId;
+    } else if (secondId !== user.id) {
+      selectedUserId = secondId;
+    } else {
+      selectedUserId = user.id;
+    }
+    axios.get('/chat/user', { params: { id: selectedUserId } }).then((userResponse) => {
       setSelectedUser(userResponse.data);
       const roomName: string =
         user.googleId < userResponse.data.googleId
@@ -203,8 +235,42 @@ function Chat() {
           {foundUser.preferredName || foundUser.name}
         </Text>
       ))}
-      <DmPreviews dmPreviews={dmPreviews} />
-      <Tabs index={tabIndex} onChange={(index) => setTabIndex(index)}>
+      {dms.length ? (
+        <Box>
+          <Center>
+            <Text>{selectedUser.preferredName || selectedUser.name}</Text>
+          </Center>
+          <Stack divider={<StackDivider />} margin="8px">
+            {dms.map((msg, index) => (
+              <Text
+                // eslint-disable-next-line react/no-array-index-key
+                key={`${msg.senderId}-${index}`}
+                borderRadius="10px"
+                background={msg.senderId === user.id ? 'blue.600' : otherUserBG}
+                p="10px"
+                color={msg.senderId === user.id ? 'white' : otherUserColor}
+                textAlign={msg.senderId === user.id ? 'right' : 'left'}
+                marginLeft={msg.senderId === user.id ? 'auto' : 0}
+                width="fit-content"
+              >
+                {msg.msg}
+              </Text>
+            ))}
+          </Stack>
+          <ChatInput
+            messagesEndRef={messagesEndRef}
+            message={dm}
+            onChange={onChange}
+            onSend={onSendDm}
+            onPress={onPress}
+            id="dm"
+          />
+        </Box>
+      ) : (
+        // <div>{dms[0].msg}</div>
+        <DmPreviews dmPreviews={dmPreviews} select={dmPreviewSelect} />
+      )}
+      {/* <Tabs index={tabIndex} onChange={(index) => setTabIndex(index)}>
         <TabList>
           <Tab>Main</Tab>
           <Tab>DMs</Tab>
@@ -275,7 +341,7 @@ function Chat() {
             />
           </TabPanel>
         </TabPanels>
-      </Tabs>
+      </Tabs> */}
     </Container>
   );
 }

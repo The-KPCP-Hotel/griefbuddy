@@ -2,7 +2,17 @@ import React from 'react';
 import { Box, StackDivider, Text, VStack, useColorModeValue } from '@chakra-ui/react';
 import { DmPreview } from '../../types/chat';
 
-function DmPreviews({ dmPreviews }: { dmPreviews: DmPreview[] }) {
+function DmPreviews({
+  dmPreviews,
+  select,
+}: {
+  dmPreviews: DmPreview[];
+  select: (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => void;
+}) {
   const bgClr = useColorModeValue('whitesmoke', 'default');
 
   const shortenMsg: (msg: string) => string = (msg) => {
@@ -15,23 +25,41 @@ function DmPreviews({ dmPreviews }: { dmPreviews: DmPreview[] }) {
     return shortMsg;
   };
 
-  const onMouseHover = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
-    target: React.ButtonHTMLAttributes<HTMLButtonElement>;
-  }) => {
+  const onMouseHover = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => {
     e.target.style.textDecoration = 'underline';
   };
 
-  const onMouseLeave = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
-    target: React.ButtonHTMLAttributes<HTMLButtonElement>;
-  }) => {
+  const onMouseLeave = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => {
     e.target.style.textDecoration = 'none';
   };
 
   return (
-    <VStack divider={<StackDivider />} backgroundColor={bgClr} alignItems="start" borderRadius=".4rem" mt=".4rem" p=".5rem">
+    <VStack
+      divider={<StackDivider />}
+      backgroundColor={bgClr}
+      alignItems="start"
+      borderRadius=".4rem"
+      mt=".4rem"
+      p=".5rem"
+    >
       {dmPreviews.map((dm) => (
         <Box key={`${dm.senderId}-${dm.recipientId}`}>
-          <Text id={`text-${dm.senderId}-${dm.recipientId}`} onMouseEnter={onMouseHover} onMouseLeave={onMouseLeave}>{`${dm.recipient.preferredName || dm.recipient.name}: ${shortenMsg(dm.msg)}`}</Text>
+          <Text
+            id={`${dm.senderId}-${dm.recipientId}`}
+            onMouseEnter={onMouseHover}
+            onMouseLeave={onMouseLeave}
+            onClick={select}
+          >
+            {`${dm.recipient.preferredName || dm.recipient.name}: ${shortenMsg(dm.msg)}`}
+          </Text>
         </Box>
       ))}
     </VStack>
