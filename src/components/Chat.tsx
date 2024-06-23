@@ -66,11 +66,13 @@ function Chat() {
               acc.push(curDm);
               return acc;
             }
-            if (
-              acc[acc.length - 1].senderId === curDm.recipientId &&
-              acc[acc.length - 1].recipientId === curDm.senderId
-            ) {
-              return acc;
+            for (let i = acc.length - 1; i >= 0; i -= 1) {
+              if (
+                acc[i].senderId === curDm.recipientId &&
+                acc[i].recipientId === curDm.senderId
+              ) {
+                return acc;
+              }
             }
             acc.push(curDm);
             return acc;
