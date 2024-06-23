@@ -21,6 +21,7 @@ import { Message, Dm, DmPreview } from '../types/chat';
 
 import ChatInput from './ChatComponents/ChatInput';
 import UserSearchInput from './ChatComponents/UserSearchInput';
+import FoundUsers from './ChatComponents/FoundUsers';
 import DmPreviews from './ChatComponents/DmPreviews';
 
 const socket: Socket = io();
@@ -267,11 +268,12 @@ function Chat() {
             onSearch={onSearch}
             onPress={onPress}
           />
-          {foundUsers.map((foundUser) => (
+          {/* {foundUsers.map((foundUser) => (
             <Text onClick={userSelect} key={foundUser.googleId} id={`${foundUser.id}`}>
               {foundUser.preferredName || foundUser.name}
             </Text>
-          ))}
+          ))} */}
+          <FoundUsers foundUsers={foundUsers} userSelect={userSelect} />
           <DmPreviews dmPreviews={dmPreviews} select={dmPreviewSelect} />
         </>
       )}
