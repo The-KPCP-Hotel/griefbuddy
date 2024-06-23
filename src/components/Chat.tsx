@@ -207,6 +207,22 @@ function Chat() {
     setDms([] as Dm[]);
   };
 
+  const onMouseHover = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => {
+    e.target.style.textDecoration = 'underline';
+  };
+
+  const onMouseLeave = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => {
+    e.target.style.textDecoration = 'none';
+  };
+
   const color = useColorModeValue('blue.600', 'blue.200');
 
   const otherUserBG = useColorModeValue('lavender', 'purple.700');
@@ -273,8 +289,18 @@ function Chat() {
               {foundUser.preferredName || foundUser.name}
             </Text>
           ))} */}
-          <FoundUsers foundUsers={foundUsers} userSelect={userSelect} />
-          <DmPreviews dmPreviews={dmPreviews} select={dmPreviewSelect} />
+          <FoundUsers
+            foundUsers={foundUsers}
+            userSelect={userSelect}
+            onMouseHover={onMouseHover}
+            onMouseLeave={onMouseLeave}
+          />
+          <DmPreviews
+            dmPreviews={dmPreviews}
+            select={dmPreviewSelect}
+            onMouseHover={onMouseHover}
+            onMouseLeave={onMouseLeave}
+          />
         </>
       )}
     </Container>

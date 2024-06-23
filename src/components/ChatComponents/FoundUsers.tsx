@@ -5,9 +5,21 @@ import { User } from '@prisma/client';
 function FoundUsers({
   foundUsers,
   userSelect,
+  onMouseHover,
+  onMouseLeave,
 }: {
   foundUsers: User[];
   userSelect: (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => void;
+  onMouseHover: (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => void;
+  onMouseLeave: (
     e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
       target: React.ButtonHTMLAttributes<HTMLButtonElement>;
     },
@@ -18,7 +30,7 @@ function FoundUsers({
   return foundUsers.length ? (
     <VStack divider={<StackDivider />} backgroundColor={bgClr} alignItems="start" p=".5rem">
       {foundUsers.map((foundUser) => (
-        <Text onClick={userSelect} key={foundUser.googleId} id={`${foundUser.id}`}>
+        <Text onClick={userSelect} onMouseEnter={onMouseHover} onMouseLeave={onMouseLeave} key={foundUser.googleId} id={`${foundUser.id}`}>
           {foundUser.preferredName || foundUser.name}
         </Text>
       ))}

@@ -5,9 +5,21 @@ import { DmPreview } from '../../types/chat';
 function DmPreviews({
   dmPreviews,
   select,
+  onMouseHover,
+  onMouseLeave,
 }: {
   dmPreviews: DmPreview[];
   select: (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => void;
+  onMouseHover: (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    },
+  ) => void;
+  onMouseLeave: (
     e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
       target: React.ButtonHTMLAttributes<HTMLButtonElement>;
     },
@@ -25,21 +37,21 @@ function DmPreviews({
     return shortMsg;
   };
 
-  const onMouseHover = (
-    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
-      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
-    },
-  ) => {
-    e.target.style.textDecoration = 'underline';
-  };
+  // const onMouseHover = (
+  //   e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+  //     target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  //   },
+  // ) => {
+  //   e.target.style.textDecoration = 'underline';
+  // };
 
-  const onMouseLeave = (
-    e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
-      target: React.ButtonHTMLAttributes<HTMLButtonElement>;
-    },
-  ) => {
-    e.target.style.textDecoration = 'none';
-  };
+  // const onMouseLeave = (
+  //   e: React.MouseEvent<HTMLParagraphElement, MouseEvent> & {
+  //     target: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  //   },
+  // ) => {
+  //   e.target.style.textDecoration = 'none';
+  // };
 
   return (
     <VStack
