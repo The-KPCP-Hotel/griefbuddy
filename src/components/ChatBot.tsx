@@ -186,8 +186,8 @@ function ChatBot() {
   return (
     <>
       <Center mt=".5rem">
-        <Heading color={color} boxSize="3rem">
-          <Icon as={VscRobot} boxSize="3rem" />
+        <Heading color={color} as="h2" aria-label="Chat bot" boxSize="3rem">
+          <Icon as={VscRobot} aria-label="Chat bot icon" boxSize="3rem" />
         </Heading>
       </Center>
       <Info />
