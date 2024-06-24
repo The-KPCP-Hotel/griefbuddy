@@ -22,7 +22,7 @@ import {
   Image,
   Text,
 } from '@chakra-ui/react';
-import { SunIcon, MoonIcon } from '@chakra-ui/icons';
+import { SunIcon, MoonIcon, CalendarIcon, ChatIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
 import Logout from './Logout';
 
 function Navbar() {
@@ -42,9 +42,7 @@ function Navbar() {
           <Center>
             <Heading as="h1" size="xl" color={textHeading}>
               {useLocation().pathname === '/' ? (
-                <Text fontSize="2.5rem">
-                  GriefBuddy
-                </Text>
+                <Text fontSize="2.5rem">GriefBuddy</Text>
               ) : (
                 <Link to="/home" style={{ fontSize: '2.5rem' }}>
                   GriefBuddy
@@ -85,22 +83,27 @@ function Navbar() {
           <DrawerBody color={text} textDecorationThickness="bold">
             <VStack divider={<StackDivider />}>
               <Link onClick={onClose} to="/profile">
-                Profile
+                <EditIcon />
+                {' Profile'}
               </Link>
               <Link onClick={onClose} to="/chat">
-                Chat
+                <ChatIcon />
+                {' Chat'}
               </Link>
               <Link onClick={onClose} to="/chatbot">
-                ChatBot
+                <ChatIcon />
+                {' ChatBot'}
               </Link>
               <Link onClick={onClose} to="/events">
-                Local Happenings
+                <CalendarIcon />
+                {' Local Happenings'}
               </Link>
               <Link onClick={onClose} to="/map">
                 Meetup Map
               </Link>
               <Link onClick={onClose} to="/resources">
-                Resources
+                <InfoIcon />
+                {' Resources'}
               </Link>
               <Logout />
             </VStack>
