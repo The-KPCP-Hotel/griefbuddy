@@ -21,8 +21,11 @@ import {
   useColorModeValue,
   Image,
   Text,
+  Icon,
 } from '@chakra-ui/react';
 import { SunIcon, MoonIcon, CalendarIcon, ChatIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
+import { VscRobot, VscLocation } from 'react-icons/vsc';
+
 import Logout from './Logout';
 
 function Navbar() {
@@ -91,7 +94,7 @@ function Navbar() {
                 {' Chat'}
               </Link>
               <Link onClick={onClose} to="/chatbot">
-                <ChatIcon />
+                <Icon as={VscRobot} />
                 {' ChatBot'}
               </Link>
               <Link onClick={onClose} to="/events">
@@ -99,7 +102,8 @@ function Navbar() {
                 {' Local Happenings'}
               </Link>
               <Link onClick={onClose} to="/map">
-                Meetup Map
+                <Icon as={VscLocation} />
+                {' Meetup Map'}
               </Link>
               <Link onClick={onClose} to="/resources">
                 <InfoIcon />
