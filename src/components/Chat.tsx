@@ -14,7 +14,7 @@ import {
   GridItem,
   Button,
 } from '@chakra-ui/react';
-import { ArrowBackIcon } from '@chakra-ui/icons';
+import { ArrowBackIcon, ChatIcon } from '@chakra-ui/icons';
 
 import { User } from '@prisma/client';
 import { Message, Dm, DmPreview } from '../types/chat';
@@ -256,8 +256,10 @@ function Chat() {
 
   return (
     <Container>
-      <Center>
-        <Heading color={color}>Chat</Heading>
+      <Center mt=".5rem">
+        <Heading color={color} as="h2" aria-label="Chat" boxSize="3rem">
+          <ChatIcon aria-label="Chat icon" boxSize="2.75rem" />
+        </Heading>
       </Center>
       {dms.length ? (
         <Box>
