@@ -10,10 +10,12 @@ import {
   Box,
   Skeleton,
   useColorModeValue,
+  Icon,
 } from '@chakra-ui/react';
+import { VscRobot } from 'react-icons/vsc';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { UserContext } from '../context/UserContext';
 
+import { UserContext } from '../context/UserContext';
 import Info from './BotComponents/Info';
 import DeleteModal from './BotComponents/DeleteModal';
 import ChatInput from './ChatComponents/ChatInput';
@@ -183,14 +185,12 @@ function ChatBot() {
 
   return (
     <>
-      <Center>
-        <Heading color={color}>
-          Chat Bot
+      <Center mt=".5rem">
+        <Heading color={color} boxSize="3rem">
+          <Icon as={VscRobot} boxSize="3rem" />
         </Heading>
       </Center>
-      <Center>
-        <Info />
-      </Center>
+      <Info />
       <Container>
         <DeleteModal onDelete={onDelete} />
         <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
