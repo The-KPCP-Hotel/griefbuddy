@@ -13,6 +13,7 @@ import {
   Grid,
   GridItem,
   Button,
+  useToast,
 } from '@chakra-ui/react';
 import { ArrowBackIcon, ChatIcon } from '@chakra-ui/icons';
 
@@ -27,6 +28,8 @@ import DmPreviews from './ChatComponents/DmPreviews';
 const socket: Socket = io();
 
 function Chat() {
+  const toast = useToast();
+
   const [user, setUser] = useState({} as User);
 
   const [message, setMessage] = useState('');
@@ -120,10 +123,18 @@ function Chat() {
 
   const onSendDm = () => {
     if (dm) {
+      // moderates dms - does add a slight lag to msg send
       axios.post('chatbot/moderate', { message: { content: dm } }).then(({ data }) => {
-        console.log(data);
         if (!data && room) {
           socket.emit('dm', dm, room, user.id, selectedUser.id);
+        } else if (data) {
+          toast({
+            title: 'Flagged message.',
+            description: 'Your message was flagged for inappropriate content and will not send.',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+          });
         }
       });
     }
