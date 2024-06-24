@@ -80,25 +80,6 @@ function Chat() {
     axios.get('/user').then((userResponse: { data: User }) => {
       setUser(userResponse.data);
       getDmPreviews(userResponse.data.id);
-      // axios
-      //   .get('/chat/dmPreviews', { params: { userId: userResponse.data.id } })
-      //   .then((dmPreviewsResponse: { data: DmPreview[] }) => {
-      //     const reducedPreviews: DmPreview[] = dmPreviewsResponse.data.reduce((acc, curDm) => {
-      //       if (!acc.length) {
-      //         acc.push(curDm);
-      //         return acc;
-      //       }
-      //       for (let i = acc.length - 1; i >= 0; i -= 1) {
-      //         if (acc[i].senderId === curDm.recipientId &&
-      // acc[i].recipientId === curDm.senderId) {
-      //           return acc;
-      //         }
-      //       }
-      //       acc.push(curDm);
-      //       return acc;
-      //     }, [] as DmPreview[]);
-      //     setDmPreviews(reducedPreviews);
-      //   });
     });
   }, [setUser, setDmPreviews]);
 
@@ -138,8 +119,13 @@ function Chat() {
   }, [setMessages]);
 
   const onSendDm = () => {
-    if (dm && room) {
-      socket.emit('dm', dm, room, user.id, selectedUser.id);
+    if (dm) {
+      axios.post('chatbot/moderate', { message: { content: dm } }).then(({ data }) => {
+        console.log(data);
+        if (!data && room) {
+          socket.emit('dm', dm, room, user.id, selectedUser.id);
+        }
+      });
     }
     setDm('');
   };
