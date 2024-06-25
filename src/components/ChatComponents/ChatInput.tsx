@@ -22,7 +22,7 @@ function ChatInput({
   id: string;
 }) {
   return (
-    <HStack ref={messagesEndRef}>
+    <HStack ref={messagesEndRef} mb=".5rem">
       <Input
         onChange={onChange}
         onKeyDown={onPress}

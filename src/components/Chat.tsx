@@ -276,31 +276,33 @@ function Chat() {
             </GridItem>
             <GridItem colSpan={2} />
           </Grid>
-          <Stack divider={<StackDivider />} margin="8px">
-            {dms.map((msg, index) => (
-              <Text
-                // eslint-disable-next-line react/no-array-index-key
-                key={`${msg.senderId}-${index}`}
-                borderRadius="10px"
-                background={msg.senderId === user.id ? 'blue.600' : otherUserBG}
-                p="10px"
-                color={msg.senderId === user.id ? 'white' : otherUserColor}
-                textAlign={msg.senderId === user.id ? 'right' : 'left'}
-                marginLeft={msg.senderId === user.id ? 'auto' : 0}
-                width="fit-content"
-              >
-                {msg.msg}
-              </Text>
-            ))}
-          </Stack>
-          <ChatInput
-            messagesEndRef={messagesEndRef}
-            message={dm}
-            onChange={onChange}
-            onSend={onSendDm}
-            onPress={onPress}
-            id="dm"
-          />
+          <Container overflowY="auto" maxH="80vh">
+            <Stack divider={<StackDivider />} margin="8px">
+              {dms.map((msg, index) => (
+                <Text
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`${msg.senderId}-${index}`}
+                  borderRadius="10px"
+                  background={msg.senderId === user.id ? 'blue.600' : otherUserBG}
+                  p="10px"
+                  color={msg.senderId === user.id ? 'white' : otherUserColor}
+                  textAlign={msg.senderId === user.id ? 'right' : 'left'}
+                  marginLeft={msg.senderId === user.id ? 'auto' : 0}
+                  width="fit-content"
+                >
+                  {msg.msg}
+                </Text>
+              ))}
+            </Stack>
+            <ChatInput
+              messagesEndRef={messagesEndRef}
+              message={dm}
+              onChange={onChange}
+              onSend={onSendDm}
+              onPress={onPress}
+              id="dm"
+            />
+          </Container>
         </Box>
       ) : (
         <>
