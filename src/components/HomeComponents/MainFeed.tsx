@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Center, Input, InputGroup, InputRightElement, VStack, Textarea, Button } from '@chakra-ui/react';
-import { IoSend } from "react-icons/io5";
+import { VscSend } from "react-icons/vsc";
 import axios from 'axios';
 
 import MainFeedPost from './MainFeedPost';
@@ -56,7 +56,7 @@ function MainFeed(props: any) {
           onClick={() => {
             addPost();
           }} 
-          children={<IoSend/>} />
+          children={<VscSend/>} />
        </InputGroup>
       </Center>
       <Center>

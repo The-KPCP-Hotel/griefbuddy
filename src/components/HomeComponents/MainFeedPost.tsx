@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { IoSend } from "react-icons/io5";
-import { MdDeleteForever } from "react-icons/md";
+import { VscSend } from "react-icons/vsc";
+import { VscTrash } from "react-icons/vsc";
 import {
   Card,
   CardHeader,
@@ -151,7 +151,7 @@ function MainFeedPost(props: any) {
           variant="ghost"
           colorScheme="gray"
           aria-label="See menu"
-          icon={<MdDeleteForever/>}
+          icon={<VscTrash/>}
           onClick={() => {
             deletePost();
           }}
@@ -213,7 +213,7 @@ function MainFeedPost(props: any) {
           onClick={() => {
             addComment();
           }} 
-          children={<IoSend/>} />
+          children={<VscSend/>} />
         </InputGroup>
       </Center>
       {/* <Center>
