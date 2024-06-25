@@ -12,6 +12,7 @@ import {
   SimpleGrid,
   Wrap,
   WrapItem,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import EventListItem from './EventsComponents/EventListItem';
@@ -54,11 +55,13 @@ function Events() {
       .catch();
   }, []);
 
+  const color = useColorModeValue('blue.600', 'blue.200');
+
   return (
     <VStack spacing="4" maxW="100%">
       <Box>
         <Center>
-          <Heading as="h2" size="xl" color="blue.200">
+          <Heading as="h2" color={color}>
             Events
           </Heading>
         </Center>
@@ -79,7 +82,7 @@ function Events() {
             <CardBody>
               <Wrap spacingY="40px" spacingX="80px" justify="center">
                 {eventsToday.map((event) => (
-                  <WrapItem>
+                  <WrapItem key={`wi-${event.OgId}`}>
                     <Center>
                       <EventListItem key={event.OgId} event={event} eventFocus="" />
                     </Center>

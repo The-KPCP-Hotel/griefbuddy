@@ -13,6 +13,12 @@ import mapRouter from './routes/map';
 import chatbotRouter from './routes/chatbot';
 import mainFeedRouter from './routes/mainFeed';
 import resourcesRouter from './routes/resources';
+import chatRouter from './routes/chat';
+
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
+const { Message } = prisma;
 
 require('dotenv').config();
 
@@ -53,6 +59,7 @@ app.use('/map', mapRouter);
 app.use('/chatbot', chatbotRouter);
 app.use('/mainFeed', mainFeedRouter);
 app.use('/resources', resourcesRouter);
+app.use('/chat', chatRouter);
 
 const checkAuth = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
@@ -81,11 +88,21 @@ app.post('/logout', (req, res, next) => {
 
 io.on('connection', (socket) => {
   // console.log(`${socket.id} connected to chat.`);
-
-  socket.on('msg', (msg, clientOffset) => {
-    // only being logged once - front end being called many times
-    // console.log(msg);
+  socket.on('msg', (msg: string, clientOffset) => {
     io.emit('sendMsg', msg, clientOffset);
+  });
+
+  socket.on('room', (room) => {
+    // console.log('joining room: ', room);
+    socket.join(room);
+  });
+
+  socket.on('dm', async (dm: string, room: string, userId: number, sendId: number) => {
+    // console.log('sending to room: ', room);
+    const message = await Message.create({
+      data: { msg: dm, senderId: userId, recipientId: sendId },
+    });
+    io.to(room).emit('sendDm', message.msg, message.senderId, message.recipientId);
   });
 });
 // io.on('connection', (socket) => {

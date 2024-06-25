@@ -11,6 +11,7 @@ import {
   Box,
   Wrap,
   WrapItem,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import dayjs from 'dayjs';
@@ -27,6 +28,8 @@ function Event() {
 
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
+
+  const color = useColorModeValue('blue.600', 'blue.200');
 
   useEffect(() => {
     axios
@@ -48,7 +51,7 @@ function Event() {
       <Container maxW="7xl">
         <Box padding="10px">
           <Center>
-            <Heading size="3xl" color="blue.200">
+            <Heading color={color}>
               {title}
             </Heading>
           </Center>
@@ -56,7 +59,7 @@ function Event() {
         <Card>
           <CardBody>
             <Text>{description}</Text>
-            <Text>{address}</Text>
+            {address !== 'N/A' ? <Text>{address}</Text> : null}
             <ChakraLink href={event.url} isExternal>
               More information on their site
               <ExternalLinkIcon mx="2px" />

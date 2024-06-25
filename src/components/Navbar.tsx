@@ -20,6 +20,7 @@ import {
   useColorMode,
   useColorModeValue,
   Image,
+  Text,
 } from '@chakra-ui/react';
 import { SunIcon, MoonIcon } from '@chakra-ui/icons';
 import Logout from './Logout';
@@ -35,13 +36,15 @@ function Navbar() {
   const text = useColorModeValue('blue.600', 'whitesmoke');
 
   return (
-    <Container className="navContainer" width="100%" maxW="inherit" bg={bg} h="4.5rem">
-      <Flex className="navFlex" alignItems="center" gap="2" minWidth="max-content">
+    <Container className="navContainer" width="100%" maxW="inherit" bg={bg} h="3.25rem">
+      <Flex className="navFlex" alignItems="center" gap="2" minWidth="max-content" maxH="3.25rem">
         <Box className="GriefBuddyBox">
           <Center>
             <Heading as="h1" size="xl" color={textHeading}>
               {useLocation().pathname === '/' ? (
-                'GriefBuddy'
+                <Text fontSize="2.5rem">
+                  GriefBuddy
+                </Text>
               ) : (
                 <Link to="/home" style={{ fontSize: '2.5rem' }}>
                   GriefBuddy
@@ -50,10 +53,11 @@ function Navbar() {
             </Heading>
           </Center>
         </Box>
+        {useLocation().pathname === '/' ? null : <Image maxW="3rem" src="grief-buddy.png" />}
         <Spacer />
         <Box p="2">
           {useLocation().pathname === '/' ? (
-            <Image maxW="3rem" src="GriefBuddyLogo.png" />
+            <Image maxW="3rem" src="grief-buddy.png" />
           ) : (
             <Button
               colorScheme={bg}
