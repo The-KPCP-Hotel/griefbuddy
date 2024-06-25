@@ -41,13 +41,20 @@ router.get('/addResource', async (req: Request, res: Response) => {
             return Array.from(document.querySelectorAll('.panel-right .bg-powderblue'), (e: HTMLElement) => (e.innerHTML))
         })
 
+        const resourcesSplit = allResources[0].replace('\n', '').trim().split('<h3>')
+        const resourceStorage: String[] = [] 
+        resourcesSplit.forEach((resource: any) => {
+            let h3 = '<h3>'
+            resourceStorage.push(h3.concat(resource)) 
+        });
         await browser.close();
 
         res.status(200).send({
             titles: resourceTitles,
             links: resourceLinks,
             descriptions: resourceDescriptions,
-            allResources
+            allResources,
+            resourceStorage: resourceStorage
         });
     });
 

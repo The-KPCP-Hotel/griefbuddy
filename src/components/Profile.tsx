@@ -23,6 +23,16 @@ import {
   StackDivider,
   Text,
   useColorModeValue,
+  ButtonGroup,
+  Editable,
+  EditablePreview,
+  EditableInput,
+  Flex,
+  Spacer,
+  HStack,
+  useEditableControls,
+  IconButtonProps,
+  IconButton
 } from '@chakra-ui/react';
 
 import PhoneInput from './ProfileComponents/PhoneInput';
@@ -50,6 +60,10 @@ function Profile() {
   const [myMood, setMood] = useState("I'm Feeling Great!");
   const [age, setAge] = useState('18-99+');
   const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888');
+  const [myNameEditClicked, setMyNameEditClicked] = useState(false)
+  const [myNumberEditClicked, setMyNumberEditClicked] = useState(false)
+  const [myAgeEditClicked, setMyAgeEditClicked] = useState(false)
+  const [myMoodEditClicked, setMyMoodEditClicked] = useState(false)
 
   const contactWarningId = useId();
 
@@ -97,6 +111,96 @@ function Profile() {
       });
   }
 
+  function doubleClickOnInput(heading: String) {
+    if (myNameEditClicked === false && heading === "Preferred Name") {
+      return (
+       <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+           <Flex>
+          <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+            setMyNameEditClicked(true)
+          }}>
+            {userObj ? userObj.preferredName : ''}
+          </Text>
+        </Flex>
+        </>
+      )
+    } else if(myNumberEditClicked === false && heading === "Phone Number") {
+      return (
+        <>
+           <Heading size="xs" textTransform="uppercase">
+             {heading}
+           </Heading>
+            <Flex>
+           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+             setMyNumberEditClicked(true)
+           }}>
+             {userObj ? userObj.myPhoneNumber : ''}
+           </Text>
+         </Flex>
+         </>
+       )
+    } else if(myAgeEditClicked === false && heading === "Age"){
+      return (
+        <>
+           <Heading size="xs" textTransform="uppercase">
+             {heading}
+           </Heading>
+            <Flex>
+           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+             setMyAgeEditClicked(true)
+           }}>
+             {userObj ? userObj.agee : ''}
+           </Text>
+         </Flex>
+         </>
+       )
+    } else if(myMoodEditClicked === false && heading === "Current Mental State") {
+      return (
+        <>
+           <Heading size="xs" textTransform="uppercase">
+             {heading}
+           </Heading>
+            <Flex>
+           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+             setMyMoodEditClicked(true)
+           }}>
+             {userObj ? userObj.currMood : ''}
+           </Text>
+         </Flex>
+         </>
+       )
+    }
+    
+    else {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+          <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+          <Spacer />
+          <Button>✏️</Button>
+        </Flex>
+        </>
+      )
+    }
+
+  }
+
+  function sendUpdateOnClick() {
+
+  }
+
+
+  function inputReturnBasedOffInputType() {
+    
+  }
+
+
   useEffect(() => {
     axios.get('/user').then(({ data }) => {
       const refreshObj = { ...data };
@@ -104,8 +208,10 @@ function Profile() {
     });
   }, []);
 
-  useEffect(() => {}, [nickname]);
+  useEffect(() => {}, [nickname, myNameEditClicked, myAgeEditClicked, myNumberEditClicked, myMoodEditClicked]);
 
+  // useEffect(() => {
+  // }, [selfEditClicked])
   return (
     <div>
       <Container maxW="7xl" h="550px">
@@ -134,94 +240,75 @@ function Profile() {
             <br />
           </GridItem>
 
-          <GridItem colSpan={4} bg={bg} h="616px" borderRadius="15px">
-            <Tabs isLazy>
-              <TabList paddingTop="15px">
-                <Tab fontSize="20px">About Me</Tab>
-                <Tab fontSize="20px">Friend Contact</Tab>
-                <Tab fontSize="20px">Personal Settings</Tab>
-              </TabList>
-              <TabPanels>
-                {/* initially mounted */}
-                <TabPanel>
-                  <Card h="500px">
-                    <CardBody>
-                      <Stack divider={<StackDivider />} spacing="4">
-                        <Box>
-                          <Heading size="xs" textTransform="uppercase">
-                            Name
-                          </Heading>
-                          <Text pt="2" fontSize="sm">
-                            {userObj ? userObj.preferredName : ''}
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Heading size="xs" textTransform="uppercase">
-                            Phone Number
-                          </Heading>
-                          <Text pt="2" fontSize="sm">
-                            {userObj ? userObj.myPhoneNumber : ''}
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Heading size="xs" textTransform="uppercase">
-                            Age
-                          </Heading>
-                          <Text pt="2" fontSize="sm">
-                            {userObj ? userObj.agee : ''}
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Heading size="xs" textTransform="uppercase">
-                            Current Mental State
-                          </Heading>
-                          <Text pt="2" fontSize="sm">
-                            {userObj ? userObj.currMood : ''}
-                          </Text>
-                        </Box>
-                      </Stack>
-                    </CardBody>
-                  </Card>
-                </TabPanel>
-                {/* initially not mounted */}
-                <TabPanel>
-                  <Card h="500px">
-                    <CardBody>
-                      <Stack divider={<StackDivider />} spacing="4">
-                        <Box>
-                          <Heading size="xs" textTransform="uppercase">
-                            Name
-                          </Heading>
-                          <Text pt="2" fontSize="sm">
-                            {userObj ? userObj.emConName : ''}
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Heading size="xs" textTransform="uppercase">
-                            Phone Number
-                          </Heading>
-                          <Text pt="2" fontSize="sm">
-                            {userObj ? userObj.emConNum : ''}
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Heading size="xs" textTransform="uppercase">
-                            Relationship
-                          </Heading>
-                          <Text pt="2" fontSize="sm">
-                            {userObj ? userObj.emConRelationship : ''}
-                          </Text>
-                        </Box>
-                      </Stack>
-                    </CardBody>
-                  </Card>
-                </TabPanel>
-                <TabPanel>
-                  <FormControl>
-                    <Card h="500px" style={{ overflow: 'scroll' }}>
-                      <CardHeader>
-                        <Heading size="md">Update Personal Settings</Heading>
-                      </CardHeader>
+            <GridItem colSpan={4} bg={bg} h="616px" borderRadius="15px">
+              <Tabs isLazy>
+                <TabList paddingTop="15px">
+                  <Tab fontSize="20px">About Me</Tab>
+                  <Tab fontSize="20px">Friend Contact</Tab>
+                  <Tab fontSize="20px">Personal Settings</Tab>
+                </TabList>
+                <TabPanels>
+                  {/* initially mounted */}
+                  <TabPanel>
+                    <Card h="500px">
+                      <CardBody>
+                        <Stack divider={<StackDivider />} spacing="4">
+                          <Box>
+                          {doubleClickOnInput("Preferred Name")}
+                          </Box>
+                          <Box>
+                          {doubleClickOnInput("Phone Number")}
+                          </Box>
+                          <Box>
+                          {doubleClickOnInput("Age")}
+                          </Box>
+                          <Box>
+                          {doubleClickOnInput("Current Mental State")}
+                          </Box>
+                        </Stack>
+                      </CardBody>
+                    </Card>
+                  </TabPanel>
+                  {/* initially not mounted */}
+                  <TabPanel>
+                    <Card h="500px">
+
+                      <CardBody>
+                        <Stack divider={<StackDivider />} spacing="4">
+                          <Box>
+                            <Heading size="xs" textTransform="uppercase">
+                              Name
+                            </Heading>
+                            <Text pt="2" fontSize="sm">
+                              {userObj ? userObj.emConName : ''}
+                            </Text>
+                          </Box>
+                          <Box>
+                            <Heading size="xs" textTransform="uppercase">
+                              Phone Number
+                            </Heading>
+                            <Text pt="2" fontSize="sm">
+                              {userObj ? userObj.emConNum : ''}
+                            </Text>
+                          </Box>
+                          <Box>
+                            <Heading size="xs" textTransform="uppercase">
+                              Relationship
+                            </Heading>
+                            <Text pt="2" fontSize="sm">
+                              {userObj ? userObj.emConRelationship : ''}
+                            </Text>
+                          </Box>
+                        </Stack>
+                      </CardBody>
+                    </Card>
+                  </TabPanel>
+                  <TabPanel>
+                    <FormControl>
+                      <Card h="500px" style={{ overflow: 'scroll' }}>
+                        <CardHeader>
+                          <Heading size="md">Update Personal Settings</Heading>
+                        </CardHeader>
 
                       <CardBody>
                         <Stack divider={<StackDivider />} spacing="4">

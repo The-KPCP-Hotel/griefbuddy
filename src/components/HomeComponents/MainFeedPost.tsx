@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { VscSend } from "react-icons/vsc";
+import { VscTrash } from "react-icons/vsc";
 import {
   Card,
   CardHeader,
@@ -7,6 +9,8 @@ import {
   CardBody,
   Text,
   Input,
+  InputGroup,
+  InputRightElement,
   Button,
   CardFooter,
   Center,
@@ -78,16 +82,21 @@ function MainFeedPost(props: any) {
             return (
               c.postId === postId && (
                 <Box
+                  position={"relative"}
                   key={i}
-                  h="40px"
+                  h="auto"
                   bg={commentBg}
                   w="400px"
                   borderRadius="md"
                   marginBottom="10px"
                   padding="8px"
+                  flexDirection={'row'}
+                  justifyContent={'space-between'}
                 >
                   @<span style={{ textDecoration: 'underline' }}>{`${name}`}</span>: {c.text}
                   <button
+                    style={{position:"absolute", right:"20px", top:"4px", padding:"5px"}}
+                    // style={{float:"right"}}
                     onClick={() => {
                       deleteComment(c.id);
                     }}
@@ -138,10 +147,11 @@ function MainFeedPost(props: any) {
     if (googleId === usersGoogleId) {
       return (
         <IconButton
+          size="lg"
           variant="ghost"
           colorScheme="gray"
           aria-label="See menu"
-          icon={<>🚮</>}
+          icon={<VscTrash/>}
           onClick={() => {
             deletePost();
           }}
@@ -188,17 +198,25 @@ function MainFeedPost(props: any) {
         alt="Chakra UI"
       />
       <Center>
+        <InputGroup>
         <Input
           placeholder="Add Comment Here"
-          width="350px"
+          width="470px"
           value={comment}
-          marginTop="15px"
+          margin="15px"
           onChange={(e) => {
             setComment(e.target.value);
           }}
         />
+        <InputRightElement 
+          margin="15px"
+          onClick={() => {
+            addComment();
+          }} 
+          children={<VscSend/>} />
+        </InputGroup>
       </Center>
-      <Center>
+      {/* <Center>
         <Button
           colorScheme="blue"
           bg={buttonBg}
@@ -210,7 +228,7 @@ function MainFeedPost(props: any) {
         >
           Add Comment
         </Button>
-      </Center>
+      </Center> */}
       <Center>{showCommentsHeader()}</Center>
       <CardFooter
         overflow="scroll"
