@@ -18,7 +18,7 @@ import {
 import { ArrowBackIcon, ChatIcon } from '@chakra-ui/icons';
 
 import { User } from '@prisma/client';
-import { Message, Dm, DmPreview } from '../types/chat';
+import { /* Message, */ Dm, DmPreview } from '../types/chat';
 
 import ChatInput from './ChatComponents/ChatInput';
 import UserSearchInput from './ChatComponents/UserSearchInput';
@@ -32,9 +32,9 @@ function Chat() {
 
   const [user, setUser] = useState({} as User);
 
-  const [message, setMessage] = useState('');
+  // const [message, setMessage] = useState('');
 
-  const [messages, setMessages] = useState([] as Message[]);
+  // const [messages, setMessages] = useState([] as Message[]);
 
   const [userSearch, setUserSearch] = useState('');
 
@@ -56,7 +56,8 @@ function Chat() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  useEffect(bottomScroll, [messages]);
+  // useEffect(bottomScroll, [messages]);
+  useEffect(bottomScroll, [dms]);
 
   const getDmPreviews: (userId: number) => void = (userId) => {
     axios
@@ -100,9 +101,9 @@ function Chat() {
   const onChange = (e: { target: { value: string; id: string } }) => {
     const { value, id } = e.target;
     switch (id) {
-      case 'chat':
-        setMessage(value);
-        break;
+      // case 'chat':
+      //   setMessage(value);
+      //   break;
       case 'user':
         setUserSearch(value);
         break;
@@ -114,12 +115,12 @@ function Chat() {
     }
   };
 
-  useEffect(() => {
-    const addMessage = (msg: string, clientOffset: string) => {
-      setMessages((curMessages) => curMessages.concat([{ msg, clientOffset }]));
-    };
-    socket.on('sendMsg', addMessage);
-  }, [setMessages]);
+  // useEffect(() => {
+  //   const addMessage = (msg: string, clientOffset: string) => {
+  //     setMessages((curMessages) => curMessages.concat([{ msg, clientOffset }]));
+  //   };
+  //   socket.on('sendMsg', addMessage);
+  // }, [setMessages]);
 
   const onSendDm = () => {
     if (dm) {
@@ -148,12 +149,12 @@ function Chat() {
     socket.on('sendDm', addDm);
   }, [setDms]);
 
-  const onSend = () => {
-    if (message) {
-      socket.emit('msg', message, socket.id);
-    }
-    setMessage('');
-  };
+  // const onSend = () => {
+  //   if (message) {
+  //     socket.emit('msg', message, socket.id);
+  //   }
+  //   setMessage('');
+  // };
 
   const onSearch = async () => {
     axios
@@ -170,9 +171,10 @@ function Chat() {
     const { id } = e.target;
     const { key } = e;
     if (key === 'Enter') {
-      if (id === 'chat') {
-        onSend();
-      } else if (id === 'user') {
+      // if (id === 'chat') {
+      //   onSend();
+      // } else
+      if (id === 'user') {
         onSearch();
       } else if (id === 'dm') {
         onSendDm();
