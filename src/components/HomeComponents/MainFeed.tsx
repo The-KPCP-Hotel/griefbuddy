@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Center, InputGroup, InputRightElement, VStack, Textarea } from '@chakra-ui/react';
+import { Center, InputGroup, InputRightElement, VStack, Textarea, useToast } from '@chakra-ui/react';
 import { VscSend } from 'react-icons/vsc';
 import axios from 'axios';
 
 import MainFeedPost from './MainFeedPost';
 
 function MainFeed(props: any) {
+  const toast = useToast();
+
   const [allPosts, setAllPosts] = useState([]);
   const [postMessage, setPostMessage] = useState('');
   const [postStatus, setPostStatus] = useState('');
@@ -20,17 +22,30 @@ function MainFeed(props: any) {
   }
 
   function addPost() {
-    axios
-      .post('/mainFeed/addPost', {
-        data: {
-          user: googleId,
-          text: postMessage,
-        },
-      })
-      .then(() => {
-        setPostStatus('added');
-        setPost('');
-      });
+    // check to see if post gets flagged
+    axios.post('/chatbot/moderate', { message: { content: postMessage } }).then(({ data }) => {
+      if (!data) {
+        axios
+          .post('/mainFeed/addPost', {
+            data: {
+              user: googleId,
+              text: postMessage,
+            },
+          })
+          .then(() => {
+            setPostStatus('added');
+            setPost('');
+          });
+      } else {
+        toast({
+          title: 'Flagged post.',
+          description: 'Your post was flagged for inappropriate content and will not send.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    });
   }
 
   useEffect(() => {
