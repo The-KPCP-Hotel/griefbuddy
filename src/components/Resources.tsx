@@ -38,6 +38,7 @@ function Resources() {
     setClickedGriefType(type);
   }
 
+
   function parseObj() {
     if (clickedGriefType === '') {
       return <div dangerouslySetInnerHTML={{ __html: griefObj }} />;
@@ -55,12 +56,9 @@ function Resources() {
   function parseAndReturnH3() {
     const concated = '<h3>';
     return (
-      <div
-        style={{ textAlign: 'center', lineHeight: '45px' }}
-        dangerouslySetInnerHTML={{ __html: concated.concat(griefStrSplitH3) }}
-      />
-    );
-  }
+      <div className='IndividualResource' style={{textAlign: 'center', lineHeight: '45px'}} dangerouslySetInnerHTML={{__html: concated.concat(griefStrSplitH3)}}></div>
+    )
+    }
 
   useEffect(() => {
     getTypesOfGrief();
@@ -104,11 +102,11 @@ function Resources() {
         <br />
         <Center>
           <Box
-            h="350px"
+            h="575px"
             bg={bg}
             padding="25px"
             borderRadius="15px"
-            overflow="scroll"
+            overflow="scroll" w="80vw"
           >
             <UnorderedList className="h3outputs">
               {parseObj()}
@@ -118,7 +116,7 @@ function Resources() {
         </Center>
       </Container>
     </>
-  );
+  )
 }
 
 export default Resources;
