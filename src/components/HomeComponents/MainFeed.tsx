@@ -82,12 +82,13 @@ function MainFeed(props: any) {
             <MainFeedPost
               // eslint-disable-next-line react/no-array-index-key
               key={`post-${i}`}
-              getPosts={getAllPosts}
+              // getPosts={getAllPosts}
               text={p.text}
               name={p.name}
               googleId={googleId}
               postId={p.id}
               usersGoogleId={p.googleId}
+              setAllPosts={setAllPosts}
             />
           ))}
         </VStack>

@@ -25,8 +25,7 @@ import {
 function MainFeedPost(props: any) {
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
-  const [deleted, setDeleted] = useState('false');
-  const { googleId, postId, getPosts, name, text, usersGoogleId } = props;
+  const { googleId, postId, name, text, usersGoogleId, setAllPosts } = props;
 
   const commentBg = useColorModeValue('whitesmoke', 'gray.800');
 
@@ -55,7 +54,9 @@ function MainFeedPost(props: any) {
         },
       })
       .then(() => {
-        setDeleted('true');
+        axios.get('/mainFeed/allPosts').then((results: any) => {
+          setAllPosts(results.data);
+        });
       });
   }
 
@@ -70,13 +71,13 @@ function MainFeedPost(props: any) {
   function canOnlyDeleteCommentIfUser() {
     return (
       <>
-        {allComments.map((c, i) => {
+        {allComments.map((c) => {
           if (googleId === usersGoogleId) {
             return (
               c.postId === postId && (
                 <Box
                   position="relative"
-                  key={i}
+                  key={postId}
                   h="auto"
                   bg={commentBg}
                   w="400px"
@@ -106,7 +107,7 @@ function MainFeedPost(props: any) {
           return (
             c.postId === postId && (
               <Box
-                key={i}
+                key={postId}
                 h="40px"
                 bg={commentBg}
                 w="400px"
@@ -163,14 +164,13 @@ function MainFeedPost(props: any) {
         const returnedData = results.data;
         setAllComments(returnedData);
       });
-    console.log('getAllComments');
   }, [comment, googleId, postId]);
 
   useEffect(() => {
-    getPosts();
-    setDeleted('false');
-    console.log('get posts and delete');
-  }, [deleted]);
+    axios.get('/mainFeed/allPosts').then((results: any) => {
+      setAllPosts(results.data);
+    });
+  }, [setAllPosts]);
 
   return (
     <Card maxW="md">
