@@ -13,6 +13,7 @@ import {
   Wrap,
   WrapItem,
   useColorModeValue,
+  Text,
 } from '@chakra-ui/react';
 
 import EventListItem from './EventsComponents/EventListItem';
@@ -58,76 +59,84 @@ function Events() {
   const color = useColorModeValue('blue.600', 'blue.200');
 
   return (
-    <VStack spacing="4" maxW="100%">
-      <Box>
-        <Center>
-          <Heading as="h2" color={color}>
-            Events
-          </Heading>
-        </Center>
-      </Box>
-      <Box maxW="100%" justifyContent="inherit" p="10px">
-        <Card>
-          <Stack>
-            <EventsBigCalendar setEventFocus={setEventFocus} events={events} />
-          </Stack>
-        </Card>
-      </Box>
-      {eventsToday.length ? (
-        <Box className="eventsToday">
+    <>
+      {/* unsure about placement; was inside VStack box */}
+      <Text as="h2" pl="16px" fontWeight="bold" color={color}>
+        Need something to lift your spirits?
+      </Text>
+      <Text as="h2" pl="16px" fontWeight="bold" color={color}>
+        Check out events happening in New Orleans!
+      </Text>
+      <VStack spacing="4" maxW="100%">
+        <Box>
+          {/* <Center> */}
+          {/* </Center> */}
+        </Box>
+        <Box maxW="100%" justifyContent="inherit" p="10px">
           <Card>
-            <CardHeader>
-              <Heading size="md">Events Starting Today</Heading>
-            </CardHeader>
-            <CardBody>
-              <Wrap spacingY="40px" spacingX="80px" justify="center">
-                {eventsToday.map((event) => (
-                  <WrapItem key={`wi-${event.OgId}`}>
-                    <Center>
-                      <EventListItem key={event.OgId} event={event} eventFocus="" />
-                    </Center>
-                  </WrapItem>
-                ))}
-                {/* this is for testing tons of events */}
-                {/* {events.map((event) => (
+            <Stack>
+              <EventsBigCalendar setEventFocus={setEventFocus} events={events} />
+            </Stack>
+          </Card>
+        </Box>
+        {eventsToday.length ? (
+          <Box className="eventsToday">
+            <Card>
+              <CardHeader>
+                <Heading size="md">Events Starting Today</Heading>
+              </CardHeader>
+              <CardBody>
+                <Wrap spacingY="40px" spacingX="80px" justify="center">
+                  {eventsToday.map((event) => (
+                    <WrapItem key={`wi-${event.OgId}`}>
+                      <Center>
+                        <EventListItem key={event.OgId} event={event} eventFocus="" />
+                      </Center>
+                    </WrapItem>
+                  ))}
+                  {/* this is for testing tons of events */}
+                  {/* {events.map((event) => (
                   <EventListItem key={event.OgId} event={event} />
                 ))} */}
-                {/* this is just to force grid to only have one card */}
-                {/* {events.length ? (
+                  {/* this is just to force grid to only have one card */}
+                  {/* {events.length ? (
                   <WrapItem>
                     <Center>
                       <EventListItem event={events[0]} />
                     </Center>
                   </WrapItem>
                 ) : null} */}
-              </Wrap>
-            </CardBody>
+                </Wrap>
+              </CardBody>
+            </Card>
+          </Box>
+        ) : null}
+        <Box>
+          <Card>
+            <Stack>
+              <CardHeader>
+                <Heading as="h3" size="md">
+                  All Events
+                </Heading>
+              </CardHeader>
+              <CardBody>
+                <SimpleGrid
+                  className="simpleGrid"
+                  columns={[1, 1, 2, 3, 3, 4]}
+                  // minChildWidth="300px"
+                  spacingY="40px"
+                  spacingX="80px"
+                >
+                  {events.map((event) => (
+                    <EventListItem key={event.OgId} event={event} eventFocus={eventFocus} />
+                  ))}
+                </SimpleGrid>
+              </CardBody>
+            </Stack>
           </Card>
         </Box>
-      ) : null}
-      <Box>
-        <Card>
-          <Stack>
-            <CardHeader>
-              <Heading as="h3" size="md">All Events</Heading>
-            </CardHeader>
-            <CardBody>
-              <SimpleGrid
-                className="simpleGrid"
-                columns={[1, 1, 2, 3, 3, 4]}
-                // minChildWidth="300px"
-                spacingY="40px"
-                spacingX="80px"
-              >
-                {events.map((event) => (
-                  <EventListItem key={event.OgId} event={event} eventFocus={eventFocus} />
-                ))}
-              </SimpleGrid>
-            </CardBody>
-          </Stack>
-        </Card>
-      </Box>
-    </VStack>
+      </VStack>
+    </>
   );
 }
 

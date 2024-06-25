@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { VscSend } from "react-icons/vsc";
-import { VscTrash } from "react-icons/vsc";
+import { VscSend, VscTrash } from 'react-icons/vsc';
 import {
   Card,
   CardHeader,
@@ -11,7 +10,6 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Button,
   CardFooter,
   Center,
   VStack,
@@ -22,32 +20,46 @@ import {
   IconButton,
   Image,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 
 function MainFeedPost(props: any) {
+  const toast = useToast();
+
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
-  const [deleted, setDeleted] = useState('false');
-  const [commentDeleted, setCommentDeleted] = useState('false');
-  const { googleId, postId, getPosts, name, text, usersGoogleId } = props;
+  const { googleId, postId, name, text, usersGoogleId, setAllPosts } = props;
 
   const commentBg = useColorModeValue('whitesmoke', 'gray.800');
 
-  const buttonBg = useColorModeValue('blue.200', 'blue.600');
+  // const buttonBg = useColorModeValue('blue.200', 'blue.600');
 
   function addComment() {
-    axios
-      .post('/mainFeed/addComment', {
-        data: {
-          googleId: googleId,
-          user: googleId,
-          text: comment,
-          postId: postId,
-        },
-      })
-      .then(() => {
-        setComment('');
-      });
+    // check to see if comment is flagged before posting
+    axios.post('/chatbot/moderate', { message: { content: comment } }).then(({ data }) => {
+      if (!data) {
+        axios
+          .post('/mainFeed/addComment', {
+            data: {
+              googleId,
+              user: googleId,
+              text: comment,
+              postId,
+            },
+          })
+          .then(() => {
+            setComment('');
+          });
+      } else {
+        toast({
+          title: 'Flagged comment.',
+          description: 'Your comment was flagged for inappropriate content and will not send.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    });
   }
 
   function deletePost() {
@@ -58,44 +70,45 @@ function MainFeedPost(props: any) {
         },
       })
       .then(() => {
-        setDeleted('true');
+        axios.get('/mainFeed/allPosts').then((results: any) => {
+          setAllPosts(results.data);
+        });
       });
   }
 
   function deleteComment(commentId: Number) {
-    axios
-      .delete('/mainFeed/deleteComment', {
-        data: {
-          id: commentId,
-        },
-      })
-      .then(() => {
-        setCommentDeleted('true');
-      });
+    axios.delete('/mainFeed/deleteComment', {
+      data: {
+        id: commentId,
+      },
+    });
   }
 
   function canOnlyDeleteCommentIfUser() {
     return (
       <>
-        {allComments.map((c, i) => {
+        {allComments.map((c) => {
           if (googleId === usersGoogleId) {
             return (
               c.postId === postId && (
                 <Box
-                  position={"relative"}
-                  key={i}
+                  position="relative"
+                  key={postId}
                   h="auto"
                   bg={commentBg}
                   w="400px"
                   borderRadius="md"
                   marginBottom="10px"
                   padding="8px"
-                  flexDirection={'row'}
-                  justifyContent={'space-between'}
+                  flexDirection="row"
+                  justifyContent="space-between"
                 >
-                  @<span style={{ textDecoration: 'underline' }}>{`${name}`}</span>: {c.text}
+                  @
+                  <span style={{ textDecoration: 'underline' }}>{`${name}`}</span>
+                  {`: ${c.text}`}
                   <button
-                    style={{position:"absolute", right:"20px", top:"4px", padding:"5px"}}
+                    type="button"
+                    style={{ position: 'absolute', right: '20px', top: '4px', padding: '5px' }}
                     // style={{float:"right"}}
                     onClick={() => {
                       deleteComment(c.id);
@@ -106,41 +119,27 @@ function MainFeedPost(props: any) {
                 </Box>
               )
             );
-          } else {
-            return (
-              c.postId === postId && (
-                <Box
-                  key={i}
-                  h="40px"
-                  bg={commentBg}
-                  w="400px"
-                  borderRadius="md"
-                  marginBottom="10px"
-                  padding="8px"
-                >
-                  @<span style={{ textDecoration: 'underline' }}>{`${name}`}</span>: {c.text}
-                </Box>
-              )
-            );
           }
+          return (
+            c.postId === postId && (
+              <Box
+                key={postId}
+                h="40px"
+                bg={commentBg}
+                w="400px"
+                borderRadius="md"
+                marginBottom="10px"
+                padding="8px"
+              >
+                @
+                <span style={{ textDecoration: 'underline' }}>{`${name}`}</span>
+                {`: ${c.text}`}
+              </Box>
+            )
+          );
         })}
       </>
     );
-  }
-
-  function getAllComments() {
-    axios
-      .get('/mainFeed/allComments', {
-        data: {
-          user: googleId,
-          text: comment,
-          postId: postId,
-        },
-      })
-      .then((results: any) => {
-        let returnedData = results.data;
-        setAllComments(returnedData);
-      });
   }
 
   function onlyDeleteButtonOnUsersPost() {
@@ -151,29 +150,43 @@ function MainFeedPost(props: any) {
           variant="ghost"
           colorScheme="gray"
           aria-label="See menu"
-          icon={<VscTrash/>}
+          icon={<VscTrash />}
           onClick={() => {
             deletePost();
           }}
         />
       );
     }
+    return null;
   }
 
   function showCommentsHeader() {
     if (allComments.length !== 0) {
       return <h3>Comments:</h3>;
     }
+    return null;
   }
 
   useEffect(() => {
-    getAllComments();
-  }, [allComments]);
+    axios
+      .get('/mainFeed/allComments', {
+        data: {
+          user: googleId,
+          text: comment,
+          postId,
+        },
+      })
+      .then((results: any) => {
+        const returnedData = results.data;
+        setAllComments(returnedData);
+      });
+  }, [comment, googleId, postId]);
 
   useEffect(() => {
-    getPosts();
-    setDeleted('false');
-  }, [deleted]);
+    axios.get('/mainFeed/allPosts').then((results: any) => {
+      setAllPosts(results.data);
+    });
+  }, [setAllPosts]);
 
   return (
     <Card maxW="md">
@@ -199,21 +212,23 @@ function MainFeedPost(props: any) {
       />
       <Center>
         <InputGroup>
-        <Input
-          placeholder="Add Comment Here"
-          width="470px"
-          value={comment}
-          margin="15px"
-          onChange={(e) => {
-            setComment(e.target.value);
-          }}
-        />
-        <InputRightElement 
-          margin="15px"
-          onClick={() => {
-            addComment();
-          }} 
-          children={<VscSend/>} />
+          <Input
+            placeholder="Add Comment Here"
+            width="470px"
+            value={comment}
+            margin="15px"
+            onChange={(e) => {
+              setComment(e.target.value);
+            }}
+          />
+          <InputRightElement
+            margin="15px"
+            onClick={() => {
+              addComment();
+            }}
+          >
+            <VscSend />
+          </InputRightElement>
         </InputGroup>
       </Center>
       {/* <Center>

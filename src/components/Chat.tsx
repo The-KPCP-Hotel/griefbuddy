@@ -13,8 +13,9 @@ import {
   Grid,
   GridItem,
   Button,
+  useToast,
 } from '@chakra-ui/react';
-import { ArrowBackIcon } from '@chakra-ui/icons';
+import { ArrowBackIcon, ChatIcon } from '@chakra-ui/icons';
 
 import { User } from '@prisma/client';
 import { Message, Dm, DmPreview } from '../types/chat';
@@ -27,6 +28,8 @@ import DmPreviews from './ChatComponents/DmPreviews';
 const socket: Socket = io();
 
 function Chat() {
+  const toast = useToast();
+
   const [user, setUser] = useState({} as User);
 
   const [message, setMessage] = useState('');
@@ -80,25 +83,6 @@ function Chat() {
     axios.get('/user').then((userResponse: { data: User }) => {
       setUser(userResponse.data);
       getDmPreviews(userResponse.data.id);
-      // axios
-      //   .get('/chat/dmPreviews', { params: { userId: userResponse.data.id } })
-      //   .then((dmPreviewsResponse: { data: DmPreview[] }) => {
-      //     const reducedPreviews: DmPreview[] = dmPreviewsResponse.data.reduce((acc, curDm) => {
-      //       if (!acc.length) {
-      //         acc.push(curDm);
-      //         return acc;
-      //       }
-      //       for (let i = acc.length - 1; i >= 0; i -= 1) {
-      //         if (acc[i].senderId === curDm.recipientId &&
-      // acc[i].recipientId === curDm.senderId) {
-      //           return acc;
-      //         }
-      //       }
-      //       acc.push(curDm);
-      //       return acc;
-      //     }, [] as DmPreview[]);
-      //     setDmPreviews(reducedPreviews);
-      //   });
     });
   }, [setUser, setDmPreviews]);
 
@@ -138,8 +122,21 @@ function Chat() {
   }, [setMessages]);
 
   const onSendDm = () => {
-    if (dm && room) {
-      socket.emit('dm', dm, room, user.id, selectedUser.id);
+    if (dm) {
+      // moderates dms - does add a slight lag to msg send
+      axios.post('chatbot/moderate', { message: { content: dm } }).then(({ data }) => {
+        if (!data && room) {
+          socket.emit('dm', dm, room, user.id, selectedUser.id);
+        } else if (data) {
+          toast({
+            title: 'Flagged message.',
+            description: 'Your message was flagged for inappropriate content and will not send.',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+          });
+        }
+      });
     }
     setDm('');
   };
@@ -256,8 +253,10 @@ function Chat() {
 
   return (
     <Container>
-      <Center>
-        <Heading color={color}>Chat</Heading>
+      <Center mt=".5rem" mb=".5rem">
+        <Heading color={color} as="h2" aria-label="Chat" boxSize="3rem">
+          <ChatIcon aria-label="Chat icon" boxSize="2.75rem" />
+        </Heading>
       </Center>
       {dms.length ? (
         <Box>

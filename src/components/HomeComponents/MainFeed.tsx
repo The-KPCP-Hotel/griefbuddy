@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Center, Input, InputGroup, InputRightElement, VStack, Textarea, Button } from '@chakra-ui/react';
-import { VscSend } from "react-icons/vsc";
+import { Center, InputGroup, InputRightElement, VStack, Textarea, useToast } from '@chakra-ui/react';
+import { VscSend } from 'react-icons/vsc';
 import axios from 'axios';
 
 import MainFeedPost from './MainFeedPost';
 
 function MainFeed(props: any) {
+  const toast = useToast();
+
   const [allPosts, setAllPosts] = useState([]);
   const [postMessage, setPostMessage] = useState('');
   const [postStatus, setPostStatus] = useState('');
@@ -20,17 +22,30 @@ function MainFeed(props: any) {
   }
 
   function addPost() {
-    axios
-      .post('/mainFeed/addPost', {
-        data: {
-          user: googleId,
-          text: postMessage,
-        },
-      })
-      .then(() => {
-        setPostStatus('added');
-        setPost('');
-      });
+    // check to see if post gets flagged
+    axios.post('/chatbot/moderate', { message: { content: postMessage } }).then(({ data }) => {
+      if (!data) {
+        axios
+          .post('/mainFeed/addPost', {
+            data: {
+              user: googleId,
+              text: postMessage,
+            },
+          })
+          .then(() => {
+            setPostStatus('added');
+            setPost('');
+          });
+      } else {
+        toast({
+          title: 'Flagged post.',
+          description: 'Your post was flagged for inappropriate content and will not send.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    });
   }
 
   useEffect(() => {
@@ -42,22 +57,24 @@ function MainFeed(props: any) {
     <div>
       <Center mt="25px">
         <InputGroup>
-        <Textarea
-          placeholder="What's on your mind?"
-          value={post}
-          onChange={(e) => {
-            setPostMessage(e.target.value);
-            setPost(e.target.value);
-          }}
-          marginBottom={"55px"}
-        />
-        
-        <InputRightElement 
-          onClick={() => {
-            addPost();
-          }} 
-          children={<VscSend/>} />
-       </InputGroup>
+          <Textarea
+            placeholder="What's on your mind?"
+            value={post}
+            onChange={(e) => {
+              setPostMessage(e.target.value);
+              setPost(e.target.value);
+            }}
+            marginBottom="55px"
+          />
+
+          <InputRightElement
+            onClick={() => {
+              addPost();
+            }}
+          >
+            <VscSend />
+          </InputRightElement>
+        </InputGroup>
       </Center>
       <Center>
         <VStack>
@@ -65,12 +82,13 @@ function MainFeed(props: any) {
             <MainFeedPost
               // eslint-disable-next-line react/no-array-index-key
               key={`post-${i}`}
-              getPosts={getAllPosts}
+              // getPosts={getAllPosts}
               text={p.text}
               name={p.name}
               googleId={googleId}
               postId={p.id}
               usersGoogleId={p.googleId}
+              setAllPosts={setAllPosts}
             />
           ))}
         </VStack>
