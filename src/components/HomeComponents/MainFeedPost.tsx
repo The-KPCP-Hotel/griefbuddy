@@ -20,9 +20,12 @@ import {
   IconButton,
   Image,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 
 function MainFeedPost(props: any) {
+  const toast = useToast();
+
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
   const { googleId, postId, name, text, usersGoogleId, setAllPosts } = props;
@@ -32,18 +35,31 @@ function MainFeedPost(props: any) {
   // const buttonBg = useColorModeValue('blue.200', 'blue.600');
 
   function addComment() {
-    axios
-      .post('/mainFeed/addComment', {
-        data: {
-          googleId,
-          user: googleId,
-          text: comment,
-          postId,
-        },
-      })
-      .then(() => {
-        setComment('');
-      });
+    // check to see if comment is flagged before posting
+    axios.post('/chatbot/moderate', { message: { content: comment } }).then(({ data }) => {
+      if (!data) {
+        axios
+          .post('/mainFeed/addComment', {
+            data: {
+              googleId,
+              user: googleId,
+              text: comment,
+              postId,
+            },
+          })
+          .then(() => {
+            setComment('');
+          });
+      } else {
+        toast({
+          title: 'Flagged comment.',
+          description: 'Your comment was flagged for inappropriate content and will not send.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    });
   }
 
   function deletePost() {
