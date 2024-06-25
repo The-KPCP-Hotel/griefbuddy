@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Center, Input, InputGroup, InputRightElement, VStack, Button } from '@chakra-ui/react';
+import { Center, Input, InputGroup, InputRightElement, VStack, Textarea, Button } from '@chakra-ui/react';
 import { IoSend } from "react-icons/io5";
 import axios from 'axios';
 
@@ -42,7 +42,7 @@ function MainFeed(props: any) {
     <div>
       <Center mt="25px">
         <InputGroup>
-        <Input
+        <Textarea
           placeholder="What's on your mind?"
           value={post}
           onChange={(e) => {
