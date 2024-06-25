@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { VscSend } from "react-icons/vsc";
-import { VscTrash } from "react-icons/vsc";
+import { VscSend, VscTrash } from 'react-icons/vsc';
 import {
   Card,
   CardHeader,
@@ -11,7 +10,6 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Button,
   CardFooter,
   Center,
   VStack,
@@ -28,21 +26,20 @@ function MainFeedPost(props: any) {
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
   const [deleted, setDeleted] = useState('false');
-  const [commentDeleted, setCommentDeleted] = useState('false');
   const { googleId, postId, getPosts, name, text, usersGoogleId } = props;
 
   const commentBg = useColorModeValue('whitesmoke', 'gray.800');
 
-  const buttonBg = useColorModeValue('blue.200', 'blue.600');
+  // const buttonBg = useColorModeValue('blue.200', 'blue.600');
 
   function addComment() {
     axios
       .post('/mainFeed/addComment', {
         data: {
-          googleId: googleId,
+          googleId,
           user: googleId,
           text: comment,
-          postId: postId,
+          postId,
         },
       })
       .then(() => {
@@ -63,15 +60,14 @@ function MainFeedPost(props: any) {
   }
 
   function deleteComment(commentId: Number) {
-    axios
-      .delete('/mainFeed/deleteComment', {
-        data: {
-          id: commentId,
-        },
-      })
-      .then(() => {
-        setCommentDeleted('true');
-      });
+    axios.delete('/mainFeed/deleteComment', {
+      data: {
+        id: commentId,
+      },
+    });
+    // .then(() => {
+    //   setCommentDeleted('true');
+    // });
   }
 
   function canOnlyDeleteCommentIfUser() {
@@ -82,7 +78,7 @@ function MainFeedPost(props: any) {
             return (
               c.postId === postId && (
                 <Box
-                  position={"relative"}
+                  position="relative"
                   key={i}
                   h="auto"
                   bg={commentBg}
@@ -90,12 +86,15 @@ function MainFeedPost(props: any) {
                   borderRadius="md"
                   marginBottom="10px"
                   padding="8px"
-                  flexDirection={'row'}
-                  justifyContent={'space-between'}
+                  flexDirection="row"
+                  justifyContent="space-between"
                 >
-                  @<span style={{ textDecoration: 'underline' }}>{`${name}`}</span>: {c.text}
+                  @
+                  <span style={{ textDecoration: 'underline' }}>{`${name}`}</span>
+                  {`: ${c.text}`}
                   <button
-                    style={{position:"absolute", right:"20px", top:"4px", padding:"5px"}}
+                    type="button"
+                    style={{ position: 'absolute', right: '20px', top: '4px', padding: '5px' }}
                     // style={{float:"right"}}
                     onClick={() => {
                       deleteComment(c.id);
@@ -106,23 +105,24 @@ function MainFeedPost(props: any) {
                 </Box>
               )
             );
-          } else {
-            return (
-              c.postId === postId && (
-                <Box
-                  key={i}
-                  h="40px"
-                  bg={commentBg}
-                  w="400px"
-                  borderRadius="md"
-                  marginBottom="10px"
-                  padding="8px"
-                >
-                  @<span style={{ textDecoration: 'underline' }}>{`${name}`}</span>: {c.text}
-                </Box>
-              )
-            );
           }
+          return (
+            c.postId === postId && (
+              <Box
+                key={i}
+                h="40px"
+                bg={commentBg}
+                w="400px"
+                borderRadius="md"
+                marginBottom="10px"
+                padding="8px"
+              >
+                @
+                <span style={{ textDecoration: 'underline' }}>{`${name}`}</span>
+                {`: ${c.text}`}
+              </Box>
+            )
+          );
         })}
       </>
     );
@@ -134,11 +134,11 @@ function MainFeedPost(props: any) {
         data: {
           user: googleId,
           text: comment,
-          postId: postId,
+          postId,
         },
       })
       .then((results: any) => {
-        let returnedData = results.data;
+        const returnedData = results.data;
         setAllComments(returnedData);
       });
   }
@@ -151,28 +151,32 @@ function MainFeedPost(props: any) {
           variant="ghost"
           colorScheme="gray"
           aria-label="See menu"
-          icon={<VscTrash/>}
+          icon={<VscTrash />}
           onClick={() => {
             deletePost();
           }}
         />
       );
     }
+    return null;
   }
 
   function showCommentsHeader() {
     if (allComments.length !== 0) {
       return <h3>Comments:</h3>;
     }
+    return null;
   }
 
   useEffect(() => {
     getAllComments();
+    console.log('getAllComments');
   }, [allComments]);
 
   useEffect(() => {
     getPosts();
     setDeleted('false');
+    console.log('get posts and delete');
   }, [deleted]);
 
   return (
@@ -199,21 +203,22 @@ function MainFeedPost(props: any) {
       />
       <Center>
         <InputGroup>
-        <Input
-          placeholder="Add Comment Here"
-          width="470px"
-          value={comment}
-          margin="15px"
-          onChange={(e) => {
-            setComment(e.target.value);
-          }}
-        />
-        <InputRightElement 
-          margin="15px"
-          onClick={() => {
-            addComment();
-          }} 
-          children={<VscSend/>} />
+          <Input
+            placeholder="Add Comment Here"
+            width="470px"
+            value={comment}
+            margin="15px"
+            onChange={(e) => {
+              setComment(e.target.value);
+            }}
+          />
+          <InputRightElement
+            margin="15px"
+            onClick={() => {
+              addComment();
+            }}
+            children={<VscSend />}
+          />
         </InputGroup>
       </Center>
       {/* <Center>
