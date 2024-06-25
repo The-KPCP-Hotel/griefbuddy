@@ -65,9 +65,6 @@ function MainFeedPost(props: any) {
         id: commentId,
       },
     });
-    // .then(() => {
-    //   setCommentDeleted('true');
-    // });
   }
 
   function canOnlyDeleteCommentIfUser() {
@@ -128,21 +125,6 @@ function MainFeedPost(props: any) {
     );
   }
 
-  function getAllComments() {
-    axios
-      .get('/mainFeed/allComments', {
-        data: {
-          user: googleId,
-          text: comment,
-          postId,
-        },
-      })
-      .then((results: any) => {
-        const returnedData = results.data;
-        setAllComments(returnedData);
-      });
-  }
-
   function onlyDeleteButtonOnUsersPost() {
     if (googleId === usersGoogleId) {
       return (
@@ -169,9 +151,20 @@ function MainFeedPost(props: any) {
   }
 
   useEffect(() => {
-    getAllComments();
+    axios
+      .get('/mainFeed/allComments', {
+        data: {
+          user: googleId,
+          text: comment,
+          postId,
+        },
+      })
+      .then((results: any) => {
+        const returnedData = results.data;
+        setAllComments(returnedData);
+      });
     console.log('getAllComments');
-  }, [allComments]);
+  }, [comment, googleId, postId]);
 
   useEffect(() => {
     getPosts();
@@ -217,8 +210,9 @@ function MainFeedPost(props: any) {
             onClick={() => {
               addComment();
             }}
-            children={<VscSend />}
-          />
+          >
+            <VscSend />
+          </InputRightElement>
         </InputGroup>
       </Center>
       {/* <Center>
