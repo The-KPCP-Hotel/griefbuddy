@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+
 import axios from 'axios';
 import { VscSend, VscTrash } from 'react-icons/vsc';
+import DeletePostButton from './DeletePostModal';
 import {
   Card,
   CardHeader,
@@ -21,11 +23,21 @@ import {
   Image,
   useColorModeValue,
   useToast,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
+  ChakraProvider
 } from '@chakra-ui/react';
 
 function MainFeedPost(props: any) {
   const toast = useToast();
-
+// const { isOpen, onOpen, onClose } = useDisclosure();
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
   const { googleId, postId, name, text, usersGoogleId, setAllPosts, userProfilePic } = props;
@@ -144,17 +156,40 @@ function MainFeedPost(props: any) {
 
   function onlyDeleteButtonOnUsersPost() {
     if (googleId === usersGoogleId) {
+      
       return (
-        <IconButton
-          size="lg"
-          variant="ghost"
-          colorScheme="gray"
-          aria-label="See menu"
-          icon={<VscTrash color='grey'/>}
-          onClick={() => {
-            deletePost();
-          }}
-        />
+      <DeletePostButton onDelete={deletePost}/>        
+    
+      // <ChakraProvider>
+      //   <IconButton 
+      //     size="lg"
+      //     variant="ghost"
+      //     colorScheme="gray"
+      //     aria-label="See menu"
+      //     icon={<VscTrash color='grey'/>} 
+      //     onClick={onOpen}
+      //   />
+  
+      //   <Modal isOpen={isOpen} onClose={onClose}>
+      //     <ModalOverlay />
+      //     <ModalContent>
+      //       <ModalHeader>Are you sure you want to delete this post?</ModalHeader>
+      //       <ModalBody>This action is permanent.</ModalBody>
+      //       <ModalCloseButton />
+        
+  
+      //       <ModalFooter>
+      //         <Button colorScheme='blue' mr={3} onClick={onClose}>
+      //           Close
+      //         </Button>
+      //         <Button backgroundColor='red' onClick={() => {
+      //           deletePost()
+      //         }}>Delete Post</Button>
+      //       </ModalFooter>
+      //     </ModalContent>
+      //   </Modal>
+      // </ChakraProvider>
+    
       );
     }
     return null;
