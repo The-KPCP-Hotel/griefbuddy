@@ -46,18 +46,24 @@ function DmPreviews({
       mt=".4rem"
       p=".5rem"
     >
-      {dmPreviews.map((dm) => (
-        <Box key={`${dm.senderId}-${dm.recipientId}`}>
-          <Text
-            id={`${dm.senderId}-${dm.recipientId}`}
-            onMouseEnter={onMouseHover}
-            onMouseLeave={onMouseLeave}
-            onClick={select}
-          >
-            {`${dm.recipient.preferredName || dm.recipient.name}: ${shortenMsg(dm.msg)}`}
-          </Text>
-        </Box>
-      ))}
+      {dmPreviews.length ? (
+        dmPreviews.map((dm) => (
+          <Box key={`${dm.senderId}-${dm.recipientId}`}>
+            <Text
+              id={`${dm.senderId}-${dm.recipientId}`}
+              onMouseEnter={onMouseHover}
+              onMouseLeave={onMouseLeave}
+              onClick={select}
+            >
+              {`${dm.recipient.preferredName || dm.recipient.name}: ${shortenMsg(dm.msg)}`}
+            </Text>
+          </Box>
+        ))
+      ) : (
+        <Text>
+          You have no DMs. Start a conversation by searching for a user and clicking their name!
+        </Text>
+      )}
     </VStack>
   );
 }
