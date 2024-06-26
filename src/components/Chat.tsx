@@ -260,7 +260,7 @@ function Chat() {
           <ChatIcon aria-label="Chat icon" boxSize="2.75rem" />
         </Heading>
       </Center>
-      {dms.length ? (
+      {selectedUser.id ? (
         <Box>
           <Grid mt=".5rem" templateColumns="repeat(5, 1fr)" gap={1}>
             <GridItem>
