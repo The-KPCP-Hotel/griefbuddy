@@ -28,7 +28,7 @@ function MainFeedPost(props: any) {
 
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
-  const { googleId, postId, name, text, usersGoogleId, setAllPosts } = props;
+  const { googleId, postId, name, text, usersGoogleId, setAllPosts, userProfilePic } = props;
 
   const commentBg = useColorModeValue('whitesmoke', 'gray.800');
 
@@ -193,7 +193,7 @@ function MainFeedPost(props: any) {
       <CardHeader>
         <Flex>
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-            <Avatar src="https://bit.ly/sage-adebayo" />
+            <Avatar src={userProfilePic} />
 
             <Box>
               <Heading size="sm">{`@${name}`}</Heading>

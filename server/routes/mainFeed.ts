@@ -23,7 +23,7 @@ router.get('/allPosts', (req: Request, res: Response) => {
 });
 
 router.post('/addPost', (req: Request, res: Response) => {
-  const { user, text } = req.body.data;
+  const { user, text, userPicture } = req.body.data;
   prisma.User.findUnique({
     where: {
       googleId: user,
@@ -40,6 +40,7 @@ router.post('/addPost', (req: Request, res: Response) => {
           },
         },
         name: results.name,
+        userPicture
       },
     })
       .then(() => {

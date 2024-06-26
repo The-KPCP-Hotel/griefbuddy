@@ -13,7 +13,7 @@ function MainFeed(props: any) {
   const [postStatus, setPostStatus] = useState('');
   const [post, setPost] = useState('');
 
-  const { googleId } = props;
+  const { googleId, userProfilePic } = props;
 
   function getAllPosts() {
     axios.get('/mainFeed/allPosts').then((results: any) => {
@@ -30,11 +30,13 @@ function MainFeed(props: any) {
             data: {
               user: googleId,
               text: postMessage,
+              userPicture: userProfilePic
             },
           })
           .then(() => {
             setPostStatus('added');
             setPost('');
+            console.log(userProfilePic)
           });
       } else {
         toast({
@@ -89,6 +91,7 @@ function MainFeed(props: any) {
               postId={p.id}
               usersGoogleId={p.googleId}
               setAllPosts={setAllPosts}
+              userProfilePic={p.userPicture}
             />
           ))}
         </VStack>

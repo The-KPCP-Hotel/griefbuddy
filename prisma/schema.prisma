@@ -22,6 +22,7 @@ model User {
   emConNum          String?
   emConRelationship String?
   preferredName     String?
+  userPicture       String?
   currMood          String?
   myLocation        String?
   agee              String?
@@ -89,6 +90,7 @@ model Post {
   userId   Int
   text     String
   name     String
+  userPicture String?
   googleId String
   comments Comment[]
 }
