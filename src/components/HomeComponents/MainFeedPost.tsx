@@ -224,7 +224,7 @@ function MainFeedPost(props: any) {
   }, [setAllPosts]);
 
   return (
-    <Card maxW="md">
+    <Card maxW="md" w="80vw">
       <CardHeader>
         <Flex>
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
