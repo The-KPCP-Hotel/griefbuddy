@@ -16,6 +16,7 @@ export type AuthUser = {
   myLocation: String,
   myPhoneNumber: String,
   preferredName: String,
+  userPicture: String
 };
 
 type UserContextType = {

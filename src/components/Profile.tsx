@@ -64,7 +64,7 @@ function Profile() {
   const [myNumberEditClicked, setMyNumberEditClicked] = useState(false)
   const [myAgeEditClicked, setMyAgeEditClicked] = useState(false)
   const [myMoodEditClicked, setMyMoodEditClicked] = useState(false)
-
+  const [userPic, setUserPic] = useState('')
   const contactWarningId = useId();
 
   const bg = useColorModeValue('blue.200', 'blue.600');
@@ -210,6 +210,19 @@ function Profile() {
 
   useEffect(() => {}, [nickname, myNameEditClicked, myAgeEditClicked, myNumberEditClicked, myMoodEditClicked]);
 
+
+  useEffect(() => {
+    axios
+      .get('/user')
+      .then((results: any) => {
+          // const curUser = { ...results };
+          console.log(results.userPicture, "heyyy")
+          setUserPic(results.userPicture)
+        
+      })
+      .catch((err: Error) => console.error('failed getting user pic', err));
+  }, []);
+
   // useEffect(() => {
   // }, [selfEditClicked])
   return (
@@ -221,12 +234,12 @@ function Profile() {
           gap={4}
           h="1000px"
           marginBottom="150px"
-          padding="40px"
+          paddingTop="40px"
           paddingLeft="30px"
         >
           <GridItem  w={{base: "80vw", lg: "300px"}} colSpan={1} bg={bg} h="420px" borderRadius="15px">
             <Center padding="25px">
-              <Avatar name="Kola Tioluwani" size="xl" src="https://bit.ly/tioluwani-kolawole" />
+              <Avatar name="Kola Tioluwani" size="xl" src={userPic} />
             </Center>
             <Center>
               {userObj ? <h3 style={{ fontSize: '28px' }}>{userObj.name}</h3> : <div />}
