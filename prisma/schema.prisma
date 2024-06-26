@@ -109,7 +109,7 @@ model Resource {
   id    Int    @id @default(autoincrement())
   type  String
   url   String
-  title String
+  description String
 }
 
 model Buddy {

@@ -58,7 +58,9 @@ function MainFeed(props: any) {
   return (
     <div>
       <Center mt="25px">
+        <Center>
         <InputGroup>
+        
           <Textarea
             placeholder="What's on your mind?"
             value={post}
@@ -67,6 +69,7 @@ function MainFeed(props: any) {
               setPost(e.target.value);
             }}
             marginBottom="55px"
+            w={{base: "80vw", lg: "800px"}}
           />
 
           <InputRightElement
@@ -76,7 +79,9 @@ function MainFeed(props: any) {
           >
             <VscSend />
           </InputRightElement>
+          
         </InputGroup>
+        </Center>
       </Center>
       <Center>
         <VStack>
