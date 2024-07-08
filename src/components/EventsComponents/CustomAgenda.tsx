@@ -1,9 +1,9 @@
 // import PropTypes from 'prop-types';
-import React, { useRef, useEffect } from 'react';
-// import addClass from 'dom-helpers/addClass';
-// import removeClass from 'dom-helpers/removeClass';
-// import getWidth from 'dom-helpers/width';
-// import scrollbarSize from 'dom-helpers/scrollbarSize';
+import React, { useRef, useEffect, useState } from 'react';
+import addClass from 'dom-helpers/addClass';
+import removeClass from 'dom-helpers/removeClass';
+import getWidth from 'dom-helpers/width';
+import scrollbarSize from 'dom-helpers/scrollbarSize';
 
 // import { navigate } from './utils/constants';
 import {
@@ -12,6 +12,8 @@ import {
   Messages,
   DateLocalizerSpec,
   CalendarProps,
+  Culture,
+  FormatInput,
 } from 'react-big-calendar';
 // import { inRange } from './utils/eventLevels';
 // import { inRange } from 'react-big-calendar';
@@ -40,6 +42,30 @@ function isSelected(event: EventType, selected: EventType): boolean {
   // return isEqual$1(event, selected);
 }
 
+// type ExtendedFormatInput extends
+
+interface Localizer {
+  // startOf: (day: Date, lib: string) => {};
+  startOf: DateLocalizerSpec['startOf'];
+  // endOf: (day: Date, lib: string) => {};
+  endOf: DateLocalizerSpec['endOf'];
+  // format: (day: Date, lib: string) => {};
+  format: (
+    value: FormatInput | { start: Date; end: Date },
+    format: string,
+    culture?: Culture,
+  ) => string;
+  // format: DateLocalizerSpec['format'];
+  messages: Messages;
+  // eq: (date: Date, date2: Date, unit?: Unit) => boolean;
+  eq: DateLocalizerSpec['eq'];
+  isSameDate: DateLocalizerSpec['isSameDate'];
+  gt: DateLocalizerSpec['gt'];
+  lt: DateLocalizerSpec['lt'];
+  add: DateLocalizerSpec['add'];
+  range: DateLocalizerSpec['range'];
+}
+
 function Agenda({
   accessors,
   components,
@@ -65,22 +91,25 @@ function Agenda({
   getters: {
     eventProp: (event: EventType, start: object, end: object, isSelected: boolean) => {};
   };
-  length: number;
-  localizer: {
-    // startOf: (day: Date, lib: string) => {};
-    startOf: DateLocalizerSpec['startOf'];
-    // endOf: (day: Date, lib: string) => {};
-    endOf: DateLocalizerSpec['endOf'];
-    // format: (day: Date, lib: string) => {};
-    // format: (value: FormatInput, format: string, culture?: Culture) => string;
-    format: DateLocalizerSpec['format'];
-    messages: Messages;
-    // eq: (date: Date, date2: Date, unit?: Unit) => boolean;
-    eq: DateLocalizerSpec['eq'];
-    isSameDate: DateLocalizerSpec['isSameDate'];
-    gt: DateLocalizerSpec['gt'];
-    lt: DateLocalizerSpec['lt'];
-  };
+  length?: number;
+  localizer: Localizer;
+  // localizer: {
+  //   // startOf: (day: Date, lib: string) => {};
+  //   startOf: DateLocalizerSpec['startOf'];
+  //   // endOf: (day: Date, lib: string) => {};
+  //   endOf: DateLocalizerSpec['endOf'];
+  //   // format: (day: Date, lib: string) => {};
+  //   // format: (value: FormatInput, format: string, culture?: Culture) => string;
+  //   format: DateLocalizerSpec['format'];
+  //   messages: Messages;
+  //   // eq: (date: Date, date2: Date, unit?: Unit) => boolean;
+  //   eq: DateLocalizerSpec['eq'];
+  //   isSameDate: DateLocalizerSpec['isSameDate'];
+  //   gt: DateLocalizerSpec['gt'];
+  //   lt: DateLocalizerSpec['lt'];
+  //   add: DateLocalizerSpec['add'];
+  //   range: DateLocalizerSpec['range'];
+  // };
   // onDoubleClickEvent: () => {};
   onDoubleClickEvent: CalendarProps['onDoubleClickEvent'];
   // onSelectEvent?: ((event: EventType, e: React.SyntheticEvent<HTMLElement>) => void) | undefined;
@@ -95,7 +124,7 @@ function Agenda({
   const tbodyRef = useRef(null);
 
   // useEffect(() => {
-  //   _adjustHeader();
+  //   adjustHeader();
   // });
 
   const timeRangeLabel = (day: Date, event: EventType) => {
@@ -112,7 +141,7 @@ function Agenda({
       } else if (localizer.isSameDate(start, end)) {
         // using imported format as type - first argument does not match format's typing
         // below line has not been changing from react-big-calendar source
-        // label = localizer.format({ start, end }, 'agendaTimeRangeFormat');
+        label = localizer.format({ start, end }, 'agendaTimeRangeFormat');
       } else if (localizer.isSameDate(day, start)) {
         label = localizer.format(start, 'agendaTimeFormat');
       } else if (localizer.isSameDate(day, end)) {
@@ -130,7 +159,7 @@ function Agenda({
     );
   };
 
-  const renderDay = (day: Date, eventsParam: EventType[], dayKey: string) => {
+  const renderDay = (day: Date, eventsParam: EventType[], dayKey: number) => {
     const { event: Event, date: AgendaDate } = components;
 
     const eventsRender = eventsParam.filter((e) =>
@@ -180,7 +209,7 @@ function Agenda({
     }, []);
   };
 
-  const _adjustHeader = () => {
+  const adjustHeader = () => {
     if (!tbodyRef.current) return;
 
     const header = headerRef.current;
@@ -190,7 +219,8 @@ function Agenda({
 
     const isOverflowing = contentRef.current.scrollHeight > contentRef.current.clientHeight;
 
-    let _widths = [];
+    // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle
+    let _widths: any[] = [];
     const widths = _widths;
 
     _widths = [getWidth(firstRow.children[0]), getWidth(firstRow.children[1])];
@@ -209,7 +239,7 @@ function Agenda({
   };
 
   useEffect(() => {
-    _adjustHeader();
+    adjustHeader();
   });
 
   const { messages } = localizer;
@@ -217,20 +247,35 @@ function Agenda({
 
   const range = localizer.range(date, end, 'day');
 
-  events = events.filter((event) =>
-    inRange(
-      event,
-      localizer.startOf(date, 'day'),
-      localizer.endOf(end, 'day'),
-      accessors,
-      localizer,
-    ));
+  const [eventsState, setEvents] = useState(events);
 
-  events.sort((a, b) => +accessors.start(a) - +accessors.start(b));
+  setEvents(
+    events
+      .filter((event) =>
+        inRange(
+          event,
+          localizer.startOf(date, 'day'),
+          localizer.endOf(end, 'day'),
+          accessors,
+          localizer,
+        ))
+      .sort((a, b) => +accessors.start(a) - +accessors.start(b)),
+  );
+  // events = events.filter((event) =>
+  //   inRange(
+  //     event,
+  //     localizer.startOf(date, 'day'),
+  //     localizer.endOf(end, 'day'),
+  //     accessors,
+  //     localizer,
+  //   ));
+
+  // events.sort((a, b) => +accessors.start(a) - +accessors.start(b));
 
   return (
     <div className="rbc-agenda-view">
-      {events.length !== 0 ? (
+      {eventsState.length !== 0 ? (
+        // {events.length !== 0 ? (
         <>
           <table ref={headerRef} className="rbc-agenda-table">
             <thead>
@@ -247,7 +292,12 @@ function Agenda({
           </table>
           <div className="rbc-agenda-content" ref={contentRef}>
             <table className="rbc-agenda-table">
-              <tbody ref={tbodyRef}>{range.map((day, idx) => renderDay(day, events, idx))}</tbody>
+              <tbody ref={tbodyRef}>
+                {range.map((day, idx) => renderDay(day, eventsState, idx))}
+              </tbody>
+              {/* <tbody ref={tbodyRef}>{
+              range.map((day, idx) => renderDay(day, events, idx))
+              }</tbody> */}
             </table>
           </div>
         </>
@@ -258,29 +308,36 @@ function Agenda({
   );
 }
 
-Agenda.propTypes = {
-  accessors: PropTypes.object.isRequired,
-  components: PropTypes.object.isRequired,
-  date: PropTypes.instanceOf(Date),
-  events: PropTypes.array,
-  getters: PropTypes.object.isRequired,
-  length: PropTypes.number.isRequired,
-  localizer: PropTypes.object.isRequired,
-  onSelectEvent: PropTypes.func,
-  onDoubleClickEvent: PropTypes.func,
-  selected: PropTypes.object,
-};
+// Agenda.propTypes = {
+//   accessors: PropTypes.object.isRequired,
+//   components: PropTypes.object.isRequired,
+//   date: PropTypes.instanceOf(Date),
+//   events: PropTypes.array,
+//   getters: PropTypes.object.isRequired,
+//   length: PropTypes.number.isRequired,
+//   localizer: PropTypes.object.isRequired,
+//   onSelectEvent: PropTypes.func,
+//   onDoubleClickEvent: PropTypes.func,
+//   selected: PropTypes.object,
+// };
 
 Agenda.defaultProps = {
   length: 30,
 };
 
-Agenda.range = (start, { length = Agenda.defaultProps.length, localizer }) => {
+Agenda.range = (
+  start: Date,
+  { length = Agenda.defaultProps.length, localizer }: { localizer: Localizer; length: number },
+) => {
   const end = localizer.add(start, length, 'day');
   return { start, end };
 };
 
-Agenda.navigate = (date, action, { length = Agenda.defaultProps.length, localizer }) => {
+Agenda.navigate = (
+  date: Date,
+  action: string,
+  { length = Agenda.defaultProps.length, localizer }: { localizer: Localizer; length: number },
+) => {
   switch (action) {
     case navigate.PREVIOUS:
       return localizer.add(date, -length, 'day');
@@ -293,7 +350,10 @@ Agenda.navigate = (date, action, { length = Agenda.defaultProps.length, localize
   }
 };
 
-Agenda.title = (start, { length = Agenda.defaultProps.length, localizer }) => {
+Agenda.title = (
+  start: Date,
+  { length = Agenda.defaultProps.length, localizer }: { localizer: Localizer; length: number },
+) => {
   const end = localizer.add(start, length, 'day');
   return localizer.format({ start, end }, 'agendaHeaderFormat');
 };
