@@ -58,13 +58,14 @@ function Agenda({
       event: EventType,
       start: object,
       end: object,
-      isSelected: (event: Event, selected: Event) => {},
+      isSelected: boolean,
     ) => {};
   };
   length: number;
   localizer: {
     startOf: (day: Date, lib: string) => {};
     endOf: (day: Date, lib: string) => {};
+    format: (day: Date, lib: string) => {};
   };
   onDoubleClickEvent: () => {};
   onSelectEvent: () => {};
@@ -93,8 +94,8 @@ function Agenda({
 
       const userProps = getters.eventProp(event, start, end, isSelected(event, selected));
 
-      let dateLabel = idx === 0 && localizer.format(day, 'agendaDateFormat');
-      let first =
+      const dateLabel = idx === 0 && localizer.format(day, 'agendaDateFormat');
+      const first =
         idx === 0 ? (
           <td rowSpan={events.length} className="rbc-agenda-date-cell">
             {AgendaDate ? <AgendaDate day={day} label={dateLabel} /> : dateLabel}
@@ -104,7 +105,7 @@ function Agenda({
         );
 
       return (
-        <tr key={dayKey + '_' + idx} className={userProps.className} style={userProps.style}>
+        <tr key={`${dayKey}_${idx}`} className={userProps.className} style={userProps.style}>
           {first}
           <td className="rbc-agenda-time-cell">{timeRangeLabel(day, event)}</td>
           <td
@@ -120,12 +121,12 @@ function Agenda({
   };
 
   const timeRangeLabel = (day, event) => {
-    let labelClass = '',
-      TimeComponent = components.time,
-      label = localizer.messages.allDay;
+    let labelClass = '';
+    const TimeComponent = components.time;
+    let label = localizer.messages.allDay;
 
-    let end = accessors.end(event);
-    let start = accessors.start(event);
+    const end = accessors.end(event);
+    const start = accessors.start(event);
 
     if (!accessors.allDay(event)) {
       if (localizer.eq(start, end)) {
@@ -152,26 +153,26 @@ function Agenda({
   const _adjustHeader = () => {
     if (!tbodyRef.current) return;
 
-    let header = headerRef.current;
-    let firstRow = tbodyRef.current.firstChild;
+    const header = headerRef.current;
+    const firstRow = tbodyRef.current.firstChild;
 
     if (!firstRow) return;
 
-    let isOverflowing = contentRef.current.scrollHeight > contentRef.current.clientHeight;
+    const isOverflowing = contentRef.current.scrollHeight > contentRef.current.clientHeight;
 
     let _widths = [];
-    let widths = _widths;
+    const widths = _widths;
 
     _widths = [getWidth(firstRow.children[0]), getWidth(firstRow.children[1])];
 
     if (widths[0] !== _widths[0] || widths[1] !== _widths[1]) {
-      dateColRef.current.style.width = _widths[0] + 'px';
-      timeColRef.current.style.width = _widths[1] + 'px';
+      dateColRef.current.style.width = `${_widths[0]}px`;
+      timeColRef.current.style.width = `${_widths[1]}px`;
     }
 
     if (isOverflowing) {
       addClass(header, 'rbc-header-overflowing');
-      header.style.marginRight = scrollbarSize() + 'px';
+      header.style.marginRight = `${scrollbarSize()}px`;
     } else {
       removeClass(header, 'rbc-header-overflowing');
     }
@@ -181,10 +182,10 @@ function Agenda({
     _adjustHeader();
   });
 
-  let { messages } = localizer;
-  let end = localizer.add(date, length, 'day');
+  const { messages } = localizer;
+  const end = localizer.add(date, length, 'day');
 
-  let range = localizer.range(date, end, 'day');
+  const range = localizer.range(date, end, 'day');
 
   events = events.filter((event) =>
     inRange(
@@ -193,15 +194,14 @@ function Agenda({
       localizer.endOf(end, 'day'),
       accessors,
       localizer,
-    ),
-  );
+    ));
 
   events.sort((a, b) => +accessors.start(a) - +accessors.start(b));
 
   return (
     <div className="rbc-agenda-view">
       {events.length !== 0 ? (
-        <React.Fragment>
+        <>
           <table ref={headerRef} className="rbc-agenda-table">
             <thead>
               <tr>
@@ -220,7 +220,7 @@ function Agenda({
               <tbody ref={tbodyRef}>{range.map((day, idx) => renderDay(day, events, idx))}</tbody>
             </table>
           </div>
-        </React.Fragment>
+        </>
       ) : (
         <span className="rbc-agenda-empty">{messages.noEventsInRange}</span>
       )}
@@ -246,7 +246,7 @@ Agenda.defaultProps = {
 };
 
 Agenda.range = (start, { length = Agenda.defaultProps.length, localizer }) => {
-  let end = localizer.add(start, length, 'day');
+  const end = localizer.add(start, length, 'day');
   return { start, end };
 };
 
@@ -264,7 +264,7 @@ Agenda.navigate = (date, action, { length = Agenda.defaultProps.length, localize
 };
 
 Agenda.title = (start, { length = Agenda.defaultProps.length, localizer }) => {
-  let end = localizer.add(start, length, 'day');
+  const end = localizer.add(start, length, 'day');
   return localizer.format({ start, end }, 'agendaHeaderFormat');
 };
 
