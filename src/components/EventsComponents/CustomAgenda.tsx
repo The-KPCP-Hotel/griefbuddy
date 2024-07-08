@@ -66,7 +66,7 @@ interface Localizer {
   range: DateLocalizerSpec['range'];
 }
 
-function Agenda({
+function CustomAgenda({
   accessors,
   components,
   date,
@@ -308,7 +308,7 @@ function Agenda({
   );
 }
 
-// Agenda.propTypes = {
+// CustomAgenda.propTypes = {
 //   accessors: PropTypes.object.isRequired,
 //   components: PropTypes.object.isRequired,
 //   date: PropTypes.instanceOf(Date),
@@ -321,22 +321,28 @@ function Agenda({
 //   selected: PropTypes.object,
 // };
 
-Agenda.defaultProps = {
+CustomAgenda.defaultProps = {
   length: 30,
 };
 
-Agenda.range = (
+CustomAgenda.range = (
   start: Date,
-  { length = Agenda.defaultProps.length, localizer }: { localizer: Localizer; length: number },
+  {
+    length = CustomAgenda.defaultProps.length,
+    localizer,
+  }: { localizer: Localizer; length: number },
 ) => {
   const end = localizer.add(start, length, 'day');
   return { start, end };
 };
 
-Agenda.navigate = (
+CustomAgenda.navigate = (
   date: Date,
   action: string,
-  { length = Agenda.defaultProps.length, localizer }: { localizer: Localizer; length: number },
+  {
+    length = CustomAgenda.defaultProps.length,
+    localizer,
+  }: { localizer: Localizer; length: number },
 ) => {
   switch (action) {
     case navigate.PREVIOUS:
@@ -350,12 +356,15 @@ Agenda.navigate = (
   }
 };
 
-Agenda.title = (
+CustomAgenda.title = (
   start: Date,
-  { length = Agenda.defaultProps.length, localizer }: { localizer: Localizer; length: number },
+  {
+    length = CustomAgenda.defaultProps.length,
+    localizer,
+  }: { localizer: Localizer; length: number },
 ) => {
   const end = localizer.add(start, length, 'day');
   return localizer.format({ start, end }, 'agendaHeaderFormat');
 };
 
-export default Agenda;
+export default CustomAgenda;
