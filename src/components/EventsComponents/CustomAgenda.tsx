@@ -14,12 +14,18 @@ import {
   CalendarProps,
   Culture,
   FormatInput,
+  // ViewStatic,
 } from 'react-big-calendar';
 // import { inRange } from './utils/eventLevels';
 // import { inRange } from 'react-big-calendar';
 // import { isSelected } from './utils/selection';
 import isEqual from 'lodash/isEqual';
 // import { /* eq, */ inRange } from 'date-arithmetic/index';
+
+// interface View  {
+//   static title(date: Date, { formats: DateFormat[], culture: string?, ...props }): string
+//   static navigate(date: Date, action: 'PREV' | 'NEXT' | 'DATE'): Date
+// }
 
 function inRange(e: any, start: Date, end: Date, accessors: any, localizer: any) {
   const event = {

@@ -6,6 +6,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './index.css';
 import { useColorMode } from '@chakra-ui/react';
 
+// import CustomAgenda from './CustomAgenda';
+
 const localizer = dayjsLocalizer(dayjs);
 
 const coloredDateCellWrapper = ({ children }: any) =>
@@ -111,6 +113,11 @@ function EventsCalendar({
         showMultiDayTimes
         step={60}
         views={['month', 'agenda']}
+        // views={{
+        //   month: true,
+        //   week: false,
+        //   agenda: CustomAgenda,
+        // }}
         drilldownView="agenda"
         components={components}
         defaultDate={defaultDate}
