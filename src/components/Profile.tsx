@@ -122,7 +122,8 @@ function Profile() {
           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
             setMyNameEditClicked(true)
           }}>
-            {userObj ? userObj.preferredName : ''}
+            {userObj ? userObj.preferredName : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+}
           </Text>
         </Flex>
         </>
@@ -137,7 +138,8 @@ function Profile() {
            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
              setMyNumberEditClicked(true)
            }}>
-             {userObj ? userObj.myPhoneNumber : ''}
+             {userObj ? userObj.myPhoneNumber : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+}
            </Text>
          </Flex>
          </>
@@ -152,7 +154,8 @@ function Profile() {
            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
              setMyAgeEditClicked(true)
            }}>
-             {userObj ? userObj.agee : ''}
+             {userObj ? userObj.agee : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+}
            </Text>
          </Flex>
          </>
@@ -167,7 +170,8 @@ function Profile() {
            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
              setMyMoodEditClicked(true)
            }}>
-             {userObj ? userObj.currMood : ''}
+             {userObj ? userObj.currMood : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+}
            </Text>
          </Flex>
          </>
