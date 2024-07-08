@@ -31,7 +31,10 @@ function getQuote() {
 
 async function getUnblockedQuote(blockedQuotesArray: string[]) {
   const ninjaQuoteResponse = await getQuote();
-  if (!blockedQuotesArray.includes(ninjaQuoteResponse.data[0])) {
+  if (
+    !blockedQuotesArray.includes(ninjaQuoteResponse.data[0]) &&
+    ninjaQuoteResponse.data[0].quote.length < 715
+  ) {
     return ninjaQuoteResponse.data[0];
   }
   return getUnblockedQuote(blockedQuotesArray);
@@ -68,21 +71,23 @@ quotes.post(
         author,
         category,
       },
-    }).then((dbQuote: QuoteType) => {
-      UserBlockedQuote.create({ data: { userId, quoteId: dbQuote.id } }).then(
-        (newBlockedQuote: UserBlockedQuoteType) => {
-          if (typeof newBlockedQuote !== UserBlockedQuote) {
-            res.sendStatus(200);
-          } else {
-            console.error('newBlockedQuote not created');
-            res.sendStatus(500);
-          }
-        },
-      );
-    }).catch((err: Error) => {
-      console.error('failed blocking quote', err);
-      res.sendStatus(500);
-    });
+    })
+      .then((dbQuote: QuoteType) => {
+        UserBlockedQuote.create({ data: { userId, quoteId: dbQuote.id } }).then(
+          (newBlockedQuote: UserBlockedQuoteType) => {
+            if (typeof newBlockedQuote !== UserBlockedQuote) {
+              res.sendStatus(200);
+            } else {
+              console.error('newBlockedQuote not created');
+              res.sendStatus(500);
+            }
+          },
+        );
+      })
+      .catch((err: Error) => {
+        console.error('failed blocking quote', err);
+        res.sendStatus(500);
+      });
   },
 );
 
