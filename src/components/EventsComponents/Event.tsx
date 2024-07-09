@@ -17,7 +17,7 @@ import { ExternalLinkIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
-import EventImage, { EventType, MediaRawItem } from './EventImage';
+import EventImage, { EventType, MediaRawItem } from './EventComponents/EventImage';
 
 function Event() {
   const { id } = useParams();
