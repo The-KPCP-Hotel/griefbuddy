@@ -56,12 +56,20 @@ function Event() {
         </Box>
         <Card>
           <CardBody>
-            <Text>{description}</Text>
+            <Text>{`Location: ${description}`}</Text>
             {address !== 'N/A' && address ? (
-              <ChakraLink href={`https://www.google.com/maps/search/?api=1&query=${address.replace('/ /g', '+').replace('/,/g', '%2C')}`} isExternal>
-                {address}
-                <ExternalLinkIcon mx="2px" />
-              </ChakraLink>
+              <Text>
+                {'Address: '}
+                <ChakraLink
+                  href={`https://www.google.com/maps/search/?api=1&query=${address
+                    .replace('/ /g', '+')
+                    .replace('/,/g', '%2C')}`}
+                  isExternal
+                >
+                  {address}
+                  <ExternalLinkIcon mx="2px" />
+                </ChakraLink>
+              </Text>
             ) : null}
             <ChakraLink href={event.url} isExternal>
               More information on their site
