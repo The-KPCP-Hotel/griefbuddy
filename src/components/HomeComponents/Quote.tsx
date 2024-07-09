@@ -41,15 +41,11 @@ function Quote({ userId }: { userId: number }) {
         <Box>
           <Text fontStyle="italic">{quote.quote}</Text>
           <Flex maxW="100%" mb=".5rem" mt=".25rem">
-            {/* <Box minW="fit-content" p=".5rem"> */}
             <Text pr=".75rem">{`  -${quote.author}`}</Text>
-            {/* </Box> */}
             <Spacer />
-            {/* <Box p=".5rem"> */}
             <Button type="button" onClick={blockQuote} variant="link" p="0" pt="0">
               Don&apos;t show this quote again
             </Button>
-            {/* </Box> */}
           </Flex>
         </Box>
         <Button ml="1rem" variant="ghost" onClick={getQuote}>
