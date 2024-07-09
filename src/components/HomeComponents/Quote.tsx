@@ -35,49 +35,42 @@ function Quote({ userId }: { userId: number }) {
     getQuote();
   };
 
-  return (
-    <>
-      {quote.quote && isLargerThanBase ? (
+  if (quote.quote) {
+    return isLargerThanBase ? (
+      <Center>
+        <Box>
+          <Text fontStyle="italic">{quote.quote}</Text>
+          <Flex maxW="100%" mb=".5rem" mt=".25rem">
+            {/* <Box minW="fit-content" p=".5rem"> */}
+            <Text pr=".75rem">{`  -${quote.author}`}</Text>
+            {/* </Box> */}
+            <Spacer />
+            {/* <Box p=".5rem"> */}
+            <Button type="button" onClick={blockQuote} variant="link" p="0" pt="0">
+              Don&apos;t show this quote again
+            </Button>
+            {/* </Box> */}
+          </Flex>
+        </Box>
+        <Button ml="1rem" variant="ghost" onClick={getQuote}>
+          <ArrowRightIcon />
+        </Button>
+      </Center>
+    ) : (
+      <Box>
+        <Text fontStyle="italic">{quote.quote}</Text>
+        <Text>{`  -${quote.author}`}</Text>
         <Center>
-          <Box>
-            <Text fontStyle="italic">{quote.quote}</Text>
-            {/* <Text>
-              {`  -${quote.author}`}
-              <Button
-                type="button"
-                onClick={blockQuote}
-                variant="link"
-                p=".5rem"
-              >
-                Don&apos;t show this quote again
-              </Button>
-            </Text> */}
-            <Flex maxW="100%">
-              <Box minW="fit-content" p=".5rem">
-                <Text>{`  -${quote.author}`}</Text>
-              </Box>
-              <Spacer />
-              <Box p=".5rem">
-                <Button type="button" onClick={blockQuote} variant="link" p="0">
-                  Don&apos;t show this quote again
-                </Button>
-              </Box>
-            </Flex>
-          </Box>
+          <Button type="button" onClick={blockQuote} variant="link" p="0">
+            Don&apos;t show this quote again
+          </Button>
           <Button ml="1rem" variant="ghost" onClick={getQuote}>
             <ArrowRightIcon />
           </Button>
         </Center>
-      ) : null}
-      {/* {quote.quote ? (
-        <Center m="20px">
-          <Button type="button" onClick={blockQuote}>
-            Don&apos;t show this quote again
-          </Button>
-        </Center>
-      ) : null} */}
-    </>
-  );
+      </Box>
+    );
+  }
 }
 
 export default Quote;
