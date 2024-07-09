@@ -71,16 +71,16 @@ function Event() {
                 </ChakraLink>
               </Text>
             ) : null}
-            <ChakraLink href={event.url} isExternal>
-              More information on their site
-              <ExternalLinkIcon mx="2px" />
-            </ChakraLink>
             {start === end ? (
               <Text>{`Happening on ${start}`}</Text>
             ) : (
               <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>
             )}
             {recurrence ? <Text>{recurrence}</Text> : null}
+            <ChakraLink href={event.url} isExternal>
+              More information on their site
+              <ExternalLinkIcon mx="2px" />
+            </ChakraLink>
             <Wrap justify="center" spacing="30px">
               {media_raw ? (
                 media_raw.map((url: MediaRawItem) => (
