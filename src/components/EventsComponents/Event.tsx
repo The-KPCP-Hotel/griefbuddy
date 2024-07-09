@@ -51,15 +51,18 @@ function Event() {
       <Container maxW="7xl">
         <Box padding="10px">
           <Center>
-            <Heading color={color}>
-              {title}
-            </Heading>
+            <Heading color={color}>{title}</Heading>
           </Center>
         </Box>
         <Card>
           <CardBody>
             <Text>{description}</Text>
-            {address !== 'N/A' ? <Text>{address}</Text> : null}
+            {address !== 'N/A' && address ? (
+              <ChakraLink href={`https://www.google.com/maps/search/?api=1&query=${address.replace('/ /g', '+').replace('/,/g', '%2C')}`} isExternal>
+                {address}
+                <ExternalLinkIcon mx="2px" />
+              </ChakraLink>
+            ) : null}
             <ChakraLink href={event.url} isExternal>
               More information on their site
               <ExternalLinkIcon mx="2px" />
