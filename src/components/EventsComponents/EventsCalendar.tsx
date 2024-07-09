@@ -6,6 +6,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './index.css';
 import { useColorMode } from '@chakra-ui/react';
 
+// WANT TO USE; GETTING ERROR FROM TYPESCRIPT
 // import CustomAgenda from './CustomAgenda';
 
 const localizer = dayjsLocalizer(dayjs);

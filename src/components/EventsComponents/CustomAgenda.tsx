@@ -1,3 +1,7 @@
+/* WOULD LIKE TO USE THIS CUSTOM AGENDA COMPONENT INSTEAD OF BUILT IN,
+  BUT THE TYPE IS MISMATCHED FROM THE CALENDAR EXPECTATION
+*/
+
 // import PropTypes from 'prop-types';
 import React, { useRef, useEffect, useState } from 'react';
 import addClass from 'dom-helpers/addClass';
