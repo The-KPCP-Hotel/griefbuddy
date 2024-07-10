@@ -6,7 +6,6 @@ import {
   Container,
   Heading,
   Stack,
-  StackDivider,
   useColorModeValue,
   Text,
   Box,
@@ -277,7 +276,7 @@ function Chat() {
             <GridItem colSpan={2} />
           </Grid>
           <Container overflowY="auto" maxH="80vh">
-            <Stack divider={<StackDivider />} margin="8px">
+            <Stack margin="8px">
               {dms.map((msg, index) => (
                 <Text
                   // eslint-disable-next-line react/no-array-index-key

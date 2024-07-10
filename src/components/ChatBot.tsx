@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import {
   Heading,
   Center,
-  StackDivider,
+  // StackDivider,
   Stack,
   Container,
   Text,
@@ -194,7 +194,7 @@ function ChatBot() {
       <Container>
         <DeleteModal onDelete={onDelete} />
         <Box overflowY="auto" maxHeight="70vh" marginTop="15px">
-          <Stack divider={<StackDivider />}>
+          <Stack>
             {messages.slice(1).map((text, index) => (
               <Text
                 borderRadius="10px"
