@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Link as ReactRouterLink, useParams } from 'react-router-dom';
 import {
   Card,
-  Center,
   Heading,
   CardBody,
   Text,
   Link as ChakraLink,
   Container,
-  Box,
   useColorModeValue,
+  CardHeader,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import dayjs from 'dayjs';
@@ -48,17 +47,19 @@ function Event() {
         Back to Local Happenings
       </ChakraLink>
       <Container maxW="7xl">
-        <Box padding="10px">
-          <Center>
-            <Heading color={color}>{title}</Heading>
-          </Center>
-        </Box>
-        <Card>
+        <Card variant="unstyled">
+          <CardHeader>
+            <Heading textAlign="center" size="md" color={color}>
+              {title}
+            </Heading>
+          </CardHeader>
           <CardBody>
-            <Text>{`Location: ${description}`}</Text>
+            <Text color={color} fontWeight="bold" as="span">Location: </Text>
+            <Text as="span">{description}</Text>
+            <br />
             {address !== 'N/A' && address ? (
               <Text>
-                {'Address: '}
+                <Text color={color} fontWeight="bold" as="span">{'Address: '}</Text>
                 <ChakraLink
                   href={`https://www.google.com/maps/search/?api=1&query=${address
                     .replace('/ /g', '+')
