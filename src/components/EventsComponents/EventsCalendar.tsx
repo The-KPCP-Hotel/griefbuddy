@@ -89,9 +89,12 @@ function EventsCalendar({
 
   function onSelect(...args: [CalEvent, React.SyntheticEvent<HTMLElement, globalThis.Event>]) {
     const [event] = args;
-    // this is the same as key for event's card
-    const { ogId } = event;
-    setEventFocus(ogId);
+    const { ogId, id } = event;
+    if (event.end.getTime() > new Date().getTime()) {
+      setEventFocus(ogId);
+    } else {
+      setDoubleClickedEventId(id);
+    }
   }
 
   return (
