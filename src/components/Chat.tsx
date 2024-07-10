@@ -270,7 +270,7 @@ function Chat() {
             <GridItem colSpan={1} />
             <GridItem>
               <Center>
-                <Text>{selectedUser.preferredName || selectedUser.name}</Text>
+                <Text whiteSpace="nowrap">{selectedUser.preferredName || selectedUser.name}</Text>
               </Center>
             </GridItem>
             <GridItem colSpan={2} />
