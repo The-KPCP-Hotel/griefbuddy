@@ -51,12 +51,12 @@ function Chat() {
 
   const messagesEndRef = useRef(null);
 
+  const textareaRef = useRef();
+
   const bottomScroll = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  // useEffect(bottomScroll, [messages]);
-  useEffect(bottomScroll, [dms]);
+  useEffect(bottomScroll, [dms, textareaRef]);
 
   const getDmPreviews: (userId: number) => void = (userId) => {
     axios
@@ -275,7 +275,7 @@ function Chat() {
             </GridItem>
             <GridItem colSpan={2} />
           </Grid>
-          <Container overflowY="auto" maxH="80vh">
+          <Container id="dmContainer" overflowY="auto" maxH="80vh">
             <Stack margin="8px">
               {dms.map((msg, index) => (
                 <Text
@@ -295,6 +295,7 @@ function Chat() {
             </Stack>
             <ChatInput
               messagesEndRef={messagesEndRef}
+              textareaRef={textareaRef}
               message={dm}
               onChange={onChange}
               onSend={onSendDm}

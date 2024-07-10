@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { HStack, /* Input, */ Button, Textarea } from '@chakra-ui/react';
+import React, { useEffect } from 'react';
+import { HStack, Button, Textarea } from '@chakra-ui/react';
 import autosize from 'autosize';
 
 function ChatInput({
   messagesEndRef,
+  textareaRef,
   onChange,
   onPress,
   message,
@@ -11,6 +12,7 @@ function ChatInput({
   id,
 }: {
   messagesEndRef: React.MutableRefObject<any>;
+  textareaRef: React.MutableRefObject<any>;
   onChange: (e: {
     target: {
       value: string;
@@ -24,7 +26,6 @@ function ChatInput({
   onSend: () => void;
   id: string;
 }) {
-  const textareaRef = useRef();
   useEffect(() => {
     const curTextareaRef = textareaRef.current;
     autosize(curTextareaRef);
@@ -34,7 +35,7 @@ function ChatInput({
   });
 
   return (
-    <HStack ref={messagesEndRef} mb=".5rem">
+    <HStack ref={messagesEndRef} pb="2rem">
       <Textarea
         minH="2.5rem"
         onChange={onChange}
