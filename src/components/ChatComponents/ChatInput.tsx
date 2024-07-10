@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { HStack, /* Input, */ Button, Textarea } from '@chakra-ui/react';
+import autosize from 'autosize';
 
 function ChatInput({
   messagesEndRef,
@@ -23,21 +24,24 @@ function ChatInput({
   onSend: () => void;
   id: string;
 }) {
+  const textareaRef = useRef();
+  useEffect(() => {
+    const curTextareaRef = textareaRef.current;
+    autosize(curTextareaRef);
+    return () => {
+      autosize.destroy(curTextareaRef);
+    };
+  });
+
   return (
     <HStack ref={messagesEndRef} mb=".5rem">
-      {/* <Input
-        onChange={onChange}
-        onKeyDown={onPress}
-        value={message}
-        id={id}
-        placeholder="Start typing here"
-      /> */}
       <Textarea
         minH="2.5rem"
         onChange={onChange}
         onKeyDown={onPress}
         value={message}
         id={id}
+        ref={textareaRef}
         placeholder="Start typing here"
       />
       <Button onClick={onSend}>Send</Button>
