@@ -22,6 +22,7 @@ import EventsBigCalendar from './EventsComponents/EventsCalendar';
 function Events() {
   const [events, setEvents] = useState([]);
   const [eventsToday, setEventsToday] = useState([]);
+  const [curEvents, setCurEvents] = useState([]);
 
   const [eventFocus, setEventFocus] = useState('');
 
@@ -47,11 +48,22 @@ function Events() {
       .get('/events/all')
       .then(({ data }) => {
         setEvents(data);
-        const today = new Date().toISOString();
-        const curEvents = data.filter(
-          (event: { startDate: String }) => event.startDate.slice(0, 10) === today.slice(0, 10),
+        const today = new Date();
+        const todayString = today.toISOString();
+        const currentEvents = data.filter((event: { endDate: string }) => {
+          const endDateTime = new Date(event.endDate).getTime();
+          const todayTime = today.getTime();
+          // console.log(event.endDate, todayString);
+          // console.log(endDateTime, todayTime, endDateTime > todayTime);
+          return endDateTime > todayTime;
+        });
+        console.log(currentEvents);
+        setCurEvents(currentEvents);
+        const todayEvents = data.filter(
+          (event: { startDate: String }) =>
+            event.startDate.slice(0, 10) === todayString.slice(0, 10),
         );
-        setEventsToday(curEvents);
+        setEventsToday(todayEvents);
       })
       .catch();
   }, []);
@@ -127,8 +139,9 @@ function Events() {
                   spacingY="40px"
                   spacingX="80px"
                 >
-                  {events.map((event) => (
+                  {curEvents.map((event) => (
                     <EventListItem key={event.OgId} event={event} eventFocus={eventFocus} />
+                    // <EventListItem key={event.OgId} event={event} eventFocus={eventFocus} />
                   ))}
                 </SimpleGrid>
               </CardBody>
