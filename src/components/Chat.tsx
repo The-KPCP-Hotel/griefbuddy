@@ -254,7 +254,7 @@ function Chat() {
 
   return (
     <Container>
-      <Center mt=".5rem" mb=".5rem">
+      <Center mt=".5rem" mb=".75rem">
         <Heading color={color} as="h2" aria-label="Chat" boxSize="3rem">
           <ChatIcon aria-label="Chat icon" boxSize="2.75rem" />
         </Heading>
