@@ -31,7 +31,6 @@ function Events() {
 
     eventNode.scrollIntoView({
       behavior: 'smooth',
-      // block: 'nearest',
       block: 'center',
       inline: 'center',
     });
@@ -53,11 +52,8 @@ function Events() {
         const currentEvents = data.filter((event: { endDate: string }) => {
           const endDateTime = new Date(event.endDate).getTime();
           const todayTime = today.getTime();
-          // console.log(event.endDate, todayString);
-          // console.log(endDateTime, todayTime, endDateTime > todayTime);
           return endDateTime > todayTime;
         });
-        console.log(currentEvents);
         setCurEvents(currentEvents);
         const todayEvents = data.filter(
           (event: { startDate: String }) =>
@@ -80,10 +76,6 @@ function Events() {
         Check out events happening in New Orleans!
       </Text>
       <VStack spacing="4" maxW="100%">
-        <Box>
-          {/* <Center> */}
-          {/* </Center> */}
-        </Box>
         <Box maxW="100%" justifyContent="inherit" p="10px">
           <Card>
             <Stack>
@@ -141,7 +133,6 @@ function Events() {
                 >
                   {curEvents.map((event) => (
                     <EventListItem key={event.OgId} event={event} eventFocus={eventFocus} />
-                    // <EventListItem key={event.OgId} event={event} eventFocus={eventFocus} />
                   ))}
                 </SimpleGrid>
               </CardBody>
