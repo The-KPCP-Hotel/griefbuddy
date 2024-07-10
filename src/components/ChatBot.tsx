@@ -40,6 +40,8 @@ function ChatBot() {
 
   const messagesEndRef = useRef(null);
 
+  const textareaRef = useRef();
+
   const bottomScroll = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -213,6 +215,7 @@ function ChatBot() {
             {isWaiting ? <Skeleton height="20px" /> : null}
             <ChatInput
               messagesEndRef={messagesEndRef}
+              textareaRef={textareaRef}
               onChange={onChange}
               onPress={onPress}
               message={message}
