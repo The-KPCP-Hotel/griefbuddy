@@ -48,7 +48,7 @@ function Event() {
       </ChakraLink>
       <Container maxW="7xl">
         <Card variant="unstyled">
-          <CardHeader>
+          <CardHeader mt=".5rem" mb=".5rem">
             <Heading textAlign="center" size="md" color={color}>
               {title}
             </Heading>
