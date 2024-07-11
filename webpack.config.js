@@ -22,7 +22,7 @@ module.exports = {
     new BundleAnalyzerPlugin({ generateStatsFile: true }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html'),
-      favicon: path.resolve(__dirname, 'src', 'img', 'grief-buddy.png')
+      favicon: path.resolve(__dirname, 'public', 'img', 'grief-buddy.png'),
     }),
   ],
   module: {
@@ -47,6 +47,13 @@ module.exports = {
           path.resolve(__dirname, 'node_modules', 'react-big-calendar'),
         ],
       },
+      // {
+      //   test: /\.(png|jpe?g|gif)$/i,
+      //   use: ['file-loader'],
+      //   include: [
+      //     path.resolve(__dirname, 'public', 'img', 'named-logo')
+      //   ]
+      // },
     ],
   },
   resolve: {
