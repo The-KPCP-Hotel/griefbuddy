@@ -140,13 +140,7 @@ function Chat() {
       });
     }
     setDm('');
-    // const curTextareaRef = textareaRef.current;
-    // autosize(curTextareaRef);
-    // return () => {
-    //   autosize.destroy(curTextareaRef);
-    // };
     const textarea = document.getElementById('dm');
-    // textarea.style.minHeight = '2.5rem';
     textarea.style.height = '2.5rem';
     textarea.style.maxHeight = 'inherit';
   };

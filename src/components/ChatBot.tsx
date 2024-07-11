@@ -123,6 +123,9 @@ function ChatBot() {
       })
       .catch((err) => console.error('failed sending new message', err));
     setMessage('');
+    const textarea = document.getElementById('chat');
+    textarea.style.height = '2.5rem';
+    textarea.style.maxHeight = 'inherit';
   };
 
   // triggers send if return key is pressed
