@@ -15,6 +15,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { ArrowBackIcon, ChatIcon } from '@chakra-ui/icons';
+import autosize from 'autosize';
 
 import { User } from '@prisma/client';
 import { /* Message, */ Dm, DmPreview } from '../types/chat';
@@ -139,7 +140,24 @@ function Chat() {
       });
     }
     setDm('');
+    // const curTextareaRef = textareaRef.current;
+    // autosize(curTextareaRef);
+    // return () => {
+    //   autosize.destroy(curTextareaRef);
+    // };
+    const textarea = document.getElementById('dm');
+    // textarea.style.minHeight = '2.5rem';
+    textarea.style.height = '2.5rem';
+    textarea.style.maxHeight = 'inherit';
   };
+
+  useEffect(() => {
+    const curTextareaRef = textareaRef.current;
+    autosize(curTextareaRef);
+    return () => {
+      autosize.destroy(curTextareaRef);
+    };
+  }, [textareaRef]);
 
   useEffect(() => {
     const addDm = (msg: string, senderId: number, recipientId: number) => {

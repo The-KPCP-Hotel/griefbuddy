@@ -32,7 +32,13 @@ function ChatInput({
     return () => {
       autosize.destroy(curTextareaRef);
     };
-  });
+  }, [textareaRef]);
+
+  // useEffect(() => {
+  //   const textarea = document.getElementById(id);
+  //   textarea.style.minHeight = '2.5rem';
+  //   textarea.textContent = '';
+  // }, [onSend, id]);
 
   return (
     <HStack ref={messagesEndRef} pb="2rem">
