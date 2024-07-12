@@ -47,6 +47,12 @@ function EventsCalendar({
   const { colorMode } = useColorMode();
 
   useEffect(() => {
+    // need the agenda headers - but having a hard time accessing as they aren't initially rendered
+    const rbcHeaders = document.getElementsByClassName('rbc-header');
+    console.log(rbcHeaders);
+  }, []);
+
+  useEffect(() => {
     const calButtons: HTMLCollectionOf<Element> = document.getElementsByClassName('rbc-btn-group');
     if (colorMode === 'dark') {
       for (let i = 0; i < calButtons.length; i += 1) {

@@ -26,3 +26,7 @@
 .rbc-off-range-bg {
   background: rgb(144, 202, 249);
 } */
+
+.rbc-agenda-time-cell {
+  display: none;
+}
