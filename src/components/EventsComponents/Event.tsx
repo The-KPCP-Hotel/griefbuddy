@@ -37,7 +37,8 @@ function Event() {
         setEvent(data);
         setStart(dayjs(data.startDate).format('dddd, MMMM D, YYYY'));
         setEnd(dayjs(data.endDate).format('dddd, MMMM D, YYYY'));
-        setNext(dayjs(data.nextDate).format('dddd, MMMM D, YYYY'));
+        // having to subtract a date from nextDate as it doesn't match recurring on
+        setNext(dayjs(data.nextDate).subtract(1, 'day').format('dddd, MMMM D, YYYY'));
       })
       .catch((err) => console.error('failed finding event', err));
   }, [id]);
