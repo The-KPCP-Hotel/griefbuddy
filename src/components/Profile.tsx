@@ -52,14 +52,14 @@ function Profile() {
   };
 
   const [userObj, setUserObj] = useState({} as UserType);
-  const [friendName, setFriendName] = useState('Halle Bot');
+  const [friendName, setFriendName] = useState("Add your friend's name here");
   const [friendNumber, setFriendNumber] = useState('504-XXX-XXXX');
   const [friendRelationship, setFriendRelationship] = useState('Besties?');
-  const [nickname, setNickname] = useState('');
-  const [location, setLocation] = useState('Baton Rouge, LA');
-  const [myMood, setMood] = useState("I'm Feeling Great!");
+  const [nickname, setNickname] = useState('What name would you prefer to be addressed by?');
+  const [location, setLocation] = useState('Add your city or state here');
+  const [myMood, setMood] = useState("What is your current mental state?");
   const [age, setAge] = useState('Add age here');
-  const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888');
+  const [myPhoneNumber, updateMyPhoneNumber] = useState('Add your phone number here');
   const [myNameEditClicked, setMyNameEditClicked] = useState(false)
   const [myNumberEditClicked, setMyNumberEditClicked] = useState(false)
   const [myAgeEditClicked, setMyAgeEditClicked] = useState(false)
