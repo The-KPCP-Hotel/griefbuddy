@@ -52,12 +52,13 @@ function Events() {
         const todayString = today.toISOString();
         const currentEvents = data.filter((event: Event) => {
           const endDateTime = new Date(event.endDate).getTime();
+          const nextDateTime = new Date(event.nextDate).getTime();
           const todayTime = today.getTime();
-          return endDateTime > todayTime;
+          return event.endDate ? endDateTime > todayTime : nextDateTime > todayTime;
         });
         setCurEvents(currentEvents);
         const todayEvents = data.filter(
-          (event: { startDate: String }) =>
+          (event: Event) =>
             event.startDate.slice(0, 10) === todayString.slice(0, 10),
         );
         setEventsToday(todayEvents);
