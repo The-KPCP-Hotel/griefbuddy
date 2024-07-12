@@ -12,6 +12,7 @@ function HomePage() {
 
   const { setUser, user } = userContext;
   const [googId, setGoogId] = useState('');
+  const [userPic, setUserPic] = useState('');
   // want to find a better solution than calling db every time homepage is rendered
   useEffect(() => {
     axios
@@ -21,6 +22,7 @@ function HomePage() {
           const curUser = { ...data };
           setUser(curUser);
           setGoogId(curUser.googleId);
+          setUserPic(curUser.userPicture)
         }
       })
       // adding here because this response takes over a second
@@ -39,7 +41,7 @@ function HomePage() {
       <Quote userId={user?.id} />
       <Divider orientation="horizontal" />
       <Box h="600px" overflow="scroll">
-        <MainFeed user={user} googleId={googId} />
+        <MainFeed user={user} googleId={googId} userProfilePic={userPic}/>
       </Box>
     </Container>
   );
