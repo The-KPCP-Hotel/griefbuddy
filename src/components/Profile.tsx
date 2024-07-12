@@ -58,7 +58,7 @@ function Profile() {
   const [nickname, setNickname] = useState('');
   const [location, setLocation] = useState('Baton Rouge, LA');
   const [myMood, setMood] = useState("I'm Feeling Great!");
-  const [age, setAge] = useState('18-99+');
+  const [age, setAge] = useState('Add age here');
   const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888');
   const [myNameEditClicked, setMyNameEditClicked] = useState(false)
   const [myNumberEditClicked, setMyNumberEditClicked] = useState(false)
@@ -122,7 +122,7 @@ function Profile() {
           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
             setMyNameEditClicked(true)
           }}>
-            {userObj ? userObj.preferredName : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+            {userObj ? userObj.name : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
 }
           </Text>
         </Flex>
@@ -268,7 +268,7 @@ function Profile() {
                 <TabPanels>
                   {/* initially mounted */}
                   <TabPanel>
-                    <Card h="300px">
+                    <Card h="320px">
                       <CardBody>
                         <Stack divider={<StackDivider />} spacing="4">
                           <Box>
