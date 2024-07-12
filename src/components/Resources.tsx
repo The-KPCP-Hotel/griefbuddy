@@ -28,30 +28,31 @@ function Resources() {
 
   function getTypesOfGrief() {
     axios.get('/resources/addResource').then((results: AxiosResponse) => {
-      setGriefObj(results.data.allResources);
-      setGriefStrSplit(results.data.allResources[0].split('<h3>'));
-      setGriefObjTypes(results.data.titles);
+      console.log(results.data)
+      setGriefObj(results.data);
+      // setGriefStrSplit(results.data.allResources[0].split('<h3>'));
+      // setGriefObjTypes(results.data.titles);
     });
   }
 
-  function onGriefTypeClick(type: any) {
-    setClickedGriefType(type);
-  }
+  // function onGriefTypeClick(type: any) {
+  //   setClickedGriefType(type);
+  // }
 
 
-  function parseObj() {
-    if (clickedGriefType === '') {
-      return <div dangerouslySetInnerHTML={{ __html: griefObj }} />;
-    }
-  }
+  // function parseObj() {
+  //   if (clickedGriefType === '') {
+  //     return <div dangerouslySetInnerHTML={{ __html: griefObj }} />;
+  //   }
+  // }
 
-  function clickedTypeH3Return(type: any) {
-    for (let i = 0; i < griefStrSplit.length; i++) {
-      if (griefStrSplit[i].includes(type)) {
-        setGriefStrSplitH3(griefStrSplit[i]);
-      }
-    }
-  }
+  // function clickedTypeH3Return(type: any) {
+  //   for (let i = 0; i < griefStrSplit.length; i++) {
+  //     if (griefStrSplit[i].includes(type)) {
+  //       setGriefStrSplitH3(griefStrSplit[i]);
+  //     }
+  //   }
+  // }
 
   function parseAndReturnH3() {
     const concated = '<h3>';
