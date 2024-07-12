@@ -97,10 +97,12 @@ function Event() {
             ) : null}
             {happening()}
             {recurrence ? <Text>{recurrence}</Text> : null}
-            <ChakraLink href={event.url} isExternal>
-              More information on their site
-              <ExternalLinkIcon mx="2px" />
-            </ChakraLink>
+            {event.url ? (
+              <ChakraLink href={event.url} isExternal>
+                More information on their site
+                <ExternalLinkIcon mx="2px" />
+              </ChakraLink>
+            ) : null}
             <EventImages media_raw={media_raw} id={id} />
           </CardBody>
         </Card>
