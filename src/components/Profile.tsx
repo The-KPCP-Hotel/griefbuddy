@@ -219,8 +219,6 @@ function Profile() {
     axios
       .get('/user')
       .then((results: any) => {
-          // const curUser = { ...results };
-          console.log(results.userPicture, "heyyy")
           setUserPic(results.userPicture)
         
       })
