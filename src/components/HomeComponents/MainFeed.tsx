@@ -13,7 +13,7 @@ function MainFeed(props: any) {
   const [postStatus, setPostStatus] = useState('');
   const [post, setPost] = useState('');
 
-  const { googleId } = props;
+  const { googleId, userProfilePic } = props;
 
   function getAllPosts() {
     axios.get('/mainFeed/allPosts').then((results: any) => {
@@ -30,11 +30,13 @@ function MainFeed(props: any) {
             data: {
               user: googleId,
               text: postMessage,
+              userPicture: userProfilePic
             },
           })
           .then(() => {
             setPostStatus('added');
             setPost('');
+            console.log(userProfilePic)
           });
       } else {
         toast({
@@ -56,7 +58,9 @@ function MainFeed(props: any) {
   return (
     <div>
       <Center mt="25px">
+        <Center>
         <InputGroup>
+        
           <Textarea
             placeholder="What's on your mind?"
             value={post}
@@ -65,6 +69,7 @@ function MainFeed(props: any) {
               setPost(e.target.value);
             }}
             marginBottom="55px"
+            w={{base: "80vw", lg: "800px"}}
           />
 
           <InputRightElement
@@ -74,7 +79,9 @@ function MainFeed(props: any) {
           >
             <VscSend />
           </InputRightElement>
+          
         </InputGroup>
+        </Center>
       </Center>
       <Center>
         <VStack>
@@ -89,6 +96,7 @@ function MainFeed(props: any) {
               postId={p.id}
               usersGoogleId={p.googleId}
               setAllPosts={setAllPosts}
+              userProfilePic={p.userPicture}
             />
           ))}
         </VStack>
