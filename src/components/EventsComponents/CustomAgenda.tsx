@@ -101,6 +101,7 @@ function CustomAgenda({
   getters: {
     eventProp: (event: EventType, start: object, end: object, isSelected: boolean) => {};
   };
+  // eslint-disable-next-line react/require-default-props
   length?: number;
   localizer: Localizer;
   // localizer: {
@@ -331,14 +332,15 @@ function CustomAgenda({
 //   selected: PropTypes.object,
 // };
 
-CustomAgenda.defaultProps = {
-  length: 30,
-};
+// CustomAgenda.defaultProps = {
+//   length: 30,
+// };
+// let length = 30;
 
 CustomAgenda.range = (
   start: Date,
   {
-    length = CustomAgenda.defaultProps.length,
+    length = 30,
     localizer,
   }: { localizer: Localizer; length: number },
 ) => {
@@ -350,7 +352,7 @@ CustomAgenda.navigate = (
   date: Date,
   action: string,
   {
-    length = CustomAgenda.defaultProps.length,
+    length = 30,
     localizer,
   }: { localizer: Localizer; length: number },
 ) => {
@@ -369,7 +371,7 @@ CustomAgenda.navigate = (
 CustomAgenda.title = (
   start: Date,
   {
-    length = CustomAgenda.defaultProps.length,
+    length = 30,
     localizer,
   }: { localizer: Localizer; length: number },
 ) => {

@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './index.css';
 import { useColorMode } from '@chakra-ui/react';
+import { style } from 'dom-helpers';
 
 // WANT TO USE; GETTING ERROR FROM TYPESCRIPT
 // import CustomAgenda from './CustomAgenda';
@@ -46,11 +47,38 @@ function EventsCalendar({
 
   const { colorMode } = useColorMode();
 
+  const [defaultView, setDefaultView] = useState(true);
+
+  // useEffect(() => {
+  //   // need the agenda headers -
+  // but having a hard time accessing as they aren't initially rendered
+  //   const rbcAgenda = document.getElementsByClassName('rbc-agenda-table');
+  //   console.log(rbcAgenda);
+  //   const rbcHeaders = document.getElementsByClassName('rbc-header');
+  //   console.log(rbcHeaders);
+  // });
+  function onViewChange() {
+    setDefaultView((curView) => !curView);
+    // console.log(defaultView);
+    // const rbcAgenda = document.getElementsByClassName('rbc-agenda-table')[0]
+    // .getElementsByClassName('rbc-header');
+    // console.log(rbcAgenda);
+    // const rbcHeaders = document.getElementsByClassName('rbc-header');
+    // for (let i = 0; i < rbcHeaders.length; i += 1) {
+    //   console.log(rbcHeaders[i]);
+    // }
+    // console.log(rbcHeaders);
+  }
+
   useEffect(() => {
-    // need the agenda headers - but having a hard time accessing as they aren't initially rendered
     const rbcHeaders = document.getElementsByClassName('rbc-header');
-    console.log(rbcHeaders);
-  }, []);
+    for (let i = 0; i < rbcHeaders.length; i += 1) {
+      console.log(rbcHeaders[i].textContent);
+      if (rbcHeaders[i].textContent === 'Time') {
+        rbcHeaders[i].setAttribute('style', 'display:none');
+      }
+    }
+  }, [defaultView]);
 
   useEffect(() => {
     const calButtons: HTMLCollectionOf<Element> = document.getElementsByClassName('rbc-btn-group');
@@ -131,6 +159,7 @@ function EventsCalendar({
         drilldownView="agenda"
         components={components}
         defaultDate={defaultDate}
+        onView={onViewChange}
       />
     </div>
   );
