@@ -52,11 +52,7 @@ function Event() {
     if (start === end || startDateTime > todayTime) {
       happeningOn = <Text>{`Happening on ${start}`}</Text>;
     } else if (!event.endDate) {
-      // if (startDateTime > todayTime) {
-      //   happeningOn = <Text>{`Happening on ${start}`}</Text>;
-      // } else {
       happeningOn = <Text>{`Next happening on ${next}`}</Text>;
-      // }
     } else {
       happeningOn = <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>;
     }
@@ -98,11 +94,6 @@ function Event() {
                 </ChakraLink>
               </Text>
             ) : null}
-            {/* {start === end ? (
-              <Text>{`Happening on ${start}`}</Text>
-            ) : (
-              <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>
-            )} */}
             {happening()}
             {recurrence ? <Text>{recurrence}</Text> : null}
             <ChakraLink href={event.url} isExternal>
