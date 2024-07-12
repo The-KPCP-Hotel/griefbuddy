@@ -16,6 +16,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+import { Event } from '@prisma/client';
 import EventListItem from './EventsComponents/EventListItem';
 import EventsBigCalendar from './EventsComponents/EventsCalendar';
 
@@ -49,7 +50,7 @@ function Events() {
         setEvents(data);
         const today = new Date();
         const todayString = today.toISOString();
-        const currentEvents = data.filter((event: { endDate: string }) => {
+        const currentEvents = data.filter((event: Event) => {
           const endDateTime = new Date(event.endDate).getTime();
           const todayTime = today.getTime();
           return endDateTime > todayTime;
