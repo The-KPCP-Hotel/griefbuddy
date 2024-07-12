@@ -2,22 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Link as ReactRouterLink, useParams } from 'react-router-dom';
 import {
   Card,
-  Center,
   Heading,
   CardBody,
   Text,
   Link as ChakraLink,
   Container,
-  Box,
-  Wrap,
-  WrapItem,
   useColorModeValue,
+  CardHeader,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
-import EventImage, { EventType, MediaRawItem } from './EventImage';
+import EventImages from './EventComponents/EventImages';
+import { EventType } from './EventComponents/EventImage';
 
 function Event() {
   const { id } = useParams();
@@ -49,50 +47,41 @@ function Event() {
         Back to Local Happenings
       </ChakraLink>
       <Container maxW="7xl">
-        <Box padding="10px">
-          <Center>
-            <Heading color={color}>
+        <Card variant="unstyled">
+          <CardHeader mt=".5rem" mb=".5rem">
+            <Heading textAlign="center" size="md" color={color}>
               {title}
             </Heading>
-          </Center>
-        </Box>
-        <Card>
+          </CardHeader>
           <CardBody>
-            <Text>{description}</Text>
-            {address !== 'N/A' ? <Text>{address}</Text> : null}
-            <ChakraLink href={event.url} isExternal>
-              More information on their site
-              <ExternalLinkIcon mx="2px" />
-            </ChakraLink>
+            <Text color={color} fontWeight="bold" as="span">Location: </Text>
+            <Text as="span">{description}</Text>
+            <br />
+            {address !== 'N/A' && address ? (
+              <Text>
+                <Text color={color} fontWeight="bold" as="span">{'Address: '}</Text>
+                <ChakraLink
+                  href={`https://www.google.com/maps/search/?api=1&query=${address
+                    .replace('/ /g', '+')
+                    .replace('/,/g', '%2C')}`}
+                  isExternal
+                >
+                  {address}
+                  <ExternalLinkIcon mx="2px" />
+                </ChakraLink>
+              </Text>
+            ) : null}
             {start === end ? (
               <Text>{`Happening on ${start}`}</Text>
             ) : (
               <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>
             )}
             {recurrence ? <Text>{recurrence}</Text> : null}
-            <Wrap justify="center" spacing="30px">
-              {media_raw ? (
-                media_raw.map((url: MediaRawItem) => (
-                  <WrapItem key={`wi-${id}-${url.sortorder}`}>
-                    <Center>
-                      <EventImage key={`ev-${id}-${url.sortorder}`} url={url} />
-                    </Center>
-                  </WrapItem>
-                ))
-              ) : (
-                <WrapItem key={`wi-${id}-default`}>
-                  <Center>
-                    <EventImage
-                      url={{
-                        mediaurl:
-                          'https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,h_72,q_75,w_123/v1/clients/neworleans/NewOrleansLogo_Website_Dark_Grey_1a1a1a_123px_3c60c0e3-35b0-4efb-9685-d2f5ac92528a.jpg',
-                        sortorder: 1,
-                      }}
-                    />
-                  </Center>
-                </WrapItem>
-              )}
-            </Wrap>
+            <ChakraLink href={event.url} isExternal>
+              More information on their site
+              <ExternalLinkIcon mx="2px" />
+            </ChakraLink>
+            <EventImages media_raw={media_raw} id={id} />
           </CardBody>
         </Card>
       </Container>

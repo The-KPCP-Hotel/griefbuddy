@@ -1,8 +1,10 @@
-import React from 'react';
-import { HStack, Input, Button } from '@chakra-ui/react';
+import React, { useEffect } from 'react';
+import { HStack, Button, Textarea } from '@chakra-ui/react';
+import autosize from 'autosize';
 
 function ChatInput({
   messagesEndRef,
+  textareaRef,
   onChange,
   onPress,
   message,
@@ -10,24 +12,43 @@ function ChatInput({
   id,
 }: {
   messagesEndRef: React.MutableRefObject<any>;
+  textareaRef: React.MutableRefObject<any>;
   onChange: (e: {
     target: {
       value: string;
-      id: string
+      id: string;
     };
   }) => void;
-  onPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onPress: (
+    e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>,
+  ) => void;
   message: string;
   onSend: () => void;
   id: string;
 }) {
+  useEffect(() => {
+    const curTextareaRef = textareaRef.current;
+    autosize(curTextareaRef);
+    return () => {
+      autosize.destroy(curTextareaRef);
+    };
+  }, [textareaRef]);
+
+  // useEffect(() => {
+  //   const textarea = document.getElementById(id);
+  //   textarea.style.minHeight = '2.5rem';
+  //   textarea.textContent = '';
+  // }, [onSend, id]);
+
   return (
-    <HStack ref={messagesEndRef}>
-      <Input
+    <HStack ref={messagesEndRef} pb="2rem">
+      <Textarea
+        minH="2.5rem"
         onChange={onChange}
         onKeyDown={onPress}
         value={message}
         id={id}
+        ref={textareaRef}
         placeholder="Start typing here"
       />
       <Button onClick={onSend}>Send</Button>

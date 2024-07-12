@@ -6,6 +6,9 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './index.css';
 import { useColorMode } from '@chakra-ui/react';
 
+// WANT TO USE; GETTING ERROR FROM TYPESCRIPT
+// import CustomAgenda from './CustomAgenda';
+
 const localizer = dayjsLocalizer(dayjs);
 
 const coloredDateCellWrapper = ({ children }: any) =>
@@ -86,9 +89,12 @@ function EventsCalendar({
 
   function onSelect(...args: [CalEvent, React.SyntheticEvent<HTMLElement, globalThis.Event>]) {
     const [event] = args;
-    // this is the same as key for event's card
-    const { ogId } = event;
-    setEventFocus(ogId);
+    const { ogId, id } = event;
+    if (event.end.getTime() > new Date().getTime()) {
+      setEventFocus(ogId);
+    } else {
+      setDoubleClickedEventId(id);
+    }
   }
 
   return (
@@ -111,6 +117,11 @@ function EventsCalendar({
         showMultiDayTimes
         step={60}
         views={['month', 'agenda']}
+        // views={{
+        //   month: true,
+        //   week: false,
+        //   agenda: CustomAgenda,
+        // }}
         drilldownView="agenda"
         components={components}
         defaultDate={defaultDate}

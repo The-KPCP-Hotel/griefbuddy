@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import {
   Heading,
   Center,
-  StackDivider,
+  // StackDivider,
   Stack,
   Container,
   Text,
@@ -39,6 +39,8 @@ function ChatBot() {
   const [isWaiting, setWaiting] = useState(false);
 
   const messagesEndRef = useRef(null);
+
+  const textareaRef = useRef();
 
   const bottomScroll = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -121,6 +123,9 @@ function ChatBot() {
       })
       .catch((err) => console.error('failed sending new message', err));
     setMessage('');
+    const textarea = document.getElementById('chat');
+    textarea.style.height = '2.5rem';
+    textarea.style.maxHeight = 'inherit';
   };
 
   // triggers send if return key is pressed
@@ -193,8 +198,8 @@ function ChatBot() {
       <Info />
       <Container>
         <DeleteModal onDelete={onDelete} />
-        <Box overflowY="auto" maxHeight="70vh" marginBottom="10px" marginTop="15px">
-          <Stack divider={<StackDivider />}>
+        <Box overflowY="auto" maxHeight="70vh" marginTop="15px">
+          <Stack>
             {messages.slice(1).map((text, index) => (
               <Text
                 borderRadius="10px"
@@ -213,6 +218,7 @@ function ChatBot() {
             {isWaiting ? <Skeleton height="20px" /> : null}
             <ChatInput
               messagesEndRef={messagesEndRef}
+              textareaRef={textareaRef}
               onChange={onChange}
               onPress={onPress}
               message={message}
