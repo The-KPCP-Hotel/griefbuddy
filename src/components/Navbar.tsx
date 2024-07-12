@@ -54,7 +54,7 @@ function Navbar() {
             </Heading>
           </Center>
         </Box>
-        {useLocation().pathname === '/' ? null : <Image maxW="3rem" src="grief-buddy.png" />}
+        {useLocation().pathname === '/' ? null : <Image maxW="3rem" src="/grief-buddy.png" />}
         <Spacer />
         <Box p="2">
           {useLocation().pathname === '/' ? (

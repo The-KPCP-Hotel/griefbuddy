@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Center, Text, Box } from '@chakra-ui/react';
+import { Button, Center, Text, Box, Flex, Spacer, useMediaQuery } from '@chakra-ui/react';
 import { ArrowRightIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 
@@ -11,6 +11,8 @@ function Quote({ userId }: { userId: number }) {
   };
 
   const [quote, setQuote] = useState({} as Quote);
+
+  const [isLargerThanBase] = useMediaQuery('(min-width: 30em)');
 
   const getQuote = () => {
     axios
@@ -33,28 +35,38 @@ function Quote({ userId }: { userId: number }) {
     getQuote();
   };
 
-  return (
-    <>
-      {quote.quote ? (
+  if (quote.quote) {
+    return isLargerThanBase ? (
+      <Center>
+        <Box>
+          <Text fontStyle="italic">{quote.quote}</Text>
+          <Flex maxW="100%" mb=".5rem" mt=".25rem">
+            <Text pr=".75rem">{`  -${quote.author}`}</Text>
+            <Spacer />
+            <Button type="button" onClick={blockQuote} variant="link" p="0" pt="0">
+              Don&apos;t show this quote again
+            </Button>
+          </Flex>
+        </Box>
+        <Button ml="1rem" variant="ghost" onClick={getQuote}>
+          <ArrowRightIcon />
+        </Button>
+      </Center>
+    ) : (
+      <Box>
+        <Text fontStyle="italic">{quote.quote}</Text>
+        <Text>{`  -${quote.author}`}</Text>
         <Center>
-          <Box>
-            <Text fontStyle="italic">{quote.quote}</Text>
-            <Text>{`  -${quote.author}`}</Text>
-          </Box>
+          <Button type="button" onClick={blockQuote} variant="link" p="0">
+            Don&apos;t show this quote again
+          </Button>
           <Button ml="1rem" variant="ghost" onClick={getQuote}>
             <ArrowRightIcon />
           </Button>
         </Center>
-      ) : null}
-      {quote.quote ? (
-        <Center m="20px">
-          <Button type="button" onClick={blockQuote}>
-            Don&apos;t show this quote again
-          </Button>
-        </Center>
-      ) : null}
-    </>
-  );
+      </Box>
+    );
+  }
 }
 
 export default Quote;

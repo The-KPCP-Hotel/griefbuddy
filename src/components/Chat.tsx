@@ -6,7 +6,6 @@ import {
   Container,
   Heading,
   Stack,
-  StackDivider,
   useColorModeValue,
   Text,
   Box,
@@ -16,9 +15,10 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { ArrowBackIcon, ChatIcon } from '@chakra-ui/icons';
+import autosize from 'autosize';
 
 import { User } from '@prisma/client';
-import { Message, Dm, DmPreview } from '../types/chat';
+import { /* Message, */ Dm, DmPreview } from '../types/chat';
 
 import ChatInput from './ChatComponents/ChatInput';
 import UserSearchInput from './ChatComponents/UserSearchInput';
@@ -32,9 +32,9 @@ function Chat() {
 
   const [user, setUser] = useState({} as User);
 
-  const [message, setMessage] = useState('');
+  // const [message, setMessage] = useState('');
 
-  const [messages, setMessages] = useState([] as Message[]);
+  // const [messages, setMessages] = useState([] as Message[]);
 
   const [userSearch, setUserSearch] = useState('');
 
@@ -52,11 +52,12 @@ function Chat() {
 
   const messagesEndRef = useRef(null);
 
+  const textareaRef = useRef();
+
   const bottomScroll = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  useEffect(bottomScroll, [messages]);
+  useEffect(bottomScroll, [dms, textareaRef]);
 
   const getDmPreviews: (userId: number) => void = (userId) => {
     axios
@@ -100,9 +101,9 @@ function Chat() {
   const onChange = (e: { target: { value: string; id: string } }) => {
     const { value, id } = e.target;
     switch (id) {
-      case 'chat':
-        setMessage(value);
-        break;
+      // case 'chat':
+      //   setMessage(value);
+      //   break;
       case 'user':
         setUserSearch(value);
         break;
@@ -114,12 +115,12 @@ function Chat() {
     }
   };
 
-  useEffect(() => {
-    const addMessage = (msg: string, clientOffset: string) => {
-      setMessages((curMessages) => curMessages.concat([{ msg, clientOffset }]));
-    };
-    socket.on('sendMsg', addMessage);
-  }, [setMessages]);
+  // useEffect(() => {
+  //   const addMessage = (msg: string, clientOffset: string) => {
+  //     setMessages((curMessages) => curMessages.concat([{ msg, clientOffset }]));
+  //   };
+  //   socket.on('sendMsg', addMessage);
+  // }, [setMessages]);
 
   const onSendDm = () => {
     if (dm) {
@@ -139,7 +140,18 @@ function Chat() {
       });
     }
     setDm('');
+    const textarea = document.getElementById('dm');
+    textarea.style.height = '2.5rem';
+    textarea.style.maxHeight = 'inherit';
   };
+
+  useEffect(() => {
+    const curTextareaRef = textareaRef.current;
+    autosize(curTextareaRef);
+    return () => {
+      autosize.destroy(curTextareaRef);
+    };
+  }, [textareaRef]);
 
   useEffect(() => {
     const addDm = (msg: string, senderId: number, recipientId: number) => {
@@ -148,12 +160,12 @@ function Chat() {
     socket.on('sendDm', addDm);
   }, [setDms]);
 
-  const onSend = () => {
-    if (message) {
-      socket.emit('msg', message, socket.id);
-    }
-    setMessage('');
-  };
+  // const onSend = () => {
+  //   if (message) {
+  //     socket.emit('msg', message, socket.id);
+  //   }
+  //   setMessage('');
+  // };
 
   const onSearch = async () => {
     axios
@@ -170,9 +182,10 @@ function Chat() {
     const { id } = e.target;
     const { key } = e;
     if (key === 'Enter') {
-      if (id === 'chat') {
-        onSend();
-      } else if (id === 'user') {
+      // if (id === 'chat') {
+      //   onSend();
+      // } else
+      if (id === 'user') {
         onSearch();
       } else if (id === 'dm') {
         onSendDm();
@@ -253,12 +266,12 @@ function Chat() {
 
   return (
     <Container>
-      <Center mt=".5rem" mb=".5rem">
+      <Center mt=".5rem" mb=".75rem">
         <Heading color={color} as="h2" aria-label="Chat" boxSize="3rem">
           <ChatIcon aria-label="Chat icon" boxSize="2.75rem" />
         </Heading>
       </Center>
-      {dms.length ? (
+      {selectedUser.id ? (
         <Box>
           <Grid mt=".5rem" templateColumns="repeat(5, 1fr)" gap={1}>
             <GridItem>
@@ -269,36 +282,39 @@ function Chat() {
             <GridItem colSpan={1} />
             <GridItem>
               <Center>
-                <Text>{selectedUser.preferredName || selectedUser.name}</Text>
+                <Text whiteSpace="nowrap">{selectedUser.preferredName || selectedUser.name}</Text>
               </Center>
             </GridItem>
             <GridItem colSpan={2} />
           </Grid>
-          <Stack divider={<StackDivider />} margin="8px">
-            {dms.map((msg, index) => (
-              <Text
-                // eslint-disable-next-line react/no-array-index-key
-                key={`${msg.senderId}-${index}`}
-                borderRadius="10px"
-                background={msg.senderId === user.id ? 'blue.600' : otherUserBG}
-                p="10px"
-                color={msg.senderId === user.id ? 'white' : otherUserColor}
-                textAlign={msg.senderId === user.id ? 'right' : 'left'}
-                marginLeft={msg.senderId === user.id ? 'auto' : 0}
-                width="fit-content"
-              >
-                {msg.msg}
-              </Text>
-            ))}
-          </Stack>
-          <ChatInput
-            messagesEndRef={messagesEndRef}
-            message={dm}
-            onChange={onChange}
-            onSend={onSendDm}
-            onPress={onPress}
-            id="dm"
-          />
+          <Container id="dmContainer" overflowY="auto" maxH="80vh">
+            <Stack margin="8px">
+              {dms.map((msg, index) => (
+                <Text
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`${msg.senderId}-${index}`}
+                  borderRadius="10px"
+                  background={msg.senderId === user.id ? 'blue.600' : otherUserBG}
+                  p="10px"
+                  color={msg.senderId === user.id ? 'white' : otherUserColor}
+                  textAlign={msg.senderId === user.id ? 'right' : 'left'}
+                  marginLeft={msg.senderId === user.id ? 'auto' : 0}
+                  width="fit-content"
+                >
+                  {msg.msg}
+                </Text>
+              ))}
+            </Stack>
+            <ChatInput
+              messagesEndRef={messagesEndRef}
+              textareaRef={textareaRef}
+              message={dm}
+              onChange={onChange}
+              onSend={onSendDm}
+              onPress={onPress}
+              id="dm"
+            />
+          </Container>
         </Box>
       ) : (
         <>

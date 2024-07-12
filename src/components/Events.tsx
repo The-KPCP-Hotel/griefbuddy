@@ -22,6 +22,7 @@ import EventsBigCalendar from './EventsComponents/EventsCalendar';
 function Events() {
   const [events, setEvents] = useState([]);
   const [eventsToday, setEventsToday] = useState([]);
+  const [curEvents, setCurEvents] = useState([]);
 
   const [eventFocus, setEventFocus] = useState('');
 
@@ -30,7 +31,6 @@ function Events() {
 
     eventNode.scrollIntoView({
       behavior: 'smooth',
-      // block: 'nearest',
       block: 'center',
       inline: 'center',
     });
@@ -47,11 +47,19 @@ function Events() {
       .get('/events/all')
       .then(({ data }) => {
         setEvents(data);
-        const today = new Date().toISOString();
-        const curEvents = data.filter(
-          (event: { startDate: String }) => event.startDate.slice(0, 10) === today.slice(0, 10),
+        const today = new Date();
+        const todayString = today.toISOString();
+        const currentEvents = data.filter((event: { endDate: string }) => {
+          const endDateTime = new Date(event.endDate).getTime();
+          const todayTime = today.getTime();
+          return endDateTime > todayTime;
+        });
+        setCurEvents(currentEvents);
+        const todayEvents = data.filter(
+          (event: { startDate: String }) =>
+            event.startDate.slice(0, 10) === todayString.slice(0, 10),
         );
-        setEventsToday(curEvents);
+        setEventsToday(todayEvents);
       })
       .catch();
   }, []);
@@ -68,10 +76,6 @@ function Events() {
         Check out events happening in New Orleans!
       </Text>
       <VStack spacing="4" maxW="100%">
-        <Box>
-          {/* <Center> */}
-          {/* </Center> */}
-        </Box>
         <Box maxW="100%" justifyContent="inherit" p="10px">
           <Card>
             <Stack>
@@ -127,7 +131,7 @@ function Events() {
                   spacingY="40px"
                   spacingX="80px"
                 >
-                  {events.map((event) => (
+                  {curEvents.map((event) => (
                     <EventListItem key={event.OgId} event={event} eventFocus={eventFocus} />
                   ))}
                 </SimpleGrid>
