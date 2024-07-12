@@ -19,7 +19,6 @@ router.get('/allResources', (req: Request, res: Response) => {
 
 
 router.get('/addResource', async (req: Request, res: Response) => {
-    console.log('hitting addResource')
     puppeteer.launch().then(async function(browser) {
         const page = await browser.newPage();
         await page.goto('https://www.lifebanc.org/resources/for-families/online-grief-resources/');
@@ -38,9 +37,6 @@ router.get('/addResource', async (req: Request, res: Response) => {
         })
 
         const allResources: any = await page.evaluate(() => {
-            // resourceTitles.forEach((title) => {
-            //     if()
-            // })
             const allElements = Array.from(document.querySelector('.panel-right .bg-powderblue').children)
             type ResourceLink = {
                 name: string;
@@ -98,28 +94,11 @@ router.get('/addResource', async (req: Request, res: Response) => {
                 resourceObjects.push(currObj)
             }
             return resourceObjects
-            // return Array.from(document.querySelectorAll('.panel-right .bg-powderblue'), (e: HTMLElement) => (e.innerHTML))
         })
-        // const allResources: any = await page.evaluate(() => {
-        //     return Array.from(document.querySelectorAll('.panel-right .bg-powderblue'), (e: HTMLElement) => (e.innerHTML))
-        // })
+        
+        allResources.shift()
         res.send(allResources)
         return
-        const resourcesSplit = allResources[0].replace('\n', '').trim().split('<h3>')
-        const resourceStorage: String[] = [] 
-        resourcesSplit.forEach((resource: any) => {
-            let h3 = '<h3>'
-            resourceStorage.push(h3.concat(resource)) 
-        });
-        await browser.close();
-
-        res.status(200).send({
-            titles: resourceTitles,
-            links: resourceLinks,
-            descriptions: resourceDescriptions,
-            allResources,
-            resourceStorage: resourceStorage
-        });
     });
 
 })
