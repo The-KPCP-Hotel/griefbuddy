@@ -5,10 +5,6 @@ import dayjs from 'dayjs';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './index.css';
 import { useColorMode } from '@chakra-ui/react';
-import { style } from 'dom-helpers';
-
-// WANT TO USE; GETTING ERROR FROM TYPESCRIPT
-// import CustomAgenda from './CustomAgenda';
 
 const localizer = dayjsLocalizer(dayjs);
 
@@ -49,31 +45,13 @@ function EventsCalendar({
 
   const [defaultView, setDefaultView] = useState(true);
 
-  // useEffect(() => {
-  //   // need the agenda headers -
-  // but having a hard time accessing as they aren't initially rendered
-  //   const rbcAgenda = document.getElementsByClassName('rbc-agenda-table');
-  //   console.log(rbcAgenda);
-  //   const rbcHeaders = document.getElementsByClassName('rbc-header');
-  //   console.log(rbcHeaders);
-  // });
   function onViewChange() {
     setDefaultView((curView) => !curView);
-    // console.log(defaultView);
-    // const rbcAgenda = document.getElementsByClassName('rbc-agenda-table')[0]
-    // .getElementsByClassName('rbc-header');
-    // console.log(rbcAgenda);
-    // const rbcHeaders = document.getElementsByClassName('rbc-header');
-    // for (let i = 0; i < rbcHeaders.length; i += 1) {
-    //   console.log(rbcHeaders[i]);
-    // }
-    // console.log(rbcHeaders);
   }
 
   useEffect(() => {
     const rbcHeaders = document.getElementsByClassName('rbc-header');
     for (let i = 0; i < rbcHeaders.length; i += 1) {
-      console.log(rbcHeaders[i].textContent);
       if (rbcHeaders[i].textContent === 'Time') {
         rbcHeaders[i].setAttribute('style', 'display:none');
       }
@@ -151,11 +129,6 @@ function EventsCalendar({
         showMultiDayTimes
         step={60}
         views={['month', 'agenda']}
-        // views={{
-        //   month: true,
-        //   week: false,
-        //   agenda: CustomAgenda,
-        // }}
         drilldownView="agenda"
         components={components}
         defaultDate={defaultDate}
