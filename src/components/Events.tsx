@@ -128,7 +128,7 @@ function Events() {
               <CardBody>
                 <SimpleGrid
                   className="simpleGrid"
-                  columns={[1, 1, 2, 3, 3, 4]}
+                  columns={[1, 1, 2, 2, 3, 4]}
                   // minChildWidth="300px"
                   spacingY="40px"
                   spacingX="80px"
