@@ -16,6 +16,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+import { Event } from '@prisma/client';
 import EventListItem from './EventsComponents/EventListItem';
 import EventsBigCalendar from './EventsComponents/EventsCalendar';
 
@@ -49,14 +50,15 @@ function Events() {
         setEvents(data);
         const today = new Date();
         const todayString = today.toISOString();
-        const currentEvents = data.filter((event: { endDate: string }) => {
+        const currentEvents = data.filter((event: Event) => {
           const endDateTime = new Date(event.endDate).getTime();
+          const nextDateTime = new Date(event.nextDate).getTime();
           const todayTime = today.getTime();
-          return endDateTime > todayTime;
+          return event.endDate ? endDateTime > todayTime : nextDateTime > todayTime;
         });
         setCurEvents(currentEvents);
         const todayEvents = data.filter(
-          (event: { startDate: String }) =>
+          (event: Event) =>
             event.startDate.slice(0, 10) === todayString.slice(0, 10),
         );
         setEventsToday(todayEvents);
@@ -126,8 +128,7 @@ function Events() {
               <CardBody>
                 <SimpleGrid
                   className="simpleGrid"
-                  columns={[1, 1, 2, 3, 3, 4]}
-                  // minChildWidth="300px"
+                  columns={[1, 1, 2, 2, 3, 4]}
                   spacingY="40px"
                   spacingX="80px"
                 >
