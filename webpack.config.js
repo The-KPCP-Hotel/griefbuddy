@@ -47,13 +47,6 @@ module.exports = {
           path.resolve(__dirname, 'node_modules', 'react-big-calendar'),
         ],
       },
-      // {
-      //   test: /\.(png|jpe?g|gif)$/i,
-      //   use: ['file-loader'],
-      //   include: [
-      //     path.resolve(__dirname, 'public', 'img', 'named-logo')
-      //   ]
-      // },
     ],
   },
   resolve: {
