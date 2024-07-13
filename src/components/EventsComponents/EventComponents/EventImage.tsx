@@ -42,7 +42,7 @@ function EventImage({ url }: { url: MediaRawItem }) {
       <Modal isOpen={isOpen} onClose={onClose} size="5xl">
         <ModalOverlay backdropFilter="auto" backdropBlur="10px" />
         <ModalContent>
-          <ModalCloseButton background="white" />
+          <ModalCloseButton background="blue.200" />
           <Image src={url.mediaurl} />
         </ModalContent>
       </Modal>

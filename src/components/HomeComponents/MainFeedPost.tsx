@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+
 import axios from 'axios';
 import { VscSend, VscTrash } from 'react-icons/vsc';
+import DeletePostButton from './DeletePostModal';
 import {
   Card,
   CardHeader,
@@ -17,18 +19,16 @@ import {
   Box,
   Flex,
   Avatar,
-  IconButton,
-  Image,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
 
 function MainFeedPost(props: any) {
   const toast = useToast();
-
+// const { isOpen, onOpen, onClose } = useDisclosure();
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
-  const { googleId, postId, name, text, usersGoogleId, setAllPosts } = props;
+  const { googleId, postId, name, text, usersGoogleId, setAllPosts, userProfilePic } = props;
 
   const commentBg = useColorModeValue('whitesmoke', 'gray.800');
 
@@ -144,17 +144,9 @@ function MainFeedPost(props: any) {
 
   function onlyDeleteButtonOnUsersPost() {
     if (googleId === usersGoogleId) {
+      
       return (
-        <IconButton
-          size="lg"
-          variant="ghost"
-          colorScheme="gray"
-          aria-label="See menu"
-          icon={<VscTrash />}
-          onClick={() => {
-            deletePost();
-          }}
-        />
+      <DeletePostButton onDelete={deletePost}/>        
       );
     }
     return null;
@@ -188,12 +180,13 @@ function MainFeedPost(props: any) {
     });
   }, [setAllPosts]);
 
+
   return (
-    <Card maxW="md">
+    <Card maxW="md" w="80vw">
       <CardHeader>
         <Flex>
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-            <Avatar src="https://bit.ly/sage-adebayo" />
+            <Avatar src={userProfilePic} />
 
             <Box>
               <Heading size="sm">{`@${name}`}</Heading>
@@ -205,11 +198,11 @@ function MainFeedPost(props: any) {
       <CardBody>
         <Text>{text}</Text>
       </CardBody>
-      <Image
+      {/* <Image
         objectFit="cover"
         src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
         alt="Chakra UI"
-      />
+      /> */}
       <Center>
         <InputGroup>
           <Input

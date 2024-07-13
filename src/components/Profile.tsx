@@ -52,19 +52,19 @@ function Profile() {
   };
 
   const [userObj, setUserObj] = useState({} as UserType);
-  const [friendName, setFriendName] = useState('Halle Bot');
+  const [friendName, setFriendName] = useState("Add your friend's name here");
   const [friendNumber, setFriendNumber] = useState('504-XXX-XXXX');
   const [friendRelationship, setFriendRelationship] = useState('Besties?');
-  const [nickname, setNickname] = useState('');
-  const [location, setLocation] = useState('Baton Rouge, LA');
-  const [myMood, setMood] = useState("I'm Feeling Great!");
-  const [age, setAge] = useState('18-99+');
-  const [myPhoneNumber, updateMyPhoneNumber] = useState('2258888888');
+  const [nickname, setNickname] = useState('What name would you prefer to be addressed by?');
+  const [location, setLocation] = useState('Add your city or state here');
+  const [myMood, setMood] = useState("What is your current mental state?");
+  const [age, setAge] = useState('Add age here');
+  const [myPhoneNumber, updateMyPhoneNumber] = useState('Add your phone number here');
   const [myNameEditClicked, setMyNameEditClicked] = useState(false)
   const [myNumberEditClicked, setMyNumberEditClicked] = useState(false)
   const [myAgeEditClicked, setMyAgeEditClicked] = useState(false)
   const [myMoodEditClicked, setMyMoodEditClicked] = useState(false)
-
+  const [userPic, setUserPic] = useState('')
   const contactWarningId = useId();
 
   const bg = useColorModeValue('blue.200', 'blue.600');
@@ -122,7 +122,8 @@ function Profile() {
           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
             setMyNameEditClicked(true)
           }}>
-            {userObj ? userObj.preferredName : ''}
+            {userObj ? userObj.name : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+}
           </Text>
         </Flex>
         </>
@@ -137,7 +138,8 @@ function Profile() {
            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
              setMyNumberEditClicked(true)
            }}>
-             {userObj ? userObj.myPhoneNumber : ''}
+             {userObj ? userObj.myPhoneNumber : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+}
            </Text>
          </Flex>
          </>
@@ -152,7 +154,8 @@ function Profile() {
            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
              setMyAgeEditClicked(true)
            }}>
-             {userObj ? userObj.agee : ''}
+             {userObj ? userObj.agee : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+}
            </Text>
          </Flex>
          </>
@@ -167,7 +170,8 @@ function Profile() {
            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
              setMyMoodEditClicked(true)
            }}>
-             {userObj ? userObj.currMood : ''}
+             {userObj ? userObj.currMood : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+}
            </Text>
          </Flex>
          </>
@@ -210,22 +214,34 @@ function Profile() {
 
   useEffect(() => {}, [nickname, myNameEditClicked, myAgeEditClicked, myNumberEditClicked, myMoodEditClicked]);
 
+
+  useEffect(() => {
+    axios
+      .get('/user')
+      .then((results: any) => {
+          setUserPic(results.userPicture)
+        
+      })
+      .catch((err: Error) => console.error('failed getting user pic', err));
+  }, []);
+
   // useEffect(() => {
   // }, [selfEditClicked])
   return (
     <div>
-      <Container maxW="7xl" h="550px">
+      <Container maxW="7xl" h="550px" >
         <Grid
           templateRows="repeat(2, 1fr)"
           templateColumns="repeat(5, 1fr)"
           gap={4}
           h="1000px"
           marginBottom="150px"
-          padding="40px"
+          paddingTop="40px"
+          paddingLeft="30px"
         >
-          <GridItem width="300px" colSpan={1} bg={bg} h="616px" borderRadius="15px">
+          <GridItem  w={{base: "80vw", lg: "300px"}} colSpan={1} bg={bg} h="420px" borderRadius="15px">
             <Center padding="25px">
-              <Avatar name="Kola Tioluwani" size="xl" src="https://bit.ly/tioluwani-kolawole" />
+              <Avatar name="Kola Tioluwani" size="xl" src={userPic} />
             </Center>
             <Center>
               {userObj ? <h3 style={{ fontSize: '28px' }}>{userObj.name}</h3> : <div />}
@@ -240,7 +256,7 @@ function Profile() {
             <br />
           </GridItem>
 
-            <GridItem colSpan={4} bg={bg} h="616px" borderRadius="15px">
+            <GridItem w={{base: "80vw", lg:"800px" }} colSpan={{base: 6, lg: 1}} bg={bg} h="420px" borderRadius="15px">
               <Tabs isLazy>
                 <TabList paddingTop="15px">
                   <Tab fontSize="20px">About Me</Tab>
@@ -250,7 +266,7 @@ function Profile() {
                 <TabPanels>
                   {/* initially mounted */}
                   <TabPanel>
-                    <Card h="500px">
+                    <Card h="320px">
                       <CardBody>
                         <Stack divider={<StackDivider />} spacing="4">
                           <Box>
@@ -271,7 +287,7 @@ function Profile() {
                   </TabPanel>
                   {/* initially not mounted */}
                   <TabPanel>
-                    <Card h="500px">
+                    <Card h="80%">
 
                       <CardBody>
                         <Stack divider={<StackDivider />} spacing="4">
@@ -305,7 +321,7 @@ function Profile() {
                   </TabPanel>
                   <TabPanel>
                     <FormControl>
-                      <Card h="500px" style={{ overflow: 'scroll' }}>
+                      <Card h="300px" style={{ overflow: 'scroll' }}>
                         <CardHeader>
                           <Heading size="md">Update Personal Settings</Heading>
                         </CardHeader>

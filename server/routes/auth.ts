@@ -22,7 +22,7 @@ passport.use(
       passReqToCallback: true,
     },
     (_accessToken, _refreshToken, _other, profile, done) => {
-      const { id, displayName } = profile;
+      const { id, displayName, photos } = profile;
       prisma.user.upsert({
         where: {
           googleId: id,
@@ -31,6 +31,7 @@ passport.use(
         create: {
           googleId: id,
           name: displayName,
+          userPicture: photos[0].value
         },
       })
         .then((user: object) => done(null, user))

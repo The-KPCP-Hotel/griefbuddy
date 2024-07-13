@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Event" ALTER COLUMN "startDate" DROP NOT NULL,
+ALTER COLUMN "startDate" SET DATA TYPE TEXT;
