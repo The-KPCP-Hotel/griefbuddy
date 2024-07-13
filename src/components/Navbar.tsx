@@ -20,7 +20,6 @@ import {
   useColorMode,
   useColorModeValue,
   Image,
-  // Text,
   Icon,
 } from '@chakra-ui/react';
 import { SunIcon, MoonIcon, CalendarIcon, ChatIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
@@ -45,18 +44,15 @@ function Navbar() {
           <Center>
             <Heading as="h1" size="xl" color={textHeading}>
               {useLocation().pathname === '/' ? (
-                <Image maxH="3.25rem" src={`${window.location.origin}/name`} />
+                <Image maxH="3.25rem" pl=".45rem" src={`${window.location.origin}/name`} />
               ) : (
                 <Link to="/home" style={{ fontSize: '2.5rem' }}>
-                  {/* //   GriefBuddy */}
                   <Image maxH="3.25rem" pl=".25rem" src={`${window.location.origin}/named-logo`} />
                 </Link>
               )}
             </Heading>
           </Center>
         </Box>
-        {/* {useLocation().pathname === '/' ? null
-        : <Image maxW="3rem" src={`${window.location.origin}/named-logo`} />} */}
         <Spacer />
         <Box>
           {useLocation().pathname === '/' ? (
