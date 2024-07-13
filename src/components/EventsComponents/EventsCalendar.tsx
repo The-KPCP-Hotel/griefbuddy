@@ -62,7 +62,6 @@ function EventsCalendar({
     const rbcShowMore = document.getElementsByClassName('rbc-show-more');
     for (let i = 0; i < rbcShowMore.length; i += 1) {
       const extraEvents = rbcShowMore[i].textContent.split(' ')[0];
-      console.log(extraEvents, rbcShowMore[i].textContent);
       rbcShowMore[i].textContent = extraEvents;
     }
   }
