@@ -73,8 +73,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/named-logo', (req, res) => {
-  // console.log(path.join(__dirname, '..', 'public', 'img', 'named-logo.png'));
   res.sendFile(path.join(__dirname, '..', 'public', 'img', 'named-logo.png'));
+});
+app.get('/name', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'img', 'name.png'));
 });
 
 app.get('/user', checkAuth, (req: Request, res: Response) => {
