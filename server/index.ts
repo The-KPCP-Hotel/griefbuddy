@@ -72,11 +72,16 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));
 });
 
+const PUBLIC_PATH =
+  process.env.MODE === 'development'
+    ? path.resolve(__dirname, '..', 'public')
+    : path.resolve(__dirname, '..', '..', 'public');
+
 app.get('/named-logo', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'img', 'named-logo.png'));
+  res.sendFile(path.join(PUBLIC_PATH, 'img', 'named-logo.png'));
 });
 app.get('/name', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'img', 'name.png'));
+  res.sendFile(path.join(PUBLIC_PATH, 'img', 'name.png'));
 });
 
 app.get('/user', checkAuth, (req: Request, res: Response) => {
