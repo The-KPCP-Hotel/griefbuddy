@@ -58,6 +58,26 @@ function EventsCalendar({
     }
   }, [defaultView]);
 
+  function removeMore() {
+    const rbcShowMore = document.getElementsByClassName('rbc-show-more');
+    for (let i = 0; i < rbcShowMore.length; i += 1) {
+      const extraEvents = rbcShowMore[i].textContent.split(' ')[0];
+      console.log(extraEvents, rbcShowMore[i].textContent);
+      rbcShowMore[i].textContent = extraEvents;
+    }
+  }
+
+  useEffect(() => {
+    removeMore();
+  });
+
+  useEffect(() => {
+    if (defaultView) {
+      // w/o this set timeout, removeMore was getting called before the elements were avail
+      setTimeout(removeMore);
+    }
+  }, [defaultView]);
+
   useEffect(() => {
     const calButtons: HTMLCollectionOf<Element> = document.getElementsByClassName('rbc-btn-group');
     if (colorMode === 'dark') {
