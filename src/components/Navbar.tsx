@@ -75,7 +75,7 @@ function Navbar() {
         <DrawerOverlay />
         <DrawerContent backgroundColor={bg}>
           <DrawerHeader>
-            <Button onClick={toggleColorMode} aria-label="toggle dark and light mode">
+            <Button onClick={toggleColorMode} aria-label="toggle dark and light mode" boxSize="2.5rem">
               {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
             </Button>
           </DrawerHeader>
