@@ -39,7 +39,7 @@ function Navbar() {
   const text = useColorModeValue('blue.600', 'whitesmoke');
 
   return (
-    <Container className="navContainer" width="100%" maxW="inherit" bg={bg} h="3.25rem">
+    <Container className="navContainer" width="100%" maxW="inherit" bg={bg} h="3.25rem" p="0">
       <Flex className="navFlex" alignItems="center" gap="2" minWidth="max-content" maxH="3.25rem">
         <Box className="GriefBuddyBox">
           <Center>
@@ -49,7 +49,7 @@ function Navbar() {
               ) : (
                 <Link to="/home" style={{ fontSize: '2.5rem' }}>
                   {/* //   GriefBuddy */}
-                  <Image maxH="3.25rem" src={`${window.location.origin}/named-logo`} />
+                  <Image maxH="3.25rem" pl=".25rem" src={`${window.location.origin}/named-logo`} />
                 </Link>
               )}
             </Heading>
@@ -58,9 +58,9 @@ function Navbar() {
         {/* {useLocation().pathname === '/' ? null
         : <Image maxW="3rem" src={`${window.location.origin}/named-logo`} />} */}
         <Spacer />
-        <Box p="2">
+        <Box>
           {useLocation().pathname === '/' ? (
-            <Image maxW="3rem" src="grief-buddy.png" />
+            <Image pr=".5rem" maxH="3.25rem" src="grief-buddy.png" />
           ) : (
             <Button
               colorScheme={bg}
