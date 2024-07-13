@@ -20,7 +20,6 @@ import {
   useColorMode,
   useColorModeValue,
   Image,
-  Text,
   Icon,
 } from '@chakra-ui/react';
 import { SunIcon, MoonIcon, CalendarIcon, ChatIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
@@ -39,26 +38,25 @@ function Navbar() {
   const text = useColorModeValue('blue.600', 'whitesmoke');
 
   return (
-    <Container className="navContainer" width="100%" maxW="inherit" bg={bg} h="3.25rem">
+    <Container className="navContainer" width="100%" maxW="inherit" bg={bg} h="3.25rem" p="0">
       <Flex className="navFlex" alignItems="center" gap="2" minWidth="max-content" maxH="3.25rem">
         <Box className="GriefBuddyBox">
           <Center>
             <Heading as="h1" size="xl" color={textHeading}>
               {useLocation().pathname === '/' ? (
-                <Text fontSize="2.5rem">GriefBuddy</Text>
+                <Image maxH="3.25rem" pl=".45rem" src={`${window.location.origin}/name`} />
               ) : (
                 <Link to="/home" style={{ fontSize: '2.5rem' }}>
-                  GriefBuddy
+                  <Image maxH="3.25rem" pl=".25rem" src={`${window.location.origin}/named-logo`} />
                 </Link>
               )}
             </Heading>
           </Center>
         </Box>
-        {useLocation().pathname === '/' ? null : <Image maxW="3rem" src="/grief-buddy.png" />}
         <Spacer />
-        <Box p="2">
+        <Box>
           {useLocation().pathname === '/' ? (
-            <Image maxW="3rem" src="grief-buddy.png" />
+            <Image pr=".5rem" maxH="3.25rem" src="grief-buddy.png" />
           ) : (
             <Button
               colorScheme={bg}
@@ -77,7 +75,7 @@ function Navbar() {
         <DrawerOverlay />
         <DrawerContent backgroundColor={bg}>
           <DrawerHeader>
-            <Button onClick={toggleColorMode} aria-label="toggle dark and light mode">
+            <Button onClick={toggleColorMode} aria-label="toggle dark and light mode" boxSize="2.5rem">
               {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
             </Button>
           </DrawerHeader>
