@@ -19,6 +19,8 @@ import {
   Text,
   VStack
 } from '@chakra-ui/react';
+import { InfoIcon } from '@chakra-ui/icons';
+
 
 function Resources() {
   const [griefObj, setGriefObj] = useState([]);
@@ -109,12 +111,12 @@ function Resources() {
 
   return (
     <>
-      {/* <Center>
-        <Heading size="3xl" color="blue.200" marginBottom="35px">
-          Resources
+      <Center>
+        <Heading size="3xl" color="blue.200" marginBottom="35px" marginTop="50px">
+          <InfoIcon />
         </Heading>
-      </Center> */}
-      <Container maxW="7xl" marginTop="50px">
+      </Center>
+      <Container maxW="7xl">
         <Center>
           <Menu>
             <MenuButton as={Button} rightIcon={<>⌵</>}>
