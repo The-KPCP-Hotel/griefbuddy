@@ -16,7 +16,8 @@ import {
   CardBody,
   CardFooter,
   Stack,
-  Text
+  Text,
+  VStack
 } from '@chakra-ui/react';
 
 function Resources() {
@@ -53,33 +54,33 @@ function Resources() {
   function parseObj() {
     if (clickedGriefType === '') {
 
-      
-        return generalBereavementResources.map((resource, i) => (
 
-          <Card key={i}
-            direction={{ base: 'column', sm: 'row' }}
-            overflow='hidden'
-            variant='outline'
-          >
-            <Stack>
-              <CardBody>
-                <Heading size='md'>{resource.name}</Heading>
+      return generalBereavementResources.map((resource, i) => (
 
-                <Text py='2'>
-                  Caffè latte is a coffee beverage of Italian origin made with espresso
-                  and steamed milk.
-                </Text>
-              </CardBody>
+        <Card key={i}
+          direction={{ base: 'column', sm: 'row' }}
+          overflow='hidden'
+          variant='outline'
+        >
+          <Stack>
+            <CardBody>
+              <Heading size='md'>{resource.name}</Heading>
 
-              <CardFooter>
-                <Button variant='solid' colorScheme='blue'>
-                  Buy Latte
-                </Button>
-              </CardFooter>
-            </Stack>
-          </Card>
-        ))
-      
+              <Text py='2'>
+                Caffè latte is a coffee beverage of Italian origin made with espresso
+                and steamed milk.
+              </Text>
+            </CardBody>
+
+            <CardFooter>
+              <Button variant='solid' colorScheme='blue'>
+                Buy Latte
+              </Button>
+            </CardFooter>
+          </Stack>
+        </Card>
+      ))
+
     }
   }
   // function clickedTypeH3Return(type: any) {
@@ -150,7 +151,9 @@ function Resources() {
               {parseAndReturnH3()} */}
           {/* </UnorderedList>
           </Box> */ }
-          {parseObj()}
+          <VStack>
+            {parseObj()}
+          </VStack>
         </Center>
       </Container>
     </>
