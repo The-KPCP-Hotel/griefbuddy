@@ -30,8 +30,8 @@ function Resources() {
   const [dropdownLabel, setDropdownLabel] = useState('Pick a Grief Type');
   const [griefStrSplit, setGriefStrSplit] = useState([]);
   // string that is split and matches type clicked
-  // const [griefStrSplitH3, setGriefStrSplitH3] = useState('');
-  // const [typeUpdateStatus, setUpdateStatus] = useState('false');
+  const [griefStrSplitH3, setGriefStrSplitH3] = useState('');
+  const [typeUpdateStatus, setUpdateStatus] = useState('false');
 
   const bg = useColorModeValue('blue.200', 'blue.600');
 
@@ -86,13 +86,14 @@ function Resources() {
 
     }
   }
-  // function clickedTypeH3Return(type: any) {
-  //   for (let i = 0; i < griefStrSplit.length; i++) {
-  //     if (griefStrSplit[i].includes(type)) {
-  //       setGriefStrSplitH3(griefStrSplit[i]);
-  //     }
-  //   }
-  // }
+
+  function clickedTypeH3Return(type: any) {
+    for (let i = 0; i < griefObj.length; i++) {
+      if (griefObj[i].title === type) {
+        setGriefStrSplitH3(griefObj[i].title);
+      }
+    }
+  }
 
   // function parseAndReturnH3() {
   //   const concated = '<h3>';
@@ -101,13 +102,47 @@ function Resources() {
   //   )
   //   }
 
+  function nonGeneralResources() {
+    for(let i = 0; i < griefObj.length; i++){
+      if(griefObj[i].title === griefStrSplitH3) {
+
+        return griefObj[i].resources.map((resource: any = { }, i: number) => (
+
+          <Card key={i}
+            direction={{ base: 'column', sm: 'row' }}
+            overflow='scroll'
+            variant='outline'
+            h="300px"
+            width="80%"
+          >
+            <Stack>
+              <CardBody>
+                <Heading size='md'>{resource.name}</Heading>
+  
+                <Text py='2'>
+                 {resource.description}
+                </Text>
+              </CardBody>
+  
+              <CardFooter>
+                <Button variant='solid' colorScheme='blue'>
+                  <a href={resource.url} target='_blank'>Link to Resource</a>
+                </Button>
+              </CardFooter>
+            </Stack>
+          </Card>
+        ))
+      }
+    }
+  }
+
   useEffect(() => {
     getTypesOfGrief();
   }, []);
 
-  // useEffect(() => {
-  //   setUpdateStatus('false');
-  // }, [clickedGriefType]);
+  useEffect(() => {
+    setUpdateStatus('false');
+  }, [clickedGriefType]);
 
   return (
     <>
@@ -127,10 +162,10 @@ function Resources() {
                 <MenuItem
                   key={i}
                   onClick={(e: any) => {
-                    // onGriefTypeClick(e.target.innerText);
-                    // clickedTypeH3Return(e.target.innerText);
-                    // setDropdownLabel(e.target.innerText);
-                    // setUpdateStatus('true');
+                    onGriefTypeClick(e.target.innerText);
+                    clickedTypeH3Return(e.target.innerText);
+                    setDropdownLabel(e.target.innerText);
+                    setUpdateStatus('true');
                   }}
                 >
                   {griefObjTypes.title}
@@ -156,6 +191,7 @@ function Resources() {
           </Box> */ }
           <VStack marginBottom="50px">
             {parseObj()}
+            {nonGeneralResources()}
           </VStack>
         </Center>
       </Container>
