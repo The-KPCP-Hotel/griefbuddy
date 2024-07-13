@@ -59,22 +59,23 @@ function Resources() {
 
         <Card key={i}
           direction={{ base: 'column', sm: 'row' }}
-          overflow='hidden'
+          overflow='scroll'
           variant='outline'
+          h="300px"
+          width="80%"
         >
           <Stack>
             <CardBody>
               <Heading size='md'>{resource.name}</Heading>
 
               <Text py='2'>
-                Caffè latte is a coffee beverage of Italian origin made with espresso
-                and steamed milk.
+               {resource.description}
               </Text>
             </CardBody>
 
             <CardFooter>
               <Button variant='solid' colorScheme='blue'>
-                Buy Latte
+                <a href={resource.url} target='_blank'>Link to Resource</a>
               </Button>
             </CardFooter>
           </Stack>
@@ -108,12 +109,12 @@ function Resources() {
 
   return (
     <>
-      <Center>
+      {/* <Center>
         <Heading size="3xl" color="blue.200" marginBottom="35px">
           Resources
         </Heading>
-      </Center>
-      <Container maxW="7xl">
+      </Center> */}
+      <Container maxW="7xl" marginTop="50px">
         <Center>
           <Menu>
             <MenuButton as={Button} rightIcon={<>⌵</>}>
@@ -151,7 +152,7 @@ function Resources() {
               {parseAndReturnH3()} */}
           {/* </UnorderedList>
           </Box> */ }
-          <VStack>
+          <VStack marginBottom="50px">
             {parseObj()}
           </VStack>
         </Center>
