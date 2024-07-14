@@ -205,18 +205,6 @@ function Profile() {
 
   // }
 
-  function sendUpdateOnClick() {
-
-  }
-
-  function ignoreUpdateOnClick() {
-
-  }
-
-
-  function inputReturnBasedOffInputType() {
-
-  }
 
   function updateEditComponentValue() {
     setInputEditMode(false)
@@ -228,11 +216,11 @@ function Profile() {
     setInputEditMode(!inInputEditMode)
   }
 
-  function displayInputEdit() {
+  function displayInputEdit(heading: String) {
     return (
       <>
         <Heading size="xs" textTransform="uppercase">
-          {/* {heading} */}Preferred Name
+          {heading}
         </Heading>
         <Flex>
           <Input style={{ display: "inline-block", width: "400px" }} defaultValue={nickname} ref={inputValRef} border={0}
@@ -248,11 +236,11 @@ function Profile() {
     )
   }
 
-  function displayInputDefault() {
+  function displayInputDefault(heading: String) {
     return (
       <>
         <Heading size="xs" textTransform="uppercase">
-          {/* {heading} */}Preferred Name
+          {heading}
         </Heading>
         <Flex>
           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
@@ -266,9 +254,8 @@ function Profile() {
     )
   }
 
-  function doubleClickOnInput() {
-    return inInputEditMode ? displayInputEdit() : displayInputDefault()
-
+  function doubleClickOnInput(heading: String) {
+    return inInputEditMode ? displayInputEdit(heading) : displayInputDefault(heading)
   }
 
   useEffect(() => {
@@ -278,7 +265,7 @@ function Profile() {
     });
   }, []);
 
-  // useEffect(() => { }, [nickname, myNameEditClicked, myAgeEditClicked, myNumberEditClicked, myMoodEditClicked]);
+  useEffect(() => { }, [nickname, myNameEditClicked, myAgeEditClicked, myNumberEditClicked, myMoodEditClicked]);
 
 
   useEffect(() => {
@@ -336,17 +323,20 @@ function Profile() {
                     <CardBody>
                       <Stack divider={<StackDivider />} spacing="4">
                         <Box>
-                          {/* {doubleClickOnInput("Preferred Name")} */}
-                          {doubleClickOnInput()}
+                          {doubleClickOnInput("Preferred Name")}
+                          {/* {doubleClickOnInput()} */}
                         </Box>
                         <Box>
-                          {/* {doubleClickOnInput("Phone Number")} */}
+                          {doubleClickOnInput("Phone Number")}
+                          {/* {doubleClickOnInput()} */}
                         </Box>
                         <Box>
-                          {/* {doubleClickOnInput("Age")} */}
+                          {doubleClickOnInput("Age")}
+                          {/* {doubleClickOnInput()} */}
                         </Box>
                         <Box>
-                          {/* {doubleClickOnInput("Current Mental State")} */}
+                          {doubleClickOnInput("Current Mental State")}
+                          {/* {doubleClickOnInput()} */}
                         </Box>
                       </Stack>
                     </CardBody>
