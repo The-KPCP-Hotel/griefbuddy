@@ -8,6 +8,7 @@ import HomePage from './HomePage';
 import Profile from './Profile';
 // import Buddy from './Buddy';
 import Chat from './Chat';
+import Buddy from './BuddyComponents/Buddy';
 import ChatBot from './ChatBot';
 import Events from './Events';
 import Event from './EventsComponents/Event';
@@ -37,11 +38,11 @@ function App() {
               <Route path="/home" element={<HomePage />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/chat" element={<Chat socket={socket} />} />
+              <Route path="/buddy" element={<Buddy />} />
               <Route path="/chatbot" element={<ChatBot />} />
               <Route path="/events" element={<Events />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/resource" element={<Resource />} />
-              {/* <Route path="/buddychat" element={<BuddyChat />} /> */}
               <Route path="/events/:id" element={<Event />} />
               <Route
                 path="/map"
