@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request } from 'express';
 import { User as UserType, Buddy as BuddyType } from '@prisma/client';
 
 const buddy = express.Router();
@@ -69,6 +69,16 @@ buddy.post('/new', async (req, res) => {
   // console.log(newBuddies);
   const newBuddyRows = await Buddy.createMany({ data: newBuddies });
   res.send(newBuddyRows);
+});
+
+buddy.get('/get', async (req: Request & { user: UserType }, res) => {
+  // console.log(req.user);
+  const currentBuddy = await Buddy.findFirst({
+    where: { buddy1Id: req.user.id },
+    select: { buddy1Id: true, buddy2: { select: { id: true, name: true, preferredName: true } } },
+  });
+  // console.log(currentBuddy);
+  res.send(currentBuddy);
 });
 
 export = buddy;
