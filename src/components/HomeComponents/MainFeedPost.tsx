@@ -92,8 +92,8 @@ function MainFeedPost(props: any) {
 
   useEffect(() => {
     axios.get('/user').then((results: any) => {
-      setUserObj(results.name)
-
+      setUserObj(results.data.name)
+      console.log(results.data.name)
     })
     .catch((err: Error) => console.error('failed getting user ', err));
   }, []);
@@ -155,7 +155,7 @@ function MainFeedPost(props: any) {
                 padding="8px"
               >
                 @
-                <span style={{ textDecoration: 'underline' }}>{`${name}`}</span>
+                <span style={{ textDecoration: 'underline' }}>{`${user}`}</span>
                 {`: ${c.text}`}
               </Box>
             )
