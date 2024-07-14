@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useId } from 'react';
+import React, { useState, useEffect, useId, useRef } from 'react';
 import axios from 'axios';
 import {
   Container,
@@ -65,8 +65,10 @@ function Profile() {
   const [myAgeEditClicked, setMyAgeEditClicked] = useState(false)
   const [myMoodEditClicked, setMyMoodEditClicked] = useState(false)
   const [userPic, setUserPic] = useState('')
+  const [inInputEditMode, setInputEditMode] = useState(false)
   const contactWarningId = useId();
 
+  const inputValRef = useRef(null)
   const bg = useColorModeValue('blue.200', 'blue.600');
 
   function updateUser() {
@@ -111,99 +113,163 @@ function Profile() {
       });
   }
 
-  function doubleClickOnInput(heading: String) {
-    if (myNameEditClicked === false && heading === "Preferred Name") {
-      return (
-       <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-           <Flex>
-          <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
-            setMyNameEditClicked(true)
-          }}>
-            {userObj ? userObj.name : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
-}
-          </Text>
-        </Flex>
-        </>
-      )
-    } else if(myNumberEditClicked === false && heading === "Phone Number") {
-      return (
-        <>
-           <Heading size="xs" textTransform="uppercase">
-             {heading}
-           </Heading>
-            <Flex>
-           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
-             setMyNumberEditClicked(true)
-           }}>
-             {userObj ? userObj.myPhoneNumber : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
-}
-           </Text>
-         </Flex>
-         </>
-       )
-    } else if(myAgeEditClicked === false && heading === "Age"){
-      return (
-        <>
-           <Heading size="xs" textTransform="uppercase">
-             {heading}
-           </Heading>
-            <Flex>
-           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
-             setMyAgeEditClicked(true)
-           }}>
-             {userObj ? userObj.agee : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
-}
-           </Text>
-         </Flex>
-         </>
-       )
-    } else if(myMoodEditClicked === false && heading === "Current Mental State") {
-      return (
-        <>
-           <Heading size="xs" textTransform="uppercase">
-             {heading}
-           </Heading>
-            <Flex>
-           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
-             setMyMoodEditClicked(true)
-           }}>
-             {userObj ? userObj.currMood : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
-}
-           </Text>
-         </Flex>
-         </>
-       )
-    }
-    
-    else {
-      return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-          <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
-          <Spacer />
-          <Button>✏️</Button>
-        </Flex>
-        </>
-      )
-    }
+  // function doubleClickOnInput(heading: String) {
+  //   if (myNameEditClicked === false && heading === "Preferred Name") {
+  //     return (
+  //       <>
+  //         <Heading size="xs" textTransform="uppercase">
+  //           {heading}
+  //         </Heading>
+  //         <Flex>
+  //           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+  //             setMyNameEditClicked(true)
+  //           }}>
+  //             {userObj ? userObj.name : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+  //             }
+  //           </Text>
+  //         </Flex>
+  //       </>
+  //     )
+  //   } else if (myNumberEditClicked === false && heading === "Phone Number") {
+  //     return (
+  //       <>
+  //         <Heading size="xs" textTransform="uppercase">
+  //           {heading}
+  //         </Heading>
+  //         <Flex>
+  //           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+  //             setMyNumberEditClicked(true)
+  //           }}>
+  //             {userObj ? userObj.myPhoneNumber : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+  //             }
+  //           </Text>
+  //         </Flex>
+  //       </>
+  //     )
+  //   } else if (myAgeEditClicked === false && heading === "Age") {
+  //     return (
+  //       <>
+  //         <Heading size="xs" textTransform="uppercase">
+  //           {heading}
+  //         </Heading>
+  //         <Flex>
+  //           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+  //             setMyAgeEditClicked(true)
+  //           }}>
+  //             {userObj ? userObj.agee : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+  //             }
+  //           </Text>
+  //         </Flex>
+  //       </>
+  //     )
+  //   } else if (myMoodEditClicked === false && heading === "Current Mental State") {
+  //     return (
+  //       <>
+  //         <Heading size="xs" textTransform="uppercase">
+  //           {heading}
+  //         </Heading>
+  //         <Flex>
+  //           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+  //             setMyMoodEditClicked(true)
+  //           }}>
+  //             {userObj ? userObj.currMood : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+  //             }
+  //           </Text>
+  //         </Flex>
+  //       </>
+  //     )
+  //   }
 
-  }
+  //   else {
+  //     return (
+  //       <>
+  //         <Heading size="xs" textTransform="uppercase">
+  //           {heading}
+  //         </Heading>
+  //         <Flex>
+  //           <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0}
+  //             onChange={(e) => {
+  //               const nicknamee = e.target.value;
+  //               setNickname(nicknamee);
+  //             }}
+  //           />
+  //           <Spacer />
+  //           <Button marginRight="3px" onClick={() => {
+  //             updateUser();
+  //           }}>✏️</Button>
+  //           <Button>❌</Button>
+  //         </Flex>
+  //       </>
+  //     )
+  //   }
+
+  // }
 
   function sendUpdateOnClick() {
 
   }
 
+  function ignoreUpdateOnClick() {
 
-  function inputReturnBasedOffInputType() {
-    
   }
 
+
+  function inputReturnBasedOffInputType() {
+
+  }
+
+  function updateEditComponentValue() {
+    setInputEditMode(false)
+    setNickname(inputValRef.current.value)
+  }
+
+  function editInputMode() {
+    console.log("is in edit mode")
+    setInputEditMode(!inInputEditMode)
+  }
+
+  function displayInputEdit() {
+    return (
+      <>
+        <Heading size="xs" textTransform="uppercase">
+          {/* {heading} */}Preferred Name
+        </Heading>
+        <Flex>
+          <Input style={{ display: "inline-block", width: "400px" }} defaultValue={nickname} ref={inputValRef} border={0}
+          />
+          <Button marginRight="3px" onClick={() => {
+            updateEditComponentValue();
+          }}>✏️</Button>
+          <Button onClick={() => {
+            editInputMode()
+          }}>❌</Button>
+        </Flex>
+      </>
+    )
+  }
+
+  function displayInputDefault() {
+    return (
+      <>
+        <Heading size="xs" textTransform="uppercase">
+          {/* {heading} */}Preferred Name
+        </Heading>
+        <Flex>
+          <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+            editInputMode()
+          }}>
+            {/* {userObj ? userObj.name : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+          } */} {nickname}
+          </Text>
+        </Flex>
+      </>
+    )
+  }
+
+  function doubleClickOnInput() {
+    return inInputEditMode ? displayInputEdit() : displayInputDefault()
+
+  }
 
   useEffect(() => {
     axios.get('/user').then(({ data }) => {
@@ -212,15 +278,15 @@ function Profile() {
     });
   }, []);
 
-  useEffect(() => {}, [nickname, myNameEditClicked, myAgeEditClicked, myNumberEditClicked, myMoodEditClicked]);
+  // useEffect(() => { }, [nickname, myNameEditClicked, myAgeEditClicked, myNumberEditClicked, myMoodEditClicked]);
 
 
   useEffect(() => {
     axios
       .get('/user')
       .then((results: any) => {
-          setUserPic(results.userPicture)
-        
+        setUserPic(results.userPicture)
+
       })
       .catch((err: Error) => console.error('failed getting user pic', err));
   }, []);
@@ -239,7 +305,7 @@ function Profile() {
           paddingTop="40px"
           paddingLeft="30px"
         >
-          <GridItem  w={{base: "80vw", lg: "300px"}} colSpan={1} bg={bg} h="420px" borderRadius="15px">
+          <GridItem w={{ base: "80vw", lg: "300px" }} colSpan={1} bg={bg} h="420px" borderRadius="15px">
             <Center padding="25px">
               <Avatar name="Kola Tioluwani" size="xl" src={userPic} />
             </Center>
@@ -256,75 +322,76 @@ function Profile() {
             <br />
           </GridItem>
 
-            <GridItem w={{base: "80vw", lg:"800px" }} colSpan={{base: 6, lg: 1}} bg={bg} h="420px" borderRadius="15px">
-              <Tabs isLazy>
-                <TabList paddingTop="15px">
-                  <Tab fontSize="20px">About Me</Tab>
-                  <Tab fontSize="20px">Friend Contact</Tab>
-                  <Tab fontSize="20px">Personal Settings</Tab>
-                </TabList>
-                <TabPanels>
-                  {/* initially mounted */}
-                  <TabPanel>
-                    <Card h="320px">
-                      <CardBody>
-                        <Stack divider={<StackDivider />} spacing="4">
-                          <Box>
-                          {doubleClickOnInput("Preferred Name")}
-                          </Box>
-                          <Box>
-                          {doubleClickOnInput("Phone Number")}
-                          </Box>
-                          <Box>
-                          {doubleClickOnInput("Age")}
-                          </Box>
-                          <Box>
-                          {doubleClickOnInput("Current Mental State")}
-                          </Box>
-                        </Stack>
-                      </CardBody>
-                    </Card>
-                  </TabPanel>
-                  {/* initially not mounted */}
-                  <TabPanel>
-                    <Card h="80%">
+          <GridItem w={{ base: "80vw", lg: "800px" }} colSpan={{ base: 6, lg: 1 }} bg={bg} h="420px" borderRadius="15px">
+            <Tabs isLazy>
+              <TabList paddingTop="15px">
+                <Tab fontSize="20px">About Me</Tab>
+                <Tab fontSize="20px">Friend Contact</Tab>
+                <Tab fontSize="20px">Personal Settings</Tab>
+              </TabList>
+              <TabPanels>
+                {/* initially mounted */}
+                <TabPanel>
+                  <Card h="320px">
+                    <CardBody>
+                      <Stack divider={<StackDivider />} spacing="4">
+                        <Box>
+                          {/* {doubleClickOnInput("Preferred Name")} */}
+                          {doubleClickOnInput()}
+                        </Box>
+                        <Box>
+                          {/* {doubleClickOnInput("Phone Number")} */}
+                        </Box>
+                        <Box>
+                          {/* {doubleClickOnInput("Age")} */}
+                        </Box>
+                        <Box>
+                          {/* {doubleClickOnInput("Current Mental State")} */}
+                        </Box>
+                      </Stack>
+                    </CardBody>
+                  </Card>
+                </TabPanel>
+                {/* initially not mounted */}
+                <TabPanel>
+                  <Card h="80%">
 
-                      <CardBody>
-                        <Stack divider={<StackDivider />} spacing="4">
-                          <Box>
-                            <Heading size="xs" textTransform="uppercase">
-                              Name
-                            </Heading>
-                            <Text pt="2" fontSize="sm">
-                              {userObj ? userObj.emConName : ''}
-                            </Text>
-                          </Box>
-                          <Box>
-                            <Heading size="xs" textTransform="uppercase">
-                              Phone Number
-                            </Heading>
-                            <Text pt="2" fontSize="sm">
-                              {userObj ? userObj.emConNum : ''}
-                            </Text>
-                          </Box>
-                          <Box>
-                            <Heading size="xs" textTransform="uppercase">
-                              Relationship
-                            </Heading>
-                            <Text pt="2" fontSize="sm">
-                              {userObj ? userObj.emConRelationship : ''}
-                            </Text>
-                          </Box>
-                        </Stack>
-                      </CardBody>
-                    </Card>
-                  </TabPanel>
-                  <TabPanel>
-                    <FormControl>
-                      <Card h="300px" style={{ overflow: 'scroll' }}>
-                        <CardHeader>
-                          <Heading size="md">Update Personal Settings</Heading>
-                        </CardHeader>
+                    <CardBody>
+                      <Stack divider={<StackDivider />} spacing="4">
+                        <Box>
+                          <Heading size="xs" textTransform="uppercase">
+                            Name
+                          </Heading>
+                          <Text pt="2" fontSize="sm">
+                            {userObj ? userObj.emConName : ''}
+                          </Text>
+                        </Box>
+                        <Box>
+                          <Heading size="xs" textTransform="uppercase">
+                            Phone Number
+                          </Heading>
+                          <Text pt="2" fontSize="sm">
+                            {userObj ? userObj.emConNum : ''}
+                          </Text>
+                        </Box>
+                        <Box>
+                          <Heading size="xs" textTransform="uppercase">
+                            Relationship
+                          </Heading>
+                          <Text pt="2" fontSize="sm">
+                            {userObj ? userObj.emConRelationship : ''}
+                          </Text>
+                        </Box>
+                      </Stack>
+                    </CardBody>
+                  </Card>
+                </TabPanel>
+                <TabPanel>
+                  <FormControl>
+                    <Card h="300px" style={{ overflow: 'scroll' }}>
+                      <CardHeader>
+                        <Heading size="md">Update Personal Settings</Heading>
+                      </CardHeader>
 
                       <CardBody>
                         <Stack divider={<StackDivider />} spacing="4">
