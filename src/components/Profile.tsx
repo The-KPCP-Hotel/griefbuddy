@@ -206,9 +206,20 @@ function Profile() {
   // }
 
 
-  function updateEditComponentValue() {
-    setInputEditMode(false)
-    setNickname(inputValRef.current.value)
+  function updateEditComponentValue(typeClicked: String) {
+    if(typeClicked === "name"){
+      setInputEditMode(false)
+      setNickname(inputValRef.current.value)
+    } else if(typeClicked === "number"){
+      setInputEditMode(false)
+      updateMyPhoneNumber(inputValRef.current.value)
+    } else if(typeClicked === "age"){
+      setInputEditMode(false)
+      setAge(inputValRef.current.value)
+    } else if(typeClicked === "mood"){
+      setInputEditMode(false)
+      setMood(inputValRef.current.value)
+    }
   }
 
   function editInputMode() {
@@ -217,23 +228,90 @@ function Profile() {
   }
 
   function displayInputEdit(heading: String) {
-    return (
-      <>
-        <Heading size="xs" textTransform="uppercase">
-          {heading}
-        </Heading>
-        <Flex>
-          <Input style={{ display: "inline-block", width: "400px" }} defaultValue={nickname} ref={inputValRef} border={0}
-          />
-          <Button marginRight="3px" onClick={() => {
-            updateEditComponentValue();
-          }}>✏️</Button>
-          <Button onClick={() => {
-            editInputMode()
-          }}>❌</Button>
-        </Flex>
-      </>
-    )
+    if (myNameEditClicked === false && heading === "Preferred Name") {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={nickname} ref={inputValRef} border={0}
+            />
+            <Spacer />
+            <Button marginRight="3px" onClick={() => {
+              updateEditComponentValue("name");
+              setMyNameEditClicked(true)
+            }}>✏️</Button>
+            <Button onClick={() => {
+              editInputMode()
+            }}>❌</Button>
+          </Flex>
+        </>
+      )
+    }
+    else if (myNumberEditClicked === false && heading === "Phone Number") {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={myPhoneNumber} ref={inputValRef} border={0}
+            />
+            <Spacer />
+            <Button marginRight="3px" onClick={() => {
+              updateEditComponentValue("number");
+              setMyNumberEditClicked(true)
+            }}>✏️</Button>
+            <Button onClick={() => {
+              editInputMode()
+            }}>❌</Button>
+          </Flex>
+        </>
+      )
+    }
+    else if (myAgeEditClicked === false && heading === "Age") {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={age} ref={inputValRef} border={0}
+            />
+            <Spacer />
+            <Button marginRight="3px" onClick={() => {
+              updateEditComponentValue("age");
+              setMyAgeEditClicked(true)
+            }}>✏️</Button>
+            <Button onClick={() => {
+              editInputMode()
+            }}>❌</Button>
+          </Flex>
+        </>
+      )
+    }
+    else if (myMoodEditClicked === false && heading === "Current Mental State") {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={myMood} ref={inputValRef} border={0}
+            />
+            <Spacer />
+            <Button marginRight="3px" onClick={() => {
+              updateEditComponentValue("mood");
+              setMyMoodEditClicked(true)
+            }}>✏️</Button>
+            <Button onClick={() => {
+              editInputMode()
+            }}>❌</Button>
+          </Flex>
+        </>
+      )
+    }
   }
 
   function displayInputDefault(heading: String) {
@@ -246,8 +324,8 @@ function Profile() {
           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
             editInputMode()
           }}>
-            {/* {userObj ? userObj.name : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
-          } */} {nickname}
+            {userObj ? userObj.name : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
+          }  
           </Text>
         </Flex>
       </>
@@ -255,6 +333,7 @@ function Profile() {
   }
 
   function doubleClickOnInput(heading: String) {
+
     return inInputEditMode ? displayInputEdit(heading) : displayInputDefault(heading)
   }
 
