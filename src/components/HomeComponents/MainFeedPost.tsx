@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-
+import React, { useState, useEffect, useContext } from 'react'
+import { UserContext, AuthUser } from '../../context/UserContext';
 import axios from 'axios';
 import { VscSend, VscTrash } from 'react-icons/vsc';
 import DeletePostButton from './DeletePostModal';
@@ -25,9 +25,23 @@ import {
 
 function MainFeedPost(props: any) {
   const toast = useToast();
-// const { isOpen, onOpen, onClose } = useDisclosure();
+  type UserType = {
+    emConNum: String;
+    emConRelationship: String;
+    emConName: String;
+    currMood: String;
+    agee: String;
+    googleId: String;
+    name: String;
+    myLocation: String;
+    myPhoneNumber: String;
+    preferredName: String;
+  };
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  const [user, setUserObj ] = useState({} as UserType)
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
+  const [commentDeleted, setCommentDeleted] = useState(false)
   const { googleId, postId, name, text, usersGoogleId, setAllPosts, userProfilePic } = props;
 
   const commentBg = useColorModeValue('whitesmoke', 'gray.800');
@@ -76,6 +90,14 @@ function MainFeedPost(props: any) {
       });
   }
 
+  useEffect(() => {
+    axios.get('/user').then((results: any) => {
+      setUserObj(results.name)
+
+    })
+    .catch((err: Error) => console.error('failed getting user ', err));
+  }, []);
+
   function deleteComment(commentId: Number) {
     axios.delete('/mainFeed/deleteComment', {
       data: {
@@ -112,6 +134,7 @@ function MainFeedPost(props: any) {
                     // style={{float:"right"}}
                     onClick={() => {
                       deleteComment(c.id);
+                      setCommentDeleted(true)
                     }}
                   >
                     ❌
@@ -144,9 +167,9 @@ function MainFeedPost(props: any) {
 
   function onlyDeleteButtonOnUsersPost() {
     if (googleId === usersGoogleId) {
-      
+
       return (
-      <DeletePostButton onDelete={deletePost}/>        
+        <DeletePostButton onDelete={deletePost} />
       );
     }
     return null;
@@ -172,7 +195,7 @@ function MainFeedPost(props: any) {
         const returnedData = results.data;
         setAllComments(returnedData);
       });
-  }, [comment, googleId, postId]);
+  }, [comment, googleId, postId, commentDeleted]);
 
   useEffect(() => {
     axios.get('/mainFeed/allPosts').then((results: any) => {
