@@ -14,6 +14,7 @@ import chatbotRouter from './routes/chatbot';
 import mainFeedRouter from './routes/mainFeed';
 import resourcesRouter from './routes/resources';
 import chatRouter from './routes/chat';
+import buddyRouter from './routes/buddy';
 
 const { PrismaClient } = require('@prisma/client');
 
@@ -60,6 +61,7 @@ app.use('/chatbot', chatbotRouter);
 app.use('/mainFeed', mainFeedRouter);
 app.use('/resources', resourcesRouter);
 app.use('/chat', chatRouter);
+app.use('/buddy', buddyRouter);
 
 const checkAuth = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
