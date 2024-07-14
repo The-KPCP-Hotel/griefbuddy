@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
+// import { io, Socket } from 'socket.io-client';
+import { Socket } from 'socket.io-client';
 import axios from 'axios';
 import {
   Center,
@@ -25,9 +26,9 @@ import UserSearchInput from './ChatComponents/UserSearchInput';
 import FoundUsers from './ChatComponents/FoundUsers';
 import DmPreviews from './ChatComponents/DmPreviews';
 
-const socket: Socket = io();
+// const socket: Socket = io();
 
-function Chat() {
+function Chat({ socket }: { socket: Socket }) {
   const toast = useToast();
 
   const [user, setUser] = useState({} as User);
@@ -158,7 +159,7 @@ function Chat() {
       setDms((curDms) => curDms.concat([{ msg, senderId, recipientId }]));
     };
     socket.on('sendDm', addDm);
-  }, [setDms]);
+  }, [setDms, socket]);
 
   // const onSend = () => {
   //   if (message) {
