@@ -17,27 +17,31 @@ function getRandomUserIndex(indexesUnavailable: number[], max: number): number {
 }
 
 buddy.post('/new', async (req, res) => {
-  // should flag current buddy rows to expired
-  // may be able to skip right to the first line of the if block...
+  // keep last buddy round to make sure users aren't getting repaired with same buddy
   const lastBuddyRound: BuddyType[] = await Buddy.findMany({ where: { expired: false } });
-  console.log(lastBuddyRound);
   // change to expired
   if (lastBuddyRound.length) {
-    const nowExpiredBuddyRound: BuddyType[] = await Buddy.updateMany({
+    await Buddy.updateMany({
       where: { expired: false },
       data: { expired: true },
     });
-    console.log(nowExpiredBuddyRound);
   }
   // should go through users pairing each with a new buddy - avoiding pairing a user w/ last buddy
+
   // get all users
   const users: UserType[] = await User.findMany();
-  // const usersWOBuddies: UserType[] = [...users];
   const takenIndexes: number[] = [];
-  console.log(users);
-  // // create paired users array
-  // const pairedUsers: UserType[] = [];
-  const newBuddies: { buddy1Id: number, buddy2Id: number, expired: boolean }[] = [];
+  const newBuddies: { buddy1Id: number; buddy2Id: number; expired: boolean }[] = [];
+  // if users is odd - add my second account to taken indexes and its own new buddy
+  if (users.length % 2 !== 0) {
+    for (let i = 0; i < users.length; i += 1) {
+      if (users[i].googleId === '107960153562210147940') {
+        takenIndexes.push(i);
+        newBuddies.push({ buddy1Id: i, buddy2Id: i, expired: false });
+        break;
+      }
+    }
+  }
   // iterate through users - while paired users array's length is less than users length
   let index = 0;
   while (users.length > newBuddies.length) {
@@ -45,22 +49,25 @@ buddy.post('/new', async (req, res) => {
     const randomUserIndex = getRandomUserIndex([index, ...takenIndexes], users.length);
     // check buddies originally saved to make sure they weren't paired together last
 
-    newBuddies.push({
-      buddy1Id: users[index].id,
-      buddy2Id: users[randomUserIndex].id,
-      expired: false,
-    }, {
-      buddy1Id: users[randomUserIndex].id,
-      buddy2Id: users[index].id,
-      expired: false,
-    });
+    newBuddies.push(
+      {
+        buddy1Id: users[index].id,
+        buddy2Id: users[randomUserIndex].id,
+        expired: false,
+      },
+      {
+        buddy1Id: users[randomUserIndex].id,
+        buddy2Id: users[index].id,
+        expired: false,
+      },
+    );
     takenIndexes.push(index, randomUserIndex);
+
     index += 1;
   }
   // add new buddy rows
   console.log(newBuddies);
   const newBuddyRows = await Buddy.createMany({ data: newBuddies });
-  console.log(newBuddyRows);
   res.send(newBuddyRows);
 });
 
