@@ -21,3 +21,9 @@ export type DmPreview = {
   sender: DmPreviewUser;
   recipient: DmPreviewUser;
 };
+
+export type Buddy = {
+  id: number;
+  name: string;
+  preferredName: string | null;
+};

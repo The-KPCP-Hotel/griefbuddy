@@ -64,7 +64,6 @@ function Chat({ socket }: { socket: Socket }) {
     axios
       .get('/chat/dmPreviews', { params: { userId } })
       .then((dmPreviewsResponse: { data: DmPreview[] }) => {
-        console.log(dmPreviewsResponse.data);
         const reducedPreviews: DmPreview[] = dmPreviewsResponse.data.reduce((acc, curDm) => {
           if (!acc.length) {
             acc.push(curDm);
