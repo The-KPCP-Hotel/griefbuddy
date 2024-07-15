@@ -60,15 +60,17 @@ function Profile() {
   const [myMood, setMood] = useState("What is your current mental state?");
   const [age, setAge] = useState('Add age here');
   const [myPhoneNumber, updateMyPhoneNumber] = useState('Add your phone number here');
-  const [myNameEditClicked, setMyNameEditClicked] = useState(false)
-  const [myNumberEditClicked, setMyNumberEditClicked] = useState(false)
-  const [myAgeEditClicked, setMyAgeEditClicked] = useState(false)
-  const [myMoodEditClicked, setMyMoodEditClicked] = useState(false)
   const [userPic, setUserPic] = useState('')
   const [inInputEditMode, setInputEditMode] = useState(false)
+  const [inAgeInputEditMode, setAgeInputEditMode] = useState(false)
+  const [inPhoneInputEditMode, setPhoneInputEditMode] = useState(false)
+  const [inMoodInputEditMode, setMoodInputEditMode] = useState(false)
   const contactWarningId = useId();
 
   const inputValRef = useRef(null)
+  const inputAgeValRef = useRef(null)
+  const inputPhoneValRef = useRef(null)
+  const inputMoodValRef = useRef(null)
   const bg = useColorModeValue('blue.200', 'blue.600');
 
   function updateUser() {
@@ -87,6 +89,11 @@ function Profile() {
       })
       .then((response) => {
         setUserObj(response.data);
+        setNickname(response.data.preferredName)
+        setAge(response.data.agee)
+        updateMyPhoneNumber(response.data.myPhoneNumber)
+        setMood(response.data.currMood)
+        console.log(response.data)
       })
       .catch((err: string) => {
         console.error(err);
@@ -113,122 +120,47 @@ function Profile() {
       });
   }
 
-  // function doubleClickOnInput(heading: String) {
-  //   if (myNameEditClicked === false && heading === "Preferred Name") {
-  //     return (
-  //       <>
-  //         <Heading size="xs" textTransform="uppercase">
-  //           {heading}
-  //         </Heading>
-  //         <Flex>
-  //           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
-  //             setMyNameEditClicked(true)
-  //           }}>
-  //             {userObj ? userObj.name : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
-  //             }
-  //           </Text>
-  //         </Flex>
-  //       </>
-  //     )
-  //   } else if (myNumberEditClicked === false && heading === "Phone Number") {
-  //     return (
-  //       <>
-  //         <Heading size="xs" textTransform="uppercase">
-  //           {heading}
-  //         </Heading>
-  //         <Flex>
-  //           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
-  //             setMyNumberEditClicked(true)
-  //           }}>
-  //             {userObj ? userObj.myPhoneNumber : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
-  //             }
-  //           </Text>
-  //         </Flex>
-  //       </>
-  //     )
-  //   } else if (myAgeEditClicked === false && heading === "Age") {
-  //     return (
-  //       <>
-  //         <Heading size="xs" textTransform="uppercase">
-  //           {heading}
-  //         </Heading>
-  //         <Flex>
-  //           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
-  //             setMyAgeEditClicked(true)
-  //           }}>
-  //             {userObj ? userObj.agee : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
-  //             }
-  //           </Text>
-  //         </Flex>
-  //       </>
-  //     )
-  //   } else if (myMoodEditClicked === false && heading === "Current Mental State") {
-  //     return (
-  //       <>
-  //         <Heading size="xs" textTransform="uppercase">
-  //           {heading}
-  //         </Heading>
-  //         <Flex>
-  //           <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
-  //             setMyMoodEditClicked(true)
-  //           }}>
-  //             {userObj ? userObj.currMood : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
-  //             }
-  //           </Text>
-  //         </Flex>
-  //       </>
-  //     )
-  //   }
-
-  //   else {
-  //     return (
-  //       <>
-  //         <Heading size="xs" textTransform="uppercase">
-  //           {heading}
-  //         </Heading>
-  //         <Flex>
-  //           <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0}
-  //             onChange={(e) => {
-  //               const nicknamee = e.target.value;
-  //               setNickname(nicknamee);
-  //             }}
-  //           />
-  //           <Spacer />
-  //           <Button marginRight="3px" onClick={() => {
-  //             updateUser();
-  //           }}>✏️</Button>
-  //           <Button>❌</Button>
-  //         </Flex>
-  //       </>
-  //     )
-  //   }
-
-  // }
-
-
   function updateEditComponentValue(typeClicked: String) {
-    if(typeClicked === "name"){
+    if (typeClicked === "name") {
       setInputEditMode(false)
       setNickname(inputValRef.current.value)
-    } else if(typeClicked === "number"){
-      setInputEditMode(false)
-      updateMyPhoneNumber(inputValRef.current.value)
-    } else if(typeClicked === "age"){
-      setInputEditMode(false)
-      setAge(inputValRef.current.value)
-    } else if(typeClicked === "mood"){
-      setInputEditMode(false)
-      setMood(inputValRef.current.value)
+    }
+    // else if(typeClicked === "number"){
+    // if(typeClicked === "name"){
+    //   setInputEditMode(false)
+    //   setNickname(inputValRef.current.value)
+    //  else if(typeClicked === "number"){
+    //   setPhoneInputEditMode(false)
+    //   updateMyPhoneNumber(inputPhoneValRef.current.value)
+    //  }
+    else if (typeClicked === "age") {
+      setAgeInputEditMode(false)
+      setAge(inputAgeValRef.current.value)
+    }
+    else if(typeClicked === "mood"){
+      setMoodInputEditMode(false)
+      setMood(inputMoodValRef.current.value)
     }
   }
 
-  function editInputMode() {
+  function editInputMode(heading: String) {
     console.log("is in edit mode")
-    setInputEditMode(!inInputEditMode)
+    if (heading === "Preferred Name") {
+      setInputEditMode(!inInputEditMode)
+    }
+    if (heading === "age") {
+      setAgeInputEditMode(!inAgeInputEditMode)
+    }
+    if(heading === "number"){
+      setPhoneInputEditMode(!inPhoneInputEditMode)
+    }
+    if(heading === "mood"){
+      setMoodInputEditMode(!inMoodInputEditMode)
+    }
   }
 
   function displayInputEdit(heading: String) {
-    if (myNameEditClicked === false && heading === "Preferred Name") {
+    if (heading === "Preferred Name") {
       return (
         <>
           <Heading size="xs" textTransform="uppercase">
@@ -236,77 +168,89 @@ function Profile() {
           </Heading>
           <Flex>
             <Input style={{ display: "inline-block", width: "400px" }} defaultValue={nickname} ref={inputValRef} border={0}
+              onChange={(e) => {
+                const nicknamee = e.target.value;
+                setNickname(nicknamee);
+              }}
             />
             <Spacer />
             <Button marginRight="3px" onClick={() => {
               updateEditComponentValue("name");
-              setMyNameEditClicked(true)
+              updateUser()
             }}>✏️</Button>
             <Button onClick={() => {
-              editInputMode()
+              editInputMode("Preferred Name")
             }}>❌</Button>
           </Flex>
         </>
       )
     }
-    else if (myNumberEditClicked === false && heading === "Phone Number") {
+    if (heading === "Phone Number") {
       return (
         <>
           <Heading size="xs" textTransform="uppercase">
             {heading}
           </Heading>
           <Flex>
-            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={myPhoneNumber} ref={inputValRef} border={0}
+            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={myPhoneNumber} ref={inputPhoneValRef} border={0}
             />
             <Spacer />
             <Button marginRight="3px" onClick={() => {
               updateEditComponentValue("number");
-              setMyNumberEditClicked(true)
+              updateUser()
             }}>✏️</Button>
             <Button onClick={() => {
-              editInputMode()
+              editInputMode("number")
             }}>❌</Button>
           </Flex>
         </>
       )
     }
-    else if (myAgeEditClicked === false && heading === "Age") {
+    if (heading === "Age") {
       return (
         <>
           <Heading size="xs" textTransform="uppercase">
             {heading}
           </Heading>
           <Flex>
-            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={age} ref={inputValRef} border={0}
+            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={age} ref={inputAgeValRef} border={0}
+              onChange={(e) => {
+                const agee = e.target.value;
+                setAge(agee);
+              }}
             />
             <Spacer />
             <Button marginRight="3px" onClick={() => {
               updateEditComponentValue("age");
-              setMyAgeEditClicked(true)
+              updateUser()
             }}>✏️</Button>
             <Button onClick={() => {
-              editInputMode()
+              editInputMode("age")
             }}>❌</Button>
           </Flex>
         </>
       )
     }
-    else if (myMoodEditClicked === false && heading === "Current Mental State") {
+    else if (heading === "Current Mental State") {
       return (
         <>
           <Heading size="xs" textTransform="uppercase">
             {heading}
           </Heading>
           <Flex>
-            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={myMood} ref={inputValRef} border={0}
+            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={myMood} ref={inputMoodValRef} border={0}
+            onChange={(e) => {
+              const moodd = e.target.value;
+              setMood(moodd);
+            }}
             />
             <Spacer />
             <Button marginRight="3px" onClick={() => {
               updateEditComponentValue("mood");
-              setMyMoodEditClicked(true)
+              updateUser()
             }}>✏️</Button>
             <Button onClick={() => {
-              editInputMode()
+              editInputMode("mood")
             }}>❌</Button>
           </Flex>
         </>
@@ -315,28 +259,92 @@ function Profile() {
   }
 
   function displayInputDefault(heading: String) {
-    return (
-      <>
-        <Heading size="xs" textTransform="uppercase">
-          {heading}
-        </Heading>
-        <Flex>
-          <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
-            editInputMode()
-          }}>
-            {userObj ? userObj.name : <Input style={{ display: "inline-block", width: "400px" }} placeholder={`Update ${heading}`} border={0} />
-          }  
-          </Text>
-        </Flex>
-      </>
-    )
+    if (heading === "Preferred Name") {
+
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+              editInputMode("Preferred Name")
+            }}>
+              {userObj.preferredName ? userObj.preferredName : userObj.name}
+            </Text>
+          </Flex>
+        </>
+      )
+    }
+    if (heading === "Age") {
+
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+              editInputMode("age")
+            }}>
+              {userObj.agee ? userObj.agee : age
+              }
+            </Text>
+          </Flex>
+        </>
+      )
+    }
+    if(heading === "Phone Number"){
+
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+              editInputMode("number")
+            }}>
+              {userObj.myPhoneNumber ? userObj.myPhoneNumber :  myPhoneNumber
+            }  
+            </Text>
+          </Flex>
+        </>
+      )
+    }
+    if(heading === "Current Mental State"){
+
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+              editInputMode("mood")
+            }}>
+              {userObj.currMood ? userObj.currMood : myMood
+            }  
+            </Text>
+          </Flex>
+        </>
+      )
+    }
   }
 
   function doubleClickOnInput(heading: String) {
+    if (heading === "Preferred Name") {
+      return inInputEditMode ? displayInputEdit("Preferred Name") : displayInputDefault("Preferred Name")
+    }
+    if (heading === "Age") {
+      return inAgeInputEditMode ? displayInputEdit("Age") : displayInputDefault("Age")
 
-    return inInputEditMode ? displayInputEdit(heading) : displayInputDefault(heading)
+    }
+    if(heading === "Current Mental State"){
+      return inMoodInputEditMode ? displayInputEdit("Current Mental State") : displayInputDefault("Current Mental State")
+
+    } 
   }
-
   useEffect(() => {
     axios.get('/user').then(({ data }) => {
       const refreshObj = { ...data };
@@ -344,21 +352,23 @@ function Profile() {
     });
   }, []);
 
-  useEffect(() => { }, [nickname, myNameEditClicked, myAgeEditClicked, myNumberEditClicked, myMoodEditClicked]);
+  useEffect(() => { }, [nickname, age, myMood]);
 
 
   useEffect(() => {
     axios
       .get('/user')
       .then((results: any) => {
-        setUserPic(results.userPicture)
-
+        setUserPic(results.data.userPicture)
+        console.log(results)
+        setNickname(results.data.preferredName)
+        setAge(results.data.agee)
+        setMood(results.data.currMood)
       })
       .catch((err: Error) => console.error('failed getting user pic', err));
   }, []);
 
-  // useEffect(() => {
-  // }, [selfEditClicked])
+
   return (
     <div>
       <Container maxW="7xl" h="550px" >
@@ -403,19 +413,15 @@ function Profile() {
                       <Stack divider={<StackDivider />} spacing="4">
                         <Box>
                           {doubleClickOnInput("Preferred Name")}
-                          {/* {doubleClickOnInput()} */}
                         </Box>
                         <Box>
-                          {doubleClickOnInput("Phone Number")}
-                          {/* {doubleClickOnInput()} */}
+                          {/* {doubleClickOnInput("Phone Number")} */}
                         </Box>
                         <Box>
                           {doubleClickOnInput("Age")}
-                          {/* {doubleClickOnInput()} */}
                         </Box>
                         <Box>
                           {doubleClickOnInput("Current Mental State")}
-                          {/* {doubleClickOnInput()} */}
                         </Box>
                       </Stack>
                     </CardBody>

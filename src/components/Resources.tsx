@@ -43,7 +43,7 @@ function Resources() {
       console.log(results.data[0].resources)
       // setGriefStrSplit(results.data.allResources[0].split('<h3>'));
       let specificGriefTypes = results.data
-      specificGriefTypes.shift()
+      // specificGriefTypes.shift()
       setGriefObjTypes(specificGriefTypes);
     });
   }
