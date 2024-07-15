@@ -104,7 +104,7 @@ function Buddy({ socket }: { socket: Socket }) {
     <Container>
       <Center>
         <Heading color={color}>Buddy Chat</Heading>
-        <IconButton aria-label="Toggle info" variant="ghost" as={InfoIcon} ml=".5rem" color={color} boxSize={7} onClick={() => setShowInfo((cur) => !cur)} />
+        <IconButton aria-label="Toggle info" variant="ghost" as={InfoIcon} p=".25rem" ml=".5rem" color={color} boxSize={7} onClick={() => setShowInfo((cur) => !cur)} />
       </Center>
       {showInfo ? (
         <Text textAlign="center" color={color} fontWeight="bold">
