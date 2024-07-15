@@ -16,6 +16,11 @@ import {
 
 function DeletePostButton(props: any) {
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    function deleting(){
+        props.onDelete()
+        onClose()
+    }
     return (
       <ChakraProvider>
         <IconButton 
@@ -40,7 +45,8 @@ function DeletePostButton(props: any) {
                 Close
               </Button>
               <Button backgroundColor='red' onClick={() => {
-                props.onDelete()
+                // props.onDelete()
+                deleting()
               }}>Delete Post</Button>
             </ModalFooter>
           </ModalContent>

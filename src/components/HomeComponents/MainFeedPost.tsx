@@ -42,6 +42,7 @@ function MainFeedPost(props: any) {
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
   const [commentDeleted, setCommentDeleted] = useState(false)
+  const [postDeleted, setPostDeleted] = useState(false)
   const { googleId, postId, name, text, usersGoogleId, setAllPosts, userProfilePic } = props;
 
   const commentBg = useColorModeValue('whitesmoke', 'gray.800');
@@ -83,6 +84,9 @@ function MainFeedPost(props: any) {
         data: {
           id: postId,
         },
+      })
+      .then((results) => {
+        setPostDeleted(false)
       })
       .then(() => {
         axios.get('/mainFeed/allPosts').then((results: any) => {
@@ -193,6 +197,10 @@ function MainFeedPost(props: any) {
     return null;
   }
 
+  // useEffect(() => {
+
+  // }, [postDeleted])
+
   useEffect(() => {
     axios
       .get('/mainFeed/allComments', {
@@ -213,7 +221,7 @@ function MainFeedPost(props: any) {
     axios.get('/mainFeed/allPosts').then((results: any) => {
       setAllPosts(results.data);
     });
-  }, [setAllPosts]);
+  }, [setAllPosts, postDeleted]);
 
 
   return (
