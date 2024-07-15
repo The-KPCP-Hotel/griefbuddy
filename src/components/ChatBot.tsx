@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import {
   Heading,
   Center,
+  // StackDivider,
   Stack,
   Container,
   Text,
@@ -10,16 +11,8 @@ import {
   Skeleton,
   useColorModeValue,
   Icon,
-  Grid,
-  GridItem,
-  Menu,
-  MenuButton,
-  MenuList,
-  IconButton,
-  Spacer,
-  Flex,
 } from '@chakra-ui/react';
-import { VscEllipsis, VscRobot } from 'react-icons/vsc';
+import { VscRobot } from 'react-icons/vsc';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { UserContext } from '../context/UserContext';
@@ -197,40 +190,14 @@ function ChatBot() {
 
   return (
     <>
-      <Grid mt=".5rem" templateColumns="repeat(5, 1fr)" alignItems="center" gap={1}>
-        <GridItem colSpan={2} />
-        <GridItem>
-          <Center>
-            <Heading color={color} as="h2" aria-label="Chat bot" boxSize="3rem">
-              <Icon as={VscRobot} aria-label="Chat bot icon" boxSize="3rem" />
-            </Heading>
-          </Center>
-        </GridItem>
-        <GridItem colSpan={1} />
-        <GridItem>
-          <Flex>
-            <Spacer />
-            <Box mr="1rem">
-              <Menu id="menu">
-                <MenuButton
-                  size="sm"
-                  id="menu-button"
-                  as={IconButton}
-                  icon={<Icon as={VscEllipsis} />}
-                  aria-label="Options"
-                >
-                  Menu
-                </MenuButton>
-                <MenuList>
-                  <DeleteModal onDelete={onDelete} />
-                </MenuList>
-              </Menu>
-            </Box>
-          </Flex>
-        </GridItem>
-      </Grid>
+      <Center mt=".5rem">
+        <Heading color={color} as="h2" aria-label="Chat bot" boxSize="3rem">
+          <Icon as={VscRobot} aria-label="Chat bot icon" boxSize="3rem" />
+        </Heading>
+      </Center>
       <Info />
       <Container>
+        <DeleteModal onDelete={onDelete} />
         <Box overflowY="auto" maxHeight="70vh" marginTop="15px">
           <Stack>
             {messages.slice(1).map((text, index) => (

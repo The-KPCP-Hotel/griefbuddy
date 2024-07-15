@@ -1,7 +1,5 @@
 import React from 'react';
 import { Box, StackDivider, Text, VStack, useColorModeValue } from '@chakra-ui/react';
-import { User } from '@prisma/client';
-
 import { DmPreview } from '../../types/chat';
 
 function DmPreviews({
@@ -9,7 +7,6 @@ function DmPreviews({
   select,
   onMouseHover,
   onMouseLeave,
-  user,
 }: {
   dmPreviews: DmPreview[];
   select: (
@@ -27,7 +24,6 @@ function DmPreviews({
       target: React.ButtonHTMLAttributes<HTMLButtonElement>;
     },
   ) => void;
-  user: User;
 }) {
   const bgClr = useColorModeValue('whitesmoke', 'default');
 
@@ -59,11 +55,7 @@ function DmPreviews({
               onMouseLeave={onMouseLeave}
               onClick={select}
             >
-              {`${
-                dm.recipientId !== user.id
-                  ? dm.recipient.preferredName || dm.recipient.name
-                  : dm.sender.preferredName || dm.sender.name
-              }: ${shortenMsg(dm.msg)}`}
+              {`${dm.recipient.preferredName || dm.recipient.name}: ${shortenMsg(dm.msg)}`}
             </Text>
           </Box>
         ))

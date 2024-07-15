@@ -8,7 +8,6 @@ import {
   ModalBody,
   useDisclosure,
   ModalContent,
-  MenuItem,
 } from '@chakra-ui/react';
 
 import DeleteButton from './DeleteButton';
@@ -23,7 +22,7 @@ function DeleteModal({ onDelete }: { onDelete: () => void }) {
 
   return (
     <>
-      <MenuItem onClick={onOpen}>Delete Conversation</MenuItem>
+      <DeleteButton onClick={onOpen} />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalContent>
           <ModalHeader>Are you sure you want to delete the conversation?</ModalHeader>
