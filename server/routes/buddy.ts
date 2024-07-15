@@ -65,7 +65,6 @@ buddy.post('/new', async (req, res) => {
 
     index += 1;
   }
-  // add new buddy rows
   // console.log(newBuddies);
   const newBuddyRows = await Buddy.createMany({ data: newBuddies });
   res.send(newBuddyRows);
@@ -81,7 +80,7 @@ buddy.get('/get', async (req: Request & { user: UserType }, res) => {
       buddy1: { select: { id: true, googleId: true } },
     },
   });
-  console.log(currentBuddy);
+  // console.log(currentBuddy);
   res.send(currentBuddy);
 });
 
