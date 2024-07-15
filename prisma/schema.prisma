@@ -101,7 +101,6 @@ model Comment {
   userId   Int
   post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId   Int
-  posterName String?
   googleId String
   text     String
 }

@@ -32,9 +32,9 @@ function DeletePostButton(props: any) {
           onClick={onOpen}
         />
   
-        <Modal isOpen={isOpen} onClose={onClose} >
+        <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
-          <ModalContent w="80%">
+          <ModalContent>
             <ModalHeader>Are you sure you want to delete this post?</ModalHeader>
             <ModalBody>This action is permanent.</ModalBody>
             <ModalCloseButton />
