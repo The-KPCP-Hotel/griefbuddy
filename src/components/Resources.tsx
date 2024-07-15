@@ -63,7 +63,7 @@ function Resources() {
           direction={{ base: 'column', sm: 'row' }}
           overflow='scroll'
           variant='outline'
-          h="300px"
+          h="fit-content"
           width="80%"
         >
           <Stack>
@@ -73,13 +73,14 @@ function Resources() {
               <Text py='2'>
                {resource.description}
               </Text>
-            </CardBody>
-
-            <CardFooter>
               <Button variant='solid' colorScheme='blue'>
                 <a href={resource.url} target='_blank'>Link to Resource</a>
               </Button>
-            </CardFooter>
+            </CardBody>
+
+            {/* <CardFooter>
+              
+            </CardFooter> */}
           </Stack>
         </Card>
       ))
@@ -112,7 +113,7 @@ function Resources() {
             direction={{ base: 'column', sm: 'row' }}
             overflow='scroll'
             variant='outline'
-            h="300px"
+            h="fit-content"
             width="80%"
           >
             <Stack>
