@@ -108,7 +108,7 @@ function Profile() {
         setFriendName(response.data.emConName)
         setFriendNumber(response.data.emConNumber)
         setFriendRelationship(response.data.emConRelationship)
-        console.log(response.data)
+        // console.log(response.data)
       })
       .catch((err: string) => {
         console.error(err);
@@ -175,7 +175,7 @@ function Profile() {
   }
 
   function editInputMode(heading: String) {
-    console.log("is in edit mode")
+    // console.log("is in edit mode")
     if (heading === "Preferred Name") {
       setInputEditMode(!inInputEditMode)
     }
@@ -588,7 +588,7 @@ function Profile() {
       .get('/user')
       .then((results: any) => {
         setUserPic(results.data.userPicture)
-        console.log(results)
+        // console.log(results)
         setNickname(results.data.preferredName)
         setAge(results.data.agee)
         setMood(results.data.currMood)

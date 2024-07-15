@@ -36,7 +36,7 @@ function MainFeed(props: any) {
           .then(() => {
             setPostStatus('added');
             setPost('');
-            console.log(userProfilePic)
+            // console.log(userProfilePic)
           });
       } else {
         toast({
