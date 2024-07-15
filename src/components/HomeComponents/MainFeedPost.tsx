@@ -103,7 +103,10 @@ function MainFeedPost(props: any) {
       data: {
         id: commentId,
       },
-    });
+    })
+    .then((results) => {
+      setCommentDeleted(false)
+    })
   }
 
   function canOnlyDeleteCommentIfUser() {
@@ -112,7 +115,7 @@ function MainFeedPost(props: any) {
         {allComments.map((c, i) => {
           if (googleId === usersGoogleId) {
             return (
-              c.postId === postId && (
+              (c.postId === postId || c.posterName === user) && (
                 <Box
                   position="relative"
                   key={i}
