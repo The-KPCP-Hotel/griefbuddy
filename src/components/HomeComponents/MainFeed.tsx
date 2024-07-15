@@ -69,7 +69,7 @@ function MainFeed(props: any) {
               setPost(e.target.value);
             }}
             marginBottom="55px"
-            w={{base: "80vw", lg: "800px"}}
+            w={{base: "90vw", lg: "800px"}}
           />
 
           <InputRightElement
