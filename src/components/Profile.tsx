@@ -13,9 +13,7 @@ import {
   Tab,
   TabPanel,
   Card,
-  CardHeader,
   CardBody,
-  FormControl,
   Input,
   Button,
   Heading,
@@ -23,16 +21,8 @@ import {
   StackDivider,
   Text,
   useColorModeValue,
-  ButtonGroup,
-  Editable,
-  EditablePreview,
-  EditableInput,
   Flex,
   Spacer,
-  HStack,
-  useEditableControls,
-  IconButtonProps,
-  IconButton
 } from '@chakra-ui/react';
 
 import PhoneInput from './ProfileComponents/PhoneInput';
@@ -588,7 +578,6 @@ function Profile() {
       .get('/user')
       .then((results: any) => {
         setUserPic(results.data.userPicture)
-        // console.log(results)
         setNickname(results.data.preferredName)
         setAge(results.data.agee)
         setMood(results.data.currMood)
@@ -641,7 +630,6 @@ function Profile() {
               <TabList paddingTop="15px">
                 <Tab fontSize="20px">About Me</Tab>
                 <Tab fontSize="20px">Friend Contact</Tab>
-                {/* <Tab fontSize="20px">Personal Settings</Tab> */}
               </TabList>
               <TabPanels>
                 {/* initially mounted */}
@@ -687,128 +675,6 @@ function Profile() {
                     </CardBody>
                   </Card>
                 </TabPanel>
-                {/* <TabPanel>
-                  <FormControl>
-                    <Card h="300px" style={{ overflow: 'scroll' }}>
-                      <CardHeader>
-                        <Heading size="md">Update Personal Settings</Heading>
-                      </CardHeader>
-
-                      <CardBody>
-                        <Stack divider={<StackDivider />} spacing="4">
-                          <Box>
-                            <Text style={{ color: 'orange' }}>Must fill out all boxes</Text>
-                            <Heading size="xs" textTransform="uppercase">
-                              Preferred Name
-                            </Heading>
-
-                            <Input
-                              type="text"
-                              onChange={(e) => {
-                                const nicknamee = e.target.value;
-                                setNickname(nicknamee);
-                              }}
-                            />
-                          </Box>
-                          <PhoneInput setNumber={updateMyPhoneNumber} />
-                          <Box>
-                            <Heading size="xs" textTransform="uppercase">
-                              Age
-                            </Heading>
-
-                            <Input
-                              type="text"
-                              onChange={(e) => {
-                                const agee = e.target.value;
-                                setAge(agee);
-                              }}
-                            />
-                          </Box>
-                          <Box>
-                            <Heading size="xs" textTransform="uppercase">
-                              Where I Reside
-                            </Heading>
-
-                            <Input
-                              type="text"
-                              onChange={(e) => {
-                                const locationn = e.target.value;
-                                setLocation(locationn);
-                              }}
-                            />
-                          </Box>
-                          <Box>
-                            <Heading size="xs" textTransform="uppercase">
-                              How I&apos;m Feeling
-                            </Heading>
-
-                            <Input
-                              type="text"
-                              onChange={(e) => {
-                                const moodd = e.target.value;
-                                setMood(moodd);
-                              }}
-                            />
-                            <Button
-                              mt={4}
-                              bg={bg}
-                              onClick={() => {
-                                updateUser();
-                              }}
-                            >
-                              Submit
-                            </Button>
-                          </Box>
-                          <Heading aria-describedby={contactWarningId} size="md">
-                            Update Friend Settings
-                          </Heading>
-                          <Box>
-                            <Text style={{ color: 'orange' }}>Must fill out all boxes</Text>
-                            {' '}
-                            <Heading size="xs" textTransform="uppercase">
-                              Name
-                            </Heading>
-                            <Input
-                              type="text"
-                              onChange={(e) => {
-                                const friendnamee = e.target.value;
-                                setFriendName(friendnamee);
-                              }}
-                            />
-                          </Box>
-                          <PhoneInput setNumber={setFriendNumber} />
-                          <Box>
-                            <Heading size="xs" textTransform="uppercase">
-                              Your Relation
-                            </Heading>
-
-                            <Input
-                              type="text"
-                              onChange={(e) => {
-                                const relation = e.target.value;
-                                setFriendRelationship(relation);
-                              }}
-                            />
-                            <Heading id={contactWarningId} size="xs" color="red">
-                              If submitted, we will send your friend an SMS upon any alarming
-                              behavior.
-                            </Heading>
-                            <Button
-                              mt={4}
-                              bg={bg}
-                              type="submit"
-                              onClick={() => {
-                                updateFriend();
-                              }}
-                            >
-                              Submit
-                            </Button>
-                          </Box>
-                        </Stack>
-                      </CardBody>
-                    </Card>
-                  </FormControl>
-                </TabPanel> */}
               </TabPanels>
             </Tabs>
           </GridItem>
