@@ -213,7 +213,7 @@ function MainFeedPost(props: any) {
       .then((results: any) => {
         const returnedData = results.data;
         setAllComments(returnedData);
-        console.log(returnedData)
+        // console.log(returnedData)
       });
   }, [comment, googleId, postId, commentDeleted]);
 
