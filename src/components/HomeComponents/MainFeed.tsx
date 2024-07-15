@@ -36,7 +36,7 @@ function MainFeed(props: any) {
           .then(() => {
             setPostStatus('added');
             setPost('');
-            console.log(userProfilePic)
+            // console.log(userProfilePic)
           });
       } else {
         toast({
@@ -69,7 +69,7 @@ function MainFeed(props: any) {
               setPost(e.target.value);
             }}
             marginBottom="55px"
-            w={{base: "80vw", lg: "800px"}}
+            w={{base: "90vw", lg: "800px"}}
           />
 
           <InputRightElement
