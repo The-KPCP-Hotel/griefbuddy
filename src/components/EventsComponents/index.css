@@ -22,7 +22,16 @@
   background: rgb(0, 0, 0, 0.48);
 }
 
-/* this color doesn't look good - want different for dark mode
-.rbc-off-range-bg {
-  background: rgb(144, 202, 249);
-} */
+.rbc-agenda-time-cell {
+  display: none;
+}
+
+.rbc-show-more {
+  width: 60px;
+  text-align: start;
+  padding-left: .25rem;
+}
+
+.rbc-row-bg {
+  height: 75px;
+}

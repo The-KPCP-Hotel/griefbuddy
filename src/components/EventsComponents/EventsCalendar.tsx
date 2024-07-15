@@ -6,9 +6,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './index.css';
 import { useColorMode } from '@chakra-ui/react';
 
-// WANT TO USE; GETTING ERROR FROM TYPESCRIPT
-// import CustomAgenda from './CustomAgenda';
-
 const localizer = dayjsLocalizer(dayjs);
 
 const coloredDateCellWrapper = ({ children }: any) =>
@@ -45,6 +42,40 @@ function EventsCalendar({
   const [doubleClickedEventId, setDoubleClickedEventId] = useState(null as Number);
 
   const { colorMode } = useColorMode();
+
+  const [defaultView, setDefaultView] = useState(true);
+
+  function onViewChange() {
+    setDefaultView((curView) => !curView);
+  }
+
+  useEffect(() => {
+    const rbcHeaders = document.getElementsByClassName('rbc-header');
+    for (let i = 0; i < rbcHeaders.length; i += 1) {
+      if (rbcHeaders[i].textContent === 'Time') {
+        rbcHeaders[i].setAttribute('style', 'display:none');
+      }
+    }
+  }, [defaultView]);
+
+  function removeMore() {
+    const rbcShowMore = document.getElementsByClassName('rbc-show-more');
+    for (let i = 0; i < rbcShowMore.length; i += 1) {
+      const extraEvents = rbcShowMore[i].textContent.split(' ')[0];
+      rbcShowMore[i].textContent = extraEvents;
+    }
+  }
+
+  useEffect(() => {
+    removeMore();
+  });
+
+  useEffect(() => {
+    if (defaultView) {
+      // w/o this set timeout, removeMore was getting called before the elements were avail
+      setTimeout(removeMore);
+    }
+  }, [defaultView]);
 
   useEffect(() => {
     const calButtons: HTMLCollectionOf<Element> = document.getElementsByClassName('rbc-btn-group');
@@ -117,14 +148,10 @@ function EventsCalendar({
         showMultiDayTimes
         step={60}
         views={['month', 'agenda']}
-        // views={{
-        //   month: true,
-        //   week: false,
-        //   agenda: CustomAgenda,
-        // }}
         drilldownView="agenda"
         components={components}
         defaultDate={defaultDate}
+        onView={onViewChange}
       />
     </div>
   );

@@ -48,9 +48,9 @@ model Event {
   OgId             String             @unique
   url              String?
   media_raw        Json?
-  startDate        DateTime
-  endDate          DateTime?
-  nextDate         DateTime?
+  startDate        String?
+  endDate          String?
+  nextDate         String?
   recurrence       String?
   address          String?
   title            String

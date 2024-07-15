@@ -26,6 +26,7 @@ function Event() {
 
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
+  const [next, setNext] = useState(null);
 
   const color = useColorModeValue('blue.600', 'blue.200');
 
@@ -36,9 +37,28 @@ function Event() {
         setEvent(data);
         setStart(dayjs(data.startDate).format('dddd, MMMM D, YYYY'));
         setEnd(dayjs(data.endDate).format('dddd, MMMM D, YYYY'));
+        // having to subtract a date from nextDate as it doesn't match recurring on
+        setNext(dayjs(data.nextDate).subtract(1, 'day').format('dddd, MMMM D, YYYY'));
       })
       .catch((err) => console.error('failed finding event', err));
   }, [id]);
+
+  function happening() {
+    let happeningOn;
+    const today = new Date();
+    const todayTime = today.getTime();
+    // converting startTime from String to string
+    const startString = String(event.startDate);
+    const startDateTime = new Date(startString).getTime();
+    if (start === end || startDateTime > todayTime) {
+      happeningOn = <Text>{`Happening on ${start}`}</Text>;
+    } else if (!event.endDate) {
+      happeningOn = <Text>{`Next happening on ${next}`}</Text>;
+    } else {
+      happeningOn = <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>;
+    }
+    return happeningOn;
+  }
 
   return (
     <>
@@ -54,12 +74,16 @@ function Event() {
             </Heading>
           </CardHeader>
           <CardBody>
-            <Text color={color} fontWeight="bold" as="span">Location: </Text>
+            <Text color={color} fontWeight="bold" as="span">
+              {'Location: '}
+            </Text>
             <Text as="span">{description}</Text>
             <br />
             {address !== 'N/A' && address ? (
               <Text>
-                <Text color={color} fontWeight="bold" as="span">{'Address: '}</Text>
+                <Text color={color} fontWeight="bold" as="span">
+                  {'Address: '}
+                </Text>
                 <ChakraLink
                   href={`https://www.google.com/maps/search/?api=1&query=${address
                     .replace('/ /g', '+')
@@ -71,16 +95,14 @@ function Event() {
                 </ChakraLink>
               </Text>
             ) : null}
-            {start === end ? (
-              <Text>{`Happening on ${start}`}</Text>
-            ) : (
-              <Text>{`Make sure to check it out between ${start} and ${end}`}</Text>
-            )}
+            {happening()}
             {recurrence ? <Text>{recurrence}</Text> : null}
-            <ChakraLink href={event.url} isExternal>
-              More information on their site
-              <ExternalLinkIcon mx="2px" />
-            </ChakraLink>
+            {event.url ? (
+              <ChakraLink href={event.url} isExternal>
+                More information on their site
+                <ExternalLinkIcon mx="2px" />
+              </ChakraLink>
+            ) : null}
             <EventImages media_raw={media_raw} id={id} />
           </CardBody>
         </Card>

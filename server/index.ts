@@ -14,6 +14,7 @@ import chatbotRouter from './routes/chatbot';
 import mainFeedRouter from './routes/mainFeed';
 import resourcesRouter from './routes/resources';
 import chatRouter from './routes/chat';
+import buddyRouter from './routes/buddy';
 
 const { PrismaClient } = require('@prisma/client');
 
@@ -60,6 +61,7 @@ app.use('/chatbot', chatbotRouter);
 app.use('/mainFeed', mainFeedRouter);
 app.use('/resources', resourcesRouter);
 app.use('/chat', chatRouter);
+app.use('/buddy', buddyRouter);
 
 const checkAuth = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
@@ -70,6 +72,18 @@ const checkAuth = (req: Request, res: Response, next: NextFunction) => {
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));
+});
+
+const PUBLIC_PATH =
+  process.env.MODE === 'development'
+    ? path.resolve(__dirname, '..', 'public')
+    : path.resolve(__dirname, '..', '..', 'public');
+
+app.get('/named-logo', (req, res) => {
+  res.sendFile(path.join(PUBLIC_PATH, 'img', 'named-logo.png'));
+});
+app.get('/name', (req, res) => {
+  res.sendFile(path.join(PUBLIC_PATH, 'img', 'name.png'));
 });
 
 app.get('/user', checkAuth, (req: Request, res: Response) => {
