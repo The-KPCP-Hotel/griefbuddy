@@ -41,14 +41,14 @@ function App() {
               <Route path="/resource" element={<Resource />} />
               {/* <Route path="/buddychat" element={<BuddyChat />} /> */}
               <Route path="/events/:id" element={<Event />} />
-              {/* <Route
+              <Route
                 path="/map"
                 element={(
                   <Suspense fallback={<Skeleton />}>
                     <MeetupMap />
                   </Suspense>
                 )}
-              /> */}
+              />
             </Routes>
           </Suspense>
         </ChakraProvider>

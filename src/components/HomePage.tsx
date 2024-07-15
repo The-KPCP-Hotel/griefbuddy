@@ -40,7 +40,7 @@ function HomePage() {
       </Heading>
       <Quote userId={user?.id} />
       <Divider orientation="horizontal" />
-      <Box h="600px" overflowX="hidden">
+      <Box h="600px" overflow="scroll">
         <MainFeed user={user} googleId={googId} userProfilePic={userPic}/>
       </Box>
     </Container>

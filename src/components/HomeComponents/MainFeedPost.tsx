@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { UserContext, AuthUser } from '../../context/UserContext';
+import React, { useState, useEffect } from 'react'
+
 import axios from 'axios';
 import { VscSend, VscTrash } from 'react-icons/vsc';
 import DeletePostButton from './DeletePostModal';
@@ -25,23 +25,9 @@ import {
 
 function MainFeedPost(props: any) {
   const toast = useToast();
-  type UserType = {
-    emConNum: String;
-    emConRelationship: String;
-    emConName: String;
-    currMood: String;
-    agee: String;
-    googleId: String;
-    name: String;
-    myLocation: String;
-    myPhoneNumber: String;
-    preferredName: String;
-  };
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-  const [user, setUserObj ] = useState({} as UserType)
+// const { isOpen, onOpen, onClose } = useDisclosure();
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
-  const [commentDeleted, setCommentDeleted] = useState(false)
   const { googleId, postId, name, text, usersGoogleId, setAllPosts, userProfilePic } = props;
 
   const commentBg = useColorModeValue('whitesmoke', 'gray.800');
@@ -57,7 +43,6 @@ function MainFeedPost(props: any) {
             data: {
               googleId,
               user: googleId,
-              posterName: user,
               text: comment,
               postId,
             },
@@ -91,13 +76,6 @@ function MainFeedPost(props: any) {
       });
   }
 
-  useEffect(() => {
-    axios.get('/user').then((results: any) => {
-      setUserObj(results.data.name)
-    })
-    .catch((err: Error) => console.error('failed getting user ', err));
-  }, []);
-
   function deleteComment(commentId: Number) {
     axios.delete('/mainFeed/deleteComment', {
       data: {
@@ -109,27 +87,24 @@ function MainFeedPost(props: any) {
   function canOnlyDeleteCommentIfUser() {
     return (
       <>
-        {allComments.map((c, i) => {
+        {allComments.map((c) => {
           if (googleId === usersGoogleId) {
             return (
               c.postId === postId && (
                 <Box
                   position="relative"
-                  key={i}
+                  key={postId}
                   h="auto"
                   bg={commentBg}
-                  // overflowX="hidden"
-                  w="470px"
+                  w="400px"
                   borderRadius="md"
-                  // marginBottom="10px"
-                  margin="15px"
-                  maxWidth="80%"
+                  marginBottom="10px"
                   padding="8px"
                   flexDirection="row"
                   justifyContent="space-between"
                 >
                   @
-                  <span style={{ textDecoration: 'underline' }}>{`${c.posterName}`}</span>
+                  <span style={{ textDecoration: 'underline' }}>{`${name}`}</span>
                   {`: ${c.text}`}
                   <button
                     type="button"
@@ -137,7 +112,6 @@ function MainFeedPost(props: any) {
                     // style={{float:"right"}}
                     onClick={() => {
                       deleteComment(c.id);
-                      setCommentDeleted(true)
                     }}
                   >
                     ❌
@@ -149,19 +123,16 @@ function MainFeedPost(props: any) {
           return (
             c.postId === postId && (
               <Box
-                key={i}
+                key={postId}
                 h="40px"
                 bg={commentBg}
-                w="470px"
+                w="400px"
                 borderRadius="md"
-                // marginBottom="10px"
-                maxWidth="80%"
-                position="relative"
-                margin="15px"
+                marginBottom="10px"
                 padding="8px"
               >
                 @
-                <span style={{ textDecoration: 'underline' }}>{`${c.posterName}`}</span>
+                <span style={{ textDecoration: 'underline' }}>{`${name}`}</span>
                 {`: ${c.text}`}
               </Box>
             )
@@ -173,9 +144,9 @@ function MainFeedPost(props: any) {
 
   function onlyDeleteButtonOnUsersPost() {
     if (googleId === usersGoogleId) {
-
+      
       return (
-        <DeletePostButton onDelete={deletePost} />
+      <DeletePostButton onDelete={deletePost}/>        
       );
     }
     return null;
@@ -201,7 +172,7 @@ function MainFeedPost(props: any) {
         const returnedData = results.data;
         setAllComments(returnedData);
       });
-  }, [comment, googleId, postId, commentDeleted]);
+  }, [comment, googleId, postId]);
 
   useEffect(() => {
     axios.get('/mainFeed/allPosts').then((results: any) => {
@@ -211,7 +182,7 @@ function MainFeedPost(props: any) {
 
 
   return (
-    <Card maxW="md" w="80%" >
+    <Card maxW="md" w="80vw">
       <CardHeader>
         <Flex>
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -221,9 +192,7 @@ function MainFeedPost(props: any) {
               <Heading size="sm">{`@${name}`}</Heading>
             </Box>
           </Flex>
-          <Center>
           {onlyDeleteButtonOnUsersPost()}
-          </Center>
         </Flex>
       </CardHeader>
       <CardBody>
@@ -270,6 +239,7 @@ function MainFeedPost(props: any) {
       </Center> */}
       <Center>{showCommentsHeader()}</Center>
       <CardFooter
+        overflow="scroll"
         flexWrap="wrap"
         sx={{
           '& > button': {
@@ -277,7 +247,7 @@ function MainFeedPost(props: any) {
           },
         }}
       >
-        <VStack divider={<StackDivider borderColor="gray.200" />} spacing={1} align="stretch" position="inherit" maxWidth="100%">
+        <VStack divider={<StackDivider borderColor="gray.200" />} spacing={1} align="stretch">
           {canOnlyDeleteCommentIfUser()}
         </VStack>
       </CardFooter>

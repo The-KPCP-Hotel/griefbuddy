@@ -99,10 +99,10 @@ function Navbar() {
                 <CalendarIcon />
                 {' Local Happenings'}
               </Link>
-              {/* <Link onClick={onClose} to="/map">
+              <Link onClick={onClose} to="/map">
                 <Icon as={VscLocation} />
                 {' Meetup Map'}
-              </Link> */}
+              </Link>
               <Link onClick={onClose} to="/resources">
                 <InfoIcon />
                 {' Resources'}
