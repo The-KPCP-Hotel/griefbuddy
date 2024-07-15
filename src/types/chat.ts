@@ -26,4 +26,5 @@ export type Buddy = {
   id: number;
   name: string;
   preferredName: string | null;
+  googleId: string;
 };
