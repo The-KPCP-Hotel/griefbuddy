@@ -30,7 +30,7 @@ function Resources() {
   // const [griefStrSplitH3, setGriefStrSplitH3] = useState('');
   // const [typeUpdateStatus, setUpdateStatus] = useState('false');
 
-  const bg = useColorModeValue('blue.200', 'blue.600');
+  const bg = useColorModeValue('blue.600', 'blue.200');
 
   function getTypesOfGrief() {
     axios.get('/resources/addResource').then((results: AxiosResponse) => {
@@ -108,8 +108,8 @@ function Resources() {
   return (
     <>
       <Center>
-        <Heading size="3xl" color="blue.200" marginBottom="35px">
-          Resources
+        <Heading size="3xl" color={bg} marginBottom="15px" marginTop="5px">
+          <InfoIcon />
         </Heading>
       </Center>
       <Container maxW="7xl">
