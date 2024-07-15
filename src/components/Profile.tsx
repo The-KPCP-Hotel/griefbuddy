@@ -53,8 +53,8 @@ function Profile() {
 
   const [userObj, setUserObj] = useState({} as UserType);
   const [friendName, setFriendName] = useState("Add your friend's name here");
-  const [friendNumber, setFriendNumber] = useState('504-XXX-XXXX');
-  const [friendRelationship, setFriendRelationship] = useState('Besties?');
+  const [friendNumber, setFriendNumber] = useState("Add your friend's number here");
+  const [friendRelationship, setFriendRelationship] = useState('What is your relationship?');
   const [nickname, setNickname] = useState('What name would you prefer to be addressed by?');
   const [location, setLocation] = useState('Add your city or state here');
   const [myMood, setMood] = useState("What is your current mental state?");
@@ -66,6 +66,9 @@ function Profile() {
   const [inPhoneInputEditMode, setPhoneInputEditMode] = useState(false)
   const [inMoodInputEditMode, setMoodInputEditMode] = useState(false)
   const [inLocationInputEditMode, setLocationInputEditMode] = useState(false)
+  const [inFriendsNameInputEditMode, setFriendsNameInputEditMode] = useState(false)
+  const [inFriendsNumberInputEditMode, setFriendsNumberInputEditMode] = useState(false)
+  const [inRelationshipInputEditMode, setRelationshipInputEditMode] = useState(false)
   const contactWarningId = useId();
 
   const inputValRef = useRef(null)
@@ -73,6 +76,9 @@ function Profile() {
   const inputPhoneValRef = useRef(null)
   const inputMoodValRef = useRef(null)
   const inputLocationValRef = useRef(null)
+  const inputFriendsNameValRef = useRef(null)
+  const inputFriendsNumberValRef = useRef(null)
+  const inputRelationshipValRef = useRef(null)
   const bg = useColorModeValue('blue.200', 'blue.600');
 
   function updateUser() {
@@ -86,6 +92,9 @@ function Profile() {
           currMood: myMood,
           myLocation: location,
           agee: age,
+          emConName: friendName,
+          emConNum: friendNumber,
+          emConRelationship: friendRelationship,
           myPhoneNumber,
         },
       })
@@ -96,6 +105,9 @@ function Profile() {
         updateMyPhoneNumber(response.data.myPhoneNumber)
         setMood(response.data.currMood)
         setLocation(response.data.myLocation)
+        setFriendName(response.data.emConName)
+        setFriendNumber(response.data.emConNumber)
+        setFriendRelationship(response.data.emConRelationship)
         console.log(response.data)
       })
       .catch((err: string) => {
@@ -140,13 +152,25 @@ function Profile() {
       setAgeInputEditMode(false)
       setAge(inputAgeValRef.current.value)
     }
-    else if(typeClicked === "mood"){
+    else if (typeClicked === "mood") {
       setMoodInputEditMode(false)
       setMood(inputMoodValRef.current.value)
     }
-    else if(typeClicked === "location"){
+    else if (typeClicked === "location") {
       setLocationInputEditMode(false)
       setLocation(inputLocationValRef.current.value)
+    }
+    else if (typeClicked === "friendsName") {
+      setFriendsNameInputEditMode(false)
+      setFriendName(inputFriendsNameValRef.current.value)
+    }
+    else if (typeClicked === "friendsNumber") {
+      setFriendsNumberInputEditMode(false)
+      setFriendNumber(inputFriendsNumberValRef.current.value)
+    }
+    else if (typeClicked === "relationship") {
+      setRelationshipInputEditMode(false)
+      setFriendRelationship(inputRelationshipValRef.current.value)
     }
   }
 
@@ -158,14 +182,23 @@ function Profile() {
     if (heading === "age") {
       setAgeInputEditMode(!inAgeInputEditMode)
     }
-    if(heading === "number"){
+    if (heading === "number") {
       setPhoneInputEditMode(!inPhoneInputEditMode)
     }
-    if(heading === "mood"){
+    if (heading === "mood") {
       setMoodInputEditMode(!inMoodInputEditMode)
     }
-    if(heading === "location"){
+    if (heading === "location") {
       setLocationInputEditMode(!inLocationInputEditMode)
+    }
+    if (heading === "friendsName") {
+      setFriendsNameInputEditMode(!inFriendsNameInputEditMode)
+    }
+    if (heading === "friendsNumber") {
+      setFriendsNumberInputEditMode(!inFriendsNumberInputEditMode)
+    }
+    if (heading === "relationship") {
+      setRelationshipInputEditMode(!inRelationshipInputEditMode)
     }
   }
 
@@ -249,10 +282,10 @@ function Profile() {
           </Heading>
           <Flex>
             <Input style={{ display: "inline-block", width: "400px" }} defaultValue={myMood} ref={inputMoodValRef} border={0}
-            onChange={(e) => {
-              const moodd = e.target.value;
-              setMood(moodd);
-            }}
+              onChange={(e) => {
+                const moodd = e.target.value;
+                setMood(moodd);
+              }}
             />
             <Spacer />
             <Button marginRight="3px" onClick={() => {
@@ -274,10 +307,10 @@ function Profile() {
           </Heading>
           <Flex>
             <Input style={{ display: "inline-block", width: "400px" }} defaultValue={location} ref={inputLocationValRef} border={0}
-            onChange={(e) => {
-              const locationn = e.target.value;
-              setLocation(locationn);
-            }}
+              onChange={(e) => {
+                const locationn = e.target.value;
+                setLocation(locationn);
+              }}
             />
             <Spacer />
             <Button marginRight="3px" onClick={() => {
@@ -286,6 +319,81 @@ function Profile() {
             }}>✏️</Button>
             <Button onClick={() => {
               editInputMode("location")
+            }}>❌</Button>
+          </Flex>
+        </>
+      )
+    }
+    else if (heading === "Friends's Name") {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={friendName} ref={inputFriendsNameValRef} border={0}
+              onChange={(e) => {
+                const friendnamee = e.target.value;
+                setFriendName(friendnamee);
+              }}
+            />
+            <Spacer />
+            <Button marginRight="3px" onClick={() => {
+              updateEditComponentValue("friendsName");
+              updateUser()
+            }}>✏️</Button>
+            <Button onClick={() => {
+              editInputMode("friendsName")
+            }}>❌</Button>
+          </Flex>
+        </>
+      )
+    }
+    else if (heading === "Friend's Number") {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            {/* <Input style={{ display: "inline-block", width: "400px" }} defaultValue={friendNumber} ref={inputFriendsNumberValRef} border={0}
+              onChange={(e) => {
+                const locationn = e.target.value;
+                setLocation(locationn);
+              }}
+            /> */}
+            <Spacer />
+            <Button marginRight="3px" onClick={() => {
+              updateEditComponentValue("friendsNumber");
+              updateUser()
+            }}>✏️</Button>
+            <Button onClick={() => {
+              editInputMode("friendsNumber")
+            }}>❌</Button>
+          </Flex>
+        </>
+      )
+    }
+    else if (heading === "Your Relationship") {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={friendRelationship} ref={inputRelationshipValRef} border={0}
+              onChange={(e) => {
+                const relation = e.target.value;
+                setFriendRelationship(relation);
+              }}
+            />
+            <Spacer />
+            <Button marginRight="3px" onClick={() => {
+              updateEditComponentValue("relationship");
+              updateUser()
+            }}>✏️</Button>
+            <Button onClick={() => {
+              editInputMode("relationship")
             }}>❌</Button>
           </Flex>
         </>
@@ -329,7 +437,7 @@ function Profile() {
         </>
       )
     }
-    if(heading === "Phone Number"){
+    if (heading === "Phone Number") {
 
       return (
         <>
@@ -340,14 +448,14 @@ function Profile() {
             <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
               editInputMode("number")
             }}>
-              {userObj.myPhoneNumber ? userObj.myPhoneNumber :  myPhoneNumber
-            }  
+              {userObj.myPhoneNumber ? userObj.myPhoneNumber : myPhoneNumber
+              }
             </Text>
           </Flex>
         </>
       )
     }
-    if(heading === "Current Mental State"){
+    if (heading === "Current Mental State") {
 
       return (
         <>
@@ -359,14 +467,13 @@ function Profile() {
               editInputMode("mood")
             }}>
               {userObj.currMood ? userObj.currMood : myMood
-            }  
+              }
             </Text>
           </Flex>
         </>
       )
     }
-    if(heading === "Location"){
-
+    if (heading === "Location") {
       return (
         <>
           <Heading size="xs" textTransform="uppercase">
@@ -377,7 +484,59 @@ function Profile() {
               editInputMode("location")
             }}>
               {userObj.myLocation ? userObj.myLocation : location
-            }  
+              }
+            </Text>
+          </Flex>
+        </>
+      )
+    }
+    if (heading === "Friend's Name") {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+              editInputMode("friendsName")
+            }}>
+              {userObj.emConName ? userObj.emConName : friendName
+              }
+            </Text>
+          </Flex>
+        </>
+      )
+    }
+    if (heading === "Friend's Number") {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+              editInputMode("friendsNumber")
+            }}>
+              {userObj.emConNum ? userObj.emConNum : friendNumber
+              }
+            </Text>
+          </Flex>
+        </>
+      )
+    }
+    
+    if (heading === "Your Relationship") {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+              editInputMode("relationship")
+            }}>
+              {userObj.emConRelationship ? userObj.emConRelationship : friendRelationship
+              }
             </Text>
           </Flex>
         </>
@@ -393,14 +552,26 @@ function Profile() {
       return inAgeInputEditMode ? displayInputEdit("Age") : displayInputDefault("Age")
 
     }
-    if(heading === "Current Mental State"){
+    if (heading === "Current Mental State") {
       return inMoodInputEditMode ? displayInputEdit("Current Mental State") : displayInputDefault("Current Mental State")
 
-    } 
-    if(heading === "Location"){
+    }
+    if (heading === "Location") {
       return inLocationInputEditMode ? displayInputEdit("Location") : displayInputDefault("Location")
 
-    } 
+    }
+    if (heading === "Friend's Name") {
+      return inFriendsNameInputEditMode ? displayInputEdit("Friend's Name") : displayInputDefault("Friend's Name")
+
+    }
+    if (heading === "Friends's Number") {
+      return inFriendsNumberInputEditMode ? displayInputEdit("Friends's Number") : displayInputDefault("Friends's Number")
+
+    }
+    if (heading === "Your Relationship") {
+      return inRelationshipInputEditMode ? displayInputEdit("Your Relationship") : displayInputDefault("Your Relationship")
+
+    }
   }
   useEffect(() => {
     axios.get('/user').then(({ data }) => {
@@ -409,7 +580,7 @@ function Profile() {
     });
   }, []);
 
-  useEffect(() => { }, [nickname, age, myMood, location]);
+  useEffect(() => { }, [nickname, age, myMood, location, friendName, friendNumber, friendRelationship]);
 
 
   useEffect(() => {
@@ -422,6 +593,9 @@ function Profile() {
         setAge(results.data.agee)
         setMood(results.data.currMood)
         setLocation(results.data.myLocation)
+        setFriendName(results.data.emConName)
+        setFriendNumber(results.data.emConNum)
+        setFriendRelationship(results.data.emConRelationship)
       })
       .catch((err: Error) => console.error('failed getting user pic', err));
   }, []);
@@ -433,7 +607,7 @@ function Profile() {
         <Grid
           templateRows="repeat(2, 1fr)"
           templateColumns="repeat(5, 1fr)"
-          gap={4}
+          gap={2}
           h="1000px"
           marginBottom="150px"
           paddingTop="40px"
@@ -452,6 +626,12 @@ function Profile() {
                 {userObj ? userObj.myLocation : ''}
               </h5>
             </Center>
+            <Center>
+              <h5>
+                <b>Friends: </b>
+                3
+              </h5>
+            </Center>
             <br />
             <br />
           </GridItem>
@@ -461,7 +641,7 @@ function Profile() {
               <TabList paddingTop="15px">
                 <Tab fontSize="20px">About Me</Tab>
                 <Tab fontSize="20px">Friend Contact</Tab>
-                <Tab fontSize="20px">Personal Settings</Tab>
+                {/* <Tab fontSize="20px">Personal Settings</Tab> */}
               </TabList>
               <TabPanels>
                 {/* initially mounted */}
@@ -474,7 +654,7 @@ function Profile() {
                         </Box>
                         {/* <Box>
                           {/* {doubleClickOnInput("Phone Number")} */}
-                        {/* </Box> */} 
+                        {/* </Box> */}
                         <Box>
                           {doubleClickOnInput("Age")}
                         </Box>
@@ -495,34 +675,19 @@ function Profile() {
                     <CardBody>
                       <Stack divider={<StackDivider />} spacing="4">
                         <Box>
-                          <Heading size="xs" textTransform="uppercase">
-                            Name
-                          </Heading>
-                          <Text pt="2" fontSize="sm">
-                            {userObj ? userObj.emConName : ''}
-                          </Text>
+                          {doubleClickOnInput("Friend's Name")}
                         </Box>
+                        {/* <Box>
+                          {doubleClickOnInput("Friend's Phone Number")}
+                        </Box> */}
                         <Box>
-                          <Heading size="xs" textTransform="uppercase">
-                            Phone Number
-                          </Heading>
-                          <Text pt="2" fontSize="sm">
-                            {userObj ? userObj.emConNum : ''}
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Heading size="xs" textTransform="uppercase">
-                            Relationship
-                          </Heading>
-                          <Text pt="2" fontSize="sm">
-                            {userObj ? userObj.emConRelationship : ''}
-                          </Text>
+                          {doubleClickOnInput("Your Relationship")}
                         </Box>
                       </Stack>
                     </CardBody>
                   </Card>
                 </TabPanel>
-                <TabPanel>
+                {/* <TabPanel>
                   <FormControl>
                     <Card h="300px" style={{ overflow: 'scroll' }}>
                       <CardHeader>
@@ -643,7 +808,7 @@ function Profile() {
                       </CardBody>
                     </Card>
                   </FormControl>
-                </TabPanel>
+                </TabPanel> */}
               </TabPanels>
             </Tabs>
           </GridItem>
