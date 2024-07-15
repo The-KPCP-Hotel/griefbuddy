@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
 import { Socket } from 'socket.io-client';
-import { Center, Container, Heading, Text, useColorModeValue, useToast } from '@chakra-ui/react';
+import { Center, Container, Heading, Text, useColorModeValue, useToast, IconButton } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
 
 import { Buddy as BuddyType, Dm } from '../../types/chat';
@@ -104,7 +104,7 @@ function Buddy({ socket }: { socket: Socket }) {
     <Container>
       <Center>
         <Heading color={color}>Buddy Chat</Heading>
-        <InfoIcon pl=".5rem" color={color} boxSize={7} onClick={() => setShowInfo((cur) => !cur)} />
+        <IconButton aria-label="Toggle info" variant="ghost" as={InfoIcon} ml=".5rem" color={color} boxSize={7} onClick={() => setShowInfo((cur) => !cur)} />
       </Center>
       {showInfo ? (
         <Text textAlign="center" color={color} fontWeight="bold">
