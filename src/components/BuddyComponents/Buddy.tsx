@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
 import { Socket } from 'socket.io-client';
-// import { User } from '@prisma/client';
 import { Center, Container, Heading, Text, useColorModeValue, useToast } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
 
@@ -9,7 +8,6 @@ import { Buddy as BuddyType, Dm } from '../../types/chat';
 import DmStack from '../ChatComponents/DmStack';
 import ChatInput from '../ChatComponents/ChatInput';
 
-// function Buddy() {
 function Buddy({ socket }: { socket: Socket }) {
   const toast = useToast();
 
@@ -34,7 +32,7 @@ function Buddy({ socket }: { socket: Socket }) {
   };
   useEffect(bottomScroll, [dms, textareaRef]);
 
-  // sets state of signed in user
+  // sets state of signed in user - find buddy - join room - find dms
   useEffect(() => {
     axios
       .get('/buddy/get')
