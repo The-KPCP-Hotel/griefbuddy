@@ -74,10 +74,14 @@ buddy.post('/new', async (req, res) => {
 buddy.get('/get', async (req: Request & { user: UserType }, res) => {
   // console.log(req.user);
   const currentBuddy = await Buddy.findFirst({
-    where: { buddy1Id: req.user.id },
-    select: { buddy1Id: true, buddy2: { select: { id: true, name: true, preferredName: true } } },
+    where: { buddy1Id: req.user.id, expired: false },
+    select: {
+      buddy1Id: true,
+      buddy2: { select: { id: true, name: true, preferredName: true, googleId: true } },
+      buddy1: { select: { id: true, googleId: true } },
+    },
   });
-  // console.log(currentBuddy);
+  console.log(currentBuddy);
   res.send(currentBuddy);
 });
 
