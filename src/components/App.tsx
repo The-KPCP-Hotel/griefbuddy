@@ -38,7 +38,7 @@ function App() {
               <Route path="/home" element={<HomePage />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/chat" element={<Chat socket={socket} />} />
-              <Route path="/buddy" element={<Buddy />} />
+              <Route path="/buddy" element={<Buddy socket={socket} />} />
               <Route path="/chatbot" element={<ChatBot />} />
               <Route path="/events" element={<Events />} />
               <Route path="/resources" element={<Resources />} />
