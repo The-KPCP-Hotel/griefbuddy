@@ -65,12 +65,14 @@ function Profile() {
   const [inAgeInputEditMode, setAgeInputEditMode] = useState(false)
   const [inPhoneInputEditMode, setPhoneInputEditMode] = useState(false)
   const [inMoodInputEditMode, setMoodInputEditMode] = useState(false)
+  const [inLocationInputEditMode, setLocationInputEditMode] = useState(false)
   const contactWarningId = useId();
 
   const inputValRef = useRef(null)
   const inputAgeValRef = useRef(null)
   const inputPhoneValRef = useRef(null)
   const inputMoodValRef = useRef(null)
+  const inputLocationValRef = useRef(null)
   const bg = useColorModeValue('blue.200', 'blue.600');
 
   function updateUser() {
@@ -93,6 +95,7 @@ function Profile() {
         setAge(response.data.agee)
         updateMyPhoneNumber(response.data.myPhoneNumber)
         setMood(response.data.currMood)
+        setLocation(response.data.myLocation)
         console.log(response.data)
       })
       .catch((err: string) => {
@@ -141,6 +144,10 @@ function Profile() {
       setMoodInputEditMode(false)
       setMood(inputMoodValRef.current.value)
     }
+    else if(typeClicked === "location"){
+      setLocationInputEditMode(false)
+      setLocation(inputLocationValRef.current.value)
+    }
   }
 
   function editInputMode(heading: String) {
@@ -156,6 +163,9 @@ function Profile() {
     }
     if(heading === "mood"){
       setMoodInputEditMode(!inMoodInputEditMode)
+    }
+    if(heading === "location"){
+      setLocationInputEditMode(!inLocationInputEditMode)
     }
   }
 
@@ -256,6 +266,31 @@ function Profile() {
         </>
       )
     }
+    else if (heading === "Location") {
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={location} ref={inputLocationValRef} border={0}
+            onChange={(e) => {
+              const locationn = e.target.value;
+              setLocation(locationn);
+            }}
+            />
+            <Spacer />
+            <Button marginRight="3px" onClick={() => {
+              updateEditComponentValue("location");
+              updateUser()
+            }}>✏️</Button>
+            <Button onClick={() => {
+              editInputMode("location")
+            }}>❌</Button>
+          </Flex>
+        </>
+      )
+    }
   }
 
   function displayInputDefault(heading: String) {
@@ -330,6 +365,24 @@ function Profile() {
         </>
       )
     }
+    if(heading === "Location"){
+
+      return (
+        <>
+          <Heading size="xs" textTransform="uppercase">
+            {heading}
+          </Heading>
+          <Flex>
+            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+              editInputMode("location")
+            }}>
+              {userObj.myLocation ? userObj.myLocation : location
+            }  
+            </Text>
+          </Flex>
+        </>
+      )
+    }
   }
 
   function doubleClickOnInput(heading: String) {
@@ -344,6 +397,10 @@ function Profile() {
       return inMoodInputEditMode ? displayInputEdit("Current Mental State") : displayInputDefault("Current Mental State")
 
     } 
+    if(heading === "Location"){
+      return inLocationInputEditMode ? displayInputEdit("Location") : displayInputDefault("Location")
+
+    } 
   }
   useEffect(() => {
     axios.get('/user').then(({ data }) => {
@@ -352,7 +409,7 @@ function Profile() {
     });
   }, []);
 
-  useEffect(() => { }, [nickname, age, myMood]);
+  useEffect(() => { }, [nickname, age, myMood, location]);
 
 
   useEffect(() => {
@@ -364,6 +421,7 @@ function Profile() {
         setNickname(results.data.preferredName)
         setAge(results.data.agee)
         setMood(results.data.currMood)
+        setLocation(results.data.myLocation)
       })
       .catch((err: Error) => console.error('failed getting user pic', err));
   }, []);
@@ -414,14 +472,17 @@ function Profile() {
                         <Box>
                           {doubleClickOnInput("Preferred Name")}
                         </Box>
-                        <Box>
+                        {/* <Box>
                           {/* {doubleClickOnInput("Phone Number")} */}
-                        </Box>
+                        {/* </Box> */} 
                         <Box>
                           {doubleClickOnInput("Age")}
                         </Box>
                         <Box>
                           {doubleClickOnInput("Current Mental State")}
+                        </Box>
+                        <Box>
+                          {doubleClickOnInput("Location")}
                         </Box>
                       </Stack>
                     </CardBody>
