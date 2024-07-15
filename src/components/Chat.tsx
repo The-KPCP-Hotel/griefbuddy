@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
+// import { io, Socket } from 'socket.io-client';
+import { Socket } from 'socket.io-client';
 import axios from 'axios';
 import {
   Center,
   Container,
   Heading,
-  Stack,
   useColorModeValue,
   Text,
   Box,
@@ -24,10 +24,11 @@ import ChatInput from './ChatComponents/ChatInput';
 import UserSearchInput from './ChatComponents/UserSearchInput';
 import FoundUsers from './ChatComponents/FoundUsers';
 import DmPreviews from './ChatComponents/DmPreviews';
+import DmStack from './ChatComponents/DmStack';
 
-const socket: Socket = io();
+// const socket: Socket = io();
 
-function Chat() {
+function Chat({ socket }: { socket: Socket }) {
   const toast = useToast();
 
   const [user, setUser] = useState({} as User);
@@ -158,7 +159,7 @@ function Chat() {
       setDms((curDms) => curDms.concat([{ msg, senderId, recipientId }]));
     };
     socket.on('sendDm', addDm);
-  }, [setDms]);
+  }, [setDms, socket]);
 
   // const onSend = () => {
   //   if (message) {
@@ -260,10 +261,6 @@ function Chat() {
 
   const color = useColorModeValue('blue.600', 'blue.200');
 
-  const otherUserBG = useColorModeValue('lavender', 'purple.700');
-
-  const otherUserColor = useColorModeValue('purple', 'lavender');
-
   return (
     <Container>
       <Center mt=".5rem" mb=".75rem">
@@ -288,23 +285,7 @@ function Chat() {
             <GridItem colSpan={2} />
           </Grid>
           <Container id="dmContainer" overflowY="auto" maxH="80vh">
-            <Stack margin="8px">
-              {dms.map((msg, index) => (
-                <Text
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`${msg.senderId}-${index}`}
-                  borderRadius="10px"
-                  background={msg.senderId === user.id ? 'blue.600' : otherUserBG}
-                  p="10px"
-                  color={msg.senderId === user.id ? 'white' : otherUserColor}
-                  textAlign={msg.senderId === user.id ? 'right' : 'left'}
-                  marginLeft={msg.senderId === user.id ? 'auto' : 0}
-                  width="fit-content"
-                >
-                  {msg.msg}
-                </Text>
-              ))}
-            </Stack>
+            <DmStack id={user.id} dms={dms} />
             <ChatInput
               messagesEndRef={messagesEndRef}
               textareaRef={textareaRef}
@@ -331,6 +312,7 @@ function Chat() {
             onMouseLeave={onMouseLeave}
           />
           <DmPreviews
+            user={user}
             dmPreviews={dmPreviews}
             select={dmPreviewSelect}
             onMouseHover={onMouseHover}

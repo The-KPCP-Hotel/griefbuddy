@@ -23,7 +23,7 @@ import {
   Icon,
 } from '@chakra-ui/react';
 import { SunIcon, MoonIcon, CalendarIcon, ChatIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
-import { VscRobot, VscLocation } from 'react-icons/vsc';
+import { VscRobot, VscLocation, VscHeart } from 'react-icons/vsc';
 
 import Logout from './Logout';
 
@@ -90,6 +90,10 @@ function Navbar() {
               <Link onClick={onClose} to="/chat">
                 <ChatIcon />
                 {' Chat'}
+              </Link>
+              <Link onClick={onClose} to="/buddy">
+                <Icon as={VscHeart} />
+                {' Buddy'}
               </Link>
               <Link onClick={onClose} to="/chatbot">
                 <Icon as={VscRobot} />
