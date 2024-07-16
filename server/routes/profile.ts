@@ -8,9 +8,9 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 router.get('/user', (req: Request, res: Response) => {
-  prisma.User.findMany()
+  prisma.User.findMany(req.body)
     .then((results: any) => {
-      res.send(results).status(200);
+      res.status(200).send(results);
     })
     .catch((err: string) => {
       console.error(err);

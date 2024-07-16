@@ -199,7 +199,7 @@ function Profile() {
           <Heading size="xs" textTransform="uppercase">
             {heading}
           </Heading>
-          <Flex>
+          <Flex cursor="pointer">
             <Input style={{ display: "inline-block", width: "400px" }} defaultValue={nickname} ref={inputValRef} border={0}
               onChange={(e) => {
                 const nicknamee = e.target.value;
@@ -339,19 +339,19 @@ function Profile() {
         </>
       )
     }
-    else if (heading === "Friend's Number") {
+    else if (heading === "Friend's Phone Number") {
       return (
         <>
           <Heading size="xs" textTransform="uppercase">
             {heading}
           </Heading>
           <Flex>
-            {/* <Input style={{ display: "inline-block", width: "400px" }} defaultValue={friendNumber} ref={inputFriendsNumberValRef} border={0}
+            <Input style={{ display: "inline-block", width: "400px" }} defaultValue={friendNumber} ref={inputFriendsNumberValRef} border={0}
               onChange={(e) => {
                 const locationn = e.target.value;
                 setLocation(locationn);
               }}
-            /> */}
+            />
             <Spacer />
             <Button marginRight="3px" onClick={() => {
               updateEditComponentValue("friendsNumber");
@@ -391,6 +391,32 @@ function Profile() {
     }
   }
 
+  // useEffect(() => {
+  //   axios
+  //     .get('/profile/user', {
+  //       data: {
+  //       where: {
+  //         googleId: userObj.googleId,
+  //       }
+  //     }
+  //     })
+  //     .then((response) => {
+  //       setUserObj(response.data);
+  //       setNickname(response.data.preferredName)
+  //       setAge(response.data.agee)
+  //       updateMyPhoneNumber(response.data.myPhoneNumber)
+  //       setMood(response.data.currMood)
+  //       setLocation(response.data.myLocation)
+  //       setFriendName(response.data.emConName)
+  //       setFriendNumber(response.data.emConNumber)
+  //       setFriendRelationship(response.data.emConRelationship)
+  //       // console.log(response.data)
+  //     })
+  //     .catch((err: string) => {
+  //       console.error(err);
+  //     });
+  // }, [])
+
   function displayInputDefault(heading: String) {
     if (heading === "Preferred Name") {
 
@@ -400,7 +426,7 @@ function Profile() {
             {heading}
           </Heading>
           <Flex>
-            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+            <Text pt="2" fontSize="sm" display={"inline"} onClick={() => {
               editInputMode("Preferred Name")
             }}>
               {userObj.preferredName ? userObj.preferredName : userObj.name}
@@ -417,7 +443,7 @@ function Profile() {
             {heading}
           </Heading>
           <Flex>
-            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+            <Text pt="2" fontSize="sm" display={"inline"} onClick={() => {
               editInputMode("age")
             }}>
               {userObj.agee ? userObj.agee : age
@@ -427,24 +453,24 @@ function Profile() {
         </>
       )
     }
-    if (heading === "Phone Number") {
+    // if (heading === "Phone Number") {
 
-      return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
-              editInputMode("number")
-            }}>
-              {userObj.myPhoneNumber ? userObj.myPhoneNumber : myPhoneNumber
-              }
-            </Text>
-          </Flex>
-        </>
-      )
-    }
+    //   return (
+    //     <>
+    //       <Heading size="xs" textTransform="uppercase">
+    //         {heading}
+    //       </Heading>
+    //       <Flex>
+    //         <Text pt="2" fontSize="sm" display={"inline"} onClick={() => {
+    //           editInputMode("number")
+    //         }}>
+    //           {userObj.myPhoneNumber ? userObj.myPhoneNumber : myPhoneNumber
+    //           }
+    //         </Text>
+    //       </Flex>
+    //     </>
+    //   )
+    // }
     if (heading === "Current Mental State") {
 
       return (
@@ -453,7 +479,7 @@ function Profile() {
             {heading}
           </Heading>
           <Flex>
-            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+            <Text pt="2" fontSize="sm" display={"inline"} onClick={() => {
               editInputMode("mood")
             }}>
               {userObj.currMood ? userObj.currMood : myMood
@@ -470,8 +496,9 @@ function Profile() {
             {heading}
           </Heading>
           <Flex>
-            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+            <Text id='location' pt="2" fontSize="sm" display={"inline"} onClick={() => {
               editInputMode("location")
+              // editInputMode()
             }}>
               {userObj.myLocation ? userObj.myLocation : location
               }
@@ -487,7 +514,7 @@ function Profile() {
             {heading}
           </Heading>
           <Flex>
-            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+            <Text pt="2" fontSize="sm" display={"inline"} onClick={() => {
               editInputMode("friendsName")
             }}>
               {userObj.emConName ? userObj.emConName : friendName
@@ -497,14 +524,14 @@ function Profile() {
         </>
       )
     }
-    if (heading === "Friend's Number") {
+    if (heading === "Friend's Phone Number") {
       return (
         <>
           <Heading size="xs" textTransform="uppercase">
             {heading}
           </Heading>
           <Flex>
-            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+            <Text pt="2" fontSize="sm" display={"inline"} onClick={() => {
               editInputMode("friendsNumber")
             }}>
               {userObj.emConNum ? userObj.emConNum : friendNumber
@@ -514,7 +541,7 @@ function Profile() {
         </>
       )
     }
-    
+
     if (heading === "Your Relationship") {
       return (
         <>
@@ -522,7 +549,7 @@ function Profile() {
             {heading}
           </Heading>
           <Flex>
-            <Text pt="2" fontSize="sm" display={"inline"} onDoubleClick={() => {
+            <Text pt="2" fontSize="sm" display={"inline"} onClick={() => {
               editInputMode("relationship")
             }}>
               {userObj.emConRelationship ? userObj.emConRelationship : friendRelationship
@@ -554,8 +581,8 @@ function Profile() {
       return inFriendsNameInputEditMode ? displayInputEdit("Friend's Name") : displayInputDefault("Friend's Name")
 
     }
-    if (heading === "Friends's Number") {
-      return inFriendsNumberInputEditMode ? displayInputEdit("Friends's Number") : displayInputDefault("Friends's Number")
+    if (heading === "Friends's Phone Number") {
+      return inFriendsNumberInputEditMode ? displayInputEdit("Friend's Phone Number") : displayInputDefault("Friend's Phone Number")
 
     }
     if (heading === "Your Relationship") {
@@ -585,6 +612,7 @@ function Profile() {
         setFriendName(results.data.emConName)
         setFriendNumber(results.data.emConNum)
         setFriendRelationship(results.data.emConRelationship)
+        console.log(results.data)
       })
       .catch((err: Error) => console.error('failed getting user pic', err));
   }, []);
@@ -665,9 +693,9 @@ function Profile() {
                         <Box>
                           {doubleClickOnInput("Friend's Name")}
                         </Box>
-                        {/* <Box>
+                        <Box>
                           {doubleClickOnInput("Friend's Phone Number")}
-                        </Box> */}
+                        </Box>
                         <Box>
                           {doubleClickOnInput("Your Relationship")}
                         </Box>

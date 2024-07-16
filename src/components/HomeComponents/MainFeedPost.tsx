@@ -38,10 +38,11 @@ function MainFeedPost(props: any) {
     preferredName: String;
   };
   // const { isOpen, onOpen, onClose } = useDisclosure();
-  const [user, setUserObj ] = useState({} as UserType)
+  const [user, setUserObj] = useState({} as UserType)
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
   const [commentDeleted, setCommentDeleted] = useState(false)
+  const [postDeleted, setPostDeleted] = useState(false)
   const { googleId, postId, name, text, usersGoogleId, setAllPosts, userProfilePic } = props;
 
   const commentBg = useColorModeValue('whitesmoke', 'gray.800');
@@ -84,6 +85,9 @@ function MainFeedPost(props: any) {
           id: postId,
         },
       })
+      .then((results) => {
+        setPostDeleted(false)
+      })
       .then(() => {
         axios.get('/mainFeed/allPosts').then((results: any) => {
           setAllPosts(results.data);
@@ -95,7 +99,7 @@ function MainFeedPost(props: any) {
     axios.get('/user').then((results: any) => {
       setUserObj(results.data.name)
     })
-    .catch((err: Error) => console.error('failed getting user ', err));
+      .catch((err: Error) => console.error('failed getting user ', err));
   }, []);
 
   function deleteComment(commentId: Number) {
@@ -103,16 +107,20 @@ function MainFeedPost(props: any) {
       data: {
         id: commentId,
       },
-    });
+    })
+      .then((results) => {
+        setCommentDeleted(false)
+      })
   }
 
   function canOnlyDeleteCommentIfUser() {
     return (
       <>
         {allComments.map((c, i) => {
-          if (googleId === usersGoogleId) {
-            return (
-              c.postId === postId && (
+          if (c.postId === postId) {
+            if (c.posterName === user) {
+              return (
+                // (c.postId === postId) && (
                 <Box
                   position="relative"
                   key={i}
@@ -143,8 +151,9 @@ function MainFeedPost(props: any) {
                     ❌
                   </button>
                 </Box>
-              )
-            );
+
+              );
+            }
           }
           return (
             c.postId === postId && (
@@ -188,6 +197,10 @@ function MainFeedPost(props: any) {
     return null;
   }
 
+  // useEffect(() => {
+
+  // }, [postDeleted])
+
   useEffect(() => {
     axios
       .get('/mainFeed/allComments', {
@@ -200,6 +213,7 @@ function MainFeedPost(props: any) {
       .then((results: any) => {
         const returnedData = results.data;
         setAllComments(returnedData);
+        // console.log(returnedData)
       });
   }, [comment, googleId, postId, commentDeleted]);
 
@@ -207,7 +221,7 @@ function MainFeedPost(props: any) {
     axios.get('/mainFeed/allPosts').then((results: any) => {
       setAllPosts(results.data);
     });
-  }, [setAllPosts]);
+  }, [setAllPosts, postDeleted]);
 
 
   return (
@@ -222,7 +236,7 @@ function MainFeedPost(props: any) {
             </Box>
           </Flex>
           <Center>
-          {onlyDeleteButtonOnUsersPost()}
+            {onlyDeleteButtonOnUsersPost()}
           </Center>
         </Flex>
       </CardHeader>
