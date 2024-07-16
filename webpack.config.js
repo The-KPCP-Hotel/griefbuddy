@@ -7,7 +7,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
   entry: {
     index: './src/index.tsx',
-    map: './src/components/MeetupMap.tsx'
+    // map: './src/components/MeetupMap.tsx'
   },
   devtool: 'inline-source-map',
   // this is still needed for instance to run production mode
