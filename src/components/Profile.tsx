@@ -85,45 +85,36 @@ function Profile() {
           emConName: friendName,
           emConNum: friendNumber,
           emConRelationship: friendRelationship,
-          myPhoneNumber,
         },
       })
-      .then((response) => {
-        setUserObj(response.data);
-        setNickname(response.data.preferredName)
-        setAge(response.data.agee)
-        updateMyPhoneNumber(response.data.myPhoneNumber)
-        setMood(response.data.currMood)
-        setLocation(response.data.myLocation)
-        setFriendName(response.data.emConName)
-        setFriendNumber(response.data.emConNumber)
-        setFriendRelationship(response.data.emConRelationship)
-        // console.log(response.data)
-      })
+      .then(() => {
+        const results = getUser()
+        console.log(results)
+      }) 
       .catch((err: string) => {
         console.error(err);
       });
   }
 
-  function updateFriend() {
-    axios
-      .patch('/profile/user', {
-        where: {
-          googleId: userObj.googleId,
-        },
-        data: {
-          emConName: friendName,
-          emConNum: friendNumber,
-          emConRelationship: friendRelationship,
-        },
-      })
-      .then((response) => {
-        setUserObj(response.data);
-      })
-      .catch((err: string) => {
-        console.error(err);
-      });
-  }
+  // function updateFriend() {
+  //   axios
+  //     .patch('/profile/user', {
+  //       where: {
+  //         googleId: userObj.googleId,
+  //       },
+  //       data: {
+  //         emConName: friendName,
+  //         emConNum: friendNumber,
+  //         emConRelationship: friendRelationship,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       setUserObj(response.data);
+  //     })
+  //     .catch((err: string) => {
+  //       console.error(err);
+  //     });
+  // }
 
   function updateEditComponentValue(typeClicked: String) {
     if (typeClicked === "name") {
@@ -314,7 +305,7 @@ function Profile() {
         </>
       )
     }
-    else if (heading === "Friends's Name") {
+    else if (heading === "Friend's Name") {
       return (
         <>
           <Heading size="xs" textTransform="uppercase">
@@ -331,6 +322,7 @@ function Profile() {
             <Button marginRight="3px" onClick={() => {
               updateEditComponentValue("friendsName");
               updateUser()
+
             }}>✏️</Button>
             <Button onClick={() => {
               editInputMode("friendsName")
@@ -348,8 +340,8 @@ function Profile() {
           <Flex>
             <Input style={{ display: "inline-block", width: "400px" }} defaultValue={friendNumber} ref={inputFriendsNumberValRef} border={0}
               onChange={(e) => {
-                const locationn = e.target.value;
-                setLocation(locationn);
+                const number = e.target.value;
+                setFriendNumber(number);
               }}
             />
             <Spacer />
@@ -581,7 +573,7 @@ function Profile() {
       return inFriendsNameInputEditMode ? displayInputEdit("Friend's Name") : displayInputDefault("Friend's Name")
 
     }
-    if (heading === "Friends's Phone Number") {
+    if (heading === "Friend's Phone Number") {
       return inFriendsNumberInputEditMode ? displayInputEdit("Friend's Phone Number") : displayInputDefault("Friend's Phone Number")
 
     }
@@ -597,11 +589,10 @@ function Profile() {
     });
   }, []);
 
-  useEffect(() => { }, [nickname, age, myMood, location, friendName, friendNumber, friendRelationship]);
+  // useEffect(() => { }, [nickname, age, myMood, location, friendName, friendNumber, friendRelationship]);
 
-
-  useEffect(() => {
-    axios
+  function getUser() {
+    return axios
       .get('/user')
       .then((results: any) => {
         setUserPic(results.data.userPicture)
@@ -612,9 +603,12 @@ function Profile() {
         setFriendName(results.data.emConName)
         setFriendNumber(results.data.emConNum)
         setFriendRelationship(results.data.emConRelationship)
-        console.log(results.data)
+        console.log(results.data.emConNum)
       })
       .catch((err: Error) => console.error('failed getting user pic', err));
+  }
+  useEffect(() => {
+    getUser()
   }, []);
 
 
@@ -641,12 +635,6 @@ function Profile() {
               <h5>
                 <b>I Live In: </b>
                 {userObj ? userObj.myLocation : ''}
-              </h5>
-            </Center>
-            <Center>
-              <h5>
-                <b>Friends: </b>
-                3
               </h5>
             </Center>
             <br />
