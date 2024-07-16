@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense /* , lazy */ } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Skeleton, ChakraProvider } from '@chakra-ui/react';
 import { io, Socket } from 'socket.io-client';
@@ -19,7 +19,7 @@ import { UserContextProvider } from '../context/UserContext';
 // import BuddyChat from './buddyChildren/BuddyChat';
 import Navbar from './Navbar';
 
-const MeetupMap = lazy(() => import('./MeetupMap'));
+// const MeetupMap = lazy(() => import('./MeetupMap'));
 
 const socket: Socket = io();
 
