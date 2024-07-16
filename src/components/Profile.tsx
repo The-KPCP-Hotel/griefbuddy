@@ -116,39 +116,10 @@ function Profile() {
       });
   }
 
-  // function updateFriend() {
-  //   axios
-  //     .patch('/profile/user', {
-  //       where: {
-  //         googleId: userObj.googleId,
-  //       },
-  //       data: {
-  //         emConName: friendName,
-  //         emConNum: friendNumber,
-  //         emConRelationship: friendRelationship,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       setUserObj(response.data);
-  //     })
-  //     .catch((err: string) => {
-  //       console.error(err);
-  //     });
-  // }
-
   function updateEditComponentValue(typeClicked: String) {
     if (typeClicked === 'name') {
       setInputEditMode(false);
       setNickname(inputValRef.current.value);
-      // these else if blocks were in between this if statement and below else if
-      // else if(typeClicked === "number"){
-      // if(typeClicked === "name"){
-      //   setInputEditMode(false)
-      //   setNickname(inputValRef.current.value)
-      //  else if(typeClicked === "number"){
-      //   setPhoneInputEditMode(false)
-      //   updateMyPhoneNumber(inputPhoneValRef.current.value)
-      //  }
     } else if (typeClicked === 'age') {
       setAgeInputEditMode(false);
       setAge(inputAgeValRef.current.value);
@@ -237,40 +208,6 @@ function Profile() {
         </>
       );
     }
-    // if (heading === 'Phone Number') {
-    //   return (
-    //     <>
-    //       <Heading size="xs" textTransform="uppercase">
-    //         {heading}
-    //       </Heading>
-    //       <Flex>
-    //         <Input
-    //           style={{ display: 'inline-block', width: '400px' }}
-    //           defaultValue={myPhoneNumber}
-    //           ref={inputPhoneValRef}
-    //           border={0}
-    //         />
-    //         <Spacer />
-    //         <Button
-    //           marginRight="3px"
-    //           onClick={() => {
-    //             updateEditComponentValue('number');
-    //             updateUser();
-    //           }}
-    //         >
-    //           ✏️
-    //         </Button>
-    //         <Button
-    //           onClick={() => {
-    //             editInputMode('number');
-    //           }}
-    //         >
-    //           ❌
-    //         </Button>
-    //       </Flex>
-    //     </>
-    //   );
-    // }
     if (heading === 'Age') {
       return (
         <>
@@ -504,32 +441,6 @@ function Profile() {
     return null;
   }
 
-  // useEffect(() => {
-  //   axios
-  //     .get('/profile/user', {
-  //       data: {
-  //       where: {
-  //         googleId: userObj.googleId,
-  //       }
-  //     }
-  //     })
-  //     .then((response) => {
-  //       setUserObj(response.data);
-  //       setNickname(response.data.preferredName)
-  //       setAge(response.data.agee)
-  //       updateMyPhoneNumber(response.data.myPhoneNumber)
-  //       setMood(response.data.currMood)
-  //       setLocation(response.data.myLocation)
-  //       setFriendName(response.data.emConName)
-  //       setFriendNumber(response.data.emConNumber)
-  //       setFriendRelationship(response.data.emConRelationship)
-  //       // console.log(response.data)
-  //     })
-  //     .catch((err: string) => {
-  //       console.error(err);
-  //     });
-  // }, [])
-
   function displayInputDefault(heading: String) {
     if (heading === 'Preferred Name') {
       return (
@@ -573,24 +484,6 @@ function Profile() {
         </>
       );
     }
-    // if (heading === "Phone Number") {
-
-    //   return (
-    //     <>
-    //       <Heading size="xs" textTransform="uppercase">
-    //         {heading}
-    //       </Heading>
-    //       <Flex>
-    //         <Text pt="2" fontSize="sm" display={"inline"} onClick={() => {
-    //           editInputMode("number")
-    //         }}>
-    //           {userObj.myPhoneNumber ? userObj.myPhoneNumber : myPhoneNumber
-    //           }
-    //         </Text>
-    //       </Flex>
-    //     </>
-    //   )
-    // }
     if (heading === 'Current Mental State') {
       return (
         <>
@@ -748,9 +641,6 @@ function Profile() {
       setUserObj(refreshObj);
     });
   }, []);
-
-  // useEffect(() =>
-  //  { }, [nickname, age, myMood, location, friendName, friendNumber, friendRelationship]);
 
   return (
     <div>
