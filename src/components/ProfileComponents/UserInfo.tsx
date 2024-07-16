@@ -8,11 +8,11 @@ function UserInfo({
   defaultInput,
   ifNoDefault,
 }: {
-  heading: string;
-  editInput: (heading: string) => void;
+  heading: String;
+  editInput: (heading: String) => void;
   editHeading: string;
-  defaultInput: string;
-  ifNoDefault: string;
+  defaultInput: String;
+  ifNoDefault: String;
 }) {
   return (
     <>

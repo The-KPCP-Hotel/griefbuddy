@@ -25,6 +25,7 @@ import {
   Spacer,
 } from '@chakra-ui/react';
 
+import UserInfo from './ProfileComponents/UserInfo';
 // import PhoneInput from './ProfileComponents/PhoneInput';
 
 function Profile() {
@@ -444,152 +445,205 @@ function Profile() {
   function displayInputDefault(heading: String) {
     if (heading === 'Preferred Name') {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Text
-              pt="2"
-              fontSize="sm"
-              display="inline"
-              onClick={() => {
-                editInputMode('Preferred Name');
-              }}
-            >
-              {userObj.preferredName ? userObj.preferredName : userObj.name}
-            </Text>
-          </Flex>
-        </>
+        <UserInfo
+          heading={heading}
+          editInput={editInputMode}
+          editHeading="PreferredName"
+          defaultInput={userObj.preferredName}
+          ifNoDefault={userObj.name}
+        />
       );
+      // return (
+      //   <>
+      //     <Heading size="xs" textTransform="uppercase">
+      //       {heading}
+      //     </Heading>
+      //     <Flex>
+      //       <Text
+      //         pt="2"
+      //         fontSize="sm"
+      //         display="inline"
+      //         onClick={() => {
+      //           editInputMode('Preferred Name');
+      //         }}
+      //       >
+      //         {userObj.preferredName ? userObj.preferredName : userObj.name}
+      //       </Text>
+      //     </Flex>
+      //   </>
+      // );
     }
     if (heading === 'Age') {
+      // return (
+      //   <>
+      //     <Heading size="xs" textTransform="uppercase">
+      //       {heading}
+      //     </Heading>
+      //     <Flex>
+      //       <Text
+      //         pt="2"
+      //         fontSize="sm"
+      //         display="inline"
+      //         onClick={() => {
+      //           editInputMode('age');
+      //         }}
+      //       >
+      //         {userObj.agee ? userObj.agee : age}
+      //       </Text>
+      //     </Flex>
+      //   </>
+      // );
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Text
-              pt="2"
-              fontSize="sm"
-              display="inline"
-              onClick={() => {
-                editInputMode('age');
-              }}
-            >
-              {userObj.agee ? userObj.agee : age}
-            </Text>
-          </Flex>
-        </>
+        <UserInfo
+          heading={heading}
+          editInput={editInputMode}
+          editHeading="age"
+          defaultInput={userObj.agee}
+          ifNoDefault={age}
+        />
       );
     }
     if (heading === 'Current Mental State') {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Text
-              pt="2"
-              fontSize="sm"
-              display="inline"
-              onClick={() => {
-                editInputMode('mood');
-              }}
-            >
-              {userObj.currMood ? userObj.currMood : myMood}
-            </Text>
-          </Flex>
-        </>
+        <UserInfo
+          heading={heading}
+          editInput={editInputMode}
+          editHeading="mood"
+          defaultInput={userObj.currMood}
+          ifNoDefault={myMood}
+        />
+        // <>
+        //   <Heading size="xs" textTransform="uppercase">
+        //     {heading}
+        //   </Heading>
+        //   <Flex>
+        //     <Text
+        //       pt="2"
+        //       fontSize="sm"
+        //       display="inline"
+        //       onClick={() => {
+        //         editInputMode('mood');
+        //       }}
+        //     >
+        //       {userObj.currMood ? userObj.currMood : myMood}
+        //     </Text>
+        //   </Flex>
+        // </>
       );
     }
     if (heading === 'Location') {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Text
-              id="location"
-              pt="2"
-              fontSize="sm"
-              display="inline"
-              onClick={() => {
-                editInputMode('location');
-                // editInputMode()
-              }}
-            >
-              {userObj.myLocation ? userObj.myLocation : location}
-            </Text>
-          </Flex>
-        </>
+        // <>
+        //   <Heading size="xs" textTransform="uppercase">
+        //     {heading}
+        //   </Heading>
+        //   <Flex>
+        //     <Text
+        //       id="location"
+        //       pt="2"
+        //       fontSize="sm"
+        //       display="inline"
+        //       onClick={() => {
+        //         editInputMode('location');
+        //         // editInputMode()
+        //       }}
+        //     >
+        //       {userObj.myLocation ? userObj.myLocation : location}
+        //     </Text>
+        //   </Flex>
+        // </>
+        <UserInfo
+          heading={heading}
+          editInput={editInputMode}
+          editHeading="location"
+          defaultInput={userObj.myLocation}
+          ifNoDefault={location}
+        />
       );
     }
     if (heading === "Friend's Name") {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Text
-              pt="2"
-              fontSize="sm"
-              display="inline"
-              onClick={() => {
-                editInputMode('friendsName');
-              }}
-            >
-              {userObj.emConName ? userObj.emConName : friendName}
-            </Text>
-          </Flex>
-        </>
+        // <>
+        //   <Heading size="xs" textTransform="uppercase">
+        //     {heading}
+        //   </Heading>
+        //   <Flex>
+        //     <Text
+        //       pt="2"
+        //       fontSize="sm"
+        //       display="inline"
+        //       onClick={() => {
+        //         editInputMode('friendsName');
+        //       }}
+        //     >
+        //       {userObj.emConName ? userObj.emConName : friendName}
+        //     </Text>
+        //   </Flex>
+        // </>
+        <UserInfo
+          heading={heading}
+          editInput={editInputMode}
+          editHeading="friendsName"
+          defaultInput={userObj.emConName}
+          ifNoDefault={friendName}
+        />
       );
     }
     if (heading === "Friend's Phone Number") {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Text
-              pt="2"
-              fontSize="sm"
-              display="inline"
-              onClick={() => {
-                editInputMode('friendsNumber');
-              }}
-            >
-              {userObj.emConNum ? userObj.emConNum : friendNumber}
-            </Text>
-          </Flex>
-        </>
+        // <>
+        //   <Heading size="xs" textTransform="uppercase">
+        //     {heading}
+        //   </Heading>
+        //   <Flex>
+        //     <Text
+        //       pt="2"
+        //       fontSize="sm"
+        //       display="inline"
+        //       onClick={() => {
+        //         editInputMode('friendsNumber');
+        //       }}
+        //     >
+        //       {userObj.emConNum ? userObj.emConNum : friendNumber}
+        //     </Text>
+        //   </Flex>
+        // </>
+        <UserInfo
+          heading={heading}
+          editInput={editInputMode}
+          editHeading="friendsNumber"
+          defaultInput={userObj.emConNum}
+          ifNoDefault={friendNumber}
+        />
       );
     }
 
     if (heading === 'Your Relationship') {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Text
-              pt="2"
-              fontSize="sm"
-              display="inline"
-              onClick={() => {
-                editInputMode('relationship');
-              }}
-            >
-              {userObj.emConRelationship ? userObj.emConRelationship : friendRelationship}
-            </Text>
-          </Flex>
-        </>
+        // <>
+        //   <Heading size="xs" textTransform="uppercase">
+        //     {heading}
+        //   </Heading>
+        //   <Flex>
+        //     <Text
+        //       pt="2"
+        //       fontSize="sm"
+        //       display="inline"
+        //       onClick={() => {
+        //         editInputMode('relationship');
+        //       }}
+        //     >
+        //       {userObj.emConRelationship ? userObj.emConRelationship : friendRelationship}
+        //     </Text>
+        //   </Flex>
+        // </>
+        <UserInfo
+          heading={heading}
+          editInput={editInputMode}
+          editHeading="relationship"
+          defaultInput={userObj.emConRelationship}
+          ifNoDefault={friendRelationship}
+        />
       );
     }
     // hit no predefined cases
