@@ -430,12 +430,7 @@ function Profile() {
             borderRadius="15px"
           >
             <Center padding="25px">
-              <Avatar name="Kola Tioluwani" size="xl" src={userPic} onClick={() => {
-                // console.log(userObj)
-                // userObjTest.then((results) => {
-
-                // })
-              }}/>
+              <Avatar name="Kola Tioluwani" size="xl" src={userPic} />
             </Center>
             <Center>
               {userObj ? <h3 style={{ fontSize: '28px' }}>{userObj.name}</h3> : <div />}
