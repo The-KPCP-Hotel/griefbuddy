@@ -19,7 +19,6 @@ import {
   Heading,
   Stack,
   StackDivider,
-  Text,
   useColorModeValue,
   Flex,
   Spacer,
@@ -453,46 +452,8 @@ function Profile() {
           ifNoDefault={userObj.name}
         />
       );
-      // return (
-      //   <>
-      //     <Heading size="xs" textTransform="uppercase">
-      //       {heading}
-      //     </Heading>
-      //     <Flex>
-      //       <Text
-      //         pt="2"
-      //         fontSize="sm"
-      //         display="inline"
-      //         onClick={() => {
-      //           editInputMode('Preferred Name');
-      //         }}
-      //       >
-      //         {userObj.preferredName ? userObj.preferredName : userObj.name}
-      //       </Text>
-      //     </Flex>
-      //   </>
-      // );
     }
     if (heading === 'Age') {
-      // return (
-      //   <>
-      //     <Heading size="xs" textTransform="uppercase">
-      //       {heading}
-      //     </Heading>
-      //     <Flex>
-      //       <Text
-      //         pt="2"
-      //         fontSize="sm"
-      //         display="inline"
-      //         onClick={() => {
-      //           editInputMode('age');
-      //         }}
-      //       >
-      //         {userObj.agee ? userObj.agee : age}
-      //       </Text>
-      //     </Flex>
-      //   </>
-      // );
       return (
         <UserInfo
           heading={heading}
@@ -512,46 +473,10 @@ function Profile() {
           defaultInput={userObj.currMood}
           ifNoDefault={myMood}
         />
-        // <>
-        //   <Heading size="xs" textTransform="uppercase">
-        //     {heading}
-        //   </Heading>
-        //   <Flex>
-        //     <Text
-        //       pt="2"
-        //       fontSize="sm"
-        //       display="inline"
-        //       onClick={() => {
-        //         editInputMode('mood');
-        //       }}
-        //     >
-        //       {userObj.currMood ? userObj.currMood : myMood}
-        //     </Text>
-        //   </Flex>
-        // </>
       );
     }
     if (heading === 'Location') {
       return (
-        // <>
-        //   <Heading size="xs" textTransform="uppercase">
-        //     {heading}
-        //   </Heading>
-        //   <Flex>
-        //     <Text
-        //       id="location"
-        //       pt="2"
-        //       fontSize="sm"
-        //       display="inline"
-        //       onClick={() => {
-        //         editInputMode('location');
-        //         // editInputMode()
-        //       }}
-        //     >
-        //       {userObj.myLocation ? userObj.myLocation : location}
-        //     </Text>
-        //   </Flex>
-        // </>
         <UserInfo
           heading={heading}
           editInput={editInputMode}
@@ -563,23 +488,6 @@ function Profile() {
     }
     if (heading === "Friend's Name") {
       return (
-        // <>
-        //   <Heading size="xs" textTransform="uppercase">
-        //     {heading}
-        //   </Heading>
-        //   <Flex>
-        //     <Text
-        //       pt="2"
-        //       fontSize="sm"
-        //       display="inline"
-        //       onClick={() => {
-        //         editInputMode('friendsName');
-        //       }}
-        //     >
-        //       {userObj.emConName ? userObj.emConName : friendName}
-        //     </Text>
-        //   </Flex>
-        // </>
         <UserInfo
           heading={heading}
           editInput={editInputMode}
@@ -591,23 +499,6 @@ function Profile() {
     }
     if (heading === "Friend's Phone Number") {
       return (
-        // <>
-        //   <Heading size="xs" textTransform="uppercase">
-        //     {heading}
-        //   </Heading>
-        //   <Flex>
-        //     <Text
-        //       pt="2"
-        //       fontSize="sm"
-        //       display="inline"
-        //       onClick={() => {
-        //         editInputMode('friendsNumber');
-        //       }}
-        //     >
-        //       {userObj.emConNum ? userObj.emConNum : friendNumber}
-        //     </Text>
-        //   </Flex>
-        // </>
         <UserInfo
           heading={heading}
           editInput={editInputMode}
@@ -620,23 +511,6 @@ function Profile() {
 
     if (heading === 'Your Relationship') {
       return (
-        // <>
-        //   <Heading size="xs" textTransform="uppercase">
-        //     {heading}
-        //   </Heading>
-        //   <Flex>
-        //     <Text
-        //       pt="2"
-        //       fontSize="sm"
-        //       display="inline"
-        //       onClick={() => {
-        //         editInputMode('relationship');
-        //       }}
-        //     >
-        //       {userObj.emConRelationship ? userObj.emConRelationship : friendRelationship}
-        //     </Text>
-        //   </Flex>
-        // </>
         <UserInfo
           heading={heading}
           editInput={editInputMode}
