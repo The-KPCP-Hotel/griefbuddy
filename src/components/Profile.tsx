@@ -168,40 +168,6 @@ function Profile() {
   function displayInputEdit(heading: String) {
     if (heading === 'Preferred Name') {
       return (
-        // <>
-        //   <Heading size="xs" textTransform="uppercase">
-        //     {heading}
-        //   </Heading>
-        //   <Flex cursor="pointer">
-        //     <Input
-        //       style={{ display: 'inline-block', width: '400px' }}
-        //       defaultValue={nickname}
-        //       ref={inputValRef}
-        //       border={0}
-        //       onChange={(e) => {
-        //         const nicknamee = e.target.value;
-        //         setNickname(nicknamee);
-        //       }}
-        //     />
-        //     <Spacer />
-        //     <Button
-        //       marginRight="3px"
-        //       onClick={() => {
-        //         updateEditComponentValue('name');
-        //         updateUser();
-        //       }}
-        //     >
-        //       ✏️
-        //     </Button>
-        //     <Button
-        //       onClick={() => {
-        //         editInputMode('Preferred Name');
-        //       }}
-        //     >
-        //       ❌
-        //     </Button>
-        //   </Flex>
-        // </>
         <EditUserInfo
           heading={heading}
           defaultValue={nickname}
@@ -217,40 +183,6 @@ function Profile() {
     }
     if (heading === 'Age') {
       return (
-        // <>
-        //   <Heading size="xs" textTransform="uppercase">
-        //     {heading}
-        //   </Heading>
-        //   <Flex>
-        //     <Input
-        //       style={{ display: 'inline-block', width: '400px' }}
-        //       defaultValue={age}
-        //       ref={inputAgeValRef}
-        //       border={0}
-        //       onChange={(e) => {
-        //         const agee = e.target.value;
-        //         setAge(agee);
-        //       }}
-        //     />
-        //     <Spacer />
-        //     <Button
-        //       marginRight="3px"
-        //       onClick={() => {
-        //         updateEditComponentValue('age');
-        //         updateUser();
-        //       }}
-        //     >
-        //       ✏️
-        //     </Button>
-        //     <Button
-        //       onClick={() => {
-        //         editInputMode('age');
-        //       }}
-        //     >
-        //       ❌
-        //     </Button>
-        //   </Flex>
-        // </>
         <EditUserInfo
           heading={heading}
           defaultValue={age}
@@ -266,40 +198,6 @@ function Profile() {
     }
     if (heading === 'Current Mental State') {
       return (
-        // <>
-        //   <Heading size="xs" textTransform="uppercase">
-        //     {heading}
-        //   </Heading>
-        //   <Flex>
-        //     <Input
-        //       style={{ display: 'inline-block', width: '400px' }}
-        //       defaultValue={myMood}
-        //       ref={inputMoodValRef}
-        //       border={0}
-        //       onChange={(e) => {
-        //         const moodd = e.target.value;
-        //         setMood(moodd);
-        //       }}
-        //     />
-        //     <Spacer />
-        //     <Button
-        //       marginRight="3px"
-        //       onClick={() => {
-        //         updateEditComponentValue('mood');
-        //         updateUser();
-        //       }}
-        //     >
-        //       ✏️
-        //     </Button>
-        //     <Button
-        //       onClick={() => {
-        //         editInputMode('mood');
-        //       }}
-        //     >
-        //       ❌
-        //     </Button>
-        //   </Flex>
-        // </>
         <EditUserInfo
           heading={heading}
           defaultValue={myMood}
@@ -315,40 +213,6 @@ function Profile() {
     }
     if (heading === 'Location') {
       return (
-        // <>
-        //   <Heading size="xs" textTransform="uppercase">
-        //     {heading}
-        //   </Heading>
-        //   <Flex>
-        //     <Input
-        //       style={{ display: 'inline-block', width: '400px' }}
-        //       defaultValue={location}
-        //       ref={inputLocationValRef}
-        //       border={0}
-        //       onChange={(e) => {
-        //         const locationn = e.target.value;
-        //         setLocation(locationn);
-        //       }}
-        //     />
-        //     <Spacer />
-        //     <Button
-        //       marginRight="3px"
-        //       onClick={() => {
-        //         updateEditComponentValue('location');
-        //         updateUser();
-        //       }}
-        //     >
-        //       ✏️
-        //     </Button>
-        //     <Button
-        //       onClick={() => {
-        //         editInputMode('location');
-        //       }}
-        //     >
-        //       ❌
-        //     </Button>
-        //   </Flex>
-        // </>
         <EditUserInfo
           heading={heading}
           defaultValue={location}
@@ -364,40 +228,6 @@ function Profile() {
     }
     if (heading === "Friend's Name") {
       return (
-        // <>
-        //   <Heading size="xs" textTransform="uppercase">
-        //     {heading}
-        //   </Heading>
-        //   <Flex>
-        //     <Input
-        //       style={{ display: 'inline-block', width: '400px' }}
-        //       defaultValue={friendName}
-        //       ref={inputFriendsNameValRef}
-        //       border={0}
-        //       onChange={(e) => {
-        //         const friendnamee = e.target.value;
-        //         setFriendName(friendnamee);
-        //       }}
-        //     />
-        //     <Spacer />
-        //     <Button
-        //       marginRight="3px"
-        //       onClick={() => {
-        //         updateEditComponentValue('friendsName');
-        //         updateUser();
-        //       }}
-        //     >
-        //       ✏️
-        //     </Button>
-        //     <Button
-        //       onClick={() => {
-        //         editInputMode('friendsName');
-        //       }}
-        //     >
-        //       ❌
-        //     </Button>
-        //   </Flex>
-        // </>
         <EditUserInfo
           heading={heading}
           defaultValue={friendName}
@@ -413,40 +243,6 @@ function Profile() {
     }
     if (heading === "Friend's Phone Number") {
       return (
-        // <>
-        //   <Heading size="xs" textTransform="uppercase">
-        //     {heading}
-        //   </Heading>
-        //   <Flex>
-        //     <Input
-        //       style={{ display: 'inline-block', width: '400px' }}
-        //       defaultValue={friendNumber}
-        //       ref={inputFriendsNumberValRef}
-        //       border={0}
-        //       onChange={(e) => {
-        //         const number = e.target.value;
-        //         setFriendNumber(number);
-        //       }}
-        //     />
-        //     <Spacer />
-        //     <Button
-        //       marginRight="3px"
-        //       onClick={() => {
-        //         updateEditComponentValue('friendsNumber');
-        //         updateUser();
-        //       }}
-        //     >
-        //       ✏️
-        //     </Button>
-        //     <Button
-        //       onClick={() => {
-        //         editInputMode('friendsNumber');
-        //       }}
-        //     >
-        //       ❌
-        //     </Button>
-        //   </Flex>
-        // </>
         <EditUserInfo
           heading={heading}
           defaultValue={friendNumber}
@@ -462,40 +258,6 @@ function Profile() {
     }
     if (heading === 'Your Relationship') {
       return (
-        // <>
-        //   <Heading size="xs" textTransform="uppercase">
-        //     {heading}
-        //   </Heading>
-        //   <Flex>
-        //     <Input
-        //       style={{ display: 'inline-block', width: '400px' }}
-        //       defaultValue={friendRelationship}
-        //       ref={inputRelationshipValRef}
-        //       border={0}
-        //       onChange={(e) => {
-        //         const relation = e.target.value;
-        //         setFriendRelationship(relation);
-        //       }}
-        //     />
-        //     <Spacer />
-        //     <Button
-        //       marginRight="3px"
-        //       onClick={() => {
-        //         updateEditComponentValue('relationship');
-        //         updateUser();
-        //       }}
-        //     >
-        //       ✏️
-        //     </Button>
-        //     <Button
-        //       onClick={() => {
-        //         editInputMode('relationship');
-        //       }}
-        //     >
-        //       ❌
-        //     </Button>
-        //   </Flex>
-        // </>
         <EditUserInfo
           heading={heading}
           defaultValue={friendRelationship}
