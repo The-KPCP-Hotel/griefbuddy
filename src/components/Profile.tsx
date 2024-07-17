@@ -19,24 +19,12 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
+import { User as UserType } from '@prisma/client';
 import UserInfo from './ProfileComponents/UserInfo';
 import EditUserInfo from './ProfileComponents/EditUserInfo';
 // import PhoneInput from './ProfileComponents/PhoneInput';
 
 function Profile() {
-  type UserType = {
-    emConNum: String;
-    emConRelationship: String;
-    emConName: String;
-    currMood: String;
-    agee: String;
-    googleId: String;
-    name: String;
-    myLocation: String;
-    myPhoneNumber: String;
-    preferredName: String;
-  };
-
   const [userObj, setUserObj] = useState({} as UserType);
   // these should not be set to states, but should show if user does not have value set
   const [friendName, setFriendName] = useState("Add your friend's name here");
@@ -69,18 +57,22 @@ function Profile() {
   const bg = useColorModeValue('blue.200', 'blue.600');
 
   function getUser() {
-    return axios
-      .get('/user')
-      .then((results: any) => {
-        setUserPic(results.data.userPicture);
-        setNickname(results.data.preferredName);
-        setAge(results.data.agee);
-        setMood(results.data.currMood);
-        setLocation(results.data.myLocation);
-        setFriendName(results.data.emConName);
-        setFriendNumber(results.data.emConNum);
-        setFriendRelationship(results.data.emConRelationship);
-        console.log(results.data.emConNum);
+     return axios
+      .get("/user")
+      .then(({ data }) => {
+        return axios
+        .get('/chat/user', {params: {id: data.id}})
+      })
+      .then(({ data }) => {
+        setUserObj(data)
+        setUserPic(data.userPicture);
+        setNickname(data.preferredName);
+        setAge(data.agee);
+        setMood(data.currMood);
+        setLocation(data.myLocation);
+        setFriendName(data.emConName);
+        setFriendNumber(data.emConNum);
+        setFriendRelationship(data.emConRelationship);
       })
       .catch((err: Error) => console.error('failed getting user pic', err));
   }
@@ -88,6 +80,7 @@ function Profile() {
     getUser();
   }, []);
 
+  
   function updateUser() {
     axios
       .patch('/profile/user', {
@@ -104,10 +97,21 @@ function Profile() {
           emConRelationship: friendRelationship,
         },
       })
-      .then(() => {
-        const results = getUser();
-        console.log(results);
+      .then((response) => {
+        setUserObj(response.data);
+        setNickname(response.data.preferredName)
+        setAge(response.data.agee)
+        setMood(response.data.currMood)
+        setLocation(response.data.myLocation)
+        setFriendName(response.data.emConName)
+        setFriendNumber(response.data.emConNumber)
+        setFriendRelationship(response.data.emConRelationship)
+        console.log(response.data)
       })
+      // .then(() => {
+      //   const results = getUser();
+      //   console.log(results);
+      // })
       .catch((err: string) => {
         console.error(err);
       });
@@ -426,7 +430,12 @@ function Profile() {
             borderRadius="15px"
           >
             <Center padding="25px">
-              <Avatar name="Kola Tioluwani" size="xl" src={userPic} />
+              <Avatar name="Kola Tioluwani" size="xl" src={userPic} onClick={() => {
+                console.log(userObj)
+                // userObjTest.then((results) => {
+
+                // })
+              }}/>
             </Center>
             <Center>
               {userObj ? <h3 style={{ fontSize: '28px' }}>{userObj.name}</h3> : <div />}
