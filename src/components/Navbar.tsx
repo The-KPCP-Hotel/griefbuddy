@@ -23,7 +23,7 @@ import {
   Icon,
 } from '@chakra-ui/react';
 import { SunIcon, MoonIcon, CalendarIcon, ChatIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
-import { VscRobot, VscLocation, VscHeart } from 'react-icons/vsc';
+import { VscRobot, VscHeart } from 'react-icons/vsc';
 
 import Logout from './Logout';
 
