@@ -106,7 +106,7 @@ function Profile() {
         setFriendName(response.data.emConName)
         setFriendNumber(response.data.emConNumber)
         setFriendRelationship(response.data.emConRelationship)
-        console.log(response.data)
+        // console.log(response.data)
       })
       // .then(() => {
       //   const results = getUser();
@@ -277,7 +277,7 @@ function Profile() {
       );
     }
     // hit no predefined cases
-    console.log('display input edit hit no predefined cases');
+    // console.log('display input edit hit no predefined cases');
     return null;
   }
 
@@ -361,7 +361,7 @@ function Profile() {
       );
     }
     // hit no predefined cases
-    console.log('display input default hit no cases');
+    // console.log('display input default hit no cases');
     return null;
   }
 
@@ -400,7 +400,7 @@ function Profile() {
         : displayInputDefault('Your Relationship');
     }
     // hit no predefined cases
-    console.log('double click on input hit no predefined cases');
+    // console.log('double click on input hit no predefined cases');
     return null;
   }
   useEffect(() => {
@@ -431,7 +431,7 @@ function Profile() {
           >
             <Center padding="25px">
               <Avatar name="Kola Tioluwani" size="xl" src={userPic} onClick={() => {
-                console.log(userObj)
+                // console.log(userObj)
                 // userObjTest.then((results) => {
 
                 // })
