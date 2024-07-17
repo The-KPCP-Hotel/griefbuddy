@@ -4,7 +4,7 @@ import { Heading, Flex, Input, Spacer, Button } from '@chakra-ui/react';
 function EditUserInfo({
   heading,
   defaultValue,
-  ref,
+  propRef,
   setInfoState,
   updateEditComponentValue,
   updateVal,
@@ -14,7 +14,7 @@ function EditUserInfo({
 }: {
   heading: String;
   defaultValue: string;
-  ref: React.MutableRefObject<any>;
+  propRef: React.MutableRefObject<any>;
   setInfoState: (value: React.SetStateAction<string>) => void;
   updateEditComponentValue: (typeClicked: String) => void;
   updateVal: String;
@@ -31,7 +31,7 @@ function EditUserInfo({
         <Input
           style={{ display: 'inline-block', width: '400px' }}
           defaultValue={defaultValue}
-          ref={ref}
+          ref={propRef}
           border={0}
           onChange={(e) => {
             const { value } = e.target;

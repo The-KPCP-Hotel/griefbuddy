@@ -14,17 +14,13 @@ import {
   TabPanel,
   Card,
   CardBody,
-  Input,
-  Button,
-  Heading,
   Stack,
   StackDivider,
   useColorModeValue,
-  Flex,
-  Spacer,
 } from '@chakra-ui/react';
 
 import UserInfo from './ProfileComponents/UserInfo';
+import EditUserInfo from './ProfileComponents/EditUserInfo';
 // import PhoneInput from './ProfileComponents/PhoneInput';
 
 function Profile() {
@@ -172,268 +168,345 @@ function Profile() {
   function displayInputEdit(heading: String) {
     if (heading === 'Preferred Name') {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex cursor="pointer">
-            <Input
-              style={{ display: 'inline-block', width: '400px' }}
-              defaultValue={nickname}
-              ref={inputValRef}
-              border={0}
-              onChange={(e) => {
-                const nicknamee = e.target.value;
-                setNickname(nicknamee);
-              }}
-            />
-            <Spacer />
-            <Button
-              marginRight="3px"
-              onClick={() => {
-                updateEditComponentValue('name');
-                updateUser();
-              }}
-            >
-              ✏️
-            </Button>
-            <Button
-              onClick={() => {
-                editInputMode('Preferred Name');
-              }}
-            >
-              ❌
-            </Button>
-          </Flex>
-        </>
+        // <>
+        //   <Heading size="xs" textTransform="uppercase">
+        //     {heading}
+        //   </Heading>
+        //   <Flex cursor="pointer">
+        //     <Input
+        //       style={{ display: 'inline-block', width: '400px' }}
+        //       defaultValue={nickname}
+        //       ref={inputValRef}
+        //       border={0}
+        //       onChange={(e) => {
+        //         const nicknamee = e.target.value;
+        //         setNickname(nicknamee);
+        //       }}
+        //     />
+        //     <Spacer />
+        //     <Button
+        //       marginRight="3px"
+        //       onClick={() => {
+        //         updateEditComponentValue('name');
+        //         updateUser();
+        //       }}
+        //     >
+        //       ✏️
+        //     </Button>
+        //     <Button
+        //       onClick={() => {
+        //         editInputMode('Preferred Name');
+        //       }}
+        //     >
+        //       ❌
+        //     </Button>
+        //   </Flex>
+        // </>
+        <EditUserInfo
+          heading={heading}
+          defaultValue={nickname}
+          propRef={inputValRef}
+          setInfoState={setNickname}
+          updateEditComponentValue={updateEditComponentValue}
+          updateVal="name"
+          updateUser={updateUser}
+          editInputMode={editInputMode}
+          editHeading="Preferred Name"
+        />
       );
     }
     if (heading === 'Age') {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Input
-              style={{ display: 'inline-block', width: '400px' }}
-              defaultValue={age}
-              ref={inputAgeValRef}
-              border={0}
-              onChange={(e) => {
-                const agee = e.target.value;
-                setAge(agee);
-              }}
-            />
-            <Spacer />
-            <Button
-              marginRight="3px"
-              onClick={() => {
-                updateEditComponentValue('age');
-                updateUser();
-              }}
-            >
-              ✏️
-            </Button>
-            <Button
-              onClick={() => {
-                editInputMode('age');
-              }}
-            >
-              ❌
-            </Button>
-          </Flex>
-        </>
+        // <>
+        //   <Heading size="xs" textTransform="uppercase">
+        //     {heading}
+        //   </Heading>
+        //   <Flex>
+        //     <Input
+        //       style={{ display: 'inline-block', width: '400px' }}
+        //       defaultValue={age}
+        //       ref={inputAgeValRef}
+        //       border={0}
+        //       onChange={(e) => {
+        //         const agee = e.target.value;
+        //         setAge(agee);
+        //       }}
+        //     />
+        //     <Spacer />
+        //     <Button
+        //       marginRight="3px"
+        //       onClick={() => {
+        //         updateEditComponentValue('age');
+        //         updateUser();
+        //       }}
+        //     >
+        //       ✏️
+        //     </Button>
+        //     <Button
+        //       onClick={() => {
+        //         editInputMode('age');
+        //       }}
+        //     >
+        //       ❌
+        //     </Button>
+        //   </Flex>
+        // </>
+        <EditUserInfo
+          heading={heading}
+          defaultValue={age}
+          propRef={inputAgeValRef}
+          setInfoState={setAge}
+          updateEditComponentValue={updateEditComponentValue}
+          updateVal="age"
+          updateUser={updateUser}
+          editInputMode={editInputMode}
+          editHeading="age"
+        />
       );
     }
     if (heading === 'Current Mental State') {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Input
-              style={{ display: 'inline-block', width: '400px' }}
-              defaultValue={myMood}
-              ref={inputMoodValRef}
-              border={0}
-              onChange={(e) => {
-                const moodd = e.target.value;
-                setMood(moodd);
-              }}
-            />
-            <Spacer />
-            <Button
-              marginRight="3px"
-              onClick={() => {
-                updateEditComponentValue('mood');
-                updateUser();
-              }}
-            >
-              ✏️
-            </Button>
-            <Button
-              onClick={() => {
-                editInputMode('mood');
-              }}
-            >
-              ❌
-            </Button>
-          </Flex>
-        </>
+        // <>
+        //   <Heading size="xs" textTransform="uppercase">
+        //     {heading}
+        //   </Heading>
+        //   <Flex>
+        //     <Input
+        //       style={{ display: 'inline-block', width: '400px' }}
+        //       defaultValue={myMood}
+        //       ref={inputMoodValRef}
+        //       border={0}
+        //       onChange={(e) => {
+        //         const moodd = e.target.value;
+        //         setMood(moodd);
+        //       }}
+        //     />
+        //     <Spacer />
+        //     <Button
+        //       marginRight="3px"
+        //       onClick={() => {
+        //         updateEditComponentValue('mood');
+        //         updateUser();
+        //       }}
+        //     >
+        //       ✏️
+        //     </Button>
+        //     <Button
+        //       onClick={() => {
+        //         editInputMode('mood');
+        //       }}
+        //     >
+        //       ❌
+        //     </Button>
+        //   </Flex>
+        // </>
+        <EditUserInfo
+          heading={heading}
+          defaultValue={myMood}
+          propRef={inputMoodValRef}
+          setInfoState={setMood}
+          updateEditComponentValue={updateEditComponentValue}
+          updateVal="mood"
+          updateUser={updateUser}
+          editInputMode={editInputMode}
+          editHeading="mood"
+        />
       );
     }
     if (heading === 'Location') {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Input
-              style={{ display: 'inline-block', width: '400px' }}
-              defaultValue={location}
-              ref={inputLocationValRef}
-              border={0}
-              onChange={(e) => {
-                const locationn = e.target.value;
-                setLocation(locationn);
-              }}
-            />
-            <Spacer />
-            <Button
-              marginRight="3px"
-              onClick={() => {
-                updateEditComponentValue('location');
-                updateUser();
-              }}
-            >
-              ✏️
-            </Button>
-            <Button
-              onClick={() => {
-                editInputMode('location');
-              }}
-            >
-              ❌
-            </Button>
-          </Flex>
-        </>
+        // <>
+        //   <Heading size="xs" textTransform="uppercase">
+        //     {heading}
+        //   </Heading>
+        //   <Flex>
+        //     <Input
+        //       style={{ display: 'inline-block', width: '400px' }}
+        //       defaultValue={location}
+        //       ref={inputLocationValRef}
+        //       border={0}
+        //       onChange={(e) => {
+        //         const locationn = e.target.value;
+        //         setLocation(locationn);
+        //       }}
+        //     />
+        //     <Spacer />
+        //     <Button
+        //       marginRight="3px"
+        //       onClick={() => {
+        //         updateEditComponentValue('location');
+        //         updateUser();
+        //       }}
+        //     >
+        //       ✏️
+        //     </Button>
+        //     <Button
+        //       onClick={() => {
+        //         editInputMode('location');
+        //       }}
+        //     >
+        //       ❌
+        //     </Button>
+        //   </Flex>
+        // </>
+        <EditUserInfo
+          heading={heading}
+          defaultValue={location}
+          propRef={inputLocationValRef}
+          setInfoState={setLocation}
+          updateEditComponentValue={updateEditComponentValue}
+          updateVal="location"
+          updateUser={updateUser}
+          editInputMode={editInputMode}
+          editHeading="location"
+        />
       );
     }
     if (heading === "Friend's Name") {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Input
-              style={{ display: 'inline-block', width: '400px' }}
-              defaultValue={friendName}
-              ref={inputFriendsNameValRef}
-              border={0}
-              onChange={(e) => {
-                const friendnamee = e.target.value;
-                setFriendName(friendnamee);
-              }}
-            />
-            <Spacer />
-            <Button
-              marginRight="3px"
-              onClick={() => {
-                updateEditComponentValue('friendsName');
-                updateUser();
-              }}
-            >
-              ✏️
-            </Button>
-            <Button
-              onClick={() => {
-                editInputMode('friendsName');
-              }}
-            >
-              ❌
-            </Button>
-          </Flex>
-        </>
+        // <>
+        //   <Heading size="xs" textTransform="uppercase">
+        //     {heading}
+        //   </Heading>
+        //   <Flex>
+        //     <Input
+        //       style={{ display: 'inline-block', width: '400px' }}
+        //       defaultValue={friendName}
+        //       ref={inputFriendsNameValRef}
+        //       border={0}
+        //       onChange={(e) => {
+        //         const friendnamee = e.target.value;
+        //         setFriendName(friendnamee);
+        //       }}
+        //     />
+        //     <Spacer />
+        //     <Button
+        //       marginRight="3px"
+        //       onClick={() => {
+        //         updateEditComponentValue('friendsName');
+        //         updateUser();
+        //       }}
+        //     >
+        //       ✏️
+        //     </Button>
+        //     <Button
+        //       onClick={() => {
+        //         editInputMode('friendsName');
+        //       }}
+        //     >
+        //       ❌
+        //     </Button>
+        //   </Flex>
+        // </>
+        <EditUserInfo
+          heading={heading}
+          defaultValue={friendName}
+          propRef={inputFriendsNameValRef}
+          setInfoState={setFriendName}
+          updateEditComponentValue={updateEditComponentValue}
+          updateVal="friendsName"
+          updateUser={updateUser}
+          editInputMode={editInputMode}
+          editHeading="friendsName"
+        />
       );
     }
     if (heading === "Friend's Phone Number") {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Input
-              style={{ display: 'inline-block', width: '400px' }}
-              defaultValue={friendNumber}
-              ref={inputFriendsNumberValRef}
-              border={0}
-              onChange={(e) => {
-                const number = e.target.value;
-                setFriendNumber(number);
-              }}
-            />
-            <Spacer />
-            <Button
-              marginRight="3px"
-              onClick={() => {
-                updateEditComponentValue('friendsNumber');
-                updateUser();
-              }}
-            >
-              ✏️
-            </Button>
-            <Button
-              onClick={() => {
-                editInputMode('friendsNumber');
-              }}
-            >
-              ❌
-            </Button>
-          </Flex>
-        </>
+        // <>
+        //   <Heading size="xs" textTransform="uppercase">
+        //     {heading}
+        //   </Heading>
+        //   <Flex>
+        //     <Input
+        //       style={{ display: 'inline-block', width: '400px' }}
+        //       defaultValue={friendNumber}
+        //       ref={inputFriendsNumberValRef}
+        //       border={0}
+        //       onChange={(e) => {
+        //         const number = e.target.value;
+        //         setFriendNumber(number);
+        //       }}
+        //     />
+        //     <Spacer />
+        //     <Button
+        //       marginRight="3px"
+        //       onClick={() => {
+        //         updateEditComponentValue('friendsNumber');
+        //         updateUser();
+        //       }}
+        //     >
+        //       ✏️
+        //     </Button>
+        //     <Button
+        //       onClick={() => {
+        //         editInputMode('friendsNumber');
+        //       }}
+        //     >
+        //       ❌
+        //     </Button>
+        //   </Flex>
+        // </>
+        <EditUserInfo
+          heading={heading}
+          defaultValue={friendNumber}
+          propRef={inputFriendsNumberValRef}
+          setInfoState={setFriendNumber}
+          updateEditComponentValue={updateEditComponentValue}
+          updateVal="friendsNumber"
+          updateUser={updateUser}
+          editInputMode={editInputMode}
+          editHeading="friendsNumber"
+        />
       );
     }
     if (heading === 'Your Relationship') {
       return (
-        <>
-          <Heading size="xs" textTransform="uppercase">
-            {heading}
-          </Heading>
-          <Flex>
-            <Input
-              style={{ display: 'inline-block', width: '400px' }}
-              defaultValue={friendRelationship}
-              ref={inputRelationshipValRef}
-              border={0}
-              onChange={(e) => {
-                const relation = e.target.value;
-                setFriendRelationship(relation);
-              }}
-            />
-            <Spacer />
-            <Button
-              marginRight="3px"
-              onClick={() => {
-                updateEditComponentValue('relationship');
-                updateUser();
-              }}
-            >
-              ✏️
-            </Button>
-            <Button
-              onClick={() => {
-                editInputMode('relationship');
-              }}
-            >
-              ❌
-            </Button>
-          </Flex>
-        </>
+        // <>
+        //   <Heading size="xs" textTransform="uppercase">
+        //     {heading}
+        //   </Heading>
+        //   <Flex>
+        //     <Input
+        //       style={{ display: 'inline-block', width: '400px' }}
+        //       defaultValue={friendRelationship}
+        //       ref={inputRelationshipValRef}
+        //       border={0}
+        //       onChange={(e) => {
+        //         const relation = e.target.value;
+        //         setFriendRelationship(relation);
+        //       }}
+        //     />
+        //     <Spacer />
+        //     <Button
+        //       marginRight="3px"
+        //       onClick={() => {
+        //         updateEditComponentValue('relationship');
+        //         updateUser();
+        //       }}
+        //     >
+        //       ✏️
+        //     </Button>
+        //     <Button
+        //       onClick={() => {
+        //         editInputMode('relationship');
+        //       }}
+        //     >
+        //       ❌
+        //     </Button>
+        //   </Flex>
+        // </>
+        <EditUserInfo
+          heading={heading}
+          defaultValue={friendRelationship}
+          propRef={inputRelationshipValRef}
+          setInfoState={setFriendRelationship}
+          updateEditComponentValue={updateEditComponentValue}
+          updateVal="relationship"
+          updateUser={updateUser}
+          editInputMode={editInputMode}
+          editHeading="relationship"
+        />
       );
     }
     // hit no predefined cases
@@ -447,7 +520,7 @@ function Profile() {
         <UserInfo
           heading={heading}
           editInput={editInputMode}
-          editHeading="PreferredName"
+          editHeading="Preferred Name"
           defaultInput={userObj.preferredName}
           ifNoDefault={userObj.name}
         />
