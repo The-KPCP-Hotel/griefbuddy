@@ -1,9 +1,11 @@
-import express, { Express, Request, Response, NextFunction } from 'express';
+import express, { Express, Request, Response } from 'express';
 import path = require('path');
 import passport from 'passport';
 import session from 'express-session';
 import { createServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
+
+import checkAuth from './helpers/checkAuth';
 
 import authRouter from './routes/auth';
 import profileRouter from './routes/profile';
@@ -63,12 +65,12 @@ app.use('/resources', resourcesRouter);
 app.use('/chat', chatRouter);
 app.use('/buddy', buddyRouter);
 
-const checkAuth = (req: Request, res: Response, next: NextFunction) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  return res.redirect('/');
-};
+// const checkAuth = (req: Request, res: Response, next: NextFunction) => {
+//   if (req.isAuthenticated()) {
+//     return next();
+//   }
+//   return res.redirect('/');
+// };
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(CLIENT_PATH, 'index.html'));

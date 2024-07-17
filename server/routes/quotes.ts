@@ -1,4 +1,5 @@
 import { Quote as QuoteType, UserBlockedQuote as UserBlockedQuoteType } from '@prisma/client';
+import checkAuth from '../helpers/checkAuth';
 
 const express = require('express');
 
@@ -42,6 +43,7 @@ async function getUnblockedQuote(blockedQuotesArray: string[]) {
 
 quotes.get(
   '/',
+  checkAuth,
   async (req: { user: { id: number } }, res: { send: Function; sendStatus: Function }) => {
     const userBlockedQuotes = await UserBlockedQuote.findMany({
       where: { userId: req.user.id },
@@ -58,6 +60,7 @@ quotes.get(
 
 quotes.post(
   '/block',
+  checkAuth,
   (req: { body: { userId: number; quote: NinjaQuote } }, res: { sendStatus: Function }) => {
     const { userId, quote } = req.body;
     const { author, category } = quote;
