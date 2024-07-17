@@ -38,6 +38,7 @@ function Profile() {
   };
 
   const [userObj, setUserObj] = useState({} as UserType);
+  // these should not be set to states, but should show if user does not have value set
   const [friendName, setFriendName] = useState("Add your friend's name here");
   const [friendNumber, setFriendNumber] = useState("Add your friend's number here");
   const [friendRelationship, setFriendRelationship] = useState('What is your relationship?');
